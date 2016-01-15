@@ -2,8 +2,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Graphics.hpp>
-#include <SFML/OpenGL.hpp>
+#include "main.h"
 
 
 ////////////////////////////////////////////////////////////
@@ -12,8 +11,12 @@
 /// \return Application exit code
 ///
 ////////////////////////////////////////////////////////////
-int main()
+int main(int argc, char** argv)
 {
+	std::cout << "test" << std::endl;
+
+	loadXMLs(argc, argv);
+
     // Request a 24-bits depth buffer when creating the window
     sf::ContextSettings contextSettings;
     contextSettings.depthBits = 24;
@@ -195,4 +198,25 @@ int main()
     glDeleteTextures(1, &texture);
 
     return EXIT_SUCCESS;
+}
+
+int loadXMLs(int argc, char** argv) {
+	if (argc <= 1) {
+		fprintf(stderr, "Error: No core xml specified.\n");
+		return 1;
+	}
+
+	tinyxml2::XMLDocument doc;
+	doc.LoadFile(argv[1]);
+
+	tinyxml2::XMLElement* root_element;
+	root_element = doc.RootElement();
+
+	tinyxml2::XMLElement* unit = root_element->FirstChildElement();
+	tinyxml2::XMLElement* name = unit->FirstChildElement();
+
+
+	fprintf(stdout, "Reading from XML file: %s, %s, %s = %s\n", root_element->Name(), unit->Name(), name->Name(), name->Attribute("value"));
+
+	return 0;
 }
