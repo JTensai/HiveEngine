@@ -2,7 +2,7 @@
 <Catalog>
 	<CUnit>
 		<Name value="Unit"/>
-    <Model value="resources\bunny.obj"/>
+    <Model value="resources/bunny.obj"/>
 	</CUnit>
 </Catalog>
 
