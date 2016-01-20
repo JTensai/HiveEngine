@@ -1,9 +1,22 @@
-
+#define TINYOBJLOADER_IMPLEMENTATION
+#define DBOUT( s )            \
+{                             \
+   std::wostringstream os_;    \
+   os_ << s << std::endl;                   \
+   OutputDebugStringW( os_.str().c_str() );  \
+}
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "main.h"
+#include <SFML/Graphics.hpp>
+#include <SFML/OpenGL.hpp>
+#include <iostream>
+#include <stdio.h>
+#include <tinyxml2/tinyxml2.h>
+#include <tiny_obj_loader.h>
 
+
+int loadXMLs(int argc, char** argv);
 
 ////////////////////////////////////////////////////////////
 /// Entry point of application
@@ -13,9 +26,36 @@
 ////////////////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
-	std::cout << "test" << std::endl;
 
-	loadXMLs(argc, argv);
+	// Load in XML data
+	//loadXMLs(argc, argv);
+	tinyxml2::XMLDocument doc;
+	doc.LoadFile(argv[1]);
+	
+	tinyxml2::XMLElement* root_element;
+	root_element = doc.RootElement();
+
+	tinyxml2::XMLElement* unit = root_element->FirstChildElement();
+	tinyxml2::XMLElement* name = unit->FirstChildElement();
+	tinyxml2::XMLElement* model = name->NextSiblingElement();
+
+
+	// tinyobjloader variables
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+
+	std::string err;
+	DBOUT(model->Attribute("value"));
+	bool ret = tinyobj::LoadObj(shapes, materials, err, model->Attribute("value"));
+	DBOUT(shapes.size());
+
+	if (!err.empty()) { // `err` may contain warning message.
+		DBOUT(err.c_str());
+	}
+	if (!ret) {
+		exit(1);
+	}
+	
 
     // Request a 24-bits depth buffer when creating the window
     sf::ContextSettings contextSettings;
@@ -131,8 +171,11 @@ int main(int argc, char** argv)
 
     // Enable position and texture coordinates vertex components
     glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 5 * sizeof(GLfloat), cube);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    //glEnableClientState(GL_INDEX_ARRAY);
+	//glVertexPointer(3, GL_FLOAT, shapes[0].mesh.positions.size() * sizeof(GLfloat), (GLvoid*) &(shapes[0].mesh.positions));
+	glVertexPointer(3, GL_FLOAT, 5 * sizeof(GLfloat), cube);
+	//glIndexPointer(GL_INT, 3, &shapes[0].mesh.indices);
     glTexCoordPointer(2, GL_FLOAT, 5 * sizeof(GLfloat), cube + 3);
 
     // Disable normal and color vertex components
@@ -178,12 +221,16 @@ int main(int argc, char** argv)
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glTranslatef(x, y, -100.f);
-        glRotatef(clock.getElapsedTime().asSeconds() * 50.f, 1.f, 0.f, 0.f);
-        glRotatef(clock.getElapsedTime().asSeconds() * 30.f, 0.f, 1.f, 0.f);
-        glRotatef(clock.getElapsedTime().asSeconds() * 90.f, 0.f, 0.f, 1.f);
+        //glRotatef(clock.getElapsedTime().asSeconds() * 50.f, 1.f, 0.f, 0.f);
+        //glRotatef(clock.getElapsedTime().asSeconds() * 30.f, 0.f, 1.f, 0.f);
+        //glRotatef(clock.getElapsedTime().asSeconds() * 90.f, 0.f, 0.f, 1.f);
 
-        // Draw the cube
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+		// Draw the cube
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Draw the bunny
+		//glDrawArrays(GL_TRIANGLES, 0, shapes[0].mesh.positions.size() / 3);
+		
 
         // Draw some text on top of our OpenGL object
         window.pushGLStates();
