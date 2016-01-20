@@ -12,13 +12,15 @@ class Model {
 private:
 	float * _fVertData;
 	unsigned short * _iIndexData;
+	float * _fNormalData;
 	int _iNumVerts;
 	int _iNumIndices;
 	int _iNumTriangles;
+	GLuint _iVBO; //Vertex Buffer Object
+	GLuint _iNBO; //Normal Buffer Object
+	GLuint _iIBO; //Index Buffer Object
 
 public:
-	GLuint _iVBO; //Vertex Buffer Object
-	GLuint _iIBO; //Index Buffer Object
 	Model(const char* objFilename);
 	~Model();
 	void draw();

@@ -61,7 +61,9 @@ int main(int argc, char** argv)
 		glfwTerminate();
 		return -1;
 	}
+
 	glfwMakeContextCurrent(window); // Initialize GLEW
+
 	glewExperimental = true; // Needed in core profile
 	if (glewInit() != GLEW_OK) {
 		fprintf(stderr, "Failed to initialize GLEW\n");
@@ -71,8 +73,12 @@ int main(int argc, char** argv)
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
+	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+
 	GLuint programID = LoadShaders("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
 	GLuint shaderMatrixID = glGetUniformLocation(programID, "MVP");
+	GLuint ViewMatrixID = glGetUniformLocation(programID, "V");
+	GLuint ModelMatrixID = glGetUniformLocation(programID, "M");
 
 	Model model = Model(unitModel->Attribute("value"));
 
@@ -81,7 +87,7 @@ int main(int argc, char** argv)
 	glBindVertexArray(VertexArrayID);
 
 	glm::mat4 viewMatrix = glm::lookAt(
-		glm::vec3(-3, 3, 2), //Camera position
+		glm::vec3(2, 3, 2), //Camera position
 		glm::vec3(0, 0.5, 0), //Camera target
 		glm::vec3(0, 1, 0) //Up vector
 	);
@@ -93,12 +99,30 @@ int main(int argc, char** argv)
 		100.0f       // Far clipping plane. Keep as little as possible.
 	);
 
-	glm::mat4 mvp = projectionMatrix * viewMatrix * glm::scale(glm::vec3(10));
+	glm::mat4 modelMatrix = glm::scale(glm::vec3(1/100.f));
+
+	glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
+
+	glUseProgram(programID);
+	GLuint LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+
+	// Enable depth test
+	glEnable(GL_DEPTH_TEST);
+	// Accept fragment if it closer to the camera than the former one
+	glDepthFunc(GL_LESS);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUseProgram(programID);
+
 		glUniformMatrix4fv(shaderMatrixID, 1, GL_FALSE, &mvp[0][0]);
+		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
+		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &viewMatrix[0][0]);
+
+		glm::vec3 lightPos = glm::vec3(4, 4, 4);
+		glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 
 		model.draw();
 
@@ -107,6 +131,13 @@ int main(int argc, char** argv)
 		glfwPollEvents();
 	} while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0);
 	// Check if the ESC key was pressed or the window was closed
+
+	glDeleteProgram(programID);
+	glDeleteVertexArrays(1, &VertexArrayID);
+
+	glfwTerminate();
+
+	return 0;
 }
 
 int loadXMLs(int argc, char** argv) {
