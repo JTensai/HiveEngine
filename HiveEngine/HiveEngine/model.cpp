@@ -1,6 +1,10 @@
 #include "model.h"
 
+Model::Model() {}
+
 Model::Model(const char* objFilename) {
+	_iNumVerts = 0;
+	_iNumIndices = 0;
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
 

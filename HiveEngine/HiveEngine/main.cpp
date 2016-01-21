@@ -13,15 +13,14 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <iostream>
-#include <stdio.h>
 #include <tinyxml2/tinyxml2.h>
 #include <tiny_obj_loader.h>
+
+#include <iostream>
+#include <stdio.h>
+
 #include "model.h"
-
-
-int loadXMLs(int argc, char** argv);
-GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path);
+#include "game.h"
 
 ////////////////////////////////////////////////////////////
 /// Entry point of application
@@ -31,28 +30,16 @@ GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_pat
 ////////////////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
-	// Load in XML data
-	//loadXMLs(argc, argv);
-	tinyxml2::XMLDocument doc;
-	doc.LoadFile(argv[1]);
-
-	tinyxml2::XMLElement* root_element;
-	root_element = doc.RootElement();
-
-	tinyxml2::XMLElement* unit = root_element->FirstChildElement();
-	tinyxml2::XMLElement* name = unit->FirstChildElement();
-	tinyxml2::XMLElement* unitModel = name->NextSiblingElement();
-
+	double lastTime = 0;
+	Game game;
+	
 	if (!glfwInit())
 	{
 		fprintf( stderr, "Failed to initialize GLFW\n" );
 		return -1;
 	}
 
-	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL 
+	game.initialize(argv[1]);
 
 	GLFWwindow* window; // (In the accompanying source code, this variable is global)
 	window = glfwCreateWindow(1024, 768, "Hive Engine", NULL, NULL);
@@ -70,181 +57,29 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	// Ensure we can capture the escape key being pressed below
-	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+	game.load(window);
 
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
-	GLuint programID = LoadShaders("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
-	GLuint shaderMatrixID = glGetUniformLocation(programID, "MVP");
-	GLuint ViewMatrixID = glGetUniformLocation(programID, "V");
-	GLuint ModelMatrixID = glGetUniformLocation(programID, "M");
 
-	Model model = Model(unitModel->Attribute("value"));
+	while(true) {
+		double time = glfwGetTime();
 
-	GLuint VertexArrayID;
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
+		if (game.update((float)(time - lastTime))) {
+			//If update returns a non-zero value begin closing the program
+			break;
+		}
+		lastTime = time;
 
-	glm::mat4 viewMatrix = glm::lookAt(
-		glm::vec3(2, 3, 2), //Camera position
-		glm::vec3(0, 0.5, 0), //Camera target
-		glm::vec3(0, 1, 0) //Up vector
-	);
-
-	glm::mat4 projectionMatrix = glm::perspective(
-		glm::radians(45.0f),         // The horizontal Field of View, in degrees : the amount of "zoom". Think "camera lens". Usually between 90° (extra wide) and 30° (quite zoomed in)
-		4.0f / 3.0f, // Aspect Ratio. Depends on the size of your window. Notice that 4/3 == 800/600 == 1280/960, sounds familiar ?
-		0.1f,        // Near clipping plane. Keep as big as possible, or you'll get precision issues.
-		100.0f       // Far clipping plane. Keep as little as possible.
-	);
-
-	glm::mat4 modelMatrix = glm::scale(glm::vec3(1/100.f));
-
-	glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
-
-	glUseProgram(programID);
-	GLuint LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
-
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);
-
-	// Enable depth test
-	glEnable(GL_DEPTH_TEST);
-	// Accept fragment if it closer to the camera than the former one
-	glDepthFunc(GL_LESS);
-
-	do {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glUniformMatrix4fv(shaderMatrixID, 1, GL_FALSE, &mvp[0][0]);
-		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
-		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &viewMatrix[0][0]);
-
-		glm::vec3 lightPos = glm::vec3(4, 4, 4);
-		glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
-
-		model.draw();
+		game.draw();
 
 		// Swap buffers
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-	} while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0);
-	// Check if the ESC key was pressed or the window was closed
+	}
 
-	glDeleteProgram(programID);
-	glDeleteVertexArrays(1, &VertexArrayID);
+	game.close();
 
 	glfwTerminate();
 
 	return 0;
-}
-
-int loadXMLs(int argc, char** argv) {
-	if (argc <= 1) {
-		fprintf(stderr, "Error: No core xml specified.\n");
-		return 1;
-	}
-
-	tinyxml2::XMLDocument doc;
-	doc.LoadFile(argv[1]);
-
-	tinyxml2::XMLElement* root_element;
-	root_element = doc.RootElement();
-
-	tinyxml2::XMLElement* unit = root_element->FirstChildElement();
-	tinyxml2::XMLElement* name = unit->FirstChildElement();
-
-
-	fprintf(stdout, "Reading from XML file: %s, %s, %s = %s\n", root_element->Name(), unit->Name(), name->Name(), name->Attribute("value"));
-
-	return 0;
-}
-
-//http://www.opengl-tutorial.org/
-GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path) {
-	// Create the shaders
-	GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-	GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-
-	// Read the Vertex Shader code from the file
-	std::string VertexShaderCode;
-	std::ifstream VertexShaderStream(vertex_file_path, std::ios::in);
-	if (VertexShaderStream.is_open()) {
-		std::string Line = "";
-		while (getline(VertexShaderStream, Line))
-			VertexShaderCode += "\n" + Line;
-		VertexShaderStream.close();
-	} else {
-		printf("Impossible to open %s. Are you in the right directory ? Don't forget to read the FAQ !\n", vertex_file_path);
-		getchar();
-		return 0;
-	}
-
-	// Read the Fragment Shader code from the file
-	std::string FragmentShaderCode;
-	std::ifstream FragmentShaderStream(fragment_file_path, std::ios::in);
-	if (FragmentShaderStream.is_open()) {
-		std::string Line = "";
-		while (getline(FragmentShaderStream, Line))
-			FragmentShaderCode += "\n" + Line;
-		FragmentShaderStream.close();
-	}
-
-	GLint Result = GL_FALSE;
-	int InfoLogLength;
-
-	// Compile Vertex Shader
-	printf("Compiling shader : %s\n", vertex_file_path);
-	char const * VertexSourcePointer = VertexShaderCode.c_str();
-	glShaderSource(VertexShaderID, 1, &VertexSourcePointer, NULL);
-	glCompileShader(VertexShaderID);
-
-	// Check Vertex Shader
-	glGetShaderiv(VertexShaderID, GL_COMPILE_STATUS, &Result);
-	glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-	if (InfoLogLength > 0) {
-		std::vector<char> VertexShaderErrorMessage(InfoLogLength + 1);
-		glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
-		printf("%s\n", &VertexShaderErrorMessage[0]);
-	}
-
-	// Compile Fragment Shader
-	printf("Compiling shader : %s\n", fragment_file_path);
-	char const * FragmentSourcePointer = FragmentShaderCode.c_str();
-	glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer, NULL);
-	glCompileShader(FragmentShaderID);
-
-	// Check Fragment Shader
-	glGetShaderiv(FragmentShaderID, GL_COMPILE_STATUS, &Result);
-	glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-	if (InfoLogLength > 0) {
-		std::vector<char> FragmentShaderErrorMessage(InfoLogLength + 1);
-		glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
-		printf("%s\n", &FragmentShaderErrorMessage[0]);
-	}
-
-	// Link the program
-	printf("Linking program\n");
-	GLuint ProgramID = glCreateProgram();
-	glAttachShader(ProgramID, VertexShaderID);
-	glAttachShader(ProgramID, FragmentShaderID);
-	glLinkProgram(ProgramID);
-
-	// Check the program
-	glGetProgramiv(ProgramID, GL_LINK_STATUS, &Result);
-	glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-	if (InfoLogLength > 0) {
-		std::vector<char> ProgramErrorMessage(InfoLogLength + 1);
-		glGetProgramInfoLog(ProgramID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
-		printf("%s\n", &ProgramErrorMessage[0]);
-	}
-
-	glDetachShader(ProgramID, VertexShaderID);
-	glDetachShader(ProgramID, FragmentShaderID);
-
-	glDeleteShader(VertexShaderID);
-	glDeleteShader(FragmentShaderID);
-
-	return ProgramID;
 }
