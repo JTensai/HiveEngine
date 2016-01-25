@@ -21,7 +21,7 @@
 
 #include "model.h"
 #include "game.h"
-
+#include "InputManager.h"
 ////////////////////////////////////////////////////////////
 /// Entry point of application
 ///
@@ -49,6 +49,8 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
+	InputManager::getInstance()->setKeyCallbackForWindow(window);//set up the key input
+
 	glfwMakeContextCurrent(window); // Initialize GLEW
 
 	glewExperimental = true; // Needed in core profile
@@ -58,8 +60,6 @@ int main(int argc, char** argv)
 	}
 
 	game.load(window);
-
-
 
 	while(true) {
 		double time = glfwGetTime();

@@ -15,6 +15,9 @@
 #include <stdio.h>
 
 #include "model.h"
+#include "InputManager.h"
+
+using namespace std;
 
 GLuint LoadShader(const char* vertex_file_path, const char* fragment_file_path);
 
@@ -34,8 +37,10 @@ private:
 	GLFWwindow* _wpWindow;
 	float _fCamRotation = 0;
 
+
 public:
 	Game();
+	~Game() {}
 
 	//Initialize
 	//Called after GLFW initialization but before OpenGL context creation and GLEW initialization.

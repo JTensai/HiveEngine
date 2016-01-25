@@ -1,4 +1,6 @@
 #include "game.h"
+#include <iostream>
+using namespace std;
 
 Game::Game() {}
 
@@ -73,8 +75,9 @@ int Game::update(float delta) {
 	_fCamRotation += delta;
 
 	_mViewMatrix = glm::lookAt(
-		glm::vec3(3 * glm::cos(_fCamRotation), 0.5, 3 * glm::sin(_fCamRotation)), //Camera position
-		glm::vec3(0, 0, 0), //Camera target
+		//glm::vec3(3 * glm::cos(_fCamRotation), 0.5, 3 * glm::sin(_fCamRotation)), //Camera position
+		InputManager::getInstance()->getCameraPosition(),
+		InputManager::getInstance()->getCameraLookAtPosition(), //Camera target (position where the camera is looking at)
 		glm::vec3(0, 1, 0) //Up vector
 		);
 
