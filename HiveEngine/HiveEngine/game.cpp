@@ -1,10 +1,14 @@
 #include "game.h"
-#include <iostream>
+
 using namespace std;
 
-Game::Game() {}
+Game::Game() {
+	_camPos = glm::vec3(0, .5, -3);
+}
 
 void Game::initialize(char* XMLFilename) {
+	InputManager inputMan(_wpWindow);
+	ServiceLocator::getInstance()->registerInputManager(&inputMan);
 	_cpXMLFilename = XMLFilename;
 
 	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
@@ -26,7 +30,7 @@ void Game::initialize(char* XMLFilename) {
 void Game::load(GLFWwindow* window) {
 	_wpWindow = window;
 	// Ensure we can capture the escape key being pressed below
-	glfwSetInputMode(_wpWindow, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetInputMode(_wpWindow, GLFW_STICKY_KEYS, GL_FALSE);
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -72,13 +76,33 @@ int Game::update(float delta) {
 		//Close if the escape key is pressed or the window was closed.
 		return HE_GAMESTATE_CLOSING;
 	}
-	_fCamRotation += delta;
+	//_fCamRotation += delta;
+	glm::vec3 _movDir = glm::vec3(0);
+	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_W)) {
+		_movDir.z += 1.0;
+	}
+	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_A)) {
+		_movDir.x -= 1.0;
+	}
+	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_S)) {
+		_movDir.z -= 1.0;
+	}
+	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_D)) {
+		_movDir.x += 1.0;
+	}
+
+	_movDir /= _movDir.length();
+	_movDir *= delta;
+
+	_camPos += _movDir;
 
 	_mViewMatrix = glm::lookAt(
-		//glm::vec3(3 * glm::cos(_fCamRotation), 0.5, 3 * glm::sin(_fCamRotation)), //Camera position
-		InputManager::getInstance()->getCameraPosition(),
-		InputManager::getInstance()->getCameraLookAtPosition(), //Camera target (position where the camera is looking at)
-		glm::vec3(0, 1, 0) //Up vector
+		//glm::vec3(3 * glm::cos(_fCamRotation), .5, 3 * glm::sin(_fCamRotation)), //Camera position
+		//InputManager::getInstance()->getCameraPosition(),
+		//InputManager::getInstance()->getCameraLookAtPosition(), //Camera target (position where the camera is looking at)
+		_camPos,
+		glm::vec3(0, .25, 0),
+		glm::vec3(0, 1, 0)
 		);
 
 	_mWVP = _mProjectionMatrix * _mViewMatrix * _mWorldMatrix;

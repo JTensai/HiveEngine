@@ -49,7 +49,7 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	InputManager::getInstance()->setKeyCallbackForWindow(window);//set up the key input
+	//InputManager::getInstance()->setKeyCallbackForWindow(window);//set up the key input
 
 	glfwMakeContextCurrent(window); // Initialize GLEW
 

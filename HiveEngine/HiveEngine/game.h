@@ -16,6 +16,7 @@
 
 #include "model.h"
 #include "InputManager.h"
+#include "ServiceLocator.h"
 
 using namespace std;
 
@@ -23,6 +24,7 @@ GLuint LoadShader(const char* vertex_file_path, const char* fragment_file_path);
 
 class Game {
 private:
+	glm::vec3 _camPos;
 	glm::mat4 _mProjectionMatrix;
 	glm::mat4 _mViewMatrix;
 	glm::mat4 _mWorldMatrix;
