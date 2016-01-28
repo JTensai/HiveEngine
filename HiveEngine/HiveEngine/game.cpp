@@ -7,8 +7,6 @@ Game::Game() {
 }
 
 void Game::initialize(char* XMLFilename) {
-	InputManager inputMan(_wpWindow);
-	ServiceLocator::getInstance()->registerInputManager(&inputMan);
 	_cpXMLFilename = XMLFilename;
 
 	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
@@ -29,6 +27,8 @@ void Game::initialize(char* XMLFilename) {
 
 void Game::load(GLFWwindow* window) {
 	_wpWindow = window;
+	_inputManager = new InputManager(_wpWindow);
+	ServiceLocator::getInstance()->registerInputManager(_inputManager);
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(_wpWindow, GLFW_STICKY_KEYS, GL_FALSE);
 
@@ -82,19 +82,25 @@ int Game::update(float delta) {
 		_movDir.z += 1.0;
 	}
 	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_A)) {
-		_movDir.x -= 1.0;
+		_movDir.x += 1.0;
 	}
 	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_S)) {
 		_movDir.z -= 1.0;
 	}
 	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_D)) {
-		_movDir.x += 1.0;
+		_movDir.x -= 1.0;
 	}
 
-	_movDir /= _movDir.length();
-	_movDir *= delta;
+	//cout << "length: " << _movDir.length() << endl;
+	if (glm::length(_movDir) != 0) {
+		//cout << "Before X: " << _movDir.x << " Y: " << _movDir.y << " Z: " << _movDir.z << endl;
+		_movDir = glm::normalize(_movDir);
+		//cout << "AFter  X: " << _movDir.x << " Y: " << _movDir.y << " Z: " << _movDir.z << endl;
+		_movDir *= delta * 5;
+		_camPos += _movDir;
+	}
 
-	_camPos += _movDir;
+
 
 	_mViewMatrix = glm::lookAt(
 		//glm::vec3(3 * glm::cos(_fCamRotation), .5, 3 * glm::sin(_fCamRotation)), //Camera position

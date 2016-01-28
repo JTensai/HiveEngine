@@ -37,6 +37,7 @@ private:
 	GLuint _iWorldMatrixID;
 	GLuint _iVertexArrayID;
 	GLFWwindow* _wpWindow;
+	InputManager* _inputManager;
 	float _fCamRotation = 0;
 
 
