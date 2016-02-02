@@ -1,0 +1,250 @@
+<?xml version="1.0"?>
+<Catalog>
+	<Actor id="BASE_ACTOR">
+		<Model value="BASE_MODEL"/>
+	</Actor>
+	<Ability id="BASE_ABILITY">
+		<Type value="INSTANT"/>
+		<Name value=""/>
+		<Tooltip value=""/>
+		<Icon value=""/>
+		<Cost>
+			<Vitals>
+				<HP value="0.0"/>
+				<Mana value="0.0"/>
+			</Vitals>
+			<VitalFraction>
+				<HP value="0.0"/>
+				<Mana value="0.0"/>
+			</VitalFraction>
+			<Charges>
+				<Max value="0"/>
+				<Start value="0"/>
+				<Use value="0"/>
+				<Regen value="0"/>
+				<Cooldown value="0.0"/>
+			</Charges>
+			<Cooldown value="0.0"/>
+		</Cost>
+		<Effects>
+			<EffectInitial value=""/>
+		</Effects>
+		<Range value="0.0"/>
+		<Filter>
+			<Dead value="EXCLUDED"/>
+			<Invulnerable value="EXCLUDED"/>
+			<Missile value="EXCLUDED"/>
+			<Self value="EXCLUDED"/>
+			<Ally value="EXCLUDED"/>
+			<Enemy value="ALLOWED"/>
+			<Neutral value="ALLOWED"/>
+		</Filter>
+	</Ability>
+	<Behavior id="BASE_BEHAVIOR">
+		<Name value=""/>
+		<Tooltip value=""/>
+		<Icon value=""/>
+		<Visible value="false"/>
+		<VitalsMaxDelta>
+			<HP value="0.0"/>
+			<Mana value="0.0"/>
+		</VitalsMaxDelta>
+		<VitalsRegenDelta>
+			<HP value="0.0"/>
+			<Mana value="0.0"/>
+		</VitalsRegenDelta>
+		<Duration value="-1.0"/>
+		<SpeedMultiplier value="1.0"/>
+		<Effects>
+			<Initial value=""/>
+			<Periodic value=""/>
+			<Final value=""/>
+			<Expire value=""/>
+		</Effects>
+	</Behavior>
+	<Effect id="BASE_EFFECT">
+		<Validator value="-1"/>
+	</Effect>
+	<EffectModifyUnit id="BASE_EFFECT_MODIFY_UNIT" parent="BASE_EFFECT">
+		<Unit>
+			<Effect value="-1"/>
+			<Unit value="TARGET"/>
+		</Unit>
+		<VitalsDelta>
+			<HP value="0.0"/>
+			<Mana value="0.0"/>
+		</VitalsDelta>
+	</EffectModifyUnit>
+	<EffectSearch id="BASE_EFFECT_SEARCH" parent="BASE_EFFECT">
+		<Location>
+			<Effect value=""/>
+			<Point value="TARGET"/>
+		</Location>
+		<Radius value="100.0"/>
+		<Filter>
+			<Dead value="EXCLUDED"/>
+			<Invulnerable value="EXCLUDED"/>
+			<Missile value="EXCLUDED"/>
+			<Self value="EXCLUDED"/>
+			<Ally value="EXCLUDED"/>
+			<Enemy value="ALLOWED"/>
+			<Neutral value="ALLOWED"/>
+		</Filter>
+	</EffectSearch>
+	<EffectSet id="BASE_EFFECT_SET" parent="BASE_EFFECT">
+		<Effects>
+			<E0 value=""/>
+			<E1 value=""/>
+			<E2 value=""/>
+			<E3 value=""/>
+			<E4 value=""/>
+		</Effects>
+	</EffectSet>
+	<EffectSetBehavior id="BASE_EFFECT_SET_BEHAVIOR" parent="BASE_EFFECT">
+		<Unit>
+			<Effect value=""/>
+			<Unit value="CASTER"/>
+		</Unit>
+		<Behavior value=""/>
+		<Count value="1"/>
+		<Relative value="false"/>
+	</EffectSetBehavior>
+	<EffectSpawnUnit id="BASE_EFFECT_SPAWN_UNIT" parent="BASE_EFFECT">
+		<Unit value=""/>
+		<Owner>
+			<Effect value=""/>
+			<Player value="CASTER"/>
+		</Owner>
+		<Location>
+			<Effect value=""/>
+			<Location value="TARGET"/>
+		</Location>
+	</EffectSpawnUnit>
+	<EffectSwitch id="BASE_EFFECT_SWITCH" parent="BASE_EFFECT">
+		<Validator value=""/>
+		<TrueEffect value=""/>
+		<FalseEffect value=""/>
+	</EffectSwitch>
+	<Model id="BASE_MODEL">
+		<File value="resources/teapot.obj"/>
+		<Meshes>
+			<Mesh>
+				<Shader value="DEFAULT_SHADER"/>
+				<Texture value=""/>
+			</Mesh>
+		</Meshes>
+	</Model>
+	<Unit id="BASE_UNIT">
+		<Name value=""/>
+		<VitalMax>
+			<HP value="100.0"/>
+			<Mana value="0.0"/>
+		</VitalMax>
+		<VitalRegen>
+			<HP value="1.0"/>
+			<Mana value="5.0"/>
+		</VitalRegen>
+		<Speed value="1.0"/>
+		<Attributes>
+			<Missile value="false"/>
+		</Attributes>
+		<Actor value="BASE_ACTOR"/>
+		<Behaviors>
+			<B0 value=""/>
+			<B1 value=""/>
+			<B2 value=""/>
+			<B3 value=""/>
+			<B4 value=""/>
+		</Behaviors>
+		<Abilities>
+			<A0 value=""/>
+			<A1 value=""/>
+			<A2 value=""/>
+			<A3 value=""/>
+			<A4 value=""/>
+		</Abilities>
+	</Unit>
+	<Validator id="BASE_VALIDATOR">
+		<Negated value="false"/>
+	</Validator>
+	<ValidatorBehaviorCount id="BASE_VALIDATOR_BEHAVIOR_COUNT" parent="BASE_VALIDATOR">
+		<Behavior value=""/>
+		<Compare value="EQ"/>
+		<Constant value="1"/>
+	</ValidatorBehaviorCount>
+	<ValidatorCombine id="BASE_VALIDATOR_COMBINE" parent="BASE_VALIDATOR">
+		<Type value="AND"/>
+		<ValidatorA value=""/>
+		<ValidatorB value=""/>
+	</ValidatorCombine>
+	<ValidatorCompareVital id="BASE_VALIDATOR_COMPARE_VITAL" parent="BASE_VALIDATOR">
+		<Unit>
+			<Effect value=""/>
+			<Unit value="TARGET"/>
+		</Unit>
+		<Vital value="HP"/>
+		<VitalCompareMethod value="FRACTION"/>
+		<CompareMethod value="LTE"/>
+		<OtherUnit>
+			<Effect value=""/>
+			<Unit value="NONE"/>
+		</OtherUnit>
+		<Constant value="0.5"/>
+	</ValidatorCompareVital>
+	<ValidatorCondition id="BASE_VALIDATOR_CONDITION" parent="BASE_VALIDATOR">
+		<IfValidator value=""/>
+		<ThenValidator value=""/>
+		<ElseValidator value=""/>
+	</ValidatorCondition>
+	<ValidatorLocationRange id="BASE_VALIDATOR_LOCATION_RANGE" parent="BASE_VALIDATOR">
+		<LocationA>
+			<Effect value=""/>
+			<Location value="TARGET"/>
+		</LocationA>
+		<LocationB>
+			<Effect value=""/>
+			<Location value="CASTER"/>
+		</LocationB>
+		<CompareMethod value="LTE"/>
+		<Constant value="100.0"/>
+	</ValidatorLocationRange>
+	<ValidatorLocationPathable id="BASE_VALIDATOR_LOCATION_PATHABLE" parent="BASE_VALIDATOR">
+		<Location>
+			<Effect value=""/>
+			<Location value="TARGET"/>
+		</Location>
+	</ValidatorLocationPathable>
+	<ValidatorFilterUnit>
+		<Unit>
+			<Effect value=""/>
+			<Unit value="TARGET"/>
+		</Unit>
+		<Filter>
+			<Dead value="EXCLUDED"/>
+			<Invulnerable value="EXCLUDED"/>
+			<Missile value="EXCLUDED"/>
+			<Self value="EXCLUDED"/>
+			<Ally value="EXCLUDED"/>
+			<Enemy value="ALLOWED"/>
+			<Neutral value="ALLOWED"/>
+		</Filter>
+		<UnitToFilterBy>
+			<Effect value=""/>
+			<Unit value="CASTER"/>
+		</UnitToFilterBy>
+		<PlayerToFilterBy>
+			<Effect value=""/>
+			<Player value="CASTER"/>
+		</PlayerToFilterBy>
+	</ValidatorFilterUnit>
+	<ValidatorPlayer id="BASE_VALIDATOR_PLAYER" parent="BASE_VALIDATOR">
+		<Player>
+			<Effect value=""/>
+			<Player value="TARGET"/>
+		</Player>
+		<PlayerToCompareTo>
+			<Effect value=""/>
+			<Player value="CASTER"/>
+		</PlayerToCompareTo>
+	</ValidatorPlayer>
+</Catalog>

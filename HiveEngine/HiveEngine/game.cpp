@@ -52,7 +52,8 @@ void Game::load(GLFWwindow* window) {
 	GLuint LightID = glGetUniformLocation(_iProgramID, "LightPosition_worldspace");
 	glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 
-	tinyxml2::XMLDocument doc;
+
+	/*tinyxml2::XMLDocument doc;
 	doc.LoadFile(_cpXMLFilename);
 
 	tinyxml2::XMLElement* root_element;
@@ -62,7 +63,9 @@ void Game::load(GLFWwindow* window) {
 	tinyxml2::XMLElement* name = unit->FirstChildElement();
 	tinyxml2::XMLElement* unitModel = name->NextSiblingElement();
 
-	_mpModel = new Model(unitModel->Attribute("value"));
+	_mpModel = new TempModel(unitModel->Attribute("value"));*/
+
+	_mpModel = new TempModel("resources/teapot.obj");
 
 	glGenVertexArrays(1, &_iVertexArrayID);
 	glBindVertexArray(_iVertexArrayID);

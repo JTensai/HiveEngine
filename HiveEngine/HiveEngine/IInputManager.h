@@ -9,5 +9,4 @@ public:
 	virtual bool isMouseDown(int button) { return false; }
 	virtual void registerMouseCallback(int button, void(*callback)()) {}
 	virtual void registerKeyCallback(int key, void(*callback)()) {}
-
 };

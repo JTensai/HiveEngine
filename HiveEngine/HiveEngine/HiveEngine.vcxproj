@@ -161,15 +161,17 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="model.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
+    <ClCompile Include="tempmodel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
+    <ClInclude Include="IDataManager.h" />
     <ClInclude Include="IInputManager.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="model.h" />
     <ClInclude Include="ServiceLocator.h" />
+    <ClInclude Include="Data.h" />
+    <ClInclude Include="tempmodel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

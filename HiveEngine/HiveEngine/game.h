@@ -14,7 +14,7 @@
 #include <fstream>
 #include <stdio.h>
 
-#include "model.h"
+#include "tempmodel.h"
 #include "InputManager.h"
 #include "ServiceLocator.h"
 
@@ -29,7 +29,7 @@ private:
 	glm::mat4 _mViewMatrix;
 	glm::mat4 _mWorldMatrix;
 	glm::mat4 _mWVP;
-	Model* _mpModel = 0;
+	TempModel* _mpModel = 0;
 	char* _cpXMLFilename;
 	GLuint _iProgramID;
 	GLuint _iMatrixID;

@@ -19,7 +19,7 @@
 #include <iostream>
 #include <stdio.h>
 
-#include "model.h"
+#include "tempmodel.h"
 #include "game.h"
 #include "InputManager.h"
 ////////////////////////////////////////////////////////////

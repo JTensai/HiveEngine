@@ -1,8 +1,8 @@
-#include "model.h"
+#include "tempmodel.h"
 
-Model::Model() {}
+TempModel::TempModel() {}
 
-Model::Model(const char* objFilename) {
+TempModel::TempModel(const char* objFilename) {
 	_iNumVerts = 0;
 	_iNumIndices = 0;
 	std::vector<tinyobj::shape_t> shapes;
@@ -53,7 +53,7 @@ Model::Model(const char* objFilename) {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _iNumIndices * sizeof(unsigned short), _iIndexData, GL_STATIC_DRAW);
 }
 
-Model::~Model() {
+TempModel::~TempModel() {
 	if (_iVBO) {
 		//Release vertex buffer
 		glDeleteBuffers(1, &_iVBO);
@@ -77,7 +77,7 @@ Model::~Model() {
 	}
 }
 
-void Model::draw() {
+void TempModel::draw() {
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, _iVBO);
 	glVertexAttribPointer(

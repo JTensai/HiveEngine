@@ -10,7 +10,7 @@
 #include <iostream>
 
 
-class Model {
+class TempModel {
 private:
 	float * _fVertData = 0;
 	unsigned short * _iIndexData = 0;
@@ -23,8 +23,8 @@ private:
 	GLuint _iIBO = 0; //Index Buffer Object
 
 public:
-	Model();
-	Model(const char* objFilename);
-	~Model();
+	TempModel();
+	TempModel(const char* objFilename);
+	~TempModel();
 	void draw();
 };
