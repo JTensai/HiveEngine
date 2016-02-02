@@ -161,17 +161,26 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="tempmodel.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
+    <ClInclude Include="IAssetManager.h" />
     <ClInclude Include="IDataManager.h" />
     <ClInclude Include="IInputManager.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="tempmodel.h" />
+    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
