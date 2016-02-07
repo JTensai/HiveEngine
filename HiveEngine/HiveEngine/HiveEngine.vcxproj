@@ -158,18 +158,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AbilityComponent.cpp" />
+    <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="AIComponent.cpp" />
+    <ClCompile Include="BehaviorComponent.cpp" />
     <ClCompile Include="DataCollection.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MovementComponent.cpp" />
+    <ClCompile Include="ParticleSystemComponent.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="tempmodel.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="VitalsComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbilityComponent.h" />
+    <ClInclude Include="Actor.h" />
+    <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="BehaviorComponent.h" />
     <ClInclude Include="DataCollection.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="IAssetManager.h" />
@@ -178,11 +189,14 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="ParticleSystemComponent.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="tempmodel.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="VitalsComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
