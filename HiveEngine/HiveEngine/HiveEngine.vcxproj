@@ -162,6 +162,7 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="AIComponent.cpp" />
     <ClCompile Include="BehaviorComponent.cpp" />
+    <ClCompile Include="ComponentManager.cpp" />
     <ClCompile Include="DataCollection.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
+    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="ParticleSystemComponent.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -181,15 +183,18 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AIComponent.h" />
     <ClInclude Include="BehaviorComponent.h" />
+    <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="DataCollection.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="IAssetManager.h" />
+    <ClInclude Include="IComponentManager.h" />
     <ClInclude Include="IDataManager.h" />
     <ClInclude Include="IInputManager.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="ParticleSystemComponent.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Data.h" />
