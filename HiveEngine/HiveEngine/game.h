@@ -17,6 +17,7 @@
 #include "tempmodel.h"
 #include "InputManager.h"
 #include "ServiceLocator.h"
+#include "ComponentManager.h"
 
 using namespace std;
 

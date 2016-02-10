@@ -5,8 +5,8 @@ private:
 	int _modelHandle;
 public:
 	Actor();
+	void draw();
 	void update(float delta);
-	void render();
 	~Actor();
 };
 

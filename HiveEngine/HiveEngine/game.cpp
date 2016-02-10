@@ -22,6 +22,8 @@ void Game::initialize(char* XMLFilename) {
 		0.1f,        // Near clipping plane. Keep as big as possible, or you'll get precision issues.
 		100.0f       // Far clipping plane. Keep as little as possible.
 	);
+
+	ServiceLocator::getInstance()->registerComponentManager(new ComponentManager());
 }
 
 
@@ -69,6 +71,9 @@ void Game::load(GLFWwindow* window) {
 
 	glGenVertexArrays(1, &_iVertexArrayID);
 	glBindVertexArray(_iVertexArrayID);
+
+	ServiceLocator::getInstance()->getDataManager()->loadCoreData();
+	ServiceLocator::getInstance()->getDataManager()->loadXMLData(_cpXMLFilename);
 }
 
 
@@ -116,6 +121,8 @@ int Game::update(float delta) {
 
 	_mWVP = _mProjectionMatrix * _mViewMatrix * _mWorldMatrix;
 
+	ServiceLocator::getInstance()->getComponentManager()->update(delta);
+
 	return HE_GAMESTATE_NORMAL;
 }
 
@@ -127,6 +134,7 @@ void Game::draw() {
 	glUniformMatrix4fv(_iWorldMatrixID, 1, GL_FALSE, &_mWorldMatrix[0][0]);
 	glUniformMatrix4fv(_iViewMatrixID, 1, GL_FALSE, &_mViewMatrix[0][0]);
 
+	ServiceLocator::getInstance()->getComponentManager()->draw();
 
 	_mpModel->draw();
 }

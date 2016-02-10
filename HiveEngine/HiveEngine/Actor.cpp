@@ -6,11 +6,11 @@ Actor::Actor()
 {
 }
 
-void Actor::update(float delta)
+void Actor::draw()
 {
 }
 
-void Actor::render()
+void Actor::update(float delta)
 {
 }
 

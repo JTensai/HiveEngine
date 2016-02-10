@@ -145,6 +145,7 @@ struct DUnit {
 		vitalRegen;
 
 	float speed;
+	float collisionRadius;
 
 	Attributes attributes;
 

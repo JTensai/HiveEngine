@@ -25,3 +25,10 @@ void ServiceLocator::registerDataManager(IDataManager* dataManager) {
 IDataManager* ServiceLocator::getDataManager() {
 	return _dataManager;
 }
+
+void ServiceLocator::registerComponentManager(IComponentManager* componentManager) {
+	_componentManager = componentManager;
+}
+IComponentManager* ServiceLocator::getComponentManager() {
+	return _componentManager;
+}
