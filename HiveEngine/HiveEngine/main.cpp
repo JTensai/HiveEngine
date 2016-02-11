@@ -30,56 +30,65 @@
 ////////////////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
-	double lastTime = 0;
-	Game game;
-	
-	if (!glfwInit())
+	try
 	{
-		fprintf( stderr, "Failed to initialize GLFW\n" );
-		return -1;
-	}
+		double lastTime = 0;
+		Game game;
 
-	game.initialize(argv[1]);
-
-	GLFWwindow* window; // (In the accompanying source code, this variable is global)
-	window = glfwCreateWindow(1024, 768, "Hive Engine", NULL, NULL);
-	if (window == NULL) {
-		fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible.\n");
-		glfwTerminate();
-		return -1;
-	}
-
-	//InputManager::getInstance()->setKeyCallbackForWindow(window);//set up the key input
-
-	glfwMakeContextCurrent(window); // Initialize GLEW
-
-	glewExperimental = true; // Needed in core profile
-	if (glewInit() != GLEW_OK) {
-		fprintf(stderr, "Failed to initialize GLEW\n");
-		return -1;
-	}
-
-	game.load(window);
-
-	while(true) {
-		double time = glfwGetTime();
-
-		if (game.update((float)(time - lastTime))) {
-			//If update returns a non-zero value begin closing the program
-			break;
+		if (!glfwInit())
+		{
+			fprintf(stderr, "Failed to initialize GLFW\n");
+			return -1;
 		}
-		lastTime = time;
 
-		game.draw();
+		game.initialize(argv[1]);
 
-		// Swap buffers
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+		GLFWwindow* window; // (In the accompanying source code, this variable is global)
+		window = glfwCreateWindow(1024, 768, "Hive Engine", NULL, NULL);
+		if (window == NULL) {
+			fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible.\n");
+			glfwTerminate();
+			return -1;
+		}
+
+		//InputManager::getInstance()->setKeyCallbackForWindow(window);//set up the key input
+
+		glfwMakeContextCurrent(window); // Initialize GLEW
+
+		glewExperimental = true; // Needed in core profile
+		if (glewInit() != GLEW_OK) {
+			fprintf(stderr, "Failed to initialize GLEW\n");
+			return -1;
+		}
+
+		game.load(window);
+
+		while (true) {
+			double time = glfwGetTime();
+
+			if (game.update((float)(time - lastTime))) {
+				//If update returns a non-zero value begin closing the program
+				break;
+			}
+			lastTime = time;
+
+			game.draw();
+
+			// Swap buffers
+			glfwSwapBuffers(window);
+			glfwPollEvents();
+		}
+
+		game.close();
+
+		glfwTerminate();
+
+		return 0;
 	}
-
-	game.close();
-
-	glfwTerminate();
-
-	return 0;
+	catch(...)
+	{
+		std::cerr << "Unkown exception excountered.\n";
+		std::system("PAUSE");
+		return 1;
+	}
 }

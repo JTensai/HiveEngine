@@ -15,9 +15,10 @@
 #include <stdio.h>
 
 #include "tempmodel.h"
-#include "InputManager.h"
 #include "ServiceLocator.h"
+#include "InputManager.h"
 #include "ComponentManager.h"
+#include "DataManager.h"
 
 using namespace std;
 

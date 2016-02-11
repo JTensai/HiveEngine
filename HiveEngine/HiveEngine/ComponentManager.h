@@ -1,5 +1,8 @@
 #pragma once
 
+#include <algorithm>
+#include <functional>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -16,7 +19,7 @@
 #include "IComponentManager.h"
 #include "ObjectPool.h"
 
-class ComponentManager : public IComponentManager
+class ComponentManager : public IComponentManager 
 {
 private:
 	ObjectPool<AbilityComponent> abilityComponents;
@@ -26,9 +29,40 @@ private:
 	ObjectPool<MovementComponent> movementComponents;
 	ObjectPool<ParticleSystemComponent> particleSystemComponents;
 	ObjectPool<VitalsComponent> vitalsComponents;
+
 public:
 	ComponentManager();
+
+	AbilityComponent* getAbilityComponent(int id);
+	AbilityComponent* newAbilityComponent();
+	void deleteAbilityComponent(int id);
+
+	Actor* getActor(int id);
+	Actor* newActor();
+	void deleteActor(int id);
+
+	AIComponent* getAIComponent(int id);
+	AIComponent* newAIComponent();
+	void deleteAIComponent(int id);
+
+	BehaviorComponent* getBehaviorComponent(int id);
+	BehaviorComponent* newBehaviorComponent();
+	void deleteBehaviorComponent(int id);
+
+	MovementComponent* getMovementComponent(int id);
+	MovementComponent* newMovementComponent();
+	void deleteMovementComponent(int id);
+
+	ParticleSystemComponent* getParticleSystemComponent(int id);
+	ParticleSystemComponent* newParticleSystemComponent();
+	void deleteParticleSystemComponent(int id);
+
+	VitalsComponent* getVitalsComponent(int id);
+	VitalsComponent* newVitalsComponent();
+	void deleteVitalsComponent(int id);
+
 	void update(float delta);
 	void draw();
+
 	~ComponentManager();
 };

@@ -24,6 +24,7 @@ void Game::initialize(char* XMLFilename) {
 	);
 
 	ServiceLocator::getInstance()->registerComponentManager(new ComponentManager());
+	ServiceLocator::getInstance()->registerDataManager(new DataManager());
 }
 
 
