@@ -10,11 +10,15 @@
  ***************************
  */
 
-class VitalsComponent
+namespace Hive
 {
-public:
-	VitalsComponent();
-	void update(float delta);
-	~VitalsComponent();
-};
 
+	class VitalsComponent
+	{
+	public:
+		VitalsComponent();
+		void update(float delta);
+		~VitalsComponent();
+	};
+
+}

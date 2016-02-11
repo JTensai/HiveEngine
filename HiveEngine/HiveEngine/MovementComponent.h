@@ -10,13 +10,17 @@
  ***************************
  */
 
-class MovementComponent
+namespace Hive
 {
-private:
-	int _actorHandle;
-public:
-	MovementComponent();
-	void update(float delta);
-	~MovementComponent();
-};
 
+	class MovementComponent
+	{
+	private:
+		int _actorHandle;
+	public:
+		MovementComponent();
+		void update(float delta);
+		~MovementComponent();
+	};
+
+}

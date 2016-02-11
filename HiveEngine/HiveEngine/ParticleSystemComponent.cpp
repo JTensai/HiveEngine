@@ -1,19 +1,22 @@
 #include "ParticleSystemComponent.h"
 
-
-
-ParticleSystemComponent::ParticleSystemComponent()
+namespace Hive
 {
-}
 
-void ParticleSystemComponent::update(float delta)
-{
-}
+	ParticleSystemComponent::ParticleSystemComponent()
+	{
+	}
 
-void ParticleSystemComponent::draw(const glm::mat4& VP)
-{
-}
+	void ParticleSystemComponent::update(float delta)
+	{
+	}
 
-ParticleSystemComponent::~ParticleSystemComponent()
-{
+	void ParticleSystemComponent::draw(const glm::mat4& VP)
+	{
+	}
+
+	ParticleSystemComponent::~ParticleSystemComponent()
+	{
+	}
+
 }

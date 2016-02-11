@@ -13,34 +13,38 @@
 #include <gl\glew.h>
 #include <glm\glm.hpp>
 
-class Mesh {
-private:
-	std::vector<float> _data;
-	int _numVerts;
-	std::vector<int> _indices;
+namespace Hive
+{
 
-	int _shaderHandle;
-	int _textureHandle;
-	GLuint _VBO; //Vertex Buffer Object
-	GLuint _IBO; //Index Buffer Object
+	class Mesh {
+	private:
+		std::vector<float> _data;
+		int _numVerts;
+		std::vector<int> _indices;
 
-	/*
-	LoadBuffers should claim a vertex buffer and an index buffer on the GPU and then fill them with its data.
-	return 0 on success, 1 on error
-	*/
-	int _loadBuffers();
+		int _shaderHandle;
+		int _textureHandle;
+		GLuint _VBO; //Vertex Buffer Object
+		GLuint _IBO; //Index Buffer Object
 
-public:
-	Mesh();
+		/*
+		LoadBuffers should claim a vertex buffer and an index buffer on the GPU and then fill them with its data.
+		return 0 on success, 1 on error
+		*/
+		int _loadBuffers();
 
-	/*
-	draw should check that the buffers are valid, if not call _loadBuffers,
-	it then tells OpenGL to use its shader,
-	sets the necessary parameters on the shader,
-	and finally tells OpenGL to draw _indices.size / 3 triangles.
-	*/
-	void draw(const glm::mat4& WVP);
+	public:
+		Mesh();
 
-	~Mesh();
-};
+		/*
+		draw should check that the buffers are valid, if not call _loadBuffers,
+		it then tells OpenGL to use its shader,
+		sets the necessary parameters on the shader,
+		and finally tells OpenGL to draw _indices.size / 3 triangles.
+		*/
+		void draw(const glm::mat4& WVP);
 
+		~Mesh();
+	};
+
+}

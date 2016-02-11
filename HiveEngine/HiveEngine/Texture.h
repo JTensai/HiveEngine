@@ -1,8 +1,12 @@
 #pragma once
 
-class Texture {
-public:
-	Texture();
-	~Texture();
-};
+namespace Hive
+{
 
+	class Texture {
+	public:
+		Texture();
+		~Texture();
+	};
+
+}

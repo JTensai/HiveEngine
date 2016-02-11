@@ -4,24 +4,33 @@
 #include "IDataManager.h"
 #include "IComponentManager.h"
 
-class ServiceLocator {
-private:
-	static ServiceLocator* _instance;
-	IInputManager* _inputManager;
-	IDataManager* _dataManager;
-	IComponentManager* _componentManager;
+namespace Hive
+{
+	//Forward declarations
+	class IInputManager;
+	class IDataManager;
+	class IComponentManager;
 
-	ServiceLocator();
+	class ServiceLocator {
+	private:
+		static ServiceLocator* _instance;
+		IInputManager* _inputManager;
+		IDataManager* _dataManager;
+		IComponentManager* _componentManager;
 
-public:
-	static ServiceLocator* getInstance();
+		ServiceLocator();
 
-	void registerInputManager(IInputManager* inputManager);
-	IInputManager* getInputManager();
+	public:
+		static ServiceLocator* getInstance();
 
-	void registerDataManager(IDataManager* dataManager);
-	IDataManager* getDataManager();
+		void registerInputManager(IInputManager* inputManager);
+		IInputManager* getInputManager();
 
-	void registerComponentManager(IComponentManager* componentManager);
-	IComponentManager* getComponentManager();
-};
+		void registerDataManager(IDataManager* dataManager);
+		IDataManager* getDataManager();
+
+		void registerComponentManager(IComponentManager* componentManager);
+		IComponentManager* getComponentManager();
+	};
+
+}

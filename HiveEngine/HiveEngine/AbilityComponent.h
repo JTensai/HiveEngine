@@ -9,11 +9,15 @@
  ***************************
  */
 
-class AbilityComponent
+namespace Hive
 {
-public:
-	AbilityComponent();
-	void update(float delta);
-	~AbilityComponent();
-};
 
+	class AbilityComponent
+	{
+	public:
+		AbilityComponent();
+		void update(float delta);
+		~AbilityComponent();
+	};
+
+}

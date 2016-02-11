@@ -7,11 +7,15 @@
  ***************************
  */
 
-class BehaviorComponent
+namespace Hive
 {
-public:
-	BehaviorComponent();
-	void update(float delta);
-	~BehaviorComponent();
-};
 
+	class BehaviorComponent
+	{
+	public:
+		BehaviorComponent();
+		void update(float delta);
+		~BehaviorComponent();
+	};
+
+}

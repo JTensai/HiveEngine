@@ -8,11 +8,15 @@
  ***************************
  */
 
-class AIComponent
+namespace Hive
 {
-public:
-	AIComponent();
-	void update(float delta);
-	~AIComponent();
-};
 
+	class AIComponent
+	{
+	public:
+		AIComponent();
+		void update(float delta);
+		~AIComponent();
+	};
+
+}

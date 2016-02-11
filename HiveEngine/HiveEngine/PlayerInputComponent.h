@@ -9,11 +9,15 @@
  ***************************
  */
 
-class PlayerInputComponent
+namespace Hive
 {
-public:
-	PlayerInputComponent();
-	void update(float delta);
-	~PlayerInputComponent();
-};
 
+	class PlayerInputComponent
+	{
+	public:
+		PlayerInputComponent();
+		void update(float delta);
+		~PlayerInputComponent();
+	};
+
+}

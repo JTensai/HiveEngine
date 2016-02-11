@@ -1,34 +1,39 @@
 #include "ServiceLocator.h"
 
-ServiceLocator* ServiceLocator::_instance = NULL;
-ServiceLocator::ServiceLocator() {
-	_inputManager = NULL;
-}
+namespace Hive
+{
 
-ServiceLocator* ServiceLocator::getInstance() {
-	if (!_instance) {
-		_instance = new ServiceLocator();
+	ServiceLocator* ServiceLocator::_instance = NULL;
+	ServiceLocator::ServiceLocator() {
+		_inputManager = NULL;
 	}
-	return _instance;
-}
 
-void ServiceLocator::registerInputManager(IInputManager* inputManager) {
-	_inputManager = inputManager;
-}
-IInputManager* ServiceLocator::getInputManager() {
-	return _inputManager;
-}
+	ServiceLocator* ServiceLocator::getInstance() {
+		if (!_instance) {
+			_instance = new ServiceLocator();
+		}
+		return _instance;
+	}
 
-void ServiceLocator::registerDataManager(IDataManager* dataManager) {
-	_dataManager = dataManager;
-}
-IDataManager* ServiceLocator::getDataManager() {
-	return _dataManager;
-}
+	void ServiceLocator::registerInputManager(IInputManager* inputManager) {
+		_inputManager = inputManager;
+	}
+	IInputManager* ServiceLocator::getInputManager() {
+		return _inputManager;
+	}
 
-void ServiceLocator::registerComponentManager(IComponentManager* componentManager) {
-	_componentManager = componentManager;
-}
-IComponentManager* ServiceLocator::getComponentManager() {
-	return _componentManager;
+	void ServiceLocator::registerDataManager(IDataManager* dataManager) {
+		_dataManager = dataManager;
+	}
+	IDataManager* ServiceLocator::getDataManager() {
+		return _dataManager;
+	}
+
+	void ServiceLocator::registerComponentManager(IComponentManager* componentManager) {
+		_componentManager = componentManager;
+	}
+	IComponentManager* ServiceLocator::getComponentManager() {
+		return _componentManager;
+	}
+
 }

@@ -1,15 +1,18 @@
 #include "VitalsComponent.h"
 
-
-
-VitalsComponent::VitalsComponent()
+namespace Hive
 {
-}
 
-void VitalsComponent::update(float delta)
-{
-}
+	VitalsComponent::VitalsComponent()
+	{
+	}
 
-VitalsComponent::~VitalsComponent()
-{
+	void VitalsComponent::update(float delta)
+	{
+	}
+
+	VitalsComponent::~VitalsComponent()
+	{
+	}
+
 }

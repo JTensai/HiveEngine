@@ -19,55 +19,60 @@
 #include "IComponentManager.h"
 #include "ObjectPool.h"
 
-class ComponentManager : public IComponentManager 
+namespace Hive
 {
-private:
-	ObjectPool<AbilityComponent> abilityComponents;
-	ObjectPool<Actor> actors;
-	ObjectPool<AIComponent> aiComponents;
-	ObjectPool<BehaviorComponent> behaviorComponents;
-	ObjectPool<MovementComponent> movementComponents;
-	ObjectPool<ParticleSystemComponent> particleSystemComponents;
-	ObjectPool<PlayerInputComponent> playerInputComponents;
-	ObjectPool<VitalsComponent> vitalsComponents;
 
-public:
-	ComponentManager();
+	class ComponentManager : public IComponentManager
+	{
+	private:
+		ObjectPool<AbilityComponent> abilityComponents;
+		ObjectPool<Actor> actors;
+		ObjectPool<AIComponent> aiComponents;
+		ObjectPool<BehaviorComponent> behaviorComponents;
+		ObjectPool<MovementComponent> movementComponents;
+		ObjectPool<ParticleSystemComponent> particleSystemComponents;
+		ObjectPool<PlayerInputComponent> playerInputComponents;
+		ObjectPool<VitalsComponent> vitalsComponents;
 
-	AbilityComponent* getAbilityComponent(int id);
-	AbilityComponent* newAbilityComponent();
-	void deleteAbilityComponent(int id);
+	public:
+		ComponentManager();
 
-	Actor* getActor(int id);
-	Actor* newActor();
-	void deleteActor(int id);
+		AbilityComponent* getAbilityComponent(int id);
+		AbilityComponent* newAbilityComponent();
+		void deleteAbilityComponent(int id);
 
-	AIComponent* getAIComponent(int id);
-	AIComponent* newAIComponent();
-	void deleteAIComponent(int id);
+		Actor* getActor(int id);
+		Actor* newActor();
+		void deleteActor(int id);
 
-	BehaviorComponent* getBehaviorComponent(int id);
-	BehaviorComponent* newBehaviorComponent();
-	void deleteBehaviorComponent(int id);
+		AIComponent* getAIComponent(int id);
+		AIComponent* newAIComponent();
+		void deleteAIComponent(int id);
 
-	MovementComponent* getMovementComponent(int id);
-	MovementComponent* newMovementComponent();
-	void deleteMovementComponent(int id);
+		BehaviorComponent* getBehaviorComponent(int id);
+		BehaviorComponent* newBehaviorComponent();
+		void deleteBehaviorComponent(int id);
 
-	ParticleSystemComponent* getParticleSystemComponent(int id);
-	ParticleSystemComponent* newParticleSystemComponent();
-	void deleteParticleSystemComponent(int id);
+		MovementComponent* getMovementComponent(int id);
+		MovementComponent* newMovementComponent();
+		void deleteMovementComponent(int id);
 
-	PlayerInputComponent* getPlayerInputComponent(int id);
-	PlayerInputComponent* newPlayerInputComponent();
-	void deletePlayerInputComponent(int id);
+		ParticleSystemComponent* getParticleSystemComponent(int id);
+		ParticleSystemComponent* newParticleSystemComponent();
+		void deleteParticleSystemComponent(int id);
 
-	VitalsComponent* getVitalsComponent(int id);
-	VitalsComponent* newVitalsComponent();
-	void deleteVitalsComponent(int id);
+		PlayerInputComponent* getPlayerInputComponent(int id);
+		PlayerInputComponent* newPlayerInputComponent();
+		void deletePlayerInputComponent(int id);
 
-	void update(float delta);
-	void draw(const glm::mat4& VP);
+		VitalsComponent* getVitalsComponent(int id);
+		VitalsComponent* newVitalsComponent();
+		void deleteVitalsComponent(int id);
 
-	~ComponentManager();
-};
+		void update(float delta);
+		void draw(const glm::mat4& VP);
+
+		~ComponentManager();
+	};
+
+}

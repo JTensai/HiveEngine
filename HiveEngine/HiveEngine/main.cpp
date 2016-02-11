@@ -19,9 +19,7 @@
 #include <iostream>
 #include <stdio.h>
 
-#include "tempmodel.h"
 #include "game.h"
-#include "InputManager.h"
 ////////////////////////////////////////////////////////////
 /// Entry point of application
 ///
@@ -33,7 +31,7 @@ int main(int argc, char** argv)
 	try
 	{
 		double lastTime = 0;
-		Game game;
+		Hive::Game game;
 
 		if (!glfwInit())
 		{

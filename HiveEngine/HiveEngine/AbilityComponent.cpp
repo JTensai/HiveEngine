@@ -1,15 +1,18 @@
 #include "AbilityComponent.h"
 
-
-
-AbilityComponent::AbilityComponent()
+namespace Hive
 {
-}
 
-void AbilityComponent::update(float delta)
-{
-}
+	AbilityComponent::AbilityComponent()
+	{
+	}
 
-AbilityComponent::~AbilityComponent()
-{
+	void AbilityComponent::update(float delta)
+	{
+	}
+
+	AbilityComponent::~AbilityComponent()
+	{
+	}
+
 }

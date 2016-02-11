@@ -15,25 +15,29 @@
 
 #include <glm/glm.hpp>
 
-class Actor
+namespace Hive
 {
-private:
-	glm::mat4 _worldTransform;
-	int _modelHandle;
 
-public:
-	Actor();
+	class Actor
+	{
+	private:
+		glm::mat4 _worldTransform;
+		int _modelHandle;
 
-	/*
-	Draw multiplies the given view-projection matrix by its own world transform and then calls its model's draw function passing the newly formed world-view-projection matrix.
-	*/
-	void draw(const glm::mat4& VP);
+	public:
+		Actor();
 
-	/*
-	Update will handle things like the actor's animation and timed events.
-	*/
-	void update(float delta);
+		/*
+		Draw multiplies the given view-projection matrix by its own world transform and then calls its model's draw function passing the newly formed world-view-projection matrix.
+		*/
+		void draw(const glm::mat4& VP);
 
-	~Actor();
-};
+		/*
+		Update will handle things like the actor's animation and timed events.
+		*/
+		void update(float delta);
 
+		~Actor();
+	};
+
+}

@@ -1,19 +1,23 @@
 #include "Mesh.h"
 
-
-int Mesh::_loadBuffers()
+namespace Hive
 {
-	return 0;
-}
 
-Mesh::Mesh()
-{
-}
+	int Mesh::_loadBuffers()
+	{
+		return 0;
+	}
 
-void Mesh::draw(const glm::mat4& WVP)
-{
-}
+	Mesh::Mesh()
+	{
+	}
 
-Mesh::~Mesh()
-{
+	void Mesh::draw(const glm::mat4& WVP)
+	{
+	}
+
+	Mesh::~Mesh()
+	{
+	}
+
 }

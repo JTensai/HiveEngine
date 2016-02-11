@@ -1,15 +1,18 @@
 #include "MovementComponent.h"
 
-
-
-MovementComponent::MovementComponent()
+namespace Hive
 {
-}
 
-void MovementComponent::update(float delta)
-{
-}
+	MovementComponent::MovementComponent()
+	{
+	}
 
-MovementComponent::~MovementComponent()
-{
+	void MovementComponent::update(float delta)
+	{
+	}
+
+	MovementComponent::~MovementComponent()
+	{
+	}
+
 }

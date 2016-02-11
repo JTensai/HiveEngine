@@ -9,12 +9,16 @@
 
 #include <glm\glm.hpp>
 
-class ParticleSystemComponent
+namespace Hive
 {
-public:
-	ParticleSystemComponent();
-	void update(float delta);
-	void draw(const glm::mat4& VP);
-	~ParticleSystemComponent();
-};
 
+	class ParticleSystemComponent
+	{
+	public:
+		ParticleSystemComponent();
+		void update(float delta);
+		void draw(const glm::mat4& VP);
+		~ParticleSystemComponent();
+	};
+
+}

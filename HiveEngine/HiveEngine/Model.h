@@ -13,18 +13,23 @@
 
 #include "ServiceLocator.h"
 
-class Model {
-private:
-	std::vector<int> _meshHandles;
+namespace Hive
+{
 
-public:
-	Model();
+	class Model
+	{
+	private:
+		std::vector<int> _meshHandles;
 
-	/*
-	Draw iterates over the model's meshes and calls their draw functions, providing the world-view-perspective matrix needed to do so.
-	*/
-	void draw(const glm::mat4& WVP);
+	public:
+		Model();
 
-	~Model();
-};
+		/*
+		Draw iterates over the model's meshes and calls their draw functions, providing the world-view-perspective matrix needed to do so.
+		*/
+		void draw(const glm::mat4& WVP);
 
+		~Model();
+	};
+
+}

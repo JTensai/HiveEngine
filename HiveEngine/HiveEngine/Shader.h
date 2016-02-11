@@ -8,11 +8,15 @@
 
 #include <GL\glew.h>
 
-class Shader {
-private:
-	GLuint _programID;
-public:
-	Shader();
-	~Shader();
-};
+namespace Hive
+{
 
+	class Shader {
+	private:
+		GLuint _programID;
+	public:
+		Shader();
+		~Shader();
+	};
+
+}

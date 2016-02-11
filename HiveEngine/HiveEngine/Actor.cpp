@@ -1,19 +1,22 @@
 #include "Actor.h"
 
-
-
-Actor::Actor()
+namespace Hive
 {
-}
 
-void Actor::draw(const glm::mat4& VP)
-{
-}
+	Actor::Actor()
+	{
+	}
 
-void Actor::update(float delta)
-{
-}
+	void Actor::draw(const glm::mat4& VP)
+	{
+	}
 
-Actor::~Actor()
-{
+	void Actor::update(float delta)
+	{
+	}
+
+	Actor::~Actor()
+	{
+	}
+
 }
