@@ -14,6 +14,8 @@ private:
 	DataCollection<DValidator> _dValidators;
 
 	DataCollection<Shader> _shaders;
+	DataCollection<GLuint> _vertexShaders;
+	DataCollection<GLuint> _fragmentShaders;
 	DataCollection<Texture> _textures;
 	DataCollection<Mesh> _meshes;
 	DataCollection<Model> _models;
@@ -33,6 +35,8 @@ public:
 
 	int getShaderHandle(const std::string vertexShader, const std::string fragmentShader);
 	Shader* getShader(int handle);
+	GLuint getVertexShader(int handle);
+	GLuint getFragmentShader(int handle);
 
 	int getModelHandle(const std::string filename);
 	Model* getModel(int handle);

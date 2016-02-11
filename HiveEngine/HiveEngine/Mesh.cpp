@@ -1,10 +1,19 @@
 #include "Mesh.h"
 
 
-
-Mesh::Mesh() {
+int Mesh::_loadBuffers()
+{
+	return 0;
 }
 
+Mesh::Mesh()
+{
+}
 
-Mesh::~Mesh() {
+void Mesh::draw(const glm::mat4& WVP)
+{
+}
+
+Mesh::~Mesh()
+{
 }

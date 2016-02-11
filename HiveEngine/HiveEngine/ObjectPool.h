@@ -21,6 +21,7 @@ public:
 	const_iterator cend();
 
 	T* get(int index);
+	bool used(int index);
 	void remove(int index);
 	T* create();
 
@@ -56,6 +57,11 @@ template <class T> typename ObjectPool<T>::const_iterator ObjectPool<T>::cend()
 template <class T> T* ObjectPool<T>::get(int index)
 {
 	return &_pool.at(index);
+}
+
+template <class T> bool ObjectPool<T>::used(int index)
+{
+	return _used.at(index);
 }
 
 template <class T> T* ObjectPool<T>::create()

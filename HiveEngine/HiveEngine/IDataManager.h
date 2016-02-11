@@ -1,4 +1,13 @@
 #pragma once
+/*
+ ***************************
+ * IDataManager
+ * The data manager is responsible for loading game metadata in memory and exposing it to other systems.
+ * Assets are also managed here, though this might change.
+ * Currently vertex and fragment shaders should be compiled as they are referenced and only their handles are accessible to the other systems.
+ * Models, meshes, and textures will also need special consideration.
+ ***************************
+ */
 
 #include <string>
 
@@ -22,6 +31,8 @@ public:
 
 	virtual int getShaderHandle(const std::string vertexShader, const std::string fragmentShader) = 0;
 	virtual Shader* getShader(int handle) = 0;
+	virtual GLuint getVertexShader(int handle) = 0;
+	virtual GLuint getFragmentShader(int handle) = 0;
 
 	virtual int getModelHandle(const std::string filename) = 0;
 	virtual Model* getModel(int handle) = 0;

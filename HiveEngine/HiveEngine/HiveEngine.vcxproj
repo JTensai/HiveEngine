@@ -171,6 +171,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="ParticleSystemComponent.cpp" />
+    <ClCompile Include="PlayerInputComponent.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="tempmodel.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="ParticleSystemComponent.h" />
+    <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="Shader.h" />

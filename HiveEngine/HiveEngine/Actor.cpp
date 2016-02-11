@@ -6,7 +6,7 @@ Actor::Actor()
 {
 }
 
-void Actor::draw()
+void Actor::draw(const glm::mat4& VP)
 {
 }
 

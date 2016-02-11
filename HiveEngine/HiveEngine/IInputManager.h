@@ -1,4 +1,11 @@
 #pragma once
+/*
+ ***************************
+ * Input Manager
+ * The input manager is responsible for providing a unified interface whereby all other systems may gain access to user input, whether that means polling or registering callback functions.
+ * It will be necessary for some systems, like UI, to consume some input so that it is not seen by later systems.
+ ***************************
+ */
 
 #include <glm/glm.hpp>
 

@@ -10,7 +10,7 @@ void ParticleSystemComponent::update(float delta)
 {
 }
 
-void ParticleSystemComponent::draw()
+void ParticleSystemComponent::draw(const glm::mat4& VP)
 {
 }
 

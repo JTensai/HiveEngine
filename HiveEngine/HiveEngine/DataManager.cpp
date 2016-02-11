@@ -46,6 +46,14 @@ Shader* DataManager::getShader(int handle)
 {
 	return NULL;
 }
+GLuint DataManager::getVertexShader(int handle)
+{
+	return 0;
+}
+GLuint DataManager::getFragmentShader(int handle)
+{
+	return 0;
+}
 
 int DataManager::getModelHandle(const std::string filename)
 {

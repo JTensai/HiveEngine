@@ -28,6 +28,7 @@ private:
 	ObjectPool<BehaviorComponent> behaviorComponents;
 	ObjectPool<MovementComponent> movementComponents;
 	ObjectPool<ParticleSystemComponent> particleSystemComponents;
+	ObjectPool<PlayerInputComponent> playerInputComponents;
 	ObjectPool<VitalsComponent> vitalsComponents;
 
 public:
@@ -57,12 +58,16 @@ public:
 	ParticleSystemComponent* newParticleSystemComponent();
 	void deleteParticleSystemComponent(int id);
 
+	PlayerInputComponent* getPlayerInputComponent(int id);
+	PlayerInputComponent* newPlayerInputComponent();
+	void deletePlayerInputComponent(int id);
+
 	VitalsComponent* getVitalsComponent(int id);
 	VitalsComponent* newVitalsComponent();
 	void deleteVitalsComponent(int id);
 
 	void update(float delta);
-	void draw();
+	void draw(const glm::mat4& VP);
 
 	~ComponentManager();
 };
