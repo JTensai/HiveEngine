@@ -9,6 +9,13 @@ namespace Hive
 
 	int DataManager::loadCoreData()
 	{
+		tinyxml2::XMLDocument doc;
+		doc.LoadFile("resources/core.xml");
+
+		tinyxml2::XMLElement* root_element;
+		root_element = doc.RootElement(); //Catalog element
+
+		printf("Root element name: %s\n", root_element->Value());
 		return 0;
 	}
 	int DataManager::loadXMLData(char* filename)

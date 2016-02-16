@@ -1,5 +1,7 @@
 #pragma once
 
+#include <tinyxml2/tinyxml2.h>
+
 #include "IDataManager.h"
 #include "DataCollection.h"
 
@@ -9,6 +11,15 @@ namespace Hive
 	class DataManager : public IDataManager
 	{
 	private:
+		DAbility baseAbility;
+		DActor baseActor;
+		DEffectModifyUnit baseEffectModifyUnit;
+		DEffectSearch baseEffectSearch;
+		DEffectSet baseEffectSet;
+		DEffectSetBehavior baseEffectSetBehavior;
+		DEffectSpawnUnit baseEffectSpawnUnit;
+		DEffectSwitch baseEffectSwitch;
+
 		DataCollection<DAbility> _dAbilities;
 		DataCollection<DActor> _dActors;
 		DataCollection<DBehavior> _dBehaviors;
