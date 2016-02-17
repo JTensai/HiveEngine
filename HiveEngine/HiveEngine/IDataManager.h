@@ -10,6 +10,7 @@
  */
 
 #include <string>
+#include <exception>
 
 #include "Data.h"
 #include "Model.h"
@@ -27,6 +28,13 @@ namespace Hive
 
 	class IDataManager {
 	public:
+		static class DataErrorException : public std::exception
+		{
+		public:
+			DataErrorException(std::string err) : err(err) {};
+			std::string err;
+		};
+
 		virtual int loadCoreData() = 0;
 		virtual int loadXMLData(char* filename) = 0;
 

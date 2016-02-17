@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <Catalog>
-	<Actor id="BASE_ACTOR">
-		<Model value="BASE_MODEL"/>
-	</Actor>
 	<Ability id="BASE_ABILITY">
 		<Type value="INSTANT"/>
 		<Name value=""/>
@@ -30,7 +27,7 @@
 			<EffectInitial value=""/>
 		</Effects>
 		<Range value="0.0"/>
-		<Filter>
+		<TargetFilter>
 			<Dead value="EXCLUDED"/>
 			<Invulnerable value="EXCLUDED"/>
 			<Missile value="EXCLUDED"/>
@@ -38,8 +35,11 @@
 			<Ally value="EXCLUDED"/>
 			<Enemy value="ALLOWED"/>
 			<Neutral value="ALLOWED"/>
-		</Filter>
+		</TargetFilter>
 	</Ability>
+  <Actor id="BASE_ACTOR">
+		<Model value="BASE_MODEL"/>
+	</Actor>
 	<Behavior id="BASE_BEHAVIOR">
 		<Name value=""/>
 		<Tooltip value=""/>
@@ -62,10 +62,7 @@
 			<Expire value=""/>
 		</Effects>
 	</Behavior>
-	<Effect id="BASE_EFFECT">
-		<Validator value="-1"/>
-	</Effect>
-	<EffectModifyUnit id="BASE_EFFECT_MODIFY_UNIT" parent="BASE_EFFECT">
+	<EffectModifyUnit id="BASE_EFFECT_MODIFY_UNIT">
 		<Unit>
 			<Effect value="-1"/>
 			<Unit value="TARGET"/>
@@ -74,8 +71,9 @@
 			<HP value="0.0"/>
 			<Mana value="0.0"/>
 		</VitalsDelta>
+		<Validator value="-1"/>
 	</EffectModifyUnit>
-	<EffectSearch id="BASE_EFFECT_SEARCH" parent="BASE_EFFECT">
+	<EffectSearch id="BASE_EFFECT_SEARCH">
 		<Location>
 			<Effect value=""/>
 			<Point value="TARGET"/>
@@ -90,8 +88,9 @@
 			<Enemy value="ALLOWED"/>
 			<Neutral value="ALLOWED"/>
 		</Filter>
+		<Validator value="-1"/>
 	</EffectSearch>
-	<EffectSet id="BASE_EFFECT_SET" parent="BASE_EFFECT">
+	<EffectSet id="BASE_EFFECT_SET">
 		<Effects>
 			<E0 value=""/>
 			<E1 value=""/>
@@ -99,8 +98,9 @@
 			<E3 value=""/>
 			<E4 value=""/>
 		</Effects>
+		<Validator value="-1"/>
 	</EffectSet>
-	<EffectSetBehavior id="BASE_EFFECT_SET_BEHAVIOR" parent="BASE_EFFECT">
+	<EffectSetBehavior id="BASE_EFFECT_SET_BEHAVIOR">
 		<Unit>
 			<Effect value=""/>
 			<Unit value="CASTER"/>
@@ -108,8 +108,9 @@
 		<Behavior value=""/>
 		<Count value="1"/>
 		<Relative value="false"/>
+		<Validator value="-1"/>
 	</EffectSetBehavior>
-	<EffectSpawnUnit id="BASE_EFFECT_SPAWN_UNIT" parent="BASE_EFFECT">
+	<EffectSpawnUnit id="BASE_EFFECT_SPAWN_UNIT">
 		<Unit value=""/>
 		<Owner>
 			<Effect value=""/>
@@ -119,11 +120,13 @@
 			<Effect value=""/>
 			<Location value="TARGET"/>
 		</Location>
+		<Validator value="-1"/>
 	</EffectSpawnUnit>
-	<EffectSwitch id="BASE_EFFECT_SWITCH" parent="BASE_EFFECT">
+	<EffectSwitch id="BASE_EFFECT_SWITCH">
 		<Validator value=""/>
 		<TrueEffect value=""/>
 		<FalseEffect value=""/>
+		<Validator value="-1"/>
 	</EffectSwitch>
 	<Model id="BASE_MODEL">
 		<File value="resources/teapot.obj"/>
@@ -164,20 +167,19 @@
 			<A4 value=""/>
 		</Abilities>
 	</Unit>
-	<Validator id="BASE_VALIDATOR">
-		<Negated value="false"/>
-	</Validator>
-	<ValidatorBehaviorCount id="BASE_VALIDATOR_BEHAVIOR_COUNT" parent="BASE_VALIDATOR">
+	<ValidatorBehaviorCount id="BASE_VALIDATOR_BEHAVIOR_COUNT">
 		<Behavior value=""/>
 		<Compare value="EQ"/>
 		<Constant value="1"/>
+		<Negated value="false"/>
 	</ValidatorBehaviorCount>
-	<ValidatorCombine id="BASE_VALIDATOR_COMBINE" parent="BASE_VALIDATOR">
+	<ValidatorCombine id="BASE_VALIDATOR_COMBINE">
 		<Type value="AND"/>
 		<ValidatorA value=""/>
 		<ValidatorB value=""/>
+		<Negated value="false"/>
 	</ValidatorCombine>
-	<ValidatorCompareVital id="BASE_VALIDATOR_COMPARE_VITAL" parent="BASE_VALIDATOR">
+	<ValidatorCompareVital id="BASE_VALIDATOR_COMPARE_VITAL">
 		<Unit>
 			<Effect value=""/>
 			<Unit value="TARGET"/>
@@ -190,13 +192,15 @@
 			<Unit value="NONE"/>
 		</OtherUnit>
 		<Constant value="0.5"/>
+		<Negated value="false"/>
 	</ValidatorCompareVital>
-	<ValidatorCondition id="BASE_VALIDATOR_CONDITION" parent="BASE_VALIDATOR">
+	<ValidatorCondition id="BASE_VALIDATOR_CONDITION">
 		<IfValidator value=""/>
 		<ThenValidator value=""/>
 		<ElseValidator value=""/>
+		<Negated value="false"/>
 	</ValidatorCondition>
-	<ValidatorLocationRange id="BASE_VALIDATOR_LOCATION_RANGE" parent="BASE_VALIDATOR">
+	<ValidatorLocationRange id="BASE_VALIDATOR_LOCATION_RANGE">
 		<LocationA>
 			<Effect value=""/>
 			<Location value="TARGET"/>
@@ -207,12 +211,14 @@
 		</LocationB>
 		<CompareMethod value="LTE"/>
 		<Constant value="100.0"/>
+		<Negated value="false"/>
 	</ValidatorLocationRange>
-	<ValidatorLocationPathable id="BASE_VALIDATOR_LOCATION_PATHABLE" parent="BASE_VALIDATOR">
+	<ValidatorLocationPathable id="BASE_VALIDATOR_LOCATION_PATHABLE">
 		<Location>
 			<Effect value=""/>
 			<Location value="TARGET"/>
 		</Location>
+		<Negated value="false"/>
 	</ValidatorLocationPathable>
 	<ValidatorFilterUnit>
 		<Unit>
@@ -236,8 +242,9 @@
 			<Effect value=""/>
 			<Player value="CASTER"/>
 		</PlayerToFilterBy>
+		<Negated value="false"/>
 	</ValidatorFilterUnit>
-	<ValidatorPlayer id="BASE_VALIDATOR_PLAYER" parent="BASE_VALIDATOR">
+	<ValidatorPlayer id="BASE_VALIDATOR_PLAYER">
 		<Player>
 			<Effect value=""/>
 			<Player value="TARGET"/>
@@ -246,5 +253,6 @@
 			<Effect value=""/>
 			<Player value="CASTER"/>
 		</PlayerToCompareTo>
+		<Negated value="false"/>
 	</ValidatorPlayer>
 </Catalog>

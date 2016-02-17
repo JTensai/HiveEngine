@@ -177,6 +177,7 @@
     <ClCompile Include="tempmodel.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VitalsComponent.cpp" />
+    <ClCompile Include="XMLInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbilityComponent.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="tempmodel.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VitalsComponent.h" />
+    <ClInclude Include="XMLInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

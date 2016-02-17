@@ -1,4 +1,8 @@
 #pragma once
+
+#include <string>
+#include <vector>
+
 namespace Hive
 {
 
@@ -86,6 +90,13 @@ namespace Hive
 	};
 #pragma endregion
 #pragma region Structs
+	struct EffectList {
+		int effectInitial;
+		int effectPeriodic;
+		int effectFinal;
+		int effectExpire;
+	};
+
 	struct EffectUnit {
 		int effectHandle;
 		EffectUnitEnum unit;
@@ -137,11 +148,21 @@ namespace Hive
 	struct Attributes {
 		bool missile;
 	};
+
+	struct ValidatorConditionCase {
+		int ifValidator;
+		int thenValidator;
+	};
+
+	struct EffectSwitchCase {
+		int ifValidator;
+		int thenEffect;
+	};
 #pragma endregion
 
 #pragma region Units
 	struct DUnit {
-		char* name;
+		std::string name;
 		Vitals
 			vitalMax,
 			vitalRegen;
@@ -152,8 +173,8 @@ namespace Hive
 		Attributes attributes;
 
 		int actorDataHandle;
-		int behaviorHandles[5];
-		int abilityHandles[5];
+		std::vector<int> behaviorHandles;
+		std::vector<int> abilityHandles;
 	};
 #pragma endregion
 
@@ -166,11 +187,11 @@ namespace Hive
 #pragma region Abilities
 	struct DAbility {
 		AbilityType type;
-		char* name;
-		char* tooltip;
+		std::string name;
+		std::string tooltip;
 		int iconTextureHandle;
 		Cost cost;
-		int	effectInitialHandle;
+		EffectList effects;
 		float range;
 		UnitFilter targetFilter;
 	};
@@ -178,8 +199,8 @@ namespace Hive
 
 #pragma region Behaviors
 	struct DBehavior {
-		char* name;
-		char* tooltip;
+		std::string name;
+		std::string tooltip;
 		int iconTextureHandle;
 		bool isVisible;
 		Vitals
@@ -190,11 +211,7 @@ namespace Hive
 			duration,
 			speedMultiplier;
 
-		int
-			effectInitialHandle,
-			effectPeriodicHandle,
-			effectFinalHandle,
-			effectExpireHandle;
+		EffectList effects;
 	};
 #pragma endregion
 
@@ -212,8 +229,7 @@ namespace Hive
 
 	struct DValidatorCombine : DValidatorBase {
 		ValidatorCombineType combineType;
-		int validatorAHandle;
-		int validatorBHandle;
+		std::vector<int> handles;
 	};
 
 	struct DValidatorCompareVital : DValidatorBase {
@@ -225,9 +241,8 @@ namespace Hive
 		float constant;
 	};
 	struct DValidatorCondition : DValidatorBase {
-		int ifValidatorHandle;
-		int thenValidatorHandle;
-		int elseValidatorHandle;
+		std::vector<ValidatorConditionCase> cases;
+		int elseHandle;
 	};
 	struct DValidatorLocationRange : DValidatorBase {
 		EffectLocation sourceLocation;
@@ -259,6 +274,39 @@ namespace Hive
 		DValidatorLocationPathable dLocationPathable;
 		DValidatorLocationRange dLocationRange;
 		DValidatorPlayer dPlayer;
+
+		DValidator() {}
+		DValidator(const DValidator& o)
+		{
+			switch (o.dBase.type)
+			{
+			case BEHAVIOR_COUNT:
+				dBehaviorCount = o.dBehaviorCount;
+				break;
+			case COMBINE:
+				dCombine = o.dCombine;
+				break;
+			case COMPARE_VITAL:
+				dCompareVital = o.dCompareVital;
+				break;
+			case CONDITION:
+				dCondition = o.dCondition;
+				break;
+			case FILTER_UNIT:
+				dFilterUnit = o.dFilterUnit;
+				break;
+			case LOCATION_PATHABLE:
+				dLocationPathable = o.dLocationPathable;
+				break;
+			case LOCATION_RANGE:
+				dLocationRange = o.dLocationRange;
+				break;
+			case PLAYER:
+				dPlayer = o.dPlayer;
+				break;
+			}
+		}
+		~DValidator() {}
 	};
 #pragma endregion
 
@@ -280,7 +328,7 @@ namespace Hive
 	};
 
 	struct DEffectSet : DEffectBase {
-		int effectHandles[5];
+		std::vector<int> effectHandles;
 	};
 
 	struct DEffectSetBehavior : DEffectBase {
@@ -297,9 +345,8 @@ namespace Hive
 	};
 
 	struct DEffectSwitch : DEffectBase {
-		int validatorHandle;
-		int trueEffectHandle;
-		int falseEffectHandle;
+		std::vector<EffectSwitchCase> cases;
+		int elseEffectHandle;
 	};
 
 	union DEffect {
@@ -310,6 +357,33 @@ namespace Hive
 		DEffectSetBehavior dSetBehavior;
 		DEffectSpawnUnit dSpawnUnit;
 		DEffectSwitch dSwitch;
+
+		DEffect() {}
+		DEffect(const DEffect& o)
+		{
+			switch (o.dBase.type)
+			{
+			case MODIFY_UNIT:
+				dModifyUnit = o.dModifyUnit;
+				break;
+			case SEARCH:
+				dSearch = o.dSearch;
+				break;
+			case SET:
+				dSet = o.dSet;
+				break;
+			case SET_BEHAVIOR:
+				dSetBehavior = o.dSetBehavior;
+				break;
+			case SPAWN_UNIT:
+				dSpawnUnit = o.dSpawnUnit;
+				break;
+			case SWITCH:
+				dSwitch = o.dSwitch;
+				break;
+			}
+		}
+		~DEffect() {}
 	};
 #pragma endregion
 

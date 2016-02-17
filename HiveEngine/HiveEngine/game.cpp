@@ -75,8 +75,15 @@ namespace Hive {
 		glGenVertexArrays(1, &_iVertexArrayID);
 		glBindVertexArray(_iVertexArrayID);
 
-		ServiceLocator::getInstance()->getDataManager()->loadCoreData();
-		ServiceLocator::getInstance()->getDataManager()->loadXMLData(_cpXMLFilename);
+		try
+		{
+			ServiceLocator::getInstance()->getDataManager()->loadCoreData();
+			ServiceLocator::getInstance()->getDataManager()->loadXMLData(_cpXMLFilename);
+		}
+		catch (IDataManager::DataErrorException e)
+		{
+			printf("Error loading data: %s\n", e.err);
+		}
 	}
 
 
