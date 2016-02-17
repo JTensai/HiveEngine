@@ -37,7 +37,7 @@
 			<Neutral value="ALLOWED"/>
 		</TargetFilter>
 	</Ability>
-  <Actor id="BASE_ACTOR">
+	<Actor id="BASE_ACTOR">
 		<Model value="BASE_MODEL"/>
 	</Actor>
 	<Behavior id="BASE_BEHAVIOR">
@@ -56,10 +56,10 @@
 		<Duration value="-1.0"/>
 		<SpeedMultiplier value="1.0"/>
 		<Effects>
-			<Initial value=""/>
-			<Periodic value=""/>
-			<Final value=""/>
-			<Expire value=""/>
+			<EffectInitial value=""/>
+			<EffectPeriodic value=""/>
+			<EffectFinal value=""/>
+			<EffectExpire value=""/>
 		</Effects>
 	</Behavior>
 	<EffectModifyUnit id="BASE_EFFECT_MODIFY_UNIT">
@@ -91,13 +91,12 @@
 		<Validator value="-1"/>
 	</EffectSearch>
 	<EffectSet id="BASE_EFFECT_SET">
+<!-- EXAMPLE:
 		<Effects>
-			<E0 value=""/>
-			<E1 value=""/>
-			<E2 value=""/>
-			<E3 value=""/>
-			<E4 value=""/>
+			<Effect value="E_LEECHLIFE_DAMAGE_TARGET"/>
+			<Effect value="E_LEECHLIFE_HEAL_CASTER"/>
 		</Effects>
+-->
 		<Validator value="-1"/>
 	</EffectSet>
 	<EffectSetBehavior id="BASE_EFFECT_SET_BEHAVIOR">
@@ -123,9 +122,19 @@
 		<Validator value="-1"/>
 	</EffectSpawnUnit>
 	<EffectSwitch id="BASE_EFFECT_SWITCH">
-		<Validator value=""/>
-		<TrueEffect value=""/>
-		<FalseEffect value=""/>
+<!-- EXAMPLE:
+		<Cases>
+			<Case>
+				<Validator value="V_UNIT_IS_MISSILE"/>
+				<Effect value="E_DESTORY_TARGET"/>
+			</Case>
+			<Case>
+				<Validator value="V_UNIT_MOVING"/>
+				<Effect value="E_DAMAGE"/>
+			</Case>
+		</Cases>
+-->
+		<ElseEffect value=""/>
 		<Validator value="-1"/>
 	</EffectSwitch>
 	<Model id="BASE_MODEL">
@@ -152,20 +161,14 @@
 			<Missile value="false"/>
 		</Attributes>
 		<Actor value="BASE_ACTOR"/>
+<!-- EXAMPLE:
 		<Behaviors>
-			<B0 value=""/>
-			<B1 value=""/>
-			<B2 value=""/>
-			<B3 value=""/>
-			<B4 value=""/>
+			<Behavior value="B_IMMOLATE"/>
 		</Behaviors>
 		<Abilities>
-			<A0 value=""/>
-			<A1 value=""/>
-			<A2 value=""/>
-			<A3 value=""/>
-			<A4 value=""/>
+			<Ability value="A_CHARGE"/>
 		</Abilities>
+-->
 	</Unit>
 	<ValidatorBehaviorCount id="BASE_VALIDATOR_BEHAVIOR_COUNT">
 		<Behavior value=""/>
@@ -175,8 +178,12 @@
 	</ValidatorBehaviorCount>
 	<ValidatorCombine id="BASE_VALIDATOR_COMBINE">
 		<Type value="AND"/>
-		<ValidatorA value=""/>
-		<ValidatorB value=""/>
+<!-- EXAMPLE:
+		<Validators>
+			<Validator value="V_UNIT_ALIVE"/>
+			<Validator value="V_UNIT_HP_GT_50P"/>
+		</Validators>
+-->
 		<Negated value="false"/>
 	</ValidatorCombine>
 	<ValidatorCompareVital id="BASE_VALIDATOR_COMPARE_VITAL">
@@ -195,8 +202,18 @@
 		<Negated value="false"/>
 	</ValidatorCompareVital>
 	<ValidatorCondition id="BASE_VALIDATOR_CONDITION">
-		<IfValidator value=""/>
-		<ThenValidator value=""/>
+<!-- EXAMPLE:
+		<Cases>
+			<Case>
+				<IfValidator value="V_UNIT_IS_INVULNERABLE"/>
+				<ThenValidator value="V_HP_LT_10P"/>
+			</Case>
+			<Case>
+				<IfValidator value="V_UNIT_IS_MISSILE"/>
+				<ThenValidator value="V_UNIT_MOVESPEED_GT_200"/>
+			</Case>
+		</Cases>
+-->
 		<ElseValidator value=""/>
 		<Negated value="false"/>
 	</ValidatorCondition>
