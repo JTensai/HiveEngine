@@ -5,7 +5,7 @@ using namespace std;
 namespace Hive {
 
 	Game::Game() {
-		_camPos = glm::vec3(0, .5, -3);
+		_camPos = glm::vec3(0, 3, -3);
 	}
 
 	void Game::initialize(char* XMLFilename) {
@@ -124,9 +124,9 @@ namespace Hive {
 			//glm::vec3(3 * glm::cos(_fCamRotation), .5, 3 * glm::sin(_fCamRotation)), //Camera position
 			//InputManager::getInstance()->getCameraPosition(),
 			//InputManager::getInstance()->getCameraLookAtPosition(), //Camera target (position where the camera is looking at)
-			_camPos,
-			glm::vec3(0, .25, 0),
-			glm::vec3(0, 1, 0)
+			_camPos,//eye
+			glm::vec3(_camPos.x, _camPos.y-.5, _camPos.z+.5),//center
+			glm::vec3(0, 1, 0)//up
 			);
 
 		_mWVP = _mProjectionMatrix * _mViewMatrix * _mWorldMatrix;
