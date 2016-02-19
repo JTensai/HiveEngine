@@ -4,7 +4,7 @@ using namespace std;
 using namespace Hive;
 
 Game::Game() {
-	camera_position = glm::vec3(0, .5, -3);
+	camera_position = glm::vec3(0, 3, -3);
 }
 
 void Game::initialize(char* XMLFilename) {
@@ -26,6 +26,7 @@ void Game::initialize(char* XMLFilename) {
 
 	timestep_delta = 0;
 
+	ServiceLocator::getInstance()->registerUIManager(new UIManager());
 	ServiceLocator::getInstance()->registerComponentManager(new ComponentManager());
 	ServiceLocator::getInstance()->registerDataManager(new DataManager());
 }
@@ -104,16 +105,13 @@ int Game::update(float delta) {
 	}
 
 	view_matrix = glm::lookAt(
-		//glm::vec3(3 * glm::cos(camera_rotation), .5, 3 * glm::sin(camera_rotation)), //Camera position
-		//InputManager::getInstance()->getCameraPosition(),
-		//InputManager::getInstance()->getCameraLookAtPosition(), //Camera target (position where the camera is looking at)
-		camera_position,
-		glm::vec3(0, .25, 0),
-		glm::vec3(0, 1, 0)
+		camera_position, //eye
+		glm::vec3(camera_position.x, camera_position.y - .5f, camera_position.z + .5f), //look at
+		glm::vec3(0, 1, 0) //up
 		);
 
 	world_view_projection = projection_matrix * view_matrix * world_matrix;
-	
+
 	ServiceLocator::getInstance()->getComponentManager()->update_free(delta, update_cache_swap_flag);
 
 	timestep_delta += delta;
@@ -124,6 +122,8 @@ int Game::update(float delta) {
 		timestep_delta -= TIMESTEP;
 		update_cache_swap_flag = !update_cache_swap_flag;
 	}
+
+	ServiceLocator::getInstance()->getUIManager()->update(delta);
 
 	return HE_GAMESTATE_NORMAL;
 }
@@ -137,6 +137,7 @@ void Game::draw() {
 	glUniformMatrix4fv(shader_view_matrix_id, 1, GL_FALSE, &view_matrix[0][0]);
 
 	ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
+	ServiceLocator::getInstance()->getUIManager()->draw();
 
 	temp_model->draw();
 }

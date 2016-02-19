@@ -19,6 +19,7 @@
 #include "InputManager.h"
 #include "DataManager.h"
 #include "ComponentManager.h"
+#include "UIManager.h"
 
 using namespace std;
 

@@ -166,6 +166,7 @@
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="IInputManager.h" />
     <ClInclude Include="IGameWorld.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="IUIManager.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ObjectPool.h" />
@@ -205,6 +207,7 @@
     <ClInclude Include="tempmodel.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Unit.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="XMLInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
