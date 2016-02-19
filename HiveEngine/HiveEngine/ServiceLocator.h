@@ -3,6 +3,7 @@
 #include "IInputManager.h"
 #include "IDataManager.h"
 #include "IComponentManager.h"
+#include "IUIManager.h"
 
 namespace Hive
 {
@@ -10,6 +11,7 @@ namespace Hive
 	class IInputManager;
 	class IDataManager;
 	class IComponentManager;
+	class IUIManager;
 
 	class ServiceLocator {
 	private:
@@ -17,6 +19,7 @@ namespace Hive
 		IInputManager* _inputManager;
 		IDataManager* _dataManager;
 		IComponentManager* _componentManager;
+		IUIManager* _uiManager;
 
 		ServiceLocator();
 
@@ -31,6 +34,9 @@ namespace Hive
 
 		void registerComponentManager(IComponentManager* componentManager);
 		IComponentManager* getComponentManager();
+
+		void registerUIManager(IUIManager* uiManager);
+		IUIManager* getUIManager();
 	};
 
 }

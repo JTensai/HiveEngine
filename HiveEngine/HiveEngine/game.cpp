@@ -25,6 +25,7 @@ namespace Hive {
 			100.0f       // Far clipping plane. Keep as little as possible.
 			);
 
+		ServiceLocator::getInstance()->registerUIManager(new UIManager());
 		ServiceLocator::getInstance()->registerComponentManager(new ComponentManager());
 		ServiceLocator::getInstance()->registerDataManager(new DataManager());
 	}
@@ -78,7 +79,7 @@ namespace Hive {
 		try
 		{
 			ServiceLocator::getInstance()->getDataManager()->loadCoreData();
-			ServiceLocator::getInstance()->getDataManager()->loadXMLData(_cpXMLFilename);
+			//ServiceLocator::getInstance()->getDataManager()->loadXMLData(_cpXMLFilename);
 		}
 		catch (IDataManager::DataErrorException e)
 		{
@@ -132,6 +133,7 @@ namespace Hive {
 		_mWVP = _mProjectionMatrix * _mViewMatrix * _mWorldMatrix;
 
 		ServiceLocator::getInstance()->getComponentManager()->update(delta);
+		ServiceLocator::getInstance()->getUIManager()->update(delta);
 
 		return HE_GAMESTATE_NORMAL;
 	}
@@ -145,6 +147,7 @@ namespace Hive {
 		glUniformMatrix4fv(_iViewMatrixID, 1, GL_FALSE, &_mViewMatrix[0][0]);
 
 		ServiceLocator::getInstance()->getComponentManager()->draw(_mWVP);
+		ServiceLocator::getInstance()->getUIManager()->draw();
 
 		_mpModel->draw();
 	}

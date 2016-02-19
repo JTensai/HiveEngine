@@ -36,4 +36,10 @@ namespace Hive
 		return _componentManager;
 	}
 
+	void ServiceLocator::registerUIManager(IUIManager* uiManager) {
+		_uiManager = uiManager;
+	}
+	IUIManager* ServiceLocator::getUIManager() {
+		return _uiManager;
+	}
 }

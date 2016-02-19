@@ -166,6 +166,7 @@
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="IDataManager.h" />
     <ClInclude Include="IInputManager.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="IUIManager.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MovementComponent.h" />
@@ -204,6 +206,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="tempmodel.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="VitalsComponent.h" />
     <ClInclude Include="XMLInterface.h" />
   </ItemGroup>
