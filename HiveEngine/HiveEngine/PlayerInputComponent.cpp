@@ -1,18 +1,15 @@
 #include "PlayerInputComponent.h"
 
-namespace Hive
+using namespace Hive;
+
+PlayerInputComponent::PlayerInputComponent()
 {
+}
 
-	PlayerInputComponent::PlayerInputComponent()
-	{
-	}
+void PlayerInputComponent::update(float delta, bool is_a)
+{
+}
 
-	void PlayerInputComponent::update(float delta)
-	{
-	}
-
-	PlayerInputComponent::~PlayerInputComponent()
-	{
-	}
-
+PlayerInputComponent::~PlayerInputComponent()
+{
 }

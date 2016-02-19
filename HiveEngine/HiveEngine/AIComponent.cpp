@@ -1,18 +1,16 @@
 #include "AIComponent.h"
 
-namespace Hive
+using namespace Hive;
+
+AIComponent::AIComponent()
 {
+}
 
-	AIComponent::AIComponent()
-	{
-	}
+void AIComponent::update_component(float delta, bool is_a)
+{
+	//TODO: update component
+}
 
-	void AIComponent::update(float delta)
-	{
-	}
-
-	AIComponent::~AIComponent()
-	{
-	}
-
+AIComponent::~AIComponent()
+{
 }

@@ -126,46 +126,46 @@ namespace Hive
 	{
 		DAbility ability;
 		std::string id = xmliter.getID();
-		_dAbilities.addItem(id, &ability);
+		_dAbilities.addItem(id, ability);
 	}
 	void DataManager::xmlFirstPassActors(XMLInterface::XMLIterator xmliter)
 	{
 		DActor actor;
 		std::string id = xmliter.getID();
-		_dActors.addItem(id, &actor);
+		_dActors.addItem(id, actor);
 	}
 	void DataManager::xmlFirstPassBehaviors(XMLInterface::XMLIterator xmliter)
 	{
 		DBehavior behavior;
 		std::string id = xmliter.getID();
-		_dBehaviors.addItem(id, &behavior);
+		_dBehaviors.addItem(id, behavior);
 	}
 
 	void DataManager::xmlFirstPassEffect(XMLInterface::XMLIterator xmliter)
 	{
 		DEffect effect;
 		std::string id = xmliter.getID();
-		_dEffects.addItem(id, &effect);
+		_dEffects.addItem(id, effect);
 	}
 
 	void DataManager::xmlFirstPassModels(XMLInterface::XMLIterator xmliter)
 	{
 		Model model;
 		std::string id = xmliter.getID();
-		_models.addItem(id, &model);
+		_models.addItem(id, model);
 	}
 	void DataManager::xmlFirstPassUnits(XMLInterface::XMLIterator xmliter)
 	{
 		DUnit unit;
 		std::string id = xmliter.getID();
-		_dUnits.addItem(id, &unit);
+		_dUnits.addItem(id, unit);
 	}
 
 	void DataManager::xmlFirstPassValidator(XMLInterface::XMLIterator xmliter)
 	{
 		DValidator validator;
 		std::string id = xmliter.getID();
-		_dValidators.addItem(id, &validator);
+		_dValidators.addItem(id, validator);
 	}
 
 	void DataManager::xmlSecondPass(XMLInterface& xmlif)

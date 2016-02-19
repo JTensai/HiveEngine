@@ -1,18 +1,16 @@
 #include "BehaviorComponent.h"
 
-namespace Hive
+using namespace Hive;
+
+BehaviorComponent::BehaviorComponent()
 {
+}
 
-	BehaviorComponent::BehaviorComponent()
-	{
-	}
+void BehaviorComponent::update_component(float delta, bool is_a)
+{
+	//TODO: update component
+}
 
-	void BehaviorComponent::update(float elapsed)
-	{
-	}
-
-	BehaviorComponent::~BehaviorComponent()
-	{
-	}
-
+BehaviorComponent::~BehaviorComponent()
+{
 }

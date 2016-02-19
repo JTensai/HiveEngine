@@ -5,40 +5,44 @@
 
 #include <tinyxml2\tinyxml2.h>
 
-class XMLInterface
+namespace Hive
 {
-private:
-	tinyxml2::XMLDocument doc;
-public:
-	XMLInterface();
-	XMLInterface(const char* filename);
 
-	class XMLIterator
+	class XMLInterface
 	{
 	private:
-		bool valid;
-		std::string elemName;
-		tinyxml2::XMLElement* elem;
-
-		XMLIterator(tinyxml2::XMLElement* Element, std::string Name) : elem(Element), elemName(Name), valid(Element) {};
-
-		std::string getAttribute(std::string attr);
+		tinyxml2::XMLDocument doc;
 	public:
-		XMLIterator();
-		XMLIterator(tinyxml2::XMLElement* Element) : elem(Element), valid(Element) {};
+		XMLInterface();
+		XMLInterface(const char* filename);
 
-		bool isValid();
-		XMLIterator next();
-		XMLIterator getChildrenOfName(std::string name);
-		int getNumChildrenOfName(std::string name);
-		std::string getValue();
-		std::string getID();
-		std::string getParentID();
+		class XMLIterator
+		{
+		private:
+			bool valid;
+			std::string elemName;
+			tinyxml2::XMLElement* elem;
 
-		void forEachChildOfName(std::string name, std::function<void(XMLIterator)> func);
+			XMLIterator(tinyxml2::XMLElement* Element, std::string Name) : elem(Element), elemName(Name), valid(Element) {};
+
+			std::string getAttribute(std::string attr);
+		public:
+			XMLIterator();
+			XMLIterator(tinyxml2::XMLElement* Element) : elem(Element), valid(Element) {};
+
+			bool isValid();
+			XMLIterator next();
+			XMLIterator getChildrenOfName(std::string name);
+			int getNumChildrenOfName(std::string name);
+			std::string getValue();
+			std::string getID();
+			std::string getParentID();
+
+			void forEachChildOfName(std::string name, std::function<void(XMLIterator)> func);
+		};
+
+		XMLIterator begin();
+		~XMLInterface();
 	};
 
-	XMLIterator begin();
-	~XMLInterface();
-};
-
+}

@@ -201,16 +201,18 @@ namespace Hive
 	struct DBehavior {
 		std::string name;
 		std::string tooltip;
-		int iconTextureHandle;
-		bool isVisible;
+		int icon_texture_handle;
+		bool is_visible;
 		Vitals
-			vitalDelta,
-			vitalRegenDelta;
+			vital_delta,
+			vital_regen_delta;
 
 		float
 			duration,
-			speedMultiplier;
-
+			period,
+			speed_multiplier;
+		int stack_decay;
+		int max_periods;
 		EffectList effects;
 	};
 #pragma endregion

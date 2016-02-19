@@ -10,9 +10,9 @@ namespace Hive
 	class DataCollection
 	{
 	private:
-		std::unordered_map<std::string, std::size_t> _indexMap;
-		std::vector<T> _data;
-		std::size_t _head;
+		std::unordered_map<std::string, std::size_t> index_map;
+		std::vector<T> data;
+		std::size_t head;
 
 	public:
 		DataCollection();
@@ -25,52 +25,52 @@ namespace Hive
 		T* operator[](std::size_t index);
 
 		//Copies from data, keeping data afterwards is unnecessary.
-		void addItem(std::string key, const T* data);
+		void addItem(std::string key, const T& new_data);
 
 		~DataCollection();
 	};
 
 	template <class T>
 	DataCollection<T>::DataCollection() {
-		_head = 0;
+		head = 0;
 	}
 
 	template <class T>
 	DataCollection<T>::DataCollection(std::size_t size) {
-		_indexMap = std::unordered_map(size);
-		_head = 0;
-		_data(size);
+		index_map = std::unordered_map(size);
+		head = 0;
+		data(size);
 	}
 
 	template <class T>
 	bool DataCollection<T>::hasKey(std::string key)
 	{
-		return _indexMap.count(key);
+		return index_map.count(key);
 	}
 
 	template <class T>
 	std::size_t DataCollection<T>::getIndex(std::string key) {
-		return _indexMap[key];
+		return index_map[key];
 	}
 	template <class T>
 	std::size_t DataCollection<T>::operator[](std::string key) {
-		return _indexMap[key];
+		return index_map[key];
 	}
 
 	template <class T>
 	T* DataCollection<T>::getItem(std::size_t index) {
-		return &_data[index];
+		return &data[index];
 	}
 
 	template <class T>
 	T* DataCollection<T>::operator[](std::size_t index) {
-		return &_data[index];
+		return &data[index];
 	}
 
 	template <class T>
-	void DataCollection<T>::addItem(std::string key, const T* data) {
-		_data.push_back(*data);
-		_indexMap.emplace(key, _head++);
+	void DataCollection<T>::addItem(std::string key, const T& new_data) {
+		data.push_back(new_data);
+		index_map.emplace(key, head++);
 	}
 
 	template <class T>

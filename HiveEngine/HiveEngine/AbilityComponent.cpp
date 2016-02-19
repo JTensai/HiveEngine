@@ -1,18 +1,16 @@
 #include "AbilityComponent.h"
 
-namespace Hive
+using namespace Hive;
+
+AbilityComponent::AbilityComponent()
 {
+}
 
-	AbilityComponent::AbilityComponent()
-	{
-	}
+void AbilityComponent::update_component(float delta, bool is_a)
+{
+	//TODO: update component
+}
 
-	void AbilityComponent::update(float delta)
-	{
-	}
-
-	AbilityComponent::~AbilityComponent()
-	{
-	}
-
+AbilityComponent::~AbilityComponent()
+{
 }

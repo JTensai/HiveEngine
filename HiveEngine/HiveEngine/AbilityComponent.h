@@ -9,14 +9,30 @@
  ***************************
  */
 
+#include "Data.h"
+#include "Component.h"
+#include "ObjectPool.h"
+
 namespace Hive
 {
-
-	class AbilityComponent
+	struct Ability
 	{
+		DAbility* data;
+		float cooldown;
+		int charges;
+		int charge_max; //Provided to avoid dereferencing data pointer in most update loops.
+		int charge_regen; //^
+		float charge_cooldown;
+		float max_charge_cooldown; //^^^
+	};
+
+	class AbilityComponent : public Component<AbilityComponent>
+	{
+	private:
+		ObjectPool<Ability> abilities;
 	public:
 		AbilityComponent();
-		void update(float delta);
+		void update_component(float delta, bool is_a);
 		~AbilityComponent();
 	};
 

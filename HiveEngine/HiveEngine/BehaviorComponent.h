@@ -7,14 +7,30 @@
  ***************************
  */
 
+#include "Component.h"
+#include "Data.h"
+#include "ObjectPool.h"
+
 namespace Hive
 {
-
-	class BehaviorComponent
+	struct Behavior
 	{
+		DBehavior* data;
+		bool has_duration; //Provided to avoid dereferencing data pointer in most update loops.
+		float duration;
+		float period; //^^^
+		int period_count;
+		int max_periods; //^^^^^
+		int stack_count;
+	};
+
+	class BehaviorComponent : public Component<BehaviorComponent>
+	{
+	private:
+		ObjectPool<Behavior> behaviors;
 	public:
 		BehaviorComponent();
-		void update(float delta);
+		void update_component(float delta, bool is_a);
 		~BehaviorComponent();
 	};
 

@@ -16,7 +16,7 @@ namespace Hive
 	{
 	public:
 		PlayerInputComponent();
-		void update(float delta);
+		void update(float delta, bool is_a);
 		~PlayerInputComponent();
 	};
 

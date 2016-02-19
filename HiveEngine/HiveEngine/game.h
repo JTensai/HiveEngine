@@ -17,34 +17,36 @@
 #include "tempmodel.h"
 #include "ServiceLocator.h"
 #include "InputManager.h"
-#include "ComponentManager.h"
 #include "DataManager.h"
+#include "ComponentManager.h"
 
 using namespace std;
 
 namespace Hive
 {
+	const float TIMESTEP = 1.0f / 60.0f;
 
 	GLuint LoadShader(const char* vertex_file_path, const char* fragment_file_path);
 
 	class Game {
 	private:
-		glm::vec3 _camPos;
-		glm::mat4 _mProjectionMatrix;
-		glm::mat4 _mViewMatrix;
-		glm::mat4 _mWorldMatrix;
-		glm::mat4 _mWVP;
-		TempModel* _mpModel = 0;
-		char* _cpXMLFilename;
-		GLuint _iProgramID;
-		GLuint _iMatrixID;
-		GLuint _iViewMatrixID;
-		GLuint _iWorldMatrixID;
-		GLuint _iVertexArrayID;
-		GLFWwindow* _wpWindow;
-		InputManager* _inputManager;
-		float _fCamRotation = 0;
-
+		glm::vec3 camera_position;
+		glm::mat4 projection_matrix;
+		glm::mat4 view_matrix;
+		glm::mat4 world_matrix;
+		glm::mat4 world_view_projection;
+		TempModel* temp_model = 0;
+		char* xml_filename;
+		GLuint shader_program_id;
+		GLuint shader_matrix_id;
+		GLuint shader_view_matrix_id;
+		GLuint shader_world_matrix_id;
+		GLuint vertex_array_id;
+		GLFWwindow* glfw_window;
+		InputManager* input_manager;
+		float camera_rotation = 0;
+		float timestep_delta;
+		bool update_cache_swap_flag;
 
 	public:
 		Game();

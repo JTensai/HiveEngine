@@ -8,14 +8,16 @@
  ***************************
  */
 
+#include "Component.h"
+
 namespace Hive
 {
 
-	class AIComponent
+	class AIComponent : public Component<AIComponent>
 	{
 	public:
 		AIComponent();
-		void update(float delta);
+		void update_component(float delta, bool is_a);
 		~AIComponent();
 	};
 

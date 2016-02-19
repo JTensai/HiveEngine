@@ -1,6 +1,6 @@
 #include "XMLInterface.h"
 
-
+using namespace Hive;
 
 XMLInterface::XMLInterface()
 {
