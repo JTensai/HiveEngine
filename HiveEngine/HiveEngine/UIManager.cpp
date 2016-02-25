@@ -45,7 +45,8 @@ namespace Hive
 
 
 		// temp test stuff
-		elements.push_back(UIElement(glm::vec2(10, 20), 100.0f, 100.0f, 0));
+		elements.push_back(UIElement(glm::vec2(0.5, 0.5), 0.5f, 0.5f, 0));
+		//elements.push_back(UIElement(glm::vec2(50, 50), 30.0f, 10.0f, 0));
 	}
 
 	void UIManager::update(float delta) {
@@ -56,6 +57,7 @@ namespace Hive
 	{
 		// tells the graphics card which shader it should currently be using
 		glUseProgram(ui_shader_program_id);
+
 
 		// in the currently assigned shader on the graphics card, set its "0" variable
 		glEnableVertexAttribArray(0);
@@ -71,7 +73,7 @@ namespace Hive
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
 
-		glm::mat4 element_matrix = glm::mat4();
+		glm::mat4 element_matrix;
 		for(UIElement element : elements)
 		{
 			// set up the scale and translate matrix for the element to be drawn
@@ -83,7 +85,6 @@ namespace Hive
 
 			// draw the element
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
-			std::cout << "Just drew UI Element: (" << element.top_left.x << ", " << element.top_left.y << ") W: " << element.width << " H: " << element.height << std::endl;
 			//element.draw();
 		}
 
