@@ -45,7 +45,17 @@ namespace Hive
 
 
 		// temp test stuff
-		elements.push_back(UIElement(glm::vec2(0.5, 0.5), 0.5f, 0.5f, 0));
+		UIElement action_bar = UIElement(glm::vec2(.25, 0), 0.5f, 0.1f);
+		elements.push_back(action_bar);
+
+		UIElement rotate_test = UIElement(glm::vec2(.4, .4), .2, .2);
+		rotate_test.rotation = 90;
+		elements.push_back(rotate_test);
+
+
+		UIElement center_test = UIElement(glm::vec2(.45,.45), .1, .1);
+		elements.push_back(center_test);
+
 		//elements.push_back(UIElement(glm::vec2(50, 50), 30.0f, 10.0f, 0));
 	}
 
@@ -72,16 +82,30 @@ namespace Hive
 		);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
-
-		glm::mat4 element_matrix;
 		for(UIElement element : elements)
 		{
-			// set up the scale and translate matrix for the element to be drawn
-			glm::scale(element_matrix, glm::vec3(element.width, element.height, 0));
-			glm::translate(element_matrix, glm::vec3(element.top_left.x, -element.top_left.y, 0));
+
+			//glm::vec3 center = glm::vec3(0, 0, 1);
+			//glm::vec3 center = glm::vec3(element.width / 2, element.height / 2, 1);
+			//glm::vec3 center = glm::vec3(element.bottom_left.x, element.bottom_left.y, 1);
+			glm::vec3 center = glm::vec3(element.bottom_left.x + (element.width / 2), element.bottom_left.y + (element.height) / 2, 1);
+
+			glm::mat4 projection = glm::ortho(0.0f, 1.0f, 0.0f, 1.0f);
+			//glm::mat4 projection = glm::ortho(0.0f, 1.0f, 1.0f, 0.0f);
+			glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(element.bottom_left.x, element.bottom_left.y, 0.0f));
+			glm::mat4 rotate = glm::rotate(glm::mat4(), element.rotation, center);
+			glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(element.width, element.height, 1.0f));
+			glm::mat4 combined = projection * translate * scale * rotate;
+
+
+			/*glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(element.width, element.height, 1));
+			glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(element.bottom_left.x, element.bottom_left.y, 0));
+			glm::mat4 rotate = glm::rotate(glm::mat4(), 90.0f, glm::vec3(0,0,1));
+			glm::mat4 combined = glm::ortho(0.0f, 1.0f, 0.0f, 1.0f) * translate * scale * rotate;*/
+
 
 			// tell the graphics card about the current matrix being used
-			glUniformMatrix4fv(ui_shader_matrix_id, 1, GL_FALSE, &element_matrix[0][0]);
+			glUniformMatrix4fv(ui_shader_matrix_id, 1, GL_FALSE, &combined[0][0]);
 
 			// draw the element
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);

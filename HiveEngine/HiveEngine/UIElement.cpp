@@ -6,12 +6,13 @@ UIElement::UIElement()
 {
 }
 
-UIElement::UIElement(glm::vec2 top_left, float width, float height, int z_index)
+UIElement::UIElement(glm::vec2 bottom_left, float width, float height)
 {
-	this->top_left = top_left;
+	this->bottom_left = bottom_left;
 	this->width = width;
 	this->height = height;
-	this->z_index = z_index;
+	this->z_index = 0;
+	this->rotation = 0;
 }
 
 void UIElement::update(float delta) 
