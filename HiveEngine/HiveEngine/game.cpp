@@ -8,7 +8,12 @@ Game::Game() {
 }
 
 void Game::initialize(char* XMLFilename) {
+	cout << "Core XML File: \"" << XMLFilename << "\"" << endl;
 	xml_filename = XMLFilename;
+	if (xml_filename == NULL || xml_filename == "") {
+		cout << "Didn't pass in reference to core.xml. Using default." << endl;
+		xml_filename = "resources\core.xml";
+	}
 
 	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
@@ -53,15 +58,6 @@ void Game::load(GLFWwindow* window) {
 
 	shader_program_id = LoadShader("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
 
-	/*glUseProgram(shader_program_id);
-	shader_matrix_id = glGetUniformLocation(shader_program_id, "MVP");
-	shader_view_matrix_id = glGetUniformLocation(shader_program_id, "V");
-	shader_world_matrix_id = glGetUniformLocation(shader_program_id, "M");
-
-	glm::vec3 lightPos = glm::vec3(4, 4, 4);
-	GLuint LightID = glGetUniformLocation(shader_program_id, "LightPosition_worldspace");
-	glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);*/
-
 	temp_model = new TempModel("resources/teapot.obj");
 
 	glGenVertexArrays(1, &vertex_array_id);
@@ -69,12 +65,20 @@ void Game::load(GLFWwindow* window) {
 
 	try
 	{
-		ServiceLocator::getInstance()->getDataManager()->loadCoreData();
-		//ServiceLocator::getInstance()->getDataManager()->loadXMLData(xml_filename);
+		ServiceLocator::getInstance()->getDataManager()->loadXMLData(xml_filename);
 	}
 	catch (IDataManager::DataErrorException e)
 	{
 		printf("Error loading data: %s\n", e.err.c_str());
+	}
+
+	try
+	{
+		ServiceLocator::getInstance()->getUIManager()->load(LoadShader("resources/2DVertexShader.vertexshader", "resources/2DFragmentShader.fragmentshader"));
+	}
+	catch (std::exception e)
+	{
+		fprintf(stderr, "Error loading UIManager: %s\n", e.what());
 	}
 
 	try
@@ -145,9 +149,7 @@ Gamestate Game::update(float delta) {
 void Game::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
 	ServiceLocator::getInstance()->getGameWorld()->draw(world_view_projection);
-	
 	/*
 	glUseProgram(shader_program_id);
 	shader_matrix_id = glGetUniformLocation(shader_program_id, "MVP");
@@ -159,12 +161,11 @@ void Game::draw() {
 	glUniformMatrix4fv(shader_matrix_id, 1, GL_FALSE, &world_view_projection[0][0]);
 	glUniformMatrix4fv(shader_world_matrix_id, 1, GL_FALSE, &world_matrix[0][0]);
 	glUniformMatrix4fv(shader_view_matrix_id, 1, GL_FALSE, &view_matrix[0][0]);
-
-	//ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
-
-	//ServiceLocator::getInstance()->getUIManager()->draw();
-
 	temp_model->draw();*/
+
+	ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
+
+	ServiceLocator::getInstance()->getUIManager()->draw();
 }
 
 
