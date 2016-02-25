@@ -1,5 +1,5 @@
 #include "UIManager.h"
-
+#include <iostream>
 
 namespace Hive
 {
@@ -45,7 +45,7 @@ namespace Hive
 
 
 		// temp test stuff
-		elements.push_back(UIElement(glm::vec2(50, 50), 30.0f, 10.0f, 0));
+		elements.push_back(UIElement(glm::vec2(10, 20), 100.0f, 100.0f, 0));
 	}
 
 	void UIManager::update(float delta) {
@@ -71,11 +71,11 @@ namespace Hive
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
 
-		glm::mat4 element_matrix;
+		glm::mat4 element_matrix = glm::mat4();
 		for(UIElement element : elements)
 		{
 			// set up the scale and translate matrix for the element to be drawn
-			glm::scale(element_matrix, glm::vec3(element.width, element.height, 1));
+			glm::scale(element_matrix, glm::vec3(element.width, element.height, 0));
 			glm::translate(element_matrix, glm::vec3(element.top_left.x, -element.top_left.y, 0));
 
 			// tell the graphics card about the current matrix being used
@@ -83,7 +83,7 @@ namespace Hive
 
 			// draw the element
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
-
+			std::cout << "Just drew UI Element: (" << element.top_left.x << ", " << element.top_left.y << ") W: " << element.width << " H: " << element.height << std::endl;
 			//element.draw();
 		}
 

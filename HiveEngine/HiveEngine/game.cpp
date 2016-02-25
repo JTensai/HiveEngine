@@ -8,7 +8,12 @@ Game::Game() {
 }
 
 void Game::initialize(char* XMLFilename) {
+	cout << "Core XML File: \"" << XMLFilename << "\"" << endl;
 	xml_filename = XMLFilename;
+	if (xml_filename == NULL || xml_filename == "") {
+		cout << "Didn't pass in reference to core.xml. Using default." << endl;
+		xml_filename = "resources\core.xml";
+	}
 
 	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
@@ -133,15 +138,14 @@ int Game::update(float delta) {
 void Game::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	glUseProgram(shader_program_id);
 	glUniformMatrix4fv(shader_matrix_id, 1, GL_FALSE, &world_view_projection[0][0]);
 	glUniformMatrix4fv(shader_world_matrix_id, 1, GL_FALSE, &world_matrix[0][0]);
 	glUniformMatrix4fv(shader_view_matrix_id, 1, GL_FALSE, &view_matrix[0][0]);
 
-	glUseProgram(shader_program_id);
+	temp_model->draw();
 	ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
 	ServiceLocator::getInstance()->getUIManager()->draw();
-
-	temp_model->draw();
 }
 
 
