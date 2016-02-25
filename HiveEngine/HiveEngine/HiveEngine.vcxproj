@@ -165,6 +165,7 @@
     <ClCompile Include="ComponentManager.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="DataCollection.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="GameWorld.h" />
     <ClInclude Include="IAssetManager.h" />
     <ClInclude Include="IComponentManager.h" />
     <ClInclude Include="IDataManager.h" />

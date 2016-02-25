@@ -13,10 +13,17 @@ namespace Hive
 	}
 	int DataManager::loadXMLData(char* filename)
 	{
-		XMLInterface xi(filename);
+		try
+		{
+			XMLInterface xi(filename);
 
-		xmlFirstPass(xi);
-		xmlSecondPass(xi);
+			xmlFirstPass(xi);
+			xmlSecondPass(xi);
+		}
+		catch (IDataManager::DataErrorException e)
+		{
+			throw IDataManager::DataErrorException(std::string(filename) + ": " + e.err);
+		}
 
 		return 0;
 	}
@@ -97,6 +104,8 @@ namespace Hive
 		typedef XMLInterface::XMLIterator XIter;
 
 		XIter root = xmlif.begin();
+
+		if (!root.isValid()) throw IDataManager::DataErrorException("Root invalid.");
 
 		root.forEachChildOfName("Ability", std::bind(&DataManager::xmlFirstPassAbilities, this, _1));
 		root.forEachChildOfName("Actor", std::bind(&DataManager::xmlFirstPassActors, this, _1));

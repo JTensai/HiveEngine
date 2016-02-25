@@ -65,6 +65,8 @@ namespace Hive
 		const_iterator cend();
 
 		T* get(int index);
+		int get_num_in_use();
+		bool is_used(int index);
 		void remove(int index);
 		int create();
 		int count();
@@ -114,6 +116,18 @@ namespace Hive
 	T* ObjectPool<T>::get(int index)
 	{
 		return &pool.at(index);
+	}
+
+	template <class T>
+	int ObjectPool<T>::get_num_in_use()
+	{
+		return in_use;
+	}
+
+	template <class T>
+	bool ObjectPool<T>::is_used(int index)
+	{
+		return used[index];
 	}
 
 	template <class T>

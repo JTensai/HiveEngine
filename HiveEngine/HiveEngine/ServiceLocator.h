@@ -12,6 +12,7 @@ namespace Hive
 	class IDataManager;
 	class IComponentManager;
 	class IUIManager;
+	class IGameWorld;
 
 	class ServiceLocator {
 	private:
@@ -20,6 +21,7 @@ namespace Hive
 		IDataManager* _dataManager;
 		IComponentManager* _componentManager;
 		IUIManager* _uiManager;
+		IGameWorld* game_world;
 
 		ServiceLocator();
 
@@ -37,6 +39,9 @@ namespace Hive
 
 		void registerUIManager(IUIManager* uiManager);
 		IUIManager* getUIManager();
+
+		void registerGameWorld(IGameWorld* gameWorld);
+		IGameWorld* getGameWorld();
 	};
 
 }

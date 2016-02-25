@@ -80,12 +80,20 @@ namespace Hive
 	template <class T>
 	void Component<T>::update(float delta, bool is_a)
 	{
-		typename ObjectPool<T>::iterator iter, end;
-		for (iter = pool.begin(), end = pool.end(); iter != end; ++iter)
+		int i = 0;
+		int num = 0;
+		int cap = pool.capacity();
+		int num_used = pool.get_num_in_use();
+		for (; i < cap && num < num_used; ++i)
 		{
-			T& t = *iter;
-			t.update_component(delta, is_a);
+			if (pool.is_used(i))
+			{
+				++num;
+				T& t = *pool.get(i);
+				t.update_component(delta, is_a);
+			}
 		}
+		// TODO: if i/cap is significantly larger than num_used/cap, the objectpool should be sorted.
 	}
 
 
@@ -100,11 +108,18 @@ namespace Hive
 	template <class T>
 	void DrawableComponent<T>::draw(const glm::mat4& VP)
 	{
-		typename ObjectPool<T>::iterator iter, end;
-		for (iter = pool.begin(), end = pool.end(); iter != end; ++iter)
+		int i = 0;
+		int num = 0;
+		int cap = pool.capacity();
+		int num_used = pool.get_num_in_use();
+		for (; i < cap && num < num_used; ++i)
 		{
-			T& t = *iter;
-			t.draw_component(VP);
+			if (pool.is_used(i))
+			{
+				++num;
+				T& t = *pool.get(i);
+				t.draw_component(VP);
+			}
 		}
 	}
 }

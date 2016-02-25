@@ -45,7 +45,7 @@ namespace Hive
 	template <class T>
 	bool DataCollection<T>::hasKey(std::string key)
 	{
-		return index_map.count(key);
+		return index_map.count(key) > 0;
 	}
 
 	template <class T>

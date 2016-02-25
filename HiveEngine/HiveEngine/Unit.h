@@ -28,7 +28,7 @@ namespace Hive
 		inline glm::vec2 new_position(bool is_a) { return (is_a) ? position_a : position_b; }
 
 		inline Vitals cached_vitals(bool is_a) { return (is_a) ? vitals_b : vitals_a; }
-		inline Vitals new_vitals(bool is_a) { return (is_a) ? vitals_b : vitals_a; }
+		inline Vitals new_vitals(bool is_a) { return (is_a) ? vitals_a : vitals_b; }
 	public:
 		Unit();
 		void update_component(float delta, bool is_a);

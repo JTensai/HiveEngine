@@ -28,7 +28,7 @@ namespace Hive
 
 	class IDataManager {
 	public:
-		static class DataErrorException : public std::exception
+		class DataErrorException : public std::exception
 		{
 		public:
 			DataErrorException(std::string err) : err(err) {};

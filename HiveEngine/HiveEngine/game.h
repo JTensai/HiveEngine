@@ -20,12 +20,18 @@
 #include "DataManager.h"
 #include "ComponentManager.h"
 #include "UIManager.h"
+#include "GameWorld.h"
 
 using namespace std;
 
 namespace Hive
 {
 	const float TIMESTEP = 1.0f / 60.0f;
+	enum class Gamestate
+	{
+		NORMAL,
+		CLOSING
+	};
 
 	GLuint LoadShader(const char* vertex_file_path, const char* fragment_file_path);
 
@@ -64,7 +70,7 @@ namespace Hive
 		//Update
 		//Called during game loop, passed amount of time in seconds since last loop.
 		//Returns game state: HE_GAMESTATE_NORMAL, HE_GAMESTATE_CLOSING
-		int update(float delta);
+		Gamestate update(float delta);
 
 		//Draw
 		//Called during game loop after update.

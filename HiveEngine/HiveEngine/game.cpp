@@ -4,7 +4,7 @@ using namespace std;
 using namespace Hive;
 
 Game::Game() {
-	camera_position = glm::vec3(0, 3, -3);
+	camera_position = glm::vec3(0, 10, -3);
 }
 
 void Game::initialize(char* XMLFilename) {
@@ -15,7 +15,8 @@ void Game::initialize(char* XMLFilename) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
 
-	world_matrix = glm::scale(glm::vec3(1 / 60.f));
+	//world_matrix = glm::scale(glm::vec3(1 / 60.f));
+	world_matrix = glm::scale(glm::vec3(1));
 
 	projection_matrix = glm::perspective(
 		glm::radians(45.0f),         // The horizontal Field of View, in degrees : the amount of "zoom". Think "camera lens". Usually between 90° (extra wide) and 30° (quite zoomed in)
@@ -29,6 +30,7 @@ void Game::initialize(char* XMLFilename) {
 	ServiceLocator::getInstance()->registerUIManager(new UIManager());
 	ServiceLocator::getInstance()->registerComponentManager(new ComponentManager());
 	ServiceLocator::getInstance()->registerDataManager(new DataManager());
+	ServiceLocator::getInstance()->registerGameWorld(new GameWorld());
 }
 
 
@@ -42,7 +44,7 @@ void Game::load(GLFWwindow* window) {
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 	glEnable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);
+	//glCullFace(GL_FRONT);
 
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
@@ -50,14 +52,15 @@ void Game::load(GLFWwindow* window) {
 	glDepthFunc(GL_LESS);
 
 	shader_program_id = LoadShader("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
-	glUseProgram(shader_program_id);
+
+	/*glUseProgram(shader_program_id);
 	shader_matrix_id = glGetUniformLocation(shader_program_id, "MVP");
 	shader_view_matrix_id = glGetUniformLocation(shader_program_id, "V");
 	shader_world_matrix_id = glGetUniformLocation(shader_program_id, "M");
 
 	glm::vec3 lightPos = glm::vec3(4, 4, 4);
 	GLuint LightID = glGetUniformLocation(shader_program_id, "LightPosition_worldspace");
-	glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
+	glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);*/
 
 	temp_model = new TempModel("resources/teapot.obj");
 
@@ -67,21 +70,30 @@ void Game::load(GLFWwindow* window) {
 	try
 	{
 		ServiceLocator::getInstance()->getDataManager()->loadCoreData();
-		ServiceLocator::getInstance()->getDataManager()->loadXMLData(xml_filename);
+		//ServiceLocator::getInstance()->getDataManager()->loadXMLData(xml_filename);
 	}
 	catch (IDataManager::DataErrorException e)
 	{
-		printf("Error loading data: %s\n", e.err);
+		printf("Error loading data: %s\n", e.err.c_str());
+	}
+
+	try
+	{
+		ServiceLocator::getInstance()->getGameWorld()->load(LoadShader("resources/WorldVertexShader.vertexshader", "resources/WorldFragmentShader.fragmentshader"));
+	}
+	catch (std::exception e)
+	{
+		printf("Error loading map: %s\n", e.what());
 	}
 }
 
 
-int Game::update(float delta) {
+Gamestate Game::update(float delta) {
 	//bool tmp = glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS;
 	//tmp = glfwWindowShouldClose(window) == 0;
 	if (glfwGetKey(glfw_window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(glfw_window) != 0) {
 		//Close if the escape key is pressed or the window was closed.
-		return HE_GAMESTATE_CLOSING;
+		return Gamestate::CLOSING;
 	}
 	//camera_rotation += delta;
 	glm::vec3 _movDir = glm::vec3(0);
@@ -118,6 +130,7 @@ int Game::update(float delta) {
 	while (timestep_delta >= TIMESTEP)
 	{
 		ServiceLocator::getInstance()->getComponentManager()->update_fixed(TIMESTEP, update_cache_swap_flag);
+		ServiceLocator::getInstance()->getGameWorld()->update(TIMESTEP);
 
 		timestep_delta -= TIMESTEP;
 		update_cache_swap_flag = !update_cache_swap_flag;
@@ -125,21 +138,33 @@ int Game::update(float delta) {
 
 	ServiceLocator::getInstance()->getUIManager()->update(delta);
 
-	return HE_GAMESTATE_NORMAL;
+	return Gamestate::NORMAL;
 }
 
 
 void Game::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+	ServiceLocator::getInstance()->getGameWorld()->draw(world_view_projection);
+	
+	/*
+	glUseProgram(shader_program_id);
+	shader_matrix_id = glGetUniformLocation(shader_program_id, "MVP");
+	shader_view_matrix_id = glGetUniformLocation(shader_program_id, "V");
+	shader_world_matrix_id = glGetUniformLocation(shader_program_id, "M");
+	glm::vec3 lightPos = glm::vec3(4, 4, 4);
+	GLuint LightID = glGetUniformLocation(shader_program_id, "LightPosition_worldspace");
+	glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 	glUniformMatrix4fv(shader_matrix_id, 1, GL_FALSE, &world_view_projection[0][0]);
 	glUniformMatrix4fv(shader_world_matrix_id, 1, GL_FALSE, &world_matrix[0][0]);
 	glUniformMatrix4fv(shader_view_matrix_id, 1, GL_FALSE, &view_matrix[0][0]);
 
-	ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
-	ServiceLocator::getInstance()->getUIManager()->draw();
+	//ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
 
-	temp_model->draw();
+	//ServiceLocator::getInstance()->getUIManager()->draw();
+
+	temp_model->draw();*/
 }
 
 
@@ -184,9 +209,9 @@ GLuint Hive::LoadShader(const char* vertex_file_path, const char* fragment_file_
 	int InfoLogLength;
 
 	// Compile Vertex Shader
-	printf("Compiling shader : %s\n", vertex_file_path);
+	//printf("Compiling shader : %s\n", vertex_file_path);
 	char const * VertexSourcePointer = VertexShaderCode.c_str();
-	glShaderSource(VertexShaderID, 1, &VertexSourcePointer, NULL);
+	glShaderSource(VertexShaderID, 1, &VertexSourcePointer, nullptr);
 	glCompileShader(VertexShaderID);
 
 	// Check Vertex Shader
@@ -194,14 +219,14 @@ GLuint Hive::LoadShader(const char* vertex_file_path, const char* fragment_file_
 	glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	if (InfoLogLength > 0) {
 		std::vector<char> VertexShaderErrorMessage(InfoLogLength + 1);
-		glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
-		printf("%s\n", &VertexShaderErrorMessage[0]);
+		glGetShaderInfoLog(VertexShaderID, InfoLogLength, nullptr, &VertexShaderErrorMessage[0]);
+		fprintf(stderr, "%s\n", &VertexShaderErrorMessage[0]);
 	}
 
 	// Compile Fragment Shader
-	printf("Compiling shader : %s\n", fragment_file_path);
+	//printf("Compiling shader : %s\n", fragment_file_path);
 	char const * FragmentSourcePointer = FragmentShaderCode.c_str();
-	glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer, NULL);
+	glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer, nullptr);
 	glCompileShader(FragmentShaderID);
 
 	// Check Fragment Shader
@@ -209,12 +234,12 @@ GLuint Hive::LoadShader(const char* vertex_file_path, const char* fragment_file_
 	glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	if (InfoLogLength > 0) {
 		std::vector<char> FragmentShaderErrorMessage(InfoLogLength + 1);
-		glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
-		printf("%s\n", &FragmentShaderErrorMessage[0]);
+		glGetShaderInfoLog(FragmentShaderID, InfoLogLength, nullptr, &FragmentShaderErrorMessage[0]);
+		fprintf(stderr, "%s\n", &FragmentShaderErrorMessage[0]);
 	}
 
 	// Link the program
-	printf("Linking program\n");
+	//printf("Linking program\n");
 	GLuint ProgramID = glCreateProgram();
 	glAttachShader(ProgramID, VertexShaderID);
 	glAttachShader(ProgramID, FragmentShaderID);
@@ -225,7 +250,7 @@ GLuint Hive::LoadShader(const char* vertex_file_path, const char* fragment_file_
 	glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	if (InfoLogLength > 0) {
 		std::vector<char> ProgramErrorMessage(InfoLogLength + 1);
-		glGetProgramInfoLog(ProgramID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
+		glGetProgramInfoLog(ProgramID, InfoLogLength, nullptr, &ProgramErrorMessage[0]);
 		printf("%s\n", &ProgramErrorMessage[0]);
 	}
 
