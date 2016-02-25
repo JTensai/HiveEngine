@@ -4,7 +4,7 @@ using namespace std;
 using namespace Hive;
 
 Game::Game() {
-	camera_position = glm::vec3(0, 10, -3);
+	camera_position = glm::vec3(20, 10, 35);
 }
 
 void Game::initialize(char* XMLFilename) {
@@ -46,7 +46,7 @@ void Game::load(GLFWwindow* window) {
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(glfw_window, GLFW_STICKY_KEYS, GL_FALSE);
 
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(BG.r, BG.g, BG.b, 0.0f);
 
 	glEnable(GL_CULL_FACE);
 	//glCullFace(GL_FRONT);
@@ -102,16 +102,16 @@ Gamestate Game::update(float delta) {
 	//camera_rotation += delta;
 	glm::vec3 _movDir = glm::vec3(0);
 	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_W)) {
-		_movDir.z += 1.0;
-	}
-	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_A)) {
-		_movDir.x += 1.0;
-	}
-	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_S)) {
 		_movDir.z -= 1.0;
 	}
-	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_D)) {
+	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_A)) {
 		_movDir.x -= 1.0;
+	}
+	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_S)) {
+		_movDir.z += 1.0;
+	}
+	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_D)) {
+		_movDir.x += 1.0;
 	}
 
 	if (glm::length(_movDir) != 0) {
@@ -122,7 +122,7 @@ Gamestate Game::update(float delta) {
 
 	view_matrix = glm::lookAt(
 		camera_position, //eye
-		glm::vec3(camera_position.x, camera_position.y - .5f, camera_position.z + .5f), //look at
+		glm::vec3(camera_position.x, camera_position.y - .5f, camera_position.z - .5f), //look at
 		glm::vec3(0, 1, 0) //up
 		);
 
@@ -165,7 +165,7 @@ void Game::draw() {
 
 	ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
 
-	ServiceLocator::getInstance()->getUIManager()->draw();
+	//ServiceLocator::getInstance()->getUIManager()->draw();
 }
 
 

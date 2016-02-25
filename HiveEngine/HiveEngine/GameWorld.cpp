@@ -4,15 +4,32 @@ using namespace Hive;
 
 GameWorld::GameWorld()
 {
-	map_width = 20;
-	map_depth = 20;
+	map_width = 40;
+	map_depth = 40;
 	map = std::vector<char>(map_width * map_depth);
 
 	scale = 1;
 
 	srand(time(0));
 
-	for (int i = 0; i < map_width * map_depth; ++i) map[i] = rand() % 2;
+	for (int i = 0; i < map_width * map_depth; ++i)
+	{
+		if (rand() % 100 < 60)
+		{
+			map[i] = 1;
+		}
+		else
+		{
+			if (rand() % 100 < 75)
+			{
+				map[i] = 0;
+			}
+			else
+			{
+				map[i] = rand() % (map_height - 1) + 1;
+			}
+		}
+	}
 
 	for (int z = map_depth - 1; z >= 0; --z)
 	{
@@ -47,8 +64,12 @@ void GameWorld::load(GLuint shader)
 {
 	GameWorld::shader = shader;
 	generate_mesh();
-	MVP = glGetUniformLocation(shader, "MVP");
-	M = glGetUniformLocation(shader, "M");
+	glUseProgram(shader);
+	glUniform3f(glGetUniformLocation(shader, "bg"), BG.r, BG.g, BG.b);
+	glUniform3f(glGetUniformLocation(shader, "subfloor"), SUB_FLOOR.r, SUB_FLOOR.g, SUB_FLOOR.b);
+	glUniform3f(glGetUniformLocation(shader, "floor"), FLOOR.r, FLOOR.g, FLOOR.b);
+	glUniform3f(glGetUniformLocation(shader, "wallbase"), WALL_BASE.r, WALL_BASE.g, WALL_BASE.b);
+	glUniform3f(glGetUniformLocation(shader, "walltop"), WALL_TOP.r, WALL_TOP.g, WALL_TOP.b);
 
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -58,7 +79,7 @@ void GameWorld::load(GLuint shader)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short), indices.data(), GL_STATIC_DRAW);
 
-	glm::scale(model_matrix, glm::vec3(scale, scale, scale));
+	model_matrix = glm::scale(model_matrix, glm::vec3(scale, scale, scale));
 }
 
 void GameWorld::update(float delta)
@@ -68,13 +89,11 @@ void GameWorld::update(float delta)
 
 void GameWorld::draw(const glm::mat4& VP)
 {
-	glm::mat4 matrix = VP;// *model_matrix;
+	glm::mat4 matrix = VP * model_matrix;
 
 	glUseProgram(shader);
-	MVP = glGetUniformLocation(shader, "MVP");
-	M = glGetUniformLocation(shader, "M");
-	glUniformMatrix4fv(MVP, 1, GL_FALSE, &VP[0][0]);
-	glUniformMatrix4fv(M, 1, GL_FALSE, &model_matrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(shader, "MVP"), 1, GL_FALSE, &matrix[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(shader, "M"), 1, GL_FALSE, &model_matrix[0][0]);
 
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -113,8 +132,8 @@ int GameWorld::get_map_index(int x, int y)
 void GameWorld::generate_mesh()
 {
 	int x, y, z, i;
-	verts.resize((map_width + 1) * (map_depth + 1) * 2 * 3);
-	for (y = 0; y < 2; ++y)
+	verts.resize((map_width + 1) * (map_depth + 1) * map_height * 3);
+	for (y = 0; y < map_height; ++y)
 	{
 		for (z = 0; z <= map_depth; ++z)
 		{
@@ -122,7 +141,7 @@ void GameWorld::generate_mesh()
 			{
 				i = get_vertex_index(x, y, z) * 3;
 				verts[i++] = x;
-				verts[i++] = y;
+				verts[i++] = (y == 0) ? bottom : y;
 				verts[i++] = z;
 			}
 		}

@@ -10,6 +10,7 @@
 #include <glm\gtc\matrix_transform.hpp>
 
 #include "IGameWorld.h"
+#include "game.h"
 
 namespace Hive
 {
@@ -17,6 +18,9 @@ namespace Hive
 	class GameWorld : public IGameWorld
 	{
 	private:
+		const int map_height = 4;
+		const int bottom = -2;
+
 		int map_width;
 		int map_depth;
 		std::vector<char> map;

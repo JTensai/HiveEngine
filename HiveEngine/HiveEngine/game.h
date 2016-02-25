@@ -27,6 +27,12 @@ using namespace std;
 namespace Hive
 {
 	const float TIMESTEP = 1.0f / 60.0f;
+	const glm::vec3 BG = glm::vec3(0.6f, 0.6f, 0.9f);
+	const glm::vec3 SUB_FLOOR = glm::vec3(0.25f, 0.2f, 0.2f);
+	const glm::vec3 FLOOR = glm::vec3(0.2f, 0.15f, 0.15f);
+	const glm::vec3 WALL_BASE = glm::vec3(0.175f, 0.125f, 0.125f);
+	const glm::vec3 WALL_TOP = glm::vec3(0.02f, 0.015f, 0.015f);
+
 	enum class Gamestate
 	{
 		NORMAL,
@@ -82,3 +88,4 @@ namespace Hive
 	};
 
 }
+
