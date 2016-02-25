@@ -272,4 +272,93 @@
 		</PlayerToCompareTo>
 		<Negated value="false"/>
 	</ValidatorPlayer>
+    
+    <ParticleSystem id="BaseParticleSystem">
+        <Emitters>
+            <ParticleEmitter id="BaseEmitter"/>
+        </Emitters>
+    </ParticleSystem>
+
+    <ParticleEmitter id="BaseEmitter">
+        <BaseVariables>
+            <EmitterName value="ParticleEmitter"/>
+            <EmitterLocalOrigin>
+                <X value="0"/>
+                <Y value="0"/>
+                <Z value="0"/>
+            </EmitterLocalOrigin>
+            <Lifetime>
+                <Min value="1.0"/>
+                <Max value="1.0"/>
+            </Lifetime>
+            <InitialSize>
+                <Min value="1.0"/>
+                <Max value="1.0"/>
+            </InitialSize>
+            <InitialVelocity>
+                <X value="0.0">
+                <Y value="0.0">
+                <Z value="0.0">
+            </InitialVelocity>
+        </BaseVariables>
+        <SpawnVariables>
+            <ConstantRate value="10">
+            <Burst value="0">
+            <Looping value="0">
+            <EmitterDealy value="0.0">
+        </SpawnVariables>
+        <SubUVVariables>
+            <SubImagesHorizontal value="1">
+            <SubImagesVertical value="1">
+        </SubUVVariables>
+    <!-- EXAMPLE:
+        <Modules>
+            <ColorOverLife id="TurnRed"/>
+        </Modules>
+    -->
+    </ParticleEmitter>
+    
+    <ModuleSizeOverLife id="BaseModuleColorOverLife">
+        <ScaleMultiplier>
+            <Beginning value="1.0">
+            <End value="1.0">
+        <ScaleMultiplier>
+    </ModuleSizeOverLife>
+    
+    <ModuleColorOverLife id="BaseModuleCOlorOverLife">
+        <ColorMultiplier>
+            <Beginning>
+                <R value="1.0">
+                <G value="1.0">
+                <B value="1.0">
+                <A value="1.0">
+            </Beginning>
+            <End>
+                <R value="1.0">
+                <G value="1.0">
+                <B value="1.0">
+                <A value="1.0">
+            </End>
+        </ColorMultiplier>
+    </ModuleColorOverLife>
+    
+    <ModuleInitialRotation id="BaseModuleInitialRotation">
+        <Min value="0.0">
+        <Max value="0.0>
+    </ModuleInitialRotation>
+    
+    <ModuleInitialRotationRate id="BaseModuleInitialRotationRate">
+        <Min value="0.0">
+        <Max value="0.0">
+    </ModuleBaseInitialRotationRate">
+    
+    <ModuleSubImageIndexOverLife id="BaseModuleSubImageIndexOverLife">
+        <Beginning value="0">
+        <End value="0">
+    </ModuleSubImageIndexOverLife>
+    
+    <ModuleSubImageIndexRandom id="BaseModuleSubImageIndexRandom">
+        <Min value="0">
+        <Max value="0">
+    </ModuleSubImageIndexRandom>
 </Catalog>
