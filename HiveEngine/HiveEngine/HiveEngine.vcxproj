@@ -166,6 +166,7 @@
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="tempmodel.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="UIElement.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="XMLInterface.h" />

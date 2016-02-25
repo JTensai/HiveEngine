@@ -50,7 +50,6 @@ void Game::load(GLFWwindow* window) {
 	glDepthFunc(GL_LESS);
 
 	shader_program_id = LoadShader("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
-	glUseProgram(shader_program_id);
 	shader_matrix_id = glGetUniformLocation(shader_program_id, "MVP");
 	shader_view_matrix_id = glGetUniformLocation(shader_program_id, "V");
 	shader_world_matrix_id = glGetUniformLocation(shader_program_id, "M");
@@ -68,6 +67,8 @@ void Game::load(GLFWwindow* window) {
 	{
 		ServiceLocator::getInstance()->getDataManager()->loadCoreData();
 		ServiceLocator::getInstance()->getDataManager()->loadXMLData(xml_filename);
+
+		ServiceLocator::getInstance()->getUIManager()->load(LoadShader("resources/2DVertexShader.vertexshader", "resources/2DFragmentShader.fragmentshader"));
 	}
 	catch (IDataManager::DataErrorException e)
 	{
@@ -136,6 +137,7 @@ void Game::draw() {
 	glUniformMatrix4fv(shader_world_matrix_id, 1, GL_FALSE, &world_matrix[0][0]);
 	glUniformMatrix4fv(shader_view_matrix_id, 1, GL_FALSE, &view_matrix[0][0]);
 
+	glUseProgram(shader_program_id);
 	ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
 	ServiceLocator::getInstance()->getUIManager()->draw();
 
