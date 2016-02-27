@@ -8,6 +8,7 @@ Graph::Graph()
 template <size_t size_x, size_t size_y>
 Graph::Graph(char (&map)[size_x][size_y]):row(size_x),col(size_y)
 {
+	//connections = new Connections[5][5];
 	for (int i = 0; i < row; ++i)
 	{
 		for (int j = 0; j < col; ++j)

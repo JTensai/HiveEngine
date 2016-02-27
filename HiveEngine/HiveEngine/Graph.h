@@ -21,8 +21,7 @@ private:
 	};
 	int row;
 	int col;
-	template <size_t size_x, size_t size_y>
-	Connection* connections[size_x][size_y][9];
+	Connection* connections;// [size_x][size_y][9];
 	
 public:
 	Graph();
