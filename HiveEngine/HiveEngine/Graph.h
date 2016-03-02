@@ -3,6 +3,10 @@
 #include <math.h>
 #include "Node.h"
 #include "Connection.h"
+#include <map>
+#include <vector>
+
+using namespace std;
 
 class Graph
 {
@@ -21,7 +25,8 @@ private:
 	};
 	int row;
 	int col;
-	Connection* connections;// [size_x][size_y][9];
+	//Connection* connections;// [size_x][size_y][9];
+	map<int, vector<Node*> > connections;
 	
 public:
 	Graph();
@@ -30,6 +35,6 @@ public:
 	~Graph();
 	// Returns an array of connections(of class
 	// Connection) outgoing from the given node
-	Node* getConnections(Node* fromNode);
+	vector<Node*>* getConnections(Node* fromNode);
 };
 
