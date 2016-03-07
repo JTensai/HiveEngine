@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "QuadTreeNode.h"
 
 #include <glm\glm.hpp>
@@ -22,3 +22,4 @@ private:
 	bool is_empty;
 };
 
+*/

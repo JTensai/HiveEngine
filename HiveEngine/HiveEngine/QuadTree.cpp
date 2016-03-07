@@ -1,4 +1,4 @@
-#include "QuadTree.h"
+/*#include "QuadTree.h"
 
 
 QuadTree::QuadTree(float map_width, float map_height) {
@@ -29,3 +29,4 @@ QuadTree::~QuadTree()
 		delete root;
 	}
 }
+*/

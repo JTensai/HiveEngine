@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "QuadTreeLeafNode.h"
 #include <glm/glm.hpp>
 
@@ -35,3 +35,4 @@ private:
 
 };
 
+*/

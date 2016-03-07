@@ -1,4 +1,4 @@
-#include "QuadTreeNode.h"
+/*#include "QuadTreeNode.h"
 
 QuadTreeNode::QuadTreeNode() {
 
@@ -168,3 +168,4 @@ void QuadTreeNode::cleanup_tree() {
 	}
 
 }
+*/

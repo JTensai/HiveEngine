@@ -1,4 +1,4 @@
-#include "QuadTreeLeafNode.h"
+/*#include "QuadTreeLeafNode.h"
 
 
 QuadTreeLeafNode::QuadTreeLeafNode() {
@@ -22,3 +22,4 @@ void QuadTreeLeafNode::insert(glm::vec2 point) {
 QuadTreeLeafNode::~QuadTreeLeafNode()
 {
 }
+*/
