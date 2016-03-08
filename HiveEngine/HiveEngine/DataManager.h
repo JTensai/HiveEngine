@@ -15,20 +15,6 @@ namespace Hive
 	class DataManager : public IDataManager
 	{
 	private:
-		DataCollection<DAbility> _dAbilities;
-		DataCollection<DActor> _dActors;
-		DataCollection<DBehavior> _dBehaviors;
-		DataCollection<DEffect> _dEffects;
-		DataCollection<DUnit> _dUnits;
-		DataCollection<DValidator> _dValidators;
-
-		DataCollection<Shader> _shaders;
-		DataCollection<GLuint> _vertexShaders;
-		DataCollection<GLuint> _fragmentShaders;
-		DataCollection<Texture> _textures;
-		DataCollection<Mesh> _meshes;
-		DataCollection<Model> _models;
-
 #pragma region XML Functions
 		void xmlFirstPass(XMLInterface& xmlif);
 
@@ -38,6 +24,8 @@ namespace Hive
 
 		void xmlFirstPassEffect(XMLInterface::XMLIterator xmliter);
 
+		void xmlFirstPassShaders(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassTextures(XMLInterface::XMLIterator xmliter);
 		void xmlFirstPassModels(XMLInterface::XMLIterator xmliter);
 		void xmlFirstPassUnits(XMLInterface::XMLIterator xmliter);
 
@@ -56,6 +44,8 @@ namespace Hive
 		void xmlSecondPassEffectSpawnUnit(XMLInterface::XMLIterator xmliter);
 		void xmlSecondPassEffectSwitch(XMLInterface::XMLIterator xmliter);
 
+		void xmlSecondPassShaders(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassTextures(XMLInterface::XMLIterator xmliter);
 		void xmlSecondPassModels(XMLInterface::XMLIterator xmliter);
 		void xmlSecondPassUnits(XMLInterface::XMLIterator xmliter);
 
@@ -75,10 +65,6 @@ namespace Hive
 		void xmlParseEffectList(XMLInterface::XMLIterator iter, EffectList* effects);
 		void xmlParseFilter(XMLInterface::XMLIterator iter, Filter* filter);
 		void xmlParseUnitFilter(XMLInterface::XMLIterator iter, UnitFilter* filter);
-
-		void xmlParseTexture(XMLInterface::XMLIterator iter, int* texHandle);
-		void xmlParseModel(XMLInterface::XMLIterator iter, int* modelHandle);
-		void xmlParseShader(XMLInterface::XMLIterator iter, int* shaderHandle);
 #pragma endregion
 
 	public:
@@ -86,26 +72,6 @@ namespace Hive
 
 		int loadCoreData();
 		int loadXMLData(char* filename);
-
-		DAbility* getAbilityData(int handle);
-		DActor* getActorData(int handle);
-		DBehavior* getBehaviorData(int handle);
-		DEffect* getEffectData(int handle);
-		DUnit* getUnitData(int handle);
-		DValidator* getValidatorData(int handle);
-
-		int getShaderHandle(const std::string vertexShader, const std::string fragmentShader);
-		Shader* getShader(int handle);
-		GLuint getVertexShader(int handle);
-		GLuint getFragmentShader(int handle);
-
-		int getModelHandle(const std::string filename);
-		Model* getModel(int handle);
-
-		Mesh* getMesh(int handle);
-
-		int getTextureHandle(const std::string filename);
-		Texture* getTexture(int handle);
 
 		~DataManager();
 	};

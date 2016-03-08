@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "DataCollection.h"
+
 namespace Hive
 {
 
@@ -161,7 +163,9 @@ namespace Hive
 #pragma endregion
 
 #pragma region Units
-	struct DUnit {
+	class DUnit : public DataCollection<DUnit>
+	{
+	public:
 		std::string name;
 		Vitals
 			vitalMax,
@@ -179,13 +183,17 @@ namespace Hive
 #pragma endregion
 
 #pragma region Actors
-	struct DActor {
+	class DActor : public DataCollection<DActor>
+	{
+	public:
 		int modelHandle;
 	};
 #pragma endregion
 
 #pragma region Abilities
-	struct DAbility {
+	class DAbility : public DataCollection<DAbility>
+	{
+	public:
 		AbilityType type;
 		std::string name;
 		std::string tooltip;
@@ -198,7 +206,9 @@ namespace Hive
 #pragma endregion
 
 #pragma region Behaviors
-	struct DBehavior {
+	class DBehavior : public DataCollection<DBehavior>
+	{
+	public:
 		std::string name;
 		std::string tooltip;
 		int icon_texture_handle;
@@ -266,7 +276,7 @@ namespace Hive
 		EffectPlayer playerToCompareTo;
 	};
 
-	union DValidator {
+	union DValidatorUnion {
 		DValidatorBase dBase;
 		DValidatorBehaviorCount dBehaviorCount;
 		DValidatorCombine dCombine;
@@ -277,8 +287,8 @@ namespace Hive
 		DValidatorLocationRange dLocationRange;
 		DValidatorPlayer dPlayer;
 
-		DValidator() {}
-		DValidator(const DValidator& o)
+		DValidatorUnion() {}
+		DValidatorUnion(const DValidatorUnion& o)
 		{
 			switch (o.dBase.type)
 			{
@@ -308,7 +318,13 @@ namespace Hive
 				break;
 			}
 		}
-		~DValidator() {}
+		~DValidatorUnion() {}
+	};
+
+	class DValidator : public DataCollection<DValidator>
+	{
+	public:
+		DValidatorUnion u;
 	};
 #pragma endregion
 
@@ -351,7 +367,7 @@ namespace Hive
 		int elseEffectHandle;
 	};
 
-	union DEffect {
+	union DEffectUnion {
 		DEffectBase dBase;
 		DEffectModifyUnit dModifyUnit;
 		DEffectSearch dSearch;
@@ -360,8 +376,8 @@ namespace Hive
 		DEffectSpawnUnit dSpawnUnit;
 		DEffectSwitch dSwitch;
 
-		DEffect() {}
-		DEffect(const DEffect& o)
+		DEffectUnion() {}
+		DEffectUnion(const DEffectUnion& o)
 		{
 			switch (o.dBase.type)
 			{
@@ -385,7 +401,56 @@ namespace Hive
 				break;
 			}
 		}
-		~DEffect() {}
+		~DEffectUnion() {}
+	};
+
+	class DEffect : public DataCollection<DEffect>
+	{
+	public:
+		DEffectUnion u;
+	};
+#pragma endregion
+
+#pragma region Assets
+	class DModel : public DataCollection<DModel>
+	{
+	public:
+		bool isLoaded;
+		int handle;
+		std::string filepath;
+	};
+
+	class DVertexShader : public DataCollection<DVertexShader>
+	{
+	public:
+		bool isLoaded;
+		int handle;
+		std::string filepath;
+	};
+
+	class DFragmentShader : public DataCollection<DFragmentShader>
+	{
+	public:
+		bool isLoaded;
+		int handle;
+		std::string filepath;
+	};
+
+	class DShaderProgram : public DataCollection<DShaderProgram>
+	{
+	public:
+		bool isLoaded;
+		int handle;
+		int vertex_shader_handle;
+		int fragment_shader_handle;
+	};
+
+	class DTexture : public DataCollection<DTexture>
+	{
+	public:
+		bool isLoaded;
+		int handle;
+		std::string filepath;
 	};
 #pragma endregion
 

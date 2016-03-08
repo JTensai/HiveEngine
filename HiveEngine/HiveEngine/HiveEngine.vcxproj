@@ -167,12 +167,14 @@
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="EuclideanHeuristic.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="QuadTreeLeafNode.cpp" />
     <ClCompile Include="QuadTreeNode.cpp" />
+    <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -199,6 +201,7 @@
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="EuclideanHeuristic.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="IAssetManager.h" />
     <ClInclude Include="IComponentManager.h" />
@@ -221,6 +224,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="tempmodel.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="UIElement.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="XMLInterface.h" />

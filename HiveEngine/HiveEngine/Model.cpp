@@ -12,7 +12,7 @@ namespace Hive
 		IDataManager* dm = ServiceLocator::getInstance()->getDataManager();
 		for (int i = 0; i < _meshHandles.size(); ++i)
 		{
-			dm->getMesh(i);
+			//draw
 		}
 	}
 

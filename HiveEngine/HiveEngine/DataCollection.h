@@ -9,37 +9,36 @@ namespace Hive
 	template <class T>
 	class DataCollection
 	{
-	private:
-		std::unordered_map<std::string, std::size_t> index_map;
-		std::vector<T> data;
-		std::size_t head;
+	protected:
+		static const int DEFAULT_COLLECTION_SIZE = 20;
+		static std::unordered_map<std::string, std::size_t> index_map;
+		static std::vector<T> data;
+		static std::size_t head;
 
 	public:
-		DataCollection();
-		DataCollection(std::size_t size);
-
-		bool hasKey(std::string key);
-		std::size_t getIndex(std::string key);
-		std::size_t operator[](std::string key);
-		T* getItem(std::size_t index);
-		T* operator[](std::size_t index);
-
+		static void reserve(std::size_t size);
+		static bool hasKey(std::string key);
+		static std::size_t getIndex(std::string key);
+		static T* getItem(std::size_t index);
+		
 		//Copies from data, keeping data afterwards is unnecessary.
-		void addItem(std::string key, const T& new_data);
-
-		~DataCollection();
+		static void addItem(std::string key, const T& new_data);
 	};
 
 	template <class T>
-	DataCollection<T>::DataCollection() {
-		head = 0;
-	}
+	std::size_t DataCollection<T>::head = 0;
 
 	template <class T>
-	DataCollection<T>::DataCollection(std::size_t size) {
-		index_map = std::unordered_map(size);
-		head = 0;
-		data(size);
+	std::unordered_map<std::string, std::size_t> DataCollection<T>::index_map = std::unordered_map<std::string, std::size_t>(DEFAULT_COLLECTION_SIZE);
+
+	template <class T>
+	std::vector<T> DataCollection<T>::data = std::vector<T>(DEFAULT_COLLECTION_SIZE);
+
+	template <class T>
+	void DataCollection<T>::reserve(std::size_t size)
+	{
+		index_map.reserve(size);
+		data.reserve(size);
 	}
 
 	template <class T>
@@ -52,18 +51,9 @@ namespace Hive
 	std::size_t DataCollection<T>::getIndex(std::string key) {
 		return index_map[key];
 	}
-	template <class T>
-	std::size_t DataCollection<T>::operator[](std::string key) {
-		return index_map[key];
-	}
 
 	template <class T>
 	T* DataCollection<T>::getItem(std::size_t index) {
-		return &data[index];
-	}
-
-	template <class T>
-	T* DataCollection<T>::operator[](std::size_t index) {
 		return &data[index];
 	}
 
@@ -72,8 +62,4 @@ namespace Hive
 		data.push_back(new_data);
 		index_map.emplace(key, head++);
 	}
-
-	template <class T>
-	DataCollection<T>::~DataCollection() {}
-
 }

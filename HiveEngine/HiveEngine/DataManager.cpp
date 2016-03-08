@@ -28,75 +28,9 @@ namespace Hive
 		return 0;
 	}
 
-	DAbility* DataManager::getAbilityData(int handle)
-	{
-		return NULL;
-	}
-	DActor* DataManager::getActorData(int handle)
-	{
-		return NULL;
-	}
-	DBehavior* DataManager::getBehaviorData(int handle)
-	{
-		return NULL;
-	}
-	DEffect* DataManager::getEffectData(int handle)
-	{
-		return NULL;
-	}
-	DUnit* DataManager::getUnitData(int handle)
-	{
-		return NULL;
-	}
-	DValidator* DataManager::getValidatorData(int handle)
-	{
-		return NULL;
-	}
-
-	int DataManager::getShaderHandle(const std::string vertexShader, const std::string fragmentShader)
-	{
-		return 0;
-	}
-	Shader* DataManager::getShader(int handle)
-	{
-		return NULL;
-	}
-	GLuint DataManager::getVertexShader(int handle)
-	{
-		return 0;
-	}
-	GLuint DataManager::getFragmentShader(int handle)
-	{
-		return 0;
-	}
-
-	int DataManager::getModelHandle(const std::string filename)
-	{
-		return 0;
-	}
-	Model* DataManager::getModel(int handle)
-	{
-		return NULL;
-	}
-
-	Mesh* DataManager::getMesh(int handle)
-	{
-		return NULL;
-	}
-
-	int DataManager::getTextureHandle(const std::string filename)
-	{
-		return 0;
-	}
-	Texture* DataManager::getTexture(int handle)
-	{
-		return NULL;
-	}
-
 	DataManager::~DataManager()
 	{
 	}
-
 
 	void DataManager::xmlFirstPass(XMLInterface& xmlif)
 	{
@@ -118,6 +52,8 @@ namespace Hive
 		root.forEachChildOfName("EffectSpawnUnit", std::bind(&DataManager::xmlFirstPassEffect, this, _1));
 		root.forEachChildOfName("EffectSwitch", std::bind(&DataManager::xmlFirstPassEffect, this, _1));
 
+		root.forEachChildOfName("Shader", std::bind(&DataManager::xmlFirstPassShaders, this, _1));
+		root.forEachChildOfName("Texture", std::bind(&DataManager::xmlFirstPassTextures, this, _1));
 		root.forEachChildOfName("Model", std::bind(&DataManager::xmlFirstPassModels, this, _1));
 		root.forEachChildOfName("Unit", std::bind(&DataManager::xmlFirstPassUnits, this, _1));
 
@@ -135,46 +71,58 @@ namespace Hive
 	{
 		DAbility ability;
 		std::string id = xmliter.getID();
-		_dAbilities.addItem(id, ability);
+		DAbility::addItem(id, ability);
 	}
 	void DataManager::xmlFirstPassActors(XMLInterface::XMLIterator xmliter)
 	{
 		DActor actor;
 		std::string id = xmliter.getID();
-		_dActors.addItem(id, actor);
+		DActor::addItem(id, actor);
 	}
 	void DataManager::xmlFirstPassBehaviors(XMLInterface::XMLIterator xmliter)
 	{
 		DBehavior behavior;
 		std::string id = xmliter.getID();
-		_dBehaviors.addItem(id, behavior);
+		DBehavior::addItem(id, behavior);
 	}
 
 	void DataManager::xmlFirstPassEffect(XMLInterface::XMLIterator xmliter)
 	{
 		DEffect effect;
 		std::string id = xmliter.getID();
-		_dEffects.addItem(id, effect);
+		DEffect::addItem(id, effect);
 	}
 
+	void DataManager::xmlFirstPassShaders(XMLInterface::XMLIterator xmliter)
+	{
+		DShaderProgram shader;
+		std::string id = xmliter.getID();
+		DShaderProgram::addItem(id, shader);
+	}
+	void DataManager::xmlFirstPassTextures(XMLInterface::XMLIterator xmliter)
+	{
+		DTexture texture;
+		std::string id = xmliter.getID();
+		DTexture::addItem(id, texture);
+	}
 	void DataManager::xmlFirstPassModels(XMLInterface::XMLIterator xmliter)
 	{
-		Model model;
+		DModel model;
 		std::string id = xmliter.getID();
-		_models.addItem(id, model);
+		DModel::addItem(id, model);
 	}
 	void DataManager::xmlFirstPassUnits(XMLInterface::XMLIterator xmliter)
 	{
 		DUnit unit;
 		std::string id = xmliter.getID();
-		_dUnits.addItem(id, unit);
+		DUnit::addItem(id, unit);
 	}
 
 	void DataManager::xmlFirstPassValidator(XMLInterface::XMLIterator xmliter)
 	{
 		DValidator validator;
 		std::string id = xmliter.getID();
-		_dValidators.addItem(id, validator);
+		DValidator::addItem(id, validator);
 	}
 
 	void DataManager::xmlSecondPass(XMLInterface& xmlif)
@@ -195,6 +143,8 @@ namespace Hive
 		root.forEachChildOfName("EffectSpawnUnit", std::bind(&DataManager::xmlSecondPassEffectSpawnUnit, this, _1));
 		root.forEachChildOfName("EffectSwitch", std::bind(&DataManager::xmlSecondPassEffectSwitch, this, _1));
 
+		root.forEachChildOfName("Shader", std::bind(&DataManager::xmlSecondPassShaders, this, _1));
+		root.forEachChildOfName("Texture", std::bind(&DataManager::xmlSecondPassTextures, this, _1));
 		root.forEachChildOfName("Model", std::bind(&DataManager::xmlSecondPassModels, this, _1));
 		root.forEachChildOfName("Unit", std::bind(&DataManager::xmlSecondPassUnits, this, _1));
 
@@ -214,20 +164,20 @@ namespace Hive
 		DAbility* ability;
 
 		std::string id = xmliter.getID();
-		if (!_dAbilities.hasKey(id)) throw IDataManager::DataErrorException("Ability key missing during second pass: " + id);
+		if (!DAbility::hasKey(id)) throw IDataManager::DataErrorException("Ability key missing during second pass: " + id);
 
 		try
 		{
-			ability = _dAbilities.getItem(_dAbilities.getIndex(id));
+			ability = DAbility::getItem(DAbility::getIndex(id));
 
 			std::string parentId = xmliter.getParentID();
 
 			if (!parentId.empty())
 			{
-				if (_dAbilities.hasKey(parentId))
+				if (DAbility::hasKey(parentId))
 				{
-					int index = _dAbilities.getIndex(parentId);
-					*ability = *(_dAbilities.getItem(index));
+					int index = DAbility::getIndex(parentId);
+					*ability = *(DAbility::getItem(index));
 				}
 				else
 				{
@@ -297,6 +247,8 @@ namespace Hive
 	void DataManager::xmlSecondPassEffectSpawnUnit(XMLInterface::XMLIterator xmliter) {}
 	void DataManager::xmlSecondPassEffectSwitch(XMLInterface::XMLIterator xmliter) {}
 
+	void DataManager::xmlSecondPassShaders(XMLInterface::XMLIterator xmliter) {}
+	void DataManager::xmlSecondPassTextures(XMLInterface::XMLIterator xmliter) {}
 	void DataManager::xmlSecondPassModels(XMLInterface::XMLIterator xmliter) {}
 	void DataManager::xmlSecondPassUnits(XMLInterface::XMLIterator xmliter) {}
 
@@ -379,9 +331,9 @@ namespace Hive
 				std::string effectId = subIter.getValue();
 				if (!effectId.empty())
 				{
-					if (_dEffects.hasKey(effectId))
+					if (DEffect::hasKey(effectId))
 					{
-						effects->effectInitial = _dEffects.getIndex(effectId);
+						effects->effectInitial = DEffect::getIndex(effectId);
 					}
 					else
 					{
@@ -397,9 +349,9 @@ namespace Hive
 				std::string effectId = subIter.getValue();
 				if (!effectId.empty())
 				{
-					if (_dEffects.hasKey(effectId))
+					if (DEffect::hasKey(effectId))
 					{
-						effects->effectPeriodic = _dEffects.getIndex(effectId);
+						effects->effectPeriodic = DEffect::getIndex(effectId);
 					}
 					else
 					{
@@ -415,9 +367,9 @@ namespace Hive
 				std::string effectId = subIter.getValue();
 				if (!effectId.empty())
 				{
-					if (_dEffects.hasKey(effectId))
+					if (DEffect::hasKey(effectId))
 					{
-						effects->effectFinal = _dEffects.getIndex(effectId);
+						effects->effectFinal = DEffect::getIndex(effectId);
 					}
 					else
 					{
@@ -433,9 +385,9 @@ namespace Hive
 				std::string effectId = subIter.getValue();
 				if (!effectId.empty())
 				{
-					if (_dEffects.hasKey(effectId))
+					if (DEffect::hasKey(effectId))
 					{
-						effects->effectExpire = _dEffects.getIndex(effectId);
+						effects->effectExpire = DEffect::getIndex(effectId);
 					}
 					else
 					{
@@ -499,9 +451,10 @@ namespace Hive
 		}
 	}
 
-	void DataManager::xmlParseTexture(XMLInterface::XMLIterator iter, int* texHandle)
+	void DataManager::xmlParseTexture(XMLInterface::XMLIterator iter, DTexture* texHandle)
 	{
 		//TODO: Textures handling may need to be very different, come back to this later.
+		/*
 		if (iter.isValid())
 		{
 			std::string texId = iter.getValue();
@@ -517,12 +470,13 @@ namespace Hive
 				}
 			}
 		}
+		*/
 	}
-	void DataManager::xmlParseModel(XMLInterface::XMLIterator iter, int* modelHandle)
+	void DataManager::xmlParseModel(XMLInterface::XMLIterator iter, DModel* modelHandle)
 	{
 		//TODO:
 	}
-	void DataManager::xmlParseShader(XMLInterface::XMLIterator iter, int* shaderHandle)
+	void DataManager::xmlParseShader(XMLInterface::XMLIterator iter, DShaderProgram* shaderHandle)
 	{
 		//TODO:
 	}
