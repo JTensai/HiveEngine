@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "DataCollection.h"
+#include "Asset.h"
 
 namespace Hive
 {
@@ -186,7 +187,7 @@ namespace Hive
 	class DActor : public DataCollection<DActor>
 	{
 	public:
-		int modelHandle;
+		int dModelHandle;
 	};
 #pragma endregion
 
@@ -412,46 +413,13 @@ namespace Hive
 #pragma endregion
 
 #pragma region Assets
-	class DModel : public DataCollection<DModel>
-	{
-	public:
-		bool isLoaded;
-		int handle;
-		std::string filepath;
-	};
+	class Model;
+	//typedef DataCollection<AssetData<Model>> DModel;
+	class DModel : public AssetData<Model>, public DataCollection<DModel> {};
 
-	class DVertexShader : public DataCollection<DVertexShader>
-	{
-	public:
-		bool isLoaded;
-		int handle;
-		std::string filepath;
-	};
-
-	class DFragmentShader : public DataCollection<DFragmentShader>
-	{
-	public:
-		bool isLoaded;
-		int handle;
-		std::string filepath;
-	};
-
-	class DShaderProgram : public DataCollection<DShaderProgram>
-	{
-	public:
-		bool isLoaded;
-		int handle;
-		int vertex_shader_handle;
-		int fragment_shader_handle;
-	};
-
-	class DTexture : public DataCollection<DTexture>
-	{
-	public:
-		bool isLoaded;
-		int handle;
-		std::string filepath;
-	};
+	class Texture;
+	//typedef DataCollection<AssetData<Texture>> DTexture;
+	class DTexture : public AssetData<Texture>, public DataCollection<DTexture> {};
 #pragma endregion
 
 }

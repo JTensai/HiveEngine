@@ -36,6 +36,8 @@ void Game::initialize(char* XMLFilename) {
 	ServiceLocator::getInstance()->registerComponentManager(new ComponentManager());
 	ServiceLocator::getInstance()->registerDataManager(new DataManager());
 	ServiceLocator::getInstance()->registerGameWorld(new GameWorld());
+
+	//ServiceLocator::getInstance()->getComponentManager()->initialize();
 }
 
 
@@ -57,6 +59,7 @@ void Game::load(GLFWwindow* window) {
 	glDepthFunc(GL_LESS);
 
 	shader_program_id = LoadShader("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
+	Actor::setShader(shader_program_id);
 
 	temp_model = new TempModel("resources/teapot.obj");
 
@@ -89,6 +92,8 @@ void Game::load(GLFWwindow* window) {
 	{
 		printf("Error loading map: %s\n", e.what());
 	}
+
+	ServiceLocator::getInstance()->getComponentManager()->load();
 }
 
 

@@ -148,7 +148,7 @@ namespace Hive
 	template <class T>
 	void ObjectPool<T>::remove(int index)
 	{
-		if (index < 0 || index >= pool.size()) throw std::out_of_range;
+		if (index < 0 || index >= pool.size()) throw std::out_of_range("Objectpool remove index out of range.");
 		used[index] = false;
 		--in_use;
 	}

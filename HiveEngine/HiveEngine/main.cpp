@@ -40,7 +40,7 @@ int main(int argc, char** argv)
 			return -1;
 		}
 		fprintf(stdout, "Finished initializing GLFW.\n");
-
+		
 		fprintf(stdout, "Initializing game...\n");
 		game.initialize(argv[1]);
 		fprintf(stdout, "Finished initializing game.\n");

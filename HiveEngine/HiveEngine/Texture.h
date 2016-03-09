@@ -1,11 +1,15 @@
 #pragma once
 
+#include <string>
+
 namespace Hive
 {
 
-	class Texture {
+	class Texture
+	{
 	public:
-		Texture();
+		Texture(std::string filepath);
+
 		~Texture();
 	};
 

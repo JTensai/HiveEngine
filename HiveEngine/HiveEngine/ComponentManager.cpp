@@ -14,6 +14,13 @@ namespace Hive
 		Unit::initialize();
 	}
 
+	void ComponentManager::load()
+	{
+		int actor_handle = Actor::create_component();
+		Actor* actor = Actor::get_component(actor_handle);
+		actor->loadFromData(DActor::getIndex("BASE_ACTOR"));
+	}
+
 	void ComponentManager::update_free(float delta, bool is_a)
 	{
 		Actor::update(delta, is_a);

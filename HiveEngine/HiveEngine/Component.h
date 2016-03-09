@@ -14,7 +14,7 @@ namespace Hive
 	class Component
 	{
 	protected:
-		static const int DEFAULT_POOL_SIZE = 100;
+		static const int DEFAULT_POOL_SIZE = 10;
 		static std::vector<int> id_to_index;
 		static ObjectPool<T> pool;
 
@@ -24,8 +24,10 @@ namespace Hive
 		static T* get_component(int id);
 		static void destroy_component(int id);
 
+		static void preupdate() {}
 		static void update(float delta, bool is_a);
 		virtual void update_component(float delta, bool is_a) = 0;
+		static void postupdate() {}
 	};
 
 	template <class T>
@@ -61,18 +63,18 @@ namespace Hive
 	template <class T>
 	T* Component<T>::get_component(int id)
 	{
-		if (id < 0 || id >= id_to_index.capacity()) throw std::out_of_range;
+		if (id < 0 || id >= id_to_index.capacity()) throw std::out_of_range("get_component id out of bounds");
 		int index = id_to_index[id];
-		if (index < 0 || index >= pool.capacity()) throw std::out_of_range;
+		if (index < 0 || index >= pool.capacity()) throw std::out_of_range("get_component index out of bounds");
 		return pool.get(index);
 	}
 
 	template <class T>
 	void Component<T>::destroy_component(int id)
 	{
-		if (id < 0 || id >= id_to_index.capacity()) throw std::out_of_range;
+		if (id < 0 || id >= id_to_index.capacity()) throw std::out_of_range("destroy_component id out of bounds");
 		int index = id_to_index[id];
-		if (index < 0 || index >= pool.capacity()) throw std::out_of_range;
+		if (index < 0 || index >= pool.capacity()) throw std::out_of_range("destroy_component index out of bounds");
 		pool.remove(index);
 		id_to_index[id] = -1;
 	}
@@ -80,6 +82,7 @@ namespace Hive
 	template <class T>
 	void Component<T>::update(float delta, bool is_a)
 	{
+		T::preupdate();
 		int i = 0;
 		int num = 0;
 		int cap = pool.capacity();
@@ -94,6 +97,7 @@ namespace Hive
 			}
 		}
 		// TODO: if i/cap is significantly larger than num_used/cap, the objectpool should be sorted.
+		T::postupdate();
 	}
 
 
@@ -101,13 +105,16 @@ namespace Hive
 	class DrawableComponent : public Component<T>
 	{
 	public:
+		static void predraw() {}
 		static void draw(const glm::mat4& VP);
 		virtual void draw_component(const glm::mat4& VP) = 0;
+		static void postdraw() {}
 	};
 
 	template <class T>
 	void DrawableComponent<T>::draw(const glm::mat4& VP)
 	{
+		T::predraw();
 		int i = 0;
 		int num = 0;
 		int cap = pool.capacity();
@@ -121,5 +128,6 @@ namespace Hive
 				t.draw_component(VP);
 			}
 		}
+		T::postdraw();
 	}
 }

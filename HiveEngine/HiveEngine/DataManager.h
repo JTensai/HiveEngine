@@ -24,7 +24,6 @@ namespace Hive
 
 		void xmlFirstPassEffect(XMLInterface::XMLIterator xmliter);
 
-		void xmlFirstPassShaders(XMLInterface::XMLIterator xmliter);
 		void xmlFirstPassTextures(XMLInterface::XMLIterator xmliter);
 		void xmlFirstPassModels(XMLInterface::XMLIterator xmliter);
 		void xmlFirstPassUnits(XMLInterface::XMLIterator xmliter);
@@ -44,7 +43,6 @@ namespace Hive
 		void xmlSecondPassEffectSpawnUnit(XMLInterface::XMLIterator xmliter);
 		void xmlSecondPassEffectSwitch(XMLInterface::XMLIterator xmliter);
 
-		void xmlSecondPassShaders(XMLInterface::XMLIterator xmliter);
 		void xmlSecondPassTextures(XMLInterface::XMLIterator xmliter);
 		void xmlSecondPassModels(XMLInterface::XMLIterator xmliter);
 		void xmlSecondPassUnits(XMLInterface::XMLIterator xmliter);
@@ -65,6 +63,9 @@ namespace Hive
 		void xmlParseEffectList(XMLInterface::XMLIterator iter, EffectList* effects);
 		void xmlParseFilter(XMLInterface::XMLIterator iter, Filter* filter);
 		void xmlParseUnitFilter(XMLInterface::XMLIterator iter, UnitFilter* filter);
+
+		void xmlParseTexture(XMLInterface::XMLIterator iter, int* textureHandle);
+		void xmlParseModel(XMLInterface::XMLIterator iter, int* modelHandle);
 #pragma endregion
 
 	public:

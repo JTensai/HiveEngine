@@ -192,6 +192,7 @@
     <ClInclude Include="AbilityComponent.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="Asset.h" />
     <ClInclude Include="BaseHeuristic.h" />
     <ClInclude Include="BehaviorComponent.h" />
     <ClInclude Include="Component.h" />
@@ -203,7 +204,6 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Graph.h" />
-    <ClInclude Include="IAssetManager.h" />
     <ClInclude Include="IComponentManager.h" />
     <ClInclude Include="IDataManager.h" />
     <ClInclude Include="IInputManager.h" />
