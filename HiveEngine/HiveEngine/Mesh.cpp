@@ -6,37 +6,37 @@ Mesh::Mesh(const tinyobj::mesh_t& mesh)
 {
 	int index;
 	numVerts = mesh.positions.size() / 3;
-	data.resize(numVerts * (3 + 3 + 2));
+	data.resize(numVerts * (3 + 2 + 3));
 	for (int vert = 0; vert < numVerts; vert++)
 	{
-		index = vert * (3 + 3 + 2);
+		index = vert * (3 + 2 + 3);
 		//Copy positions
 		for (int i = 0; i < 3; i++)
 		{
 			data[index + i] = mesh.positions[vert * 3 + i];
-		}
-		//Copy normals
-		for (int i = 0; i < 3; i++)
-		{
-			if (mesh.normals.size() < (index + 1) * 3)
-			{
-				data[index + 3 + i] = 0;
-			}
-			else
-			{
-				data[index + 3 + i] = mesh.normals[vert * 3 + i];
-			}
 		}
 		//Copy UVs
 		for (int i = 0; i < 2; i++)
 		{
 			if (mesh.texcoords.size() < (index + 1) * 2)
 			{
-				data[index + 3 + 3 + i] = 0;
+				data[index + 3 + i] = 0;
 			}
 			else
 			{
-				data[index + 3 + 3 + i] = mesh.texcoords[vert * 2 + i];
+				data[index + 3 + i] = mesh.texcoords[vert * 2 + i];
+			}
+		}
+		//Copy normals
+		for (int i = 0; i < 3; i++)
+		{
+			if (mesh.normals.size() < (index + 1) * 3)
+			{
+				data[index + 3 + 2 + i] = 0;
+			}
+			else
+			{
+				data[index + 3 + 2 + i] = mesh.normals[vert * 3 + i];
 			}
 		}
 	}
@@ -57,7 +57,7 @@ Mesh::Mesh(const tinyobj::mesh_t& mesh)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short), indices.data(), GL_STATIC_DRAW);
 }
 
-void Mesh::draw(const glm::mat4& WVP, GLuint shader_handle)
+void Mesh::draw(GLuint shader_handle)
 {
 	glEnableVertexAttribArray(0); //Position
 	glEnableVertexAttribArray(1); //Normal
@@ -73,7 +73,7 @@ void Mesh::draw(const glm::mat4& WVP, GLuint shader_handle)
 		);
 	glVertexAttribPointer(
 		1,                  // attribute
-		3,                  // size
+		2,                  // size
 		GL_FLOAT,           // type
 		GL_FALSE,           // normalized?
 		8 * sizeof(float),                  // stride
@@ -81,11 +81,11 @@ void Mesh::draw(const glm::mat4& WVP, GLuint shader_handle)
 		);
 	glVertexAttribPointer(
 		2,                  // attribute
-		2,                  // size
+		3,                  // size
 		GL_FLOAT,           // type
 		GL_FALSE,           // normalized?
 		8 * sizeof(float),                  // stride
-		(void*)(6 * sizeof(float))            // array buffer offset
+		(void*)(5 * sizeof(float))            // array buffer offset
 		);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
@@ -94,6 +94,7 @@ void Mesh::draw(const glm::mat4& WVP, GLuint shader_handle)
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 }
 
 Mesh::~Mesh()

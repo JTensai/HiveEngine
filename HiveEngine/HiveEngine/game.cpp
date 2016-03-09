@@ -50,7 +50,7 @@ void Game::load(GLFWwindow* window) {
 
 	glClearColor(BG.r, BG.g, BG.b, 0.0f);
 
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_FRONT);
 
 	// Enable depth test
@@ -155,18 +155,18 @@ void Game::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	ServiceLocator::getInstance()->getGameWorld()->draw(world_view_projection);
-	/*
+	
 	glUseProgram(shader_program_id);
-	shader_matrix_id = glGetUniformLocation(shader_program_id, "MVP");
+	//shader_matrix_id = glGetUniformLocation(shader_program_id, "MVP");
 	shader_view_matrix_id = glGetUniformLocation(shader_program_id, "V");
-	shader_world_matrix_id = glGetUniformLocation(shader_program_id, "M");
+	//shader_world_matrix_id = glGetUniformLocation(shader_program_id, "M");
 	glm::vec3 lightPos = glm::vec3(4, 4, 4);
 	GLuint LightID = glGetUniformLocation(shader_program_id, "LightPosition_worldspace");
 	glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
-	glUniformMatrix4fv(shader_matrix_id, 1, GL_FALSE, &world_view_projection[0][0]);
-	glUniformMatrix4fv(shader_world_matrix_id, 1, GL_FALSE, &world_matrix[0][0]);
+	//glUniformMatrix4fv(shader_matrix_id, 1, GL_FALSE, &world_view_projection[0][0]);
+	//glUniformMatrix4fv(shader_world_matrix_id, 1, GL_FALSE, &world_matrix[0][0]);
 	glUniformMatrix4fv(shader_view_matrix_id, 1, GL_FALSE, &view_matrix[0][0]);
-	temp_model->draw();*/
+	//temp_model->draw();
 
 	ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
 

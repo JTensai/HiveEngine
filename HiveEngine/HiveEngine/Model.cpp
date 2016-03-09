@@ -26,12 +26,11 @@ Model::Model(std::string filepath)
 	}
 }
 
-void Model::draw(const glm::mat4& W, const glm::mat4& VP, GLuint shader_handle) const
+void Model::draw(GLuint shader_handle) const
 {
-	glm::mat4 WVP = W * VP;
 	for (int i = 0; i < meshes.size(); ++i)
 	{
-		meshes[i]->draw(WVP, shader_handle);
+		meshes[i]->draw(shader_handle);
 	}
 }
 

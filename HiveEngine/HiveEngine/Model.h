@@ -37,7 +37,7 @@ namespace Hive
 		/*
 		Draw iterates over the model's meshes and calls their draw functions, providing the world-view-perspective matrix needed to do so.
 		*/
-		void draw(const glm::mat4& W, const glm::mat4& VP, GLuint shader_handle) const;
+		void draw(GLuint shader_handle) const;
 
 		~Model();
 	};

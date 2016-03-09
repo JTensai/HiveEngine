@@ -16,6 +16,7 @@
 #include <GL\glew.h>
 #include <glm/glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtx\transform.hpp>
 
 #include "Component.h"
 #include "Unit.h"
@@ -28,7 +29,9 @@ namespace Hive
 	{
 	private:
 		static GLuint actor_shader_handle;
-		glm::vec2 position;
+		glm::vec3 position;
+		glm::vec3 spin;
+		glm::vec3 rotation;
 		glm::mat4 world_transform;
 		int d_model_handle;
 

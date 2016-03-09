@@ -29,7 +29,7 @@ namespace Hive
 	public:
 		Mesh(const tinyobj::mesh_t& mesh);
 
-		void draw(const glm::mat4& WVP, GLuint shader_handle);
+		void draw(GLuint shader_handle);
 
 		~Mesh();
 	};
