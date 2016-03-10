@@ -65,6 +65,8 @@ namespace Hive
 		const_iterator cend();
 
 		T* get(int index);
+		int get_num_in_use();
+		bool is_used(int index);
 		void remove(int index);
 		int create();
 		int count();
@@ -117,6 +119,18 @@ namespace Hive
 	}
 
 	template <class T>
+	int ObjectPool<T>::get_num_in_use()
+	{
+		return in_use;
+	}
+
+	template <class T>
+	bool ObjectPool<T>::is_used(int index)
+	{
+		return used[index];
+	}
+
+	template <class T>
 	int ObjectPool<T>::create()
 	{
 		for (int i = 0; i < used.size(); i++)
@@ -134,7 +148,7 @@ namespace Hive
 	template <class T>
 	void ObjectPool<T>::remove(int index)
 	{
-		if (index < 0 || index >= pool.size()) throw std::out_of_range;
+		if (index < 0 || index >= pool.size()) throw std::out_of_range("Objectpool remove index out of range.");
 		used[index] = false;
 		--in_use;
 	}

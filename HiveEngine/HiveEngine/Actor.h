@@ -13,10 +13,14 @@
  ***************************
  */
 
+#include <GL\glew.h>
 #include <glm/glm.hpp>
+#include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtx\transform.hpp>
 
 #include "Component.h"
 #include "Unit.h"
+#include "Model.h"
 
 namespace Hive
 {
@@ -24,12 +28,21 @@ namespace Hive
 	class Actor : public DrawableComponent<Actor>
 	{
 	private:
-		glm::vec2 position;
+		static GLuint actor_shader_handle;
+		glm::vec3 position;
+		glm::vec3 spin;
+		glm::vec3 rotation;
 		glm::mat4 world_transform;
-		int model_handle;
+		int d_model_handle;
 
 	public:
 		Actor();
+
+		void loadFromData(int handle);
+
+		static void setShader(GLuint shader);
+		static void predraw();
+		static void postdraw();
 
 		/*
 		Update will handle things like the actor's animation and timed events.

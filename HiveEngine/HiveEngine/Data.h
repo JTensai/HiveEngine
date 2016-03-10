@@ -3,25 +3,28 @@
 #include <string>
 #include <vector>
 
+#include "DataCollection.h"
+#include "Asset.h"
+
 namespace Hive
 {
 
 #pragma region Enums
-	enum EffectUnitEnum {
+	enum class EffectUnitEnum {
 		CASTER_UNIT,
 		SOURCE_UNIT,
 		TARGET_UNIT,
 		NONE_UNIT
 	};
 
-	enum EffectLocationEnum {
+	enum class EffectLocationEnum {
 		CASTER_LOCATION,
 		SOURCE_LOCATION,
 		TARGET_LOCATION,
 		NONE_LOCATION
 	};
 
-	enum EffectPlayerEnum {
+	enum class EffectPlayerEnum {
 		CASTER_PLAYER,
 		SOURCE_PLAYER,
 		TARGET_PLAYER,
@@ -30,13 +33,13 @@ namespace Hive
 		NONE_PLAYER
 	};
 
-	enum Filter {
+	enum class Filter {
 		ALLOWED,
 		REQUIRED,
 		EXCLUDED
 	};
 
-	enum EffectType {
+	enum class EffectType {
 		MODIFY_UNIT,
 		SET,
 		SET_BEHAVIOR,
@@ -45,7 +48,7 @@ namespace Hive
 		SWITCH
 	};
 
-	enum CompareMethod {
+	enum class CompareMethod {
 		EQ,
 		GT,
 		GTE,
@@ -54,19 +57,19 @@ namespace Hive
 		NEQ
 	};
 
-	enum VitalEnum {
+	enum class VitalEnum {
 		HP,
 		MANA
 	};
 
-	enum VitalCompareMethod {
+	enum class VitalCompareMethod {
 		CURRENT,
 		DELTA,
 		MAX,
 		FRACTION
 	};
 
-	enum ValidatorType {
+	enum class ValidatorType {
 		BEHAVIOR_COUNT,
 		COMBINE,
 		COMPARE_VITAL,
@@ -77,13 +80,13 @@ namespace Hive
 		PLAYER
 	};
 
-	enum ValidatorCombineType {
+	enum class ValidatorCombineType {
 		AND,
 		OR,
 		XOR
 	};
 
-	enum AbilityType {
+	enum class AbilityType {
 		INSTANT,
 		POINT_TARGET,
 		UNIT_TARGET
@@ -161,7 +164,9 @@ namespace Hive
 #pragma endregion
 
 #pragma region Units
-	struct DUnit {
+	class DUnit : public DataCollection<DUnit>
+	{
+	public:
 		std::string name;
 		Vitals
 			vitalMax,
@@ -179,13 +184,17 @@ namespace Hive
 #pragma endregion
 
 #pragma region Actors
-	struct DActor {
-		int modelHandle;
+	class DActor : public DataCollection<DActor>
+	{
+	public:
+		int dModelHandle;
 	};
 #pragma endregion
 
 #pragma region Abilities
-	struct DAbility {
+	class DAbility : public DataCollection<DAbility>
+	{
+	public:
 		AbilityType type;
 		std::string name;
 		std::string tooltip;
@@ -198,7 +207,9 @@ namespace Hive
 #pragma endregion
 
 #pragma region Behaviors
-	struct DBehavior {
+	class DBehavior : public DataCollection<DBehavior>
+	{
+	public:
 		std::string name;
 		std::string tooltip;
 		int icon_texture_handle;
@@ -266,7 +277,7 @@ namespace Hive
 		EffectPlayer playerToCompareTo;
 	};
 
-	union DValidator {
+	union DValidatorUnion {
 		DValidatorBase dBase;
 		DValidatorBehaviorCount dBehaviorCount;
 		DValidatorCombine dCombine;
@@ -277,38 +288,44 @@ namespace Hive
 		DValidatorLocationRange dLocationRange;
 		DValidatorPlayer dPlayer;
 
-		DValidator() {}
-		DValidator(const DValidator& o)
+		DValidatorUnion() {}
+		DValidatorUnion(const DValidatorUnion& o)
 		{
 			switch (o.dBase.type)
 			{
-			case BEHAVIOR_COUNT:
+			case ValidatorType::BEHAVIOR_COUNT:
 				dBehaviorCount = o.dBehaviorCount;
 				break;
-			case COMBINE:
+			case ValidatorType::COMBINE:
 				dCombine = o.dCombine;
 				break;
-			case COMPARE_VITAL:
+			case ValidatorType::COMPARE_VITAL:
 				dCompareVital = o.dCompareVital;
 				break;
-			case CONDITION:
+			case ValidatorType::CONDITION:
 				dCondition = o.dCondition;
 				break;
-			case FILTER_UNIT:
+			case ValidatorType::FILTER_UNIT:
 				dFilterUnit = o.dFilterUnit;
 				break;
-			case LOCATION_PATHABLE:
+			case ValidatorType::LOCATION_PATHABLE:
 				dLocationPathable = o.dLocationPathable;
 				break;
-			case LOCATION_RANGE:
+			case ValidatorType::LOCATION_RANGE:
 				dLocationRange = o.dLocationRange;
 				break;
-			case PLAYER:
+			case ValidatorType::PLAYER:
 				dPlayer = o.dPlayer;
 				break;
 			}
 		}
-		~DValidator() {}
+		~DValidatorUnion() {}
+	};
+
+	class DValidator : public DataCollection<DValidator>
+	{
+	public:
+		DValidatorUnion u;
 	};
 #pragma endregion
 
@@ -351,7 +368,7 @@ namespace Hive
 		int elseEffectHandle;
 	};
 
-	union DEffect {
+	union DEffectUnion {
 		DEffectBase dBase;
 		DEffectModifyUnit dModifyUnit;
 		DEffectSearch dSearch;
@@ -360,33 +377,49 @@ namespace Hive
 		DEffectSpawnUnit dSpawnUnit;
 		DEffectSwitch dSwitch;
 
-		DEffect() {}
-		DEffect(const DEffect& o)
+		DEffectUnion() {}
+		DEffectUnion(const DEffectUnion& o)
 		{
 			switch (o.dBase.type)
 			{
-			case MODIFY_UNIT:
+			case EffectType::MODIFY_UNIT:
 				dModifyUnit = o.dModifyUnit;
 				break;
-			case SEARCH:
+			case EffectType::SEARCH:
 				dSearch = o.dSearch;
 				break;
-			case SET:
+			case EffectType::SET:
 				dSet = o.dSet;
 				break;
-			case SET_BEHAVIOR:
+			case EffectType::SET_BEHAVIOR:
 				dSetBehavior = o.dSetBehavior;
 				break;
-			case SPAWN_UNIT:
+			case EffectType::SPAWN_UNIT:
 				dSpawnUnit = o.dSpawnUnit;
 				break;
-			case SWITCH:
+			case EffectType::SWITCH:
 				dSwitch = o.dSwitch;
 				break;
 			}
 		}
-		~DEffect() {}
+		~DEffectUnion() {}
 	};
+
+	class DEffect : public DataCollection<DEffect>
+	{
+	public:
+		DEffectUnion u;
+	};
+#pragma endregion
+
+#pragma region Assets
+	class Model;
+	//typedef DataCollection<AssetData<Model>> DModel;
+	class DModel : public AssetData<Model>, public DataCollection<DModel> {};
+
+	class Texture;
+	//typedef DataCollection<AssetData<Texture>> DTexture;
+	class DTexture : public AssetData<Texture>, public DataCollection<DTexture> {};
 #pragma endregion
 
 }

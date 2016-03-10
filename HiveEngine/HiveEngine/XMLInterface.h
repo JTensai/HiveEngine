@@ -5,6 +5,8 @@
 
 #include <tinyxml2\tinyxml2.h>
 
+#include "IDataManager.h"
+
 namespace Hive
 {
 
@@ -19,16 +21,15 @@ namespace Hive
 		class XMLIterator
 		{
 		private:
-			bool valid;
 			std::string elemName;
 			tinyxml2::XMLElement* elem;
 
-			XMLIterator(tinyxml2::XMLElement* Element, std::string Name) : elem(Element), elemName(Name), valid(Element) {};
+			XMLIterator(tinyxml2::XMLElement* Element, std::string Name) : elem(Element), elemName(Name) {};
 
 			std::string getAttribute(std::string attr);
 		public:
 			XMLIterator();
-			XMLIterator(tinyxml2::XMLElement* Element) : elem(Element), valid(Element) {};
+			XMLIterator(tinyxml2::XMLElement* Element) : elem(Element) {};
 
 			bool isValid();
 			XMLIterator next();

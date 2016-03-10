@@ -13,83 +13,24 @@ namespace Hive
 	}
 	int DataManager::loadXMLData(char* filename)
 	{
-		XMLInterface xi(filename);
+		try
+		{
+			XMLInterface xi(filename);
 
-		xmlFirstPass(xi);
-		xmlSecondPass(xi);
+			xmlFirstPass(xi);
+			xmlSecondPass(xi);
+		}
+		catch (IDataManager::DataErrorException e)
+		{
+			throw IDataManager::DataErrorException(std::string(filename) + ": " + e.err);
+		}
 
 		return 0;
-	}
-
-	DAbility* DataManager::getAbilityData(int handle)
-	{
-		return NULL;
-	}
-	DActor* DataManager::getActorData(int handle)
-	{
-		return NULL;
-	}
-	DBehavior* DataManager::getBehaviorData(int handle)
-	{
-		return NULL;
-	}
-	DEffect* DataManager::getEffectData(int handle)
-	{
-		return NULL;
-	}
-	DUnit* DataManager::getUnitData(int handle)
-	{
-		return NULL;
-	}
-	DValidator* DataManager::getValidatorData(int handle)
-	{
-		return NULL;
-	}
-
-	int DataManager::getShaderHandle(const std::string vertexShader, const std::string fragmentShader)
-	{
-		return 0;
-	}
-	Shader* DataManager::getShader(int handle)
-	{
-		return NULL;
-	}
-	GLuint DataManager::getVertexShader(int handle)
-	{
-		return 0;
-	}
-	GLuint DataManager::getFragmentShader(int handle)
-	{
-		return 0;
-	}
-
-	int DataManager::getModelHandle(const std::string filename)
-	{
-		return 0;
-	}
-	Model* DataManager::getModel(int handle)
-	{
-		return NULL;
-	}
-
-	Mesh* DataManager::getMesh(int handle)
-	{
-		return NULL;
-	}
-
-	int DataManager::getTextureHandle(const std::string filename)
-	{
-		return 0;
-	}
-	Texture* DataManager::getTexture(int handle)
-	{
-		return NULL;
 	}
 
 	DataManager::~DataManager()
 	{
 	}
-
 
 	void DataManager::xmlFirstPass(XMLInterface& xmlif)
 	{
@@ -97,6 +38,8 @@ namespace Hive
 		typedef XMLInterface::XMLIterator XIter;
 
 		XIter root = xmlif.begin();
+
+		if (!root.isValid()) throw IDataManager::DataErrorException("Root invalid.");
 
 		root.forEachChildOfName("Ability", std::bind(&DataManager::xmlFirstPassAbilities, this, _1));
 		root.forEachChildOfName("Actor", std::bind(&DataManager::xmlFirstPassActors, this, _1));
@@ -109,6 +52,7 @@ namespace Hive
 		root.forEachChildOfName("EffectSpawnUnit", std::bind(&DataManager::xmlFirstPassEffect, this, _1));
 		root.forEachChildOfName("EffectSwitch", std::bind(&DataManager::xmlFirstPassEffect, this, _1));
 
+		root.forEachChildOfName("Texture", std::bind(&DataManager::xmlFirstPassTextures, this, _1));
 		root.forEachChildOfName("Model", std::bind(&DataManager::xmlFirstPassModels, this, _1));
 		root.forEachChildOfName("Unit", std::bind(&DataManager::xmlFirstPassUnits, this, _1));
 
@@ -136,46 +80,52 @@ namespace Hive
 	{
 		DAbility ability;
 		std::string id = xmliter.getID();
-		_dAbilities.addItem(id, ability);
+		DAbility::addItem(id, ability);
 	}
 	void DataManager::xmlFirstPassActors(XMLInterface::XMLIterator xmliter)
 	{
 		DActor actor;
 		std::string id = xmliter.getID();
-		_dActors.addItem(id, actor);
+		DActor::addItem(id, actor);
 	}
 	void DataManager::xmlFirstPassBehaviors(XMLInterface::XMLIterator xmliter)
 	{
 		DBehavior behavior;
 		std::string id = xmliter.getID();
-		_dBehaviors.addItem(id, behavior);
+		DBehavior::addItem(id, behavior);
 	}
 
 	void DataManager::xmlFirstPassEffect(XMLInterface::XMLIterator xmliter)
 	{
 		DEffect effect;
 		std::string id = xmliter.getID();
-		_dEffects.addItem(id, effect);
+		DEffect::addItem(id, effect);
 	}
 
+	void DataManager::xmlFirstPassTextures(XMLInterface::XMLIterator xmliter)
+	{
+		DTexture texture;
+		std::string id = xmliter.getID();
+		DTexture::addItem(id, texture);
+	}
 	void DataManager::xmlFirstPassModels(XMLInterface::XMLIterator xmliter)
 	{
-		Model model;
+		DModel model;
 		std::string id = xmliter.getID();
-		_models.addItem(id, model);
+		DModel::addItem(id, model);
 	}
 	void DataManager::xmlFirstPassUnits(XMLInterface::XMLIterator xmliter)
 	{
 		DUnit unit;
 		std::string id = xmliter.getID();
-		_dUnits.addItem(id, unit);
+		DUnit::addItem(id, unit);
 	}
 
 	void DataManager::xmlFirstPassValidator(XMLInterface::XMLIterator xmliter)
 	{
 		DValidator validator;
 		std::string id = xmliter.getID();
-		_dValidators.addItem(id, validator);
+		DValidator::addItem(id, validator);
 	}
 
 	void DataManager::xmlFirstPassParticleSystem(XMLInterface::XMLIterator xmliter)
@@ -246,6 +196,7 @@ namespace Hive
 		root.forEachChildOfName("EffectSpawnUnit", std::bind(&DataManager::xmlSecondPassEffectSpawnUnit, this, _1));
 		root.forEachChildOfName("EffectSwitch", std::bind(&DataManager::xmlSecondPassEffectSwitch, this, _1));
 
+		root.forEachChildOfName("Texture", std::bind(&DataManager::xmlSecondPassTextures, this, _1));
 		root.forEachChildOfName("Model", std::bind(&DataManager::xmlSecondPassModels, this, _1));
 		root.forEachChildOfName("Unit", std::bind(&DataManager::xmlSecondPassUnits, this, _1));
 
@@ -275,20 +226,20 @@ namespace Hive
 		DAbility* ability;
 
 		std::string id = xmliter.getID();
-		if (!_dAbilities.hasKey(id)) throw IDataManager::DataErrorException("Ability key missing during second pass: " + id);
+		if (!DAbility::hasKey(id)) throw IDataManager::DataErrorException("Ability key missing during second pass: " + id);
 
 		try
 		{
-			ability = _dAbilities.getItem(_dAbilities.getIndex(id));
+			ability = DAbility::getItem(DAbility::getIndex(id));
 
 			std::string parentId = xmliter.getParentID();
 
 			if (!parentId.empty())
 			{
-				if (_dAbilities.hasKey(parentId))
+				if (DAbility::hasKey(parentId))
 				{
-					int index = _dAbilities.getIndex(parentId);
-					*ability = *(_dAbilities.getItem(index));
+					int index = DAbility::getIndex(parentId);
+					*ability = *(DAbility::getItem(index));
 				}
 				else
 				{
@@ -348,7 +299,42 @@ namespace Hive
 		}
 	}
 
-	void DataManager::xmlSecondPassActors(XMLInterface::XMLIterator xmliter) {}
+	void DataManager::xmlSecondPassActors(XMLInterface::XMLIterator xmliter)
+	{
+		typedef XMLInterface::XMLIterator XIter;
+		DActor* actor;
+
+		std::string id = xmliter.getID();
+		if (!DActor::hasKey(id)) throw IDataManager::DataErrorException("Actor key missing during second pass: " + id);
+
+		try
+		{
+			actor = DActor::getItem(DActor::getIndex(id));
+
+			std::string parentId = xmliter.getParentID();
+
+			if (!parentId.empty())
+			{
+				if (DActor::hasKey(parentId))
+				{
+					int index = DActor::getIndex(parentId);
+					*actor = *(DActor::getItem(index));
+				}
+				else
+				{
+					throw IDataManager::DataErrorException("Actor parent specified but not found: " + parentId);
+				}
+			}
+
+			XIter iter;
+			iter = xmliter.getChildrenOfName("Model");
+			xmlParseModel(iter, &actor->dModelHandle);
+		}
+		catch (IDataManager::DataErrorException e)
+		{
+			throw IDataManager::DataErrorException("Actor(" + id + ")::" + e.err);
+		}
+	}
 	void DataManager::xmlSecondPassBehaviors(XMLInterface::XMLIterator xmliter) {}
 
 	void DataManager::xmlSecondPassEffectModifyUnit(XMLInterface::XMLIterator xmliter) {}
@@ -358,7 +344,78 @@ namespace Hive
 	void DataManager::xmlSecondPassEffectSpawnUnit(XMLInterface::XMLIterator xmliter) {}
 	void DataManager::xmlSecondPassEffectSwitch(XMLInterface::XMLIterator xmliter) {}
 
-	void DataManager::xmlSecondPassModels(XMLInterface::XMLIterator xmliter) {}
+	void DataManager::xmlSecondPassTextures(XMLInterface::XMLIterator xmliter)
+	{
+		typedef XMLInterface::XMLIterator XIter;
+		DTexture* texture;
+
+		std::string id = xmliter.getID();
+		if (!DTexture::hasKey(id)) throw IDataManager::DataErrorException("Texture key missing during second pass: " + id);
+
+		try
+		{
+			texture = DTexture::getItem(DTexture::getIndex(id));
+
+			std::string parentId = xmliter.getParentID();
+
+			if (!parentId.empty())
+			{
+				if (DTexture::hasKey(parentId))
+				{
+					int index = DTexture::getIndex(parentId);
+					*texture = *(DTexture::getItem(index));
+				}
+				else
+				{
+					throw IDataManager::DataErrorException("Texture parent specified but not found: " + parentId);
+				}
+			}
+
+			XIter iter;
+			iter = xmliter.getChildrenOfName("File");
+			if (iter.isValid()) texture->setFilepath(iter.getValue());
+		}
+		catch (IDataManager::DataErrorException e)
+		{
+			throw IDataManager::DataErrorException("Texture(" + id + ")::" + e.err);
+		}
+	}
+	void DataManager::xmlSecondPassModels(XMLInterface::XMLIterator xmliter)
+	{
+		typedef XMLInterface::XMLIterator XIter;
+		DModel* model;
+
+		std::string id = xmliter.getID();
+		if (!DModel::hasKey(id)) throw IDataManager::DataErrorException("Model key missing during second pass: " + id);
+
+		try
+		{
+			model = DModel::getItem(DModel::getIndex(id));
+
+			std::string parentId = xmliter.getParentID();
+
+			if (!parentId.empty())
+			{
+				if (DModel::hasKey(parentId))
+				{
+					int index = DModel::getIndex(parentId);
+					*model = *(DModel::getItem(index));
+				}
+				else
+				{
+					throw IDataManager::DataErrorException("Model parent specified but not found: " + parentId);
+				}
+			}
+
+			XIter iter;
+			iter = xmliter.getChildrenOfName("File");
+			if (iter.isValid()) model->setFilepath(iter.getValue());
+		}
+		catch (IDataManager::DataErrorException e)
+		{
+			throw IDataManager::DataErrorException("Model(" + id + ")::" + e.err);
+		}
+	}
 	void DataManager::xmlSecondPassUnits(XMLInterface::XMLIterator xmliter) {}
 
 	void DataManager::xmlSecondPassValidatorBehaviorCount(XMLInterface::XMLIterator xmliter) {}
@@ -474,9 +531,9 @@ namespace Hive
 				std::string effectId = subIter.getValue();
 				if (!effectId.empty())
 				{
-					if (_dEffects.hasKey(effectId))
+					if (DEffect::hasKey(effectId))
 					{
-						effects->effectInitial = _dEffects.getIndex(effectId);
+						effects->effectInitial = DEffect::getIndex(effectId);
 					}
 					else
 					{
@@ -492,9 +549,9 @@ namespace Hive
 				std::string effectId = subIter.getValue();
 				if (!effectId.empty())
 				{
-					if (_dEffects.hasKey(effectId))
+					if (DEffect::hasKey(effectId))
 					{
-						effects->effectPeriodic = _dEffects.getIndex(effectId);
+						effects->effectPeriodic = DEffect::getIndex(effectId);
 					}
 					else
 					{
@@ -510,9 +567,9 @@ namespace Hive
 				std::string effectId = subIter.getValue();
 				if (!effectId.empty())
 				{
-					if (_dEffects.hasKey(effectId))
+					if (DEffect::hasKey(effectId))
 					{
-						effects->effectFinal = _dEffects.getIndex(effectId);
+						effects->effectFinal = DEffect::getIndex(effectId);
 					}
 					else
 					{
@@ -528,9 +585,9 @@ namespace Hive
 				std::string effectId = subIter.getValue();
 				if (!effectId.empty())
 				{
-					if (_dEffects.hasKey(effectId))
+					if (DEffect::hasKey(effectId))
 					{
-						effects->effectExpire = _dEffects.getIndex(effectId);
+						effects->effectExpire = DEffect::getIndex(effectId);
 					}
 					else
 					{
@@ -594,31 +651,40 @@ namespace Hive
 		}
 	}
 
-	void DataManager::xmlParseTexture(XMLInterface::XMLIterator iter, int* texHandle)
+	void DataManager::xmlParseTexture(XMLInterface::XMLIterator iter, int* textureHandle)
 	{
-		//TODO: Textures handling may need to be very different, come back to this later.
 		if (iter.isValid())
 		{
-			std::string texId = iter.getValue();
-			if (!texId.empty())
+			std::string id = iter.getValue();
+			if (!id.empty())
 			{
-				if (_textures.hasKey(texId))
+				if (DTexture::hasKey(id))
 				{
-					*texHandle = _textures.getIndex(texId);
+					*textureHandle = DTexture::getIndex(id);
 				}
 				else
 				{
-					throw IDataManager::DataErrorException("Texture specified but not found: " + texId);
+					throw IDataManager::DataErrorException("Texture specified but not found: " + id);
 				}
 			}
 		}
 	}
 	void DataManager::xmlParseModel(XMLInterface::XMLIterator iter, int* modelHandle)
 	{
-		//TODO:
-	}
-	void DataManager::xmlParseShader(XMLInterface::XMLIterator iter, int* shaderHandle)
-	{
-		//TODO:
+		if (iter.isValid())
+		{
+			std::string id = iter.getValue();
+			if (!id.empty())
+			{
+				if (DModel::hasKey(id))
+				{
+					*modelHandle = DModel::getIndex(id);
+				}
+				else
+				{
+					throw IDataManager::DataErrorException("Model specified but not found: " + id);
+				}
+			}
+		}
 	}
 }

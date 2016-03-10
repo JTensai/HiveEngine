@@ -8,28 +8,37 @@
  */
 
 #include <vector>
+#include <stdio.h>
+#include <iostream>
+#include <stdexcept>
 
 #include <glm\glm.hpp>
+#include <GL/glew.h>
+#include <SFML/OpenGL.hpp>
+#include <SFML/Graphics/VertexArray.hpp>
+#include <glm/vec3.hpp>
+#include <tiny_obj_loader.h>
 
 #include "ServiceLocator.h"
+#include "Data.h"
+#include "Mesh.h"
 
 namespace Hive
 {
-
 	class Model
 	{
 	private:
-		std::vector<int> _meshHandles;
+		std::vector<Mesh*> meshes;
 
 	public:
 		Model();
+		Model(std::string filepath);
 
 		/*
 		Draw iterates over the model's meshes and calls their draw functions, providing the world-view-perspective matrix needed to do so.
 		*/
-		void draw(const glm::mat4& WVP);
+		void draw(GLuint shader_handle) const;
 
 		~Model();
 	};
-
 }

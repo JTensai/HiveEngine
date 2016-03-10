@@ -8,7 +8,25 @@ XMLInterface::XMLInterface()
 
 XMLInterface::XMLInterface(const char* filename)
 {
-	doc.LoadFile(filename);
+	tinyxml2::XMLError err = doc.LoadFile(filename);
+	if (err != tinyxml2::XML_NO_ERROR)
+	{
+		switch (err)
+		{
+		case tinyxml2::XMLError::XML_ERROR_FILE_NOT_FOUND:
+			throw IDataManager::DataErrorException("File not found.");
+		case tinyxml2::XMLError::XML_ERROR_FILE_COULD_NOT_BE_OPENED:
+			throw IDataManager::DataErrorException("Unable to open file.");
+		case tinyxml2::XMLError::XML_ERROR_FILE_READ_ERROR:
+			throw IDataManager::DataErrorException("Read error.");
+		case tinyxml2::XMLError::XML_ERROR_EMPTY_DOCUMENT:
+			throw IDataManager::DataErrorException("Empty document.");
+		case tinyxml2::XMLError::XML_ERROR_MISMATCHED_ELEMENT:
+			throw IDataManager::DataErrorException("Mismatched element.");
+		default:
+			throw IDataManager::DataErrorException(std::string("Unkown error: ") + std::to_string(static_cast<int>(err)));
+		}
+	}
 }
 
 XMLInterface::XMLIterator XMLInterface::begin()
@@ -18,11 +36,12 @@ XMLInterface::XMLIterator XMLInterface::begin()
 
 XMLInterface::XMLIterator::XMLIterator()
 {
+	elem = nullptr;
 }
 
 bool XMLInterface::XMLIterator::isValid()
 {
-	return valid;
+	return elem != nullptr;
 }
 
 XMLInterface::XMLIterator XMLInterface::XMLIterator::next()

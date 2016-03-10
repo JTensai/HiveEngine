@@ -42,4 +42,14 @@ namespace Hive
 	IUIManager* ServiceLocator::getUIManager() {
 		return _uiManager;
 	}
+
+	void ServiceLocator::registerGameWorld(IGameWorld* gameWorld)
+	{
+		game_world = gameWorld;
+	}
+
+	IGameWorld* ServiceLocator::getGameWorld()
+	{
+		return game_world;
+	}
 }

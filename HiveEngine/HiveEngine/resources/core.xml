@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <Catalog>
+
 	<Ability id="BASE_ABILITY">
 		<Type value="INSTANT"/>
 		<Name value=""/>
@@ -37,9 +38,11 @@
 			<Neutral value="ALLOWED"/>
 		</TargetFilter>
 	</Ability>
+
 	<Actor id="BASE_ACTOR">
 		<Model value="BASE_MODEL"/>
 	</Actor>
+
 	<Behavior id="BASE_BEHAVIOR">
 		<Name value=""/>
 		<Tooltip value=""/>
@@ -62,6 +65,7 @@
 			<EffectExpire value=""/>
 		</Effects>
 	</Behavior>
+
 	<EffectModifyUnit id="BASE_EFFECT_MODIFY_UNIT">
 		<Unit>
 			<Effect value="-1"/>
@@ -73,6 +77,7 @@
 		</VitalsDelta>
 		<Validator value="-1"/>
 	</EffectModifyUnit>
+
 	<EffectSearch id="BASE_EFFECT_SEARCH">
 		<Location>
 			<Effect value=""/>
@@ -90,6 +95,7 @@
 		</Filter>
 		<Validator value="-1"/>
 	</EffectSearch>
+
 	<EffectSet id="BASE_EFFECT_SET">
 <!-- EXAMPLE:
 		<Effects>
@@ -99,6 +105,7 @@
 -->
 		<Validator value="-1"/>
 	</EffectSet>
+
 	<EffectSetBehavior id="BASE_EFFECT_SET_BEHAVIOR">
 		<Unit>
 			<Effect value=""/>
@@ -109,6 +116,7 @@
 		<Relative value="false"/>
 		<Validator value="-1"/>
 	</EffectSetBehavior>
+
 	<EffectSpawnUnit id="BASE_EFFECT_SPAWN_UNIT">
 		<Unit value=""/>
 		<Owner>
@@ -121,6 +129,7 @@
 		</Location>
 		<Validator value="-1"/>
 	</EffectSpawnUnit>
+
 	<EffectSwitch id="BASE_EFFECT_SWITCH">
 <!-- EXAMPLE:
 		<Cases>
@@ -137,15 +146,11 @@
 		<ElseEffect value=""/>
 		<Validator value="-1"/>
 	</EffectSwitch>
+
 	<Model id="BASE_MODEL">
-		<File value="resources/teapot.obj"/>
-		<Meshes>
-			<Mesh>
-				<Shader value="DEFAULT_SHADER"/>
-				<Texture value=""/>
-			</Mesh>
-		</Meshes>
+		<File value="resources/blockman.obj"/>
 	</Model>
+
 	<Unit id="BASE_UNIT">
 		<Name value=""/>
 		<VitalMax>
@@ -170,12 +175,14 @@
 		</Abilities>
 -->
 	</Unit>
+
 	<ValidatorBehaviorCount id="BASE_VALIDATOR_BEHAVIOR_COUNT">
 		<Behavior value=""/>
 		<Compare value="EQ"/>
 		<Constant value="1"/>
 		<Negated value="false"/>
 	</ValidatorBehaviorCount>
+
 	<ValidatorCombine id="BASE_VALIDATOR_COMBINE">
 		<Type value="AND"/>
 <!-- EXAMPLE:
@@ -186,6 +193,7 @@
 -->
 		<Negated value="false"/>
 	</ValidatorCombine>
+
 	<ValidatorCompareVital id="BASE_VALIDATOR_COMPARE_VITAL">
 		<Unit>
 			<Effect value=""/>
@@ -201,6 +209,7 @@
 		<Constant value="0.5"/>
 		<Negated value="false"/>
 	</ValidatorCompareVital>
+
 	<ValidatorCondition id="BASE_VALIDATOR_CONDITION">
 <!-- EXAMPLE:
 		<Cases>
@@ -217,6 +226,7 @@
 		<ElseValidator value=""/>
 		<Negated value="false"/>
 	</ValidatorCondition>
+
 	<ValidatorLocationRange id="BASE_VALIDATOR_LOCATION_RANGE">
 		<LocationA>
 			<Effect value=""/>
@@ -230,6 +240,7 @@
 		<Constant value="100.0"/>
 		<Negated value="false"/>
 	</ValidatorLocationRange>
+
 	<ValidatorLocationPathable id="BASE_VALIDATOR_LOCATION_PATHABLE">
 		<Location>
 			<Effect value=""/>
@@ -237,6 +248,7 @@
 		</Location>
 		<Negated value="false"/>
 	</ValidatorLocationPathable>
+
 	<ValidatorFilterUnit>
 		<Unit>
 			<Effect value=""/>
@@ -261,6 +273,7 @@
 		</PlayerToFilterBy>
 		<Negated value="false"/>
 	</ValidatorFilterUnit>
+
 	<ValidatorPlayer id="BASE_VALIDATOR_PLAYER">
 		<Player>
 			<Effect value=""/>
@@ -272,95 +285,97 @@
 		</PlayerToCompareTo>
 		<Negated value="false"/>
 	</ValidatorPlayer>
-    
-    <ParticleSystem id="BaseParticleSystem">
-        <Emitters>
-            <ParticleEmitter id="BaseEmitter"/>
-        </Emitters>
-    </ParticleSystem>
 
-    <ParticleEmitter id="BaseEmitter">
-        <BaseVariables>
-            <EmitterName value="ParticleEmitter"/>
-            <EmitterBlendingMode value="Translucent"/>
-            <EmitterTexture value="DefaultParticleTexture"/>
-            <EmitterLocalOrigin>
-                <X value="0"/>
-                <Y value="0"/>
-                <Z value="0"/>
-            </EmitterLocalOrigin>
-            <Lifetime>
-                <Min value="1.0"/>
-                <Max value="1.0"/>
-            </Lifetime>
-            <InitialSize>
-                <Min value="1.0"/>
-                <Max value="1.0"/>
-            </InitialSize>
-            <InitialVelocity>
-                <X value="0.0"/>
-                <Y value="0.0"/>
-                <Z value="0.0"/>
-            </InitialVelocity>
-        </BaseVariables>
-        <SpawnVariables>
-            <ConstantRate value="10"/>
-            <Burst value="0"/>
-            <Looping value="0"/>
-            <EmitterDealy value="0.0"/>
-        </SpawnVariables>
-        <SubUVVariables>
-            <SubImagesHorizontal value="1"/>
-            <SubImagesVertical value="1"/>
-        </SubUVVariables>
-    <!-- EXAMPLE:
-        <Modules>
-            <ColorOverLife id="TurnRed"/>
-        </Modules>
-    -->
-    </ParticleEmitter>
-    
-    <ModuleSizeOverLife id="BaseModuleColorOverLife">
-        <ScaleMultiplier>
-            <Beginning value="1.0"/>
-            <End value="1.0"/>
-        </ScaleMultiplier>
-    </ModuleSizeOverLife>
-    
-    <ModuleColorOverLife id="BaseModuleCOlorOverLife">
-        <ColorMultiplier>
-            <Beginning>
-                <R value="1.0"/>
-                <G value="1.0"/>
-                <B value="1.0"/>
-                <A value="1.0"/>
-            </Beginning>
-            <End>
-                <R value="1.0"/>
-                <G value="1.0"/>
-                <B value="1.0"/>
-                <A value="1.0"/>
-            </End>
-        </ColorMultiplier>
-    </ModuleColorOverLife>
-    
-    <ModuleInitialRotation id="BaseModuleInitialRotation">
-        <Min value="0.0"/>
-        <Max value="0.0"/>
-    </ModuleInitialRotation>
-    
-    <ModuleInitialRotationRate id="BaseModuleInitialRotationRate">
-        <Min value="0.0"/>
-        <Max value="0.0"/>
-    </ModuleInitialRotationRate>
-    
-    <ModuleSubImageIndexOverLife id="BaseModuleSubImageIndexOverLife">
-        <Beginning value="0"/>
-        <End value="0"/>
-    </ModuleSubImageIndexOverLife>
-    
-    <ModuleSubImageIndexRandom id="BaseModuleSubImageIndexRandom">
-        <Min value="0"/>
-        <Max value="0"/>
-    </ModuleSubImageIndexRandom>
+	<ParticleSystem id="BaseParticleSystem">
+		<Emitters>
+			<ParticleEmitter id="BaseEmitter"/>
+		</Emitters>
+	</ParticleSystem>
+
+	<ParticleEmitter id="BaseEmitter">
+		<BaseVariables>
+			<EmitterName value="ParticleEmitter"/>
+			<EmitterLocalOrigin>
+				<X value="0"/>
+				<Y value="0"/>
+				<Z value="0"/>
+			</EmitterLocalOrigin>
+			<Lifetime>
+				<Min value="1.0"/>
+				<Max value="1.0"/>
+			</Lifetime>
+			<InitialSize>
+				<Min value="1.0"/>
+				<Max value="1.0"/>
+			</InitialSize>
+			<InitialVelocity>
+				<X value="0.0"/>
+				<Y value="0.0"/>
+				<Z value="0.0"/>
+			</InitialVelocity>
+		</BaseVariables>
+		<SpawnVariables>
+			<ConstantRate value="10"/>
+			<Burst value="0"/>
+			<Looping value="0"/>
+			<EmitterDealy value="0.0"/>
+		</SpawnVariables>
+		<SubUVVariables>
+			<SubImagesHorizontal value="1"/>
+			<SubImagesVertical value="1"/>
+		</SubUVVariables>
+<!-- EXAMPLE:
+	<Modules>
+		<ColorOverLife id="TurnRed"/>
+	</Modules>
+-->
+	</ParticleEmitter>
+
+	<ModuleSizeOverLife id="BaseModuleSizeOverLife">
+		<ScaleMultiplier>
+			<Beginning value="1.0"/>
+			<End value="1.0"/>
+		</ScaleMultiplier>
+	</ModuleSizeOverLife>
+
+	<ModuleColorOverLife id="BaseModuleColorOverLife">
+		<ColorMultiplier>
+			<Beginning>
+				<R value="1.0"/>
+				<G value="1.0"/>
+				<B value="1.0"/>
+				<A value="1.0"/>
+			</Beginning>
+			<End>
+				<R value="1.0"/>
+				<G value="1.0"/>
+				<B value="1.0"/>
+				<A value="1.0"/>
+			</End>
+		</ColorMultiplier>
+	</ModuleColorOverLife>
+
+	<ModuleInitialRotation id="BaseModuleInitialRotation">
+		<Min value="0.0"/>
+		<Max value="0.0"/>
+	</ModuleInitialRotation>
+
+	<ModuleInitialRotationRate id="BaseModuleInitialRotationRate">
+		<Min value="0.0"/>
+		<Max value="0.0"/>
+	</ModuleInitialRotationRate>
+
+	<ModuleSubImageIndexOverLife id="BaseModuleSubImageIndexOverLife">
+		<Beginning value="0"/>
+		<End value="0"/>
+	</ModuleSubImageIndexOverLife>
+
+	<ModuleSubImageIndexRandom id="BaseModuleSubImageIndexRandom">
+		<Min value="0"/>
+		<Max value="0"/>
+	</ModuleSubImageIndexRandom>
+
+	<Texture id="BASE_TEXTURE">
+		<File value="resources/texture.jpg"/>
+	</Texture>
 </Catalog>

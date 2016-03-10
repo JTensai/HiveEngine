@@ -22,6 +22,7 @@ namespace Hive
 		ComponentManager() {};
 
 		void initialize();
+		void load();
 		void update_free(float delta, bool is_a);
 		void update_fixed(float delta, bool is_a);
 		void draw(const glm::mat4& VP);
