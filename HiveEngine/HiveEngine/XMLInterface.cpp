@@ -14,37 +14,37 @@ XMLInterface::XMLInterface(const char* filename)
 		switch (err)
 		{
 		case tinyxml2::XMLError::XML_ERROR_FILE_NOT_FOUND:
-			throw IDataManager::DataErrorException("File not found.");
+			throw DataErrorException("File not found.");
 		case tinyxml2::XMLError::XML_ERROR_FILE_COULD_NOT_BE_OPENED:
-			throw IDataManager::DataErrorException("Unable to open file.");
+			throw DataErrorException("Unable to open file.");
 		case tinyxml2::XMLError::XML_ERROR_FILE_READ_ERROR:
-			throw IDataManager::DataErrorException("Read error.");
+			throw DataErrorException("Read error.");
 		case tinyxml2::XMLError::XML_ERROR_EMPTY_DOCUMENT:
-			throw IDataManager::DataErrorException("Empty document.");
+			throw DataErrorException("Empty document.");
 		case tinyxml2::XMLError::XML_ERROR_MISMATCHED_ELEMENT:
-			throw IDataManager::DataErrorException("Mismatched element.");
+			throw DataErrorException("Mismatched element.");
 		default:
-			throw IDataManager::DataErrorException(std::string("Unkown error: ") + std::to_string(static_cast<int>(err)));
+			throw DataErrorException(std::string("Unkown error: ") + std::to_string(static_cast<int>(err)));
 		}
 	}
 }
 
-XMLInterface::XMLIterator XMLInterface::begin()
+XMLIterator XMLInterface::begin()
 {
-	return XMLInterface::XMLIterator(doc.RootElement());
+	return XMLIterator(doc.RootElement());
 }
 
-XMLInterface::XMLIterator::XMLIterator()
+XMLIterator::XMLIterator()
 {
 	elem = nullptr;
 }
 
-bool XMLInterface::XMLIterator::isValid()
+bool XMLIterator::isValid()
 {
 	return elem != nullptr;
 }
 
-XMLInterface::XMLIterator XMLInterface::XMLIterator::next()
+XMLIterator XMLIterator::next()
 {
 	if (elemName.empty())
 	{
@@ -53,12 +53,12 @@ XMLInterface::XMLIterator XMLInterface::XMLIterator::next()
 	return XMLIterator(elem->NextSiblingElement(elemName.c_str()), elemName);
 }
 
-XMLInterface::XMLIterator XMLInterface::XMLIterator::getChildrenOfName(std::string name)
+XMLIterator XMLIterator::getChildrenOfName(std::string name)
 {
 	return XMLIterator(elem->FirstChildElement(name.c_str()), name);
 }
 
-int XMLInterface::XMLIterator::getNumChildrenOfName(std::string name)
+int XMLIterator::getNumChildrenOfName(std::string name)
 {
 	XMLIterator iter = getChildrenOfName(name);
 	int count = 0;
@@ -70,7 +70,7 @@ int XMLInterface::XMLIterator::getNumChildrenOfName(std::string name)
 	return count;
 }
 
-std::string XMLInterface::XMLIterator::getAttribute(std::string attr)
+std::string XMLIterator::getAttribute(std::string attr)
 {
 	const char* str = elem->Attribute(attr.c_str());
 	if (str)
@@ -78,24 +78,24 @@ std::string XMLInterface::XMLIterator::getAttribute(std::string attr)
 	return "";
 }
 
-std::string XMLInterface::XMLIterator::getValue()
+std::string XMLIterator::getValue()
 {
 	return getAttribute("value");
 }
 
-std::string XMLInterface::XMLIterator::getID()
+std::string XMLIterator::getID()
 {
 	return getAttribute("id");
 }
 
-std::string XMLInterface::XMLIterator::getParentID()
+std::string XMLIterator::getParentID()
 {
 	return getAttribute("parent");
 }
 
-void XMLInterface::XMLIterator::forEachChildOfName(std::string name, std::function<void(XMLIterator)> func)
+void XMLIterator::forEachChildOfName(std::string name, std::function<void(XMLIterator)> func)
 {
-	XMLInterface::XMLIterator xmliter = getChildrenOfName(name);
+	XMLIterator xmliter = getChildrenOfName(name);
 	while (xmliter.isValid())
 	{
 		func(xmliter);

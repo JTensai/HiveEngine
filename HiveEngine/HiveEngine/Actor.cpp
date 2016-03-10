@@ -25,10 +25,16 @@ void Actor::setShader(GLuint shader)
 
 void Actor::predraw()
 {
+	glEnableVertexAttribArray(0); //Position
+	glEnableVertexAttribArray(1); //Normal
+	glEnableVertexAttribArray(2); //UV
 }
 
 void Actor::postdraw()
 {
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 }
 
 void Actor::update_component(float delta, bool is_a)

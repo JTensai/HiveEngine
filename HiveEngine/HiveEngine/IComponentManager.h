@@ -11,7 +11,6 @@
 
 namespace Hive
 {
-
 	class IComponentManager
 	{
 	public:
@@ -21,5 +20,4 @@ namespace Hive
 		virtual void update_fixed(float delta, bool is_a) = 0;
 		virtual void draw(const glm::mat4& VP) = 0;
 	};
-
 }

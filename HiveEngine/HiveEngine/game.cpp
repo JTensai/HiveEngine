@@ -51,6 +51,7 @@ void Game::load(GLFWwindow* window) {
 	glClearColor(BG.r, BG.g, BG.b, 0.0f);
 
 	//glEnable(GL_CULL_FACE);
+	glEnable(GL_TEXTURE_2D);
 	//glCullFace(GL_FRONT);
 
 	// Enable depth test
@@ -70,7 +71,7 @@ void Game::load(GLFWwindow* window) {
 	{
 		ServiceLocator::getInstance()->getDataManager()->loadXMLData(xml_filename);
 	}
-	catch (IDataManager::DataErrorException e)
+	catch (DataErrorException e)
 	{
 		printf("Error loading data: %s\n", e.err.c_str());
 	}
