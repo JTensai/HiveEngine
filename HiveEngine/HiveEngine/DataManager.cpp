@@ -133,50 +133,50 @@ namespace Hive
 	{
 		ParticleSystem system;
 		std::string id = xmliter.getID();
-		//particleSystems.addItem(id, system);
+		ParticleSystem::addItem(id, system);
 	}
 	void DataManager::xmlFirstPassParticleEmitter(XMLInterface::XMLIterator xmliter)
 	{
 		ParticleEmitter emitter;
 		std::string id = xmliter.getID();
-		//particleEmitters.addItem(id, emitter);
+		ParticleEmitter::addItem(id, emitter);
 	}
 	//modules...
 	void DataManager::xmlFirstPassModuleSizeOverLife(XMLInterface::XMLIterator xmliter)
 	{
 		ModuleSizeOverLife module;
 		std::string id = xmliter.getID();
-		//modulesSizeOverLife.addItem(id, module);
+		ModuleSizeOverLife::addItem(id, module);
 	}
 	void DataManager::xmlFirstPassModuleColorOverLife(XMLInterface::XMLIterator xmliter)
 	{
 		ModuleColorOverLife module;
 		std::string id = xmliter.getID();
-		//modulesColorOverLife.addItem(id, module);
+		ModuleColorOverLife::addItem(id, module);
 	}
 	void DataManager::xmlFirstPassModuleInitialRotation(XMLInterface::XMLIterator xmliter)
 	{
 		ModuleInitialRotation module;
 		std::string id = xmliter.getID();
-		//modulesInitialRotation.addItem(id, module);
+		ModuleInitialRotation::addItem(id, module);
 	}
 	void DataManager::xmlFirstPassModuleInitialRotationRate(XMLInterface::XMLIterator xmliter)
 	{
 		ModuleInitialRotationRate module;
 		std::string id = xmliter.getID();
-		//modulesInitialRotationRate.addItem(id, module);
+		ModuleInitialRotationRate::addItem(id, module);
 	}
 	void DataManager::xmlFirstPassModuleSubImageIndexOverLife(XMLInterface::XMLIterator xmliter)
 	{
 		ModuleSubImageIndexOverLife module;
 		std::string id = xmliter.getID();
-		//modulesSubImageIndexOverLife.addItem(id, module);
+		ModuleSubImageIndexOverLife::addItem(id, module);
 	}
 	void DataManager::xmlFirstPassModuleSubImageIndexRandom(XMLInterface::XMLIterator xmliter)
 	{
 		ModuleSubImageIndexRandom module;
 		std::string id = xmliter.getID();
-		//modulesSubImageIndexRandom.addItem(id, module);
+		ModuleSubImageIndexRandom::addItem(id, module);
 	}
 
 	void DataManager::xmlSecondPass(XMLInterface& xmlif)

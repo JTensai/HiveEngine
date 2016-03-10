@@ -6,11 +6,15 @@
 
 namespace Hive
 {
-	struct ParticleSystem {
+	class ParticleSystem : public DataCollection<ParticleSystem> 
+	{
+	public:
 		std::string id;
 		std::vector<std::string> emittersIDs[];
 	};
-	struct ParticleEmitter {
+	class ParticleEmitter : public DataCollection<ParticleEmitter>
+	{
+	public:
 		std::string id;
 		std::string emitterName;
 		std::string blendingMode;
@@ -27,31 +31,45 @@ namespace Hive
 		int subImagesVertical;
 		std::vector<std::string> modulesIDs;
 	};
-
-	struct Module {
+	class ModuleSizeOverLife: public DataCollection<ModuleSizeOverLife>
+	{
+	public:
 		std::string id;
-	};
-	struct ModuleSizeOverLife: Module {
 		float beinningFactor;
 		float endFactor;
 	};
-	struct ModuleColorOverLife: Module {
+	class ModuleColorOverLife: public DataCollection<ModuleColorOverLife>
+	{
+	public:
+		std::string id;
 		glm::vec4 beginningColor;
 		glm::vec4 endColor;
 	};
-	struct ModuleInitialRotation: Module {
+	class ModuleInitialRotation: public DataCollection<ModuleInitialRotation>
+	{
+	public:
+		std::string id;
 		float min;
 		float max;
 	};
-	struct ModuleInitialRotationRate: Module {
+	class ModuleInitialRotationRate: public DataCollection<ModuleInitialRotationRate>
+	{
+	public:
+		std::string id;
 		float min;
 		float max;
 	};
-	struct ModuleSubImageIndexOverLife: Module{
+	class ModuleSubImageIndexOverLife: public DataCollection<ModuleSubImageIndexOverLife>
+	{
+	public:
+		std::string id;
 		int beginningIndex;
 		int endIndex;
 	};
-	struct ModuleSubImageIndexRandom: Module {
+	class ModuleSubImageIndexRandom: public DataCollection<ModuleSubImageIndexRandom>
+	{
+	public:
+		std::string id;
 		int beginningIndex;
 		int endIndex;
 	};
