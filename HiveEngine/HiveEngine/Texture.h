@@ -24,7 +24,6 @@ namespace Hive
 	public:
 		Texture(std::string filepath, DTexture* data);
 		GLuint get_handle() const;
-		void bind() const;
 		~Texture();
 	};
 

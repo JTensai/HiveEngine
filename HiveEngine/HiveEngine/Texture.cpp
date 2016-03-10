@@ -55,22 +55,6 @@ GLuint Texture::get_handle() const
 	return gl_handle;
 }
 
-void Texture::bind() const
-{
-	glBindTexture(GL_TEXTURE_2D, gl_handle);
-	glTexImage2D(
-		GL_TEXTURE_2D,		// Target
-		0,					// LOD
-		GL_RGBA,			// Internal Format (e.g. does it even have alpha?)
-		width,				// Width
-		height,				// Height
-		0,					// Border, always 0
-		GL_RGBA,			// Format (i.e. what is the ordering of the components)
-		GL_UNSIGNED_BYTE,	// Type
-		tex_data.data()			// Data
-		);
-}
-
 Texture::~Texture()
 {
 	glDeleteTextures(1, &gl_handle);
