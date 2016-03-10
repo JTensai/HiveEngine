@@ -200,6 +200,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="ParticleSystemComponent.h" />
+    <ClInclude Include="ParticleSystemData.h" />
     <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Data.h" />

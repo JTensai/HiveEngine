@@ -8,6 +8,7 @@
 #include "IDataManager.h"
 #include "DataCollection.h"
 #include "XMLInterface.h"
+#include "ParticleSystemData.h"
 
 namespace Hive
 {
@@ -28,6 +29,15 @@ namespace Hive
 		DataCollection<Texture> _textures;
 		DataCollection<Mesh> _meshes;
 		DataCollection<Model> _models;
+		
+		DataCollection<ParticleSystem> particleSystems;
+		DataCollection<ParticleEmitter> particleEmitters;
+		DataCollection<ModuleSizeOverLife> modulesSizeOverLife;
+		DataCollection<ModuleColorOverLife> modulesColorOverLife;
+		DataCollection<ModuleInitialRotation> modulesInitialRotation;
+		DataCollection<ModuleInitialRotationRate> modulesInitialRotationRate;
+		DataCollection<ModuleSubImageIndexOverLife> modulesSubImageIndexOverLife;
+		DataCollection<ModuleSubImageIndexRandom> modulesSubImageIndexRandom;
 
 #pragma region XML Functions
 		void xmlFirstPass(XMLInterface& xmlif);
@@ -42,6 +52,16 @@ namespace Hive
 		void xmlFirstPassUnits(XMLInterface::XMLIterator xmliter);
 
 		void xmlFirstPassValidator(XMLInterface::XMLIterator xmliter);
+
+		void xmlFirstPassParticleSystem(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassParticleEmitter(XMLInterface::XMLIterator xmliter);
+		// modules...
+		void xmlFirstPassModuleSizeOverLife(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassModuleColorOverLife(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassModuleInitialRotation(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassModuleInitialRotationRate(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassModuleSubImageIndexOverLife(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassModuleSubImageIndexRandom(XMLInterface::XMLIterator xmliter);
 
 		void xmlSecondPass(XMLInterface& xmlif);
 
@@ -68,6 +88,15 @@ namespace Hive
 		void xmlSecondPassValidatorFilterUnit(XMLInterface::XMLIterator xmliter);
 		void xmlSecondPassValidatorPlayer(XMLInterface::XMLIterator xmliter);
 
+		void xmlSecondPassParticleSystem(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassParticleEmitter(XMLInterface::XMLIterator xmliter);
+		// modules...
+		void xmlSecondPassModuleSizeOverLife(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassModuleColorOverLife(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassModuleInitialRotation(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassModuleInitialRotationRate(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassModuleSubImageIndexOverLife(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassModuleSubImageIndexRandom(XMLInterface::XMLIterator xmliter);
 
 		void xmlParseVitals(XMLInterface::XMLIterator iter, Vitals* vitals);
 		void xmlParseCharges(XMLInterface::XMLIterator iter, Charges* charges);

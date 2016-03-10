@@ -120,6 +120,16 @@ namespace Hive
 		root.forEachChildOfName("ValidatorLocationPathable", std::bind(&DataManager::xmlFirstPassValidator, this, _1));
 		root.forEachChildOfName("ValidatorFilterUnit", std::bind(&DataManager::xmlFirstPassValidator, this, _1));
 		root.forEachChildOfName("ValidatorValidatorPlayer", std::bind(&DataManager::xmlFirstPassValidator, this, _1));
+
+		root.forEachChildOfName("ParticleSystem", std::bind(&DataManager::xmlFirstPassParticleSystem, this, _1));
+		root.forEachChildOfName("ParticleEmitter", std::bind(&DataManager::xmlFirstPassParticleEmitter, this, _1));
+		// modules...
+		root.forEachChildOfName("ModuleSizeOverLife", std::bind(&DataManager::xmlFirstPassModuleSizeOverLife, this, _1));
+		root.forEachChildOfName("ModuleColorOverLife", std::bind(&DataManager::xmlFirstPassModuleColorOverLife, this, _1));
+		root.forEachChildOfName("ModuleInitialRotation", std::bind(&DataManager::xmlFirstPassModuleInitialRotation, this, _1));
+		root.forEachChildOfName("ModuleInitialRotationRate", std::bind(&DataManager::xmlFirstPassModuleInitialRotationRate, this, _1));
+		root.forEachChildOfName("ModuleSubImageIndexOverLife", std::bind(&DataManager::xmlFirstPassModuleSubImageIndexOverLife, this, _1));
+		root.forEachChildOfName("ModuleSubImageIndexRandom", std::bind(&DataManager::xmlFirstPassModuleSubImageIndexRandom, this, _1));
 	}
 
 	void DataManager::xmlFirstPassAbilities(XMLInterface::XMLIterator xmliter)
@@ -168,6 +178,56 @@ namespace Hive
 		_dValidators.addItem(id, validator);
 	}
 
+	void DataManager::xmlFirstPassParticleSystem(XMLInterface::XMLIterator xmliter)
+	{
+		ParticleSystem system;
+		std::string id = xmliter.getID();
+		particleSystems.addItem(id, system);
+	}
+	void DataManager::xmlFirstPassParticleEmitter(XMLInterface::XMLIterator xmliter)
+	{
+		ParticleEmitter emitter;
+		std::string id = xmliter.getID();
+		particleEmitters.addItem(id, emitter);
+	}
+	//modules...
+	void DataManager::xmlFirstPassModuleSizeOverLife(XMLInterface::XMLIterator xmliter)
+	{
+		ModuleSizeOverLife module;
+		std::string id = xmliter.getID();
+		modulesSizeOverLife.addItem(id, module);
+	}
+	void DataManager::xmlFirstPassModuleColorOverLife(XMLInterface::XMLIterator xmliter)
+	{
+		ModuleColorOverLife module;
+		std::string id = xmliter.getID();
+		modulesColorOverLife.addItem(id, module);
+	}
+	void DataManager::xmlFirstPassModuleInitialRotation(XMLInterface::XMLIterator xmliter)
+	{
+		ModuleInitialRotation module;
+		std::string id = xmliter.getID();
+		modulesInitialRotation.addItem(id, module);
+	}
+	void DataManager::xmlFirstPassModuleInitialRotationRate(XMLInterface::XMLIterator xmliter)
+	{
+		ModuleInitialRotationRate module;
+		std::string id = xmliter.getID();
+		modulesInitialRotationRate.addItem(id, module);
+	}
+	void DataManager::xmlFirstPassModuleSubImageIndexOverLife(XMLInterface::XMLIterator xmliter)
+	{
+		ModuleSubImageIndexOverLife module;
+		std::string id = xmliter.getID();
+		modulesSubImageIndexOverLife.addItem(id, module);
+	}
+	void DataManager::xmlFirstPassModuleSubImageIndexRandom(XMLInterface::XMLIterator xmliter)
+	{
+		ModuleSubImageIndexRandom module;
+		std::string id = xmliter.getID();
+		modulesSubImageIndexRandom.addItem(id, module);
+	}
+
 	void DataManager::xmlSecondPass(XMLInterface& xmlif)
 	{
 		using std::placeholders::_1;
@@ -197,6 +257,16 @@ namespace Hive
 		root.forEachChildOfName("ValidatorLocationPathable", std::bind(&DataManager::xmlSecondPassValidatorLocationPathable, this, _1));
 		root.forEachChildOfName("ValidatorFilterUnit", std::bind(&DataManager::xmlSecondPassValidatorFilterUnit, this, _1));
 		root.forEachChildOfName("ValidatorValidatorPlayer", std::bind(&DataManager::xmlSecondPassValidatorPlayer, this, _1));
+
+		root.forEachChildOfName("ParticleSystem", std::bind(&DataManager::xmlSecondPassParticleSystem, this, _1));
+		root.forEachChildOfName("ParticleEmitter", std::bind(&DataManager::xmlSecondPassParticleEmitter, this, _1));
+		// modules...
+		root.forEachChildOfName("ModuleSizeOverLife", std::bind(&DataManager::xmlSecondPassModuleSizeOverLife, this, _1));
+		root.forEachChildOfName("ModuleColorOverLife", std::bind(&DataManager::xmlSecondPassModuleColorOverLife, this, _1));
+		root.forEachChildOfName("ModuleInitialRotation", std::bind(&DataManager::xmlSecondPassModuleInitialRotation, this, _1));
+		root.forEachChildOfName("ModuleInitialRotationRate", std::bind(&DataManager::xmlSecondPassModuleInitialRotationRate, this, _1));
+		root.forEachChildOfName("ModuleSubImageIndexOverLife", std::bind(&DataManager::xmlSecondPassModuleSubImageIndexOverLife, this, _1));
+		root.forEachChildOfName("ModuleSubImageIndexRandom", std::bind(&DataManager::xmlSecondPassModuleSubImageIndexRandom, this, _1));
 	}
 
 	void DataManager::xmlSecondPassAbilities(XMLInterface::XMLIterator xmliter)
@@ -299,6 +369,40 @@ namespace Hive
 	void DataManager::xmlSecondPassValidatorLocationPathable(XMLInterface::XMLIterator xmliter) {}
 	void DataManager::xmlSecondPassValidatorFilterUnit(XMLInterface::XMLIterator xmliter) {}
 	void DataManager::xmlSecondPassValidatorPlayer(XMLInterface::XMLIterator xmliter) {}
+
+	void DataManager::xmlSecondPassParticleSystem(XMLInterface::XMLIterator xmliter)
+	{
+		//TODO
+	}
+	void DataManager::xmlSecondPassParticleEmitter(XMLInterface::XMLIterator xmliter)
+	{
+		//TODO
+	}
+	// modules...
+	void DataManager::xmlSecondPassModuleSizeOverLife(XMLInterface::XMLIterator xmliter)
+	{
+		//TODO
+	}
+	void DataManager::xmlSecondPassModuleColorOverLife(XMLInterface::XMLIterator xmliter)
+	{
+		//TODO
+	}
+	void DataManager::xmlSecondPassModuleInitialRotation(XMLInterface::XMLIterator xmliter)
+	{
+		//TODO
+	}
+	void DataManager::xmlSecondPassModuleInitialRotationRate(XMLInterface::XMLIterator xmliter)
+	{
+		//TODO
+	}
+	void DataManager::xmlSecondPassModuleSubImageIndexOverLife(XMLInterface::XMLIterator xmliter)
+	{
+		//TODO
+	}
+	void DataManager::xmlSecondPassModuleSubImageIndexRandom(XMLInterface::XMLIterator xmliter)
+	{
+		//TODO
+	}
 
 	void DataManager::xmlParseVitals(XMLInterface::XMLIterator iter, Vitals* vitals)
 	{
