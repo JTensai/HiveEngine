@@ -61,6 +61,11 @@ void Game::load(GLFWwindow* window) {
 
 	shader_program_id = LoadShader("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
 	Actor::setShader(shader_program_id);
+	
+	light_direction = glm::normalize(glm::vec3(1, -4, -1));
+	light_color = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
+	ambient_color = glm::vec3(0.1f);
+	
 
 	temp_model = new TempModel("resources/teapot.obj");
 
@@ -158,16 +163,13 @@ void Game::draw() {
 	ServiceLocator::getInstance()->getGameWorld()->draw(world_view_projection);
 	
 	glUseProgram(shader_program_id);
-	//shader_matrix_id = glGetUniformLocation(shader_program_id, "MVP");
-	shader_view_matrix_id = glGetUniformLocation(shader_program_id, "V");
-	//shader_world_matrix_id = glGetUniformLocation(shader_program_id, "M");
-	glm::vec3 lightPos = glm::vec3(4, 4, 4);
-	GLuint LightID = glGetUniformLocation(shader_program_id, "LightPosition_worldspace");
-	glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
-	//glUniformMatrix4fv(shader_matrix_id, 1, GL_FALSE, &world_view_projection[0][0]);
-	//glUniformMatrix4fv(shader_world_matrix_id, 1, GL_FALSE, &world_matrix[0][0]);
-	glUniformMatrix4fv(shader_view_matrix_id, 1, GL_FALSE, &view_matrix[0][0]);
-	//temp_model->draw();
+	GLuint LightDirection = glGetUniformLocation(shader_program_id, "LightDirection");
+	GLuint LightColor = glGetUniformLocation(shader_program_id, "LightColor");
+	GLuint AmbientColor = glGetUniformLocation(shader_program_id, "AmbientColor");
+
+	glUniform3f(LightDirection, light_direction.x, light_direction.y, light_direction.z);
+	glUniform4f(LightColor, light_color.r, light_color.g, light_color.b, light_color.w);
+	glUniform3f(AmbientColor, ambient_color.r, ambient_color.g, ambient_color.b);
 
 	ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
 

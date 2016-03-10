@@ -40,10 +40,12 @@ void Actor::postdraw()
 void Actor::update_component(float delta, bool is_a)
 {
 	world_transform = glm::translate(glm::vec3(position));
-	rotation += spin * delta;
 	world_transform *= glm::rotate(rotation.x, glm::vec3(1, 0, 0));
 	world_transform *= glm::rotate(rotation.y, glm::vec3(0, 1, 0));
 	world_transform *= glm::rotate(rotation.z, glm::vec3(0, 0, 1));
+
+	// Update state for next frame because if an update loop pushed data to the actor, that data is authoritative. 
+	rotation += spin * delta;
 }
 
 void Actor::draw_component(const glm::mat4& VP)
@@ -53,8 +55,8 @@ void Actor::draw_component(const glm::mat4& VP)
 
 	glm::mat4 WVP = VP * world_transform;
 
-	GLuint shader_matrix_id = glGetUniformLocation(actor_shader_handle, "MVP");
-	GLuint shader_world_id = glGetUniformLocation(actor_shader_handle, "M");
+	GLuint shader_matrix_id = glGetUniformLocation(actor_shader_handle, "WVP");
+	GLuint shader_world_id = glGetUniformLocation(actor_shader_handle, "W");
 
 	glUniformMatrix4fv(shader_matrix_id, 1, GL_FALSE, &WVP[0][0]);
 	glUniformMatrix4fv(shader_world_id, 1, GL_FALSE, &world_transform[0][0]);

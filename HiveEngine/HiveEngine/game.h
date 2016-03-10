@@ -43,6 +43,9 @@ namespace Hive
 
 	class Game {
 	private:
+		glm::vec3 light_direction;
+		glm::vec4 light_color;
+		glm::vec3 ambient_color;
 		glm::vec3 camera_position;
 		glm::mat4 projection_matrix;
 		glm::mat4 view_matrix;
