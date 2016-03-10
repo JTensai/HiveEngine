@@ -25,7 +25,7 @@ namespace Hive
 	private:
 		std::vector<float> data;
 		int num_verts;
-		std::vector<int> indices;
+		std::vector<unsigned short> indices;
 
 		int mat_id;
 
