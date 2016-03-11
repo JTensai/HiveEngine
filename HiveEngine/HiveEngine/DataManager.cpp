@@ -361,7 +361,43 @@ void DataManager::xmlSecondPassModels(XMLIterator xmliter)
 		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
 	}
 }
-void DataManager::xmlSecondPassUnits(XMLIterator xmliter) {}
+void DataManager::xmlSecondPassUnits(XMLIterator xmliter)
+{
+	DUnit* unit;
+	try
+	{
+		copyParent<DUnit>(xmliter, &unit);
+
+		XMLIterator iter;
+		iter = xmliter.getChildrenOfName("VitalMax");
+		xmlParseVitals(iter, &unit->vitalMax);
+
+		iter = xmliter.getChildrenOfName("VitalRegen");
+		xmlParseVitals(iter, &unit->vitalRegen);
+
+		iter = xmliter.getChildrenOfName("Speed");
+		if (iter.isValid()) { unit->speed = std::stof(iter.getValue()); }
+
+		iter = xmliter.getChildrenOfName("Attributes");
+		xmlParseAttributes(iter, &unit->attributes);
+
+		iter = xmliter.getChildrenOfName("Actor");
+		linkData<DActor>(iter, &unit->actorDataHandle);
+
+		iter = xmliter.getChildrenOfName("Height");
+		if (iter.isValid()) { unit->height = std::stof(iter.getValue()); }
+
+		iter = xmliter.getChildrenOfName("Abilities");
+		xmlParseAbilityList(iter, &unit->abilityHandles);
+
+		iter = xmliter.getChildrenOfName("Behaviors");
+		xmlParseAbilityList(iter, &unit->behaviorHandles);
+	}
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("Unit(" + xmliter.getID() + ")::" + e.err);
+	}
+}
 
 void DataManager::xmlSecondPassValidatorBehaviorCount(XMLIterator xmliter) {}
 void DataManager::xmlSecondPassValidatorCombine(XMLIterator xmliter) {}
@@ -605,11 +641,63 @@ void DataManager::xmlParseMeshList(XMLIterator iter, std::vector<int>* mesh_mat_
 }
 void DataManager::xmlParseMesh(XMLIterator iter, std::vector<int>* mesh_mat_list)
 {
-	XMLIterator subIter = iter.getChildrenOfName("DiffuseTexture");
+	XMLIterator subIter = iter.getChildrenOfName("Material");
 	if (subIter.isValid())
 	{
-		int tex;
-		linkData<DTexture>(subIter, &tex);
-		mesh_mat_list->push_back(tex);
+		int mat;
+		linkData<Material>(subIter, &mat);
+		mesh_mat_list->push_back(mat);
+	}
+}
+void DataManager::xmlParseAttributes(XMLIterator iter, Attributes* attributes)
+{
+	if (iter.isValid())
+	{
+		XMLIterator subIter;
+		subIter = iter.getChildrenOfName("Missile");
+		if (subIter.isValid()) attributes->missile = (bool) std::stoi(subIter.getValue());
+	}
+}
+
+void DataManager::xmlParseAbilityList(XMLIterator iter, std::vector<int>* abilities)
+{
+	if (iter.isValid())
+	{
+		XMLIterator subIter = iter.getChildrenOfName("Ability");
+		while (subIter.isValid())
+		{
+			int tmp = -1;
+			linkData<DAbility>(subIter, &tmp);
+			if (tmp >= 0)
+			{
+				abilities->push_back(tmp);
+			}
+			else
+			{
+				throw DataErrorException("Error parsing ability list.");
+			}
+			subIter = subIter.next();
+		}
+	}
+}
+void DataManager::xmlParseBehaviorList(XMLIterator iter, std::vector<int>* behaviors)
+{
+	if (iter.isValid())
+	{
+		XMLIterator subIter = iter.getChildrenOfName("Behavior");
+		while (subIter.isValid())
+		{
+			int tmp = -1;
+			linkData<DBehavior>(subIter, &tmp);
+			if (tmp >= 0)
+			{
+				behaviors->push_back(tmp);
+			}
+			else
+			{
+				throw DataErrorException("Error parsing behavior list.");
+			}
+			subIter = subIter.next();
+		}
 	}
 }

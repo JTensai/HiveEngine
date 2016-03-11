@@ -51,18 +51,15 @@ namespace Hive
 		glm::mat4 view_matrix;
 		glm::mat4 world_matrix;
 		glm::mat4 world_view_projection;
-		TempModel* temp_model = 0;
 		char* xml_filename;
 		GLuint shader_program_id;
-		GLuint shader_matrix_id;
-		GLuint shader_view_matrix_id;
-		GLuint shader_world_matrix_id;
 		GLuint vertex_array_id;
 		GLFWwindow* glfw_window;
 		InputManager* input_manager;
-		float camera_rotation = 0;
 		float timestep_delta;
 		bool update_cache_swap_flag;
+		int player_unit_handle;
+		int player_actor_handle;
 
 	public:
 		Game();

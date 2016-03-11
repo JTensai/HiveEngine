@@ -126,6 +126,13 @@ namespace Hive
 		float
 			hp,
 			mana;
+
+		Vitals operator-() const { return Vitals{ -hp, -mana }; }
+		Vitals operator*(float f) const { return Vitals{ hp * f, mana * f }; }
+		Vitals operator+(const Vitals& o) const { return Vitals{ hp + o.hp, mana + o.mana }; }
+		Vitals operator-(const Vitals& o) const { return *this + -o; }
+		void operator*=(float f) { hp *= f; mana *= f; }
+		void operator+=(const Vitals& o) { hp += o.hp; mana += o.mana; }
 	};
 
 	struct UnitFilter {
@@ -179,6 +186,7 @@ namespace Hive
 			vitalMax,
 			vitalRegen;
 
+		float height;
 		float speed;
 		float collisionRadius;
 

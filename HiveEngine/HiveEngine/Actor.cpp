@@ -6,8 +6,8 @@ GLuint Actor::actor_shader_handle = -1;
 
 Actor::Actor()
 {
-	position = glm::vec3(20, 3, 30);
-	spin = glm::vec3(0, 1, 0);
+	position = glm::vec3(0);
+	spin = glm::vec3(0);
 	world_transform = glm::mat4();
 	d_model_handle = -1;
 }
@@ -37,6 +37,27 @@ void Actor::postdraw()
 	glDisableVertexAttribArray(2);
 }
 
+void Actor::set_position(glm::vec2 pos, float height)
+{
+	position = glm::vec3(pos.x, height, pos.y);
+}
+
+void Actor::set_velocity(glm::vec2 plane)
+{
+	velocity.x = plane.x;
+	velocity.z = plane.y;
+}
+
+void Actor::set_rotation(float rotation)
+{
+	Actor::rotation.y = rotation;
+}
+
+void Actor::set_spin(float spin)
+{
+	Actor::spin.y = spin;
+}
+
 void Actor::update_component(float delta, bool is_a)
 {
 	world_transform = glm::translate(glm::vec3(position));
@@ -46,6 +67,7 @@ void Actor::update_component(float delta, bool is_a)
 
 	// Update state for next frame because if an update loop pushed data to the actor, that data is authoritative. 
 	rotation += spin * delta;
+	position += velocity * delta;
 }
 
 void Actor::draw_component(const glm::mat4& VP)

@@ -141,7 +141,7 @@ void GameWorld::generate_mesh()
 			{
 				i = get_vertex_index(x, y, z) * 3;
 				verts[i++] = x;
-				verts[i++] = (y == 0) ? bottom : y;
+				verts[i++] = (y == 0) ? bottom : y - 1;
 				verts[i++] = z;
 			}
 		}

@@ -85,6 +85,9 @@ namespace Hive
 		void xmlParseUnitFilter(XMLIterator iter, UnitFilter* filter);
 		void xmlParseMeshList(XMLIterator iter, std::vector<int>* mesh_mat_handles);
 		void xmlParseMesh(XMLIterator iter, std::vector<int>* mesh_mat_handles);
+		void xmlParseAttributes(XMLIterator iter, Attributes* attributes);
+		void xmlParseAbilityList(XMLIterator iter, std::vector<int>* abilities);
+		void xmlParseBehaviorList(XMLIterator iter, std::vector<int>* behaviors);
 
 		template <class T>
 		void linkData(XMLIterator iter, int* handle);

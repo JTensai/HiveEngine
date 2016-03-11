@@ -65,9 +65,6 @@ void Game::load(GLFWwindow* window) {
 	light_direction = glm::normalize(glm::vec3(1, -4, -1));
 	light_color = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
 	ambient_color = glm::vec3(0.1f);
-	
-
-	temp_model = new TempModel("resources/teapot.obj");
 
 	glGenVertexArrays(1, &vertex_array_id);
 	glBindVertexArray(vertex_array_id);
@@ -99,45 +96,20 @@ void Game::load(GLFWwindow* window) {
 		printf("Error loading map: %s\n", e.what());
 	}
 
-	ServiceLocator::getInstance()->getComponentManager()->load();
+	IComponentManager* cm = ServiceLocator::getInstance()->getComponentManager();
+	cm->load();
+	player_unit_handle = cm->spawn_unit(glm::vec2(20, 25), DUnit::getIndex("BASE_UNIT"));
+	Unit* u = Unit::get_component(player_unit_handle);
+	player_actor_handle = u->get_actor();
+	cm->attach_player_input(player_unit_handle);
 }
 
 
 Gamestate Game::update(float delta) {
-	//bool tmp = glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS;
-	//tmp = glfwWindowShouldClose(window) == 0;
 	if (glfwGetKey(glfw_window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(glfw_window) != 0) {
 		//Close if the escape key is pressed or the window was closed.
 		return Gamestate::CLOSING;
 	}
-	//camera_rotation += delta;
-	glm::vec3 _movDir = glm::vec3(0);
-	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_W)) {
-		_movDir.z -= 1.0;
-	}
-	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_A)) {
-		_movDir.x -= 1.0;
-	}
-	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_S)) {
-		_movDir.z += 1.0;
-	}
-	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_D)) {
-		_movDir.x += 1.0;
-	}
-
-	if (glm::length(_movDir) != 0) {
-		_movDir = glm::normalize(_movDir);
-		_movDir *= delta * 5;
-		camera_position += _movDir;
-	}
-
-	view_matrix = glm::lookAt(
-		camera_position, //eye
-		glm::vec3(camera_position.x, camera_position.y - .5f, camera_position.z - .5f), //look at
-		glm::vec3(0, 1, 0) //up
-		);
-
-	world_view_projection = projection_matrix * view_matrix * world_matrix;
 
 	ServiceLocator::getInstance()->getComponentManager()->update_free(delta, update_cache_swap_flag);
 
@@ -150,6 +122,18 @@ Gamestate Game::update(float delta) {
 		timestep_delta -= TIMESTEP;
 		update_cache_swap_flag = !update_cache_swap_flag;
 	}
+
+	Actor* actor = Actor::get_component(player_actor_handle);
+	glm::vec3 a_pos = actor->get_position();
+	camera_position = glm::vec3(a_pos.x, a_pos.y + 10, a_pos.z + 10);
+
+	view_matrix = glm::lookAt(
+		camera_position, //eye
+		glm::vec3(camera_position.x, camera_position.y - .5f, camera_position.z - .5f), //look at
+		glm::vec3(0, 1, 0) //up
+		);
+
+	world_view_projection = projection_matrix * view_matrix * world_matrix;
 
 	ServiceLocator::getInstance()->getUIManager()->update(delta);
 
@@ -178,8 +162,6 @@ void Game::draw() {
 
 
 void Game::close() {
-	delete temp_model;
-	glDeleteVertexArrays(1, &vertex_array_id);
 	glDeleteProgram(shader_program_id);
 }
 
