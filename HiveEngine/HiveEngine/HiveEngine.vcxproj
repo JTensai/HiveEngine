@@ -219,6 +219,7 @@
     <ClInclude Include="ParticleSystemComponent.h" />
     <ClInclude Include="ParticleSystemData.h" />
     <ClInclude Include="PlayerInputComponent.h" />
+    <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="QuadTreeLeafNode.h" />
     <ClInclude Include="QuadTreeNode.h" />
