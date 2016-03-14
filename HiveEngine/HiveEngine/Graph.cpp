@@ -4,7 +4,7 @@ Graph::Graph()
 {
 	//Graph(tempMap);
 }
-
+/*
 template <size_t size_x, size_t size_y>
 Graph::Graph(char (&map)[size_x][size_y]):numRows(size_x),numCols(size_y)
 {
@@ -64,16 +64,16 @@ Graph::Graph(char (&map)[size_x][size_y]):numRows(size_x),numCols(size_y)
 			{
 				map[key].push_back(map[i + 1][j + 1]);
 			}*/
-		}
+/*		}
 	}
 }
-
+*/
 Graph::~Graph()
 {
 	int size = numRows * numCols;
 	for (int key = 0; key < size; ++key)
 	{
-		int tempSize = connections[key].size();
+		int tempSize = (int)connections[key].size();
 		for (int i = 0; i < tempSize; ++i)
 		{
 			delete connections[key][i];

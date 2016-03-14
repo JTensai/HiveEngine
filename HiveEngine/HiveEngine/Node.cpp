@@ -26,5 +26,5 @@ float Node::distTo(Node* toNode)
 {
 	int xDiff = toNode->getRow() - row;
 	int yDiff = toNode->getCol() - col;
-	return sqrt(xDiff * xDiff + yDiff * yDiff);
+	return (float) sqrt(xDiff * xDiff + yDiff * yDiff);
 }

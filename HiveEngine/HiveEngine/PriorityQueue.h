@@ -124,7 +124,7 @@ public:
 	static const int DESCENDING = 1;
 
 	PriorityQueue() {
-		pq = NULL;
+		pq = nullptr;
 		pqSize = 0;
 		mode = ASCENDING;
 	}
@@ -138,7 +138,7 @@ public:
 	~PriorityQueue() {
 	}
 
-	void insert(T c)
+	void insert(T& c)
 	{
 		++pqSize;
 		pq[pqSize - 1] = c;
@@ -163,11 +163,11 @@ public:
 	{
 		try
 		{
-			if (index >= pqSize)
+			/*if (index >= pqSize)
 			{
 				T empty;
 				return empty;
-			}
+			}*/
 			return pq[index];
 		}
 		catch (const std::out_of_range& oor) {
