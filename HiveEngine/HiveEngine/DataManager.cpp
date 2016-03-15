@@ -410,36 +410,249 @@ void DataManager::xmlSecondPassValidatorPlayer(XMLIterator xmliter) {}
 
 void DataManager::xmlSecondPassParticleSystem(XMLIterator xmliter)
 {
-	//TODO
+	ParticleSystem* pSystem;
+	try
+	{
+		copyParent<ParticleSystem>(xmliter, &pSystem);
+
+		XMLIterator iter;
+		iter = xmliter.getChildrenOfName("Emitters");
+		iter = iter.getChildrenOfName("ParticleEmitter");
+		while (iter.isValid())
+		{
+			pSystem->emittersIDs.push_back(iter.getValue());
+			iter = iter.next();
+		}
+	}
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("ParticleSystem(" + xmliter.getID() + ")::" + e.err);
+	}
 }
 void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 {
-	//TODO
+	ParticleEmitter* emitter;
+	try
+	{
+		copyParent<ParticleEmitter>(xmliter, &emitter);
+
+		XMLIterator iter;
+		XMLIterator subiter;
+
+		float x;
+		float y;
+		float z;
+
+		iter = xmliter.getChildrenOfName("BaseVariables");
+
+		subiter = iter.getChildrenOfName("EmitterName");
+		emitter->emitterName = subiter.getValue();
+
+		subiter = iter.getChildrenOfName("BlendingMode");
+		emitter->blendingMode = subiter.getValue();
+
+		subiter = iter.getChildrenOfName("Texture");
+		emitter->texture = subiter.getValue();
+
+		subiter = iter.getChildrenOfName("EmitterLocalOrigin");
+		x = std::stof(subiter.getChildrenOfName("X").getValue());
+		y = std::stof(subiter.getChildrenOfName("Y").getValue());
+		z = std::stof(subiter.getChildrenOfName("Z").getValue());
+		emitter->emitterLocalOrigin = glm::vec3(x, y, z);
+
+		subiter = iter.getChildrenOfName("Lifetime");
+		x = std::stof(subiter.getChildrenOfName("Min").getValue());
+		y = std::stof(subiter.getChildrenOfName("Max").getValue());
+		emitter->lifetime = glm::vec2(x, y);
+
+		subiter = iter.getChildrenOfName("InitialSize");
+		x = std::stof(subiter.getChildrenOfName("Min").getValue());
+		y = std::stof(subiter.getChildrenOfName("Max").getValue());
+		emitter->initialSize = glm::vec2(x, y);
+
+		subiter = iter.getChildrenOfName("InitialVelocity");
+		x = std::stof(subiter.getChildrenOfName("X").getValue());
+		y = std::stof(subiter.getChildrenOfName("Y").getValue());
+		z = std::stof(subiter.getChildrenOfName("Z").getValue());
+		emitter->initialVelocity = glm::vec3(x, y, z);
+
+		iter = xmliter.getChildrenOfName("SpawnVariables");
+
+		subiter = iter.getChildrenOfName("ConstantRate");
+		emitter->constantRate = std::stoi(subiter.getValue());
+
+		subiter = iter.getChildrenOfName("Burst");
+		emitter->burst = std::stoi(subiter.getValue());
+
+		subiter = iter.getChildrenOfName("Looping");
+		emitter->looping = std::stoi(subiter.getValue());
+
+		subiter = iter.getChildrenOfName("EmitterDelay");
+		emitter->emitterDelay = std::stof(subiter.getValue());
+
+		iter = xmliter.getChildrenOfName("SubUVVariables");
+
+		subiter = iter.getChildrenOfName("SubImagesHorizontal");
+		emitter->subImagesHorizontal = std::stoi(subiter.getValue());
+
+		subiter = iter.getChildrenOfName("SubImagesVertical");
+		emitter->subImagesVertical = std::stoi(subiter.getValue());
+
+		iter = xmliter.getChildrenOfName("Modules");
+
+		/*subiter = iter.getChildrenOfName("ModuleSizeOverLife");
+		if (subiter.isValid())
+			emitter->modulesIDs.push_back(subiter.getValue());
+
+		subiter = iter.getChildrenOfName("ModuleColorOverLife");
+		if (subiter.isValid())
+			emitter->modulesIDs.push_back(subiter.getValue());
+
+		subiter = iter.getChildrenOfName("ModuleInitialRotation");
+		if (subiter.isValid())
+			emitter->modulesIDs.push_back(subiter.getValue());
+
+		subiter = iter.getChildrenOfName("ModuleInitialRotationRate");
+		if (subiter.isValid())
+			emitter->modulesIDs.push_back(subiter.getValue());
+
+		subiter = iter.getChildrenOfName("ModuleSubImageIndexOverLife");
+		if (subiter.isValid())
+			emitter->modulesIDs.push_back(subiter.getValue());
+
+		subiter = iter.getChildrenOfName("ModuleSubImageIndexRandom");
+		if (subiter.isValid())
+			emitter->modulesIDs.push_back(subiter.getValue());*/
+	}
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("ParticleEmitter(" + xmliter.getID() + ")::" + e.err);
+	}
 }
-// modules...
 void DataManager::xmlSecondPassModuleSizeOverLife(XMLIterator xmliter)
 {
-	//TODO
+	ModuleSizeOverLife* module;
+	try
+	{
+		copyParent<ModuleSizeOverLife>(xmliter, &module);
+
+		XMLIterator iter;
+		iter = xmliter.getChildrenOfName("ScaleMultiplier");
+		module->beinningFactor = std::stof(iter.getChildrenOfName("Beginning").getValue());
+		module->endFactor = std::stof(iter.getChildrenOfName("End").getValue());
+	}
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+	}
 }
 void DataManager::xmlSecondPassModuleColorOverLife(XMLIterator xmliter)
 {
-	//TODO
+	ModuleColorOverLife* module;
+	try
+	{
+		copyParent<ModuleColorOverLife>(xmliter, &module);
+
+		XMLIterator iter;
+		float r;
+		float g;
+		float b;
+		float a;
+
+		iter = xmliter.getChildrenOfName("ColorMultiplier").getChildrenOfName("Beginning");
+		r = std::stof(iter.getChildrenOfName("R").getValue());
+		g = std::stof(iter.getChildrenOfName("G").getValue());
+		b = std::stof(iter.getChildrenOfName("B").getValue());
+		a = std::stof(iter.getChildrenOfName("A").getValue());
+		module->beginningColor = glm::vec4(r, g, b, a);
+
+		iter = xmliter.getChildrenOfName("ColorMultiplier").getChildrenOfName("End");
+		r = std::stof(iter.getChildrenOfName("R").getValue());
+		g = std::stof(iter.getChildrenOfName("G").getValue());
+		b = std::stof(iter.getChildrenOfName("B").getValue());
+		a = std::stof(iter.getChildrenOfName("A").getValue());
+		module->endColor = glm::vec4(r, g, b, a);
+	}
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+	}
 }
 void DataManager::xmlSecondPassModuleInitialRotation(XMLIterator xmliter)
 {
-	//TODO
+	ModuleInitialRotation* module;
+	try
+	{
+		copyParent<ModuleInitialRotation>(xmliter, &module);
+
+		XMLIterator iter;
+		iter = xmliter.getChildrenOfName("Min");
+		module->min = stof(iter.getValue());
+
+		iter = xmliter.getChildrenOfName("Max");
+		module->max = stof(iter.getValue());
+	}
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+	}
 }
 void DataManager::xmlSecondPassModuleInitialRotationRate(XMLIterator xmliter)
 {
-	//TODO
+	ModuleInitialRotationRate* module;
+	try
+	{
+		copyParent<ModuleInitialRotationRate>(xmliter, &module);
+
+		XMLIterator iter;
+		iter = xmliter.getChildrenOfName("Min");
+		module->min = stof(iter.getValue());
+
+		iter = xmliter.getChildrenOfName("Max");
+		module->max = stof(iter.getValue());
+	}
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+	}
 }
 void DataManager::xmlSecondPassModuleSubImageIndexOverLife(XMLIterator xmliter)
 {
-	//TODO
+	ModuleSubImageIndexOverLife* module;
+	try
+	{
+		copyParent<ModuleSubImageIndexOverLife>(xmliter, &module);
+
+		XMLIterator iter;
+		iter = xmliter.getChildrenOfName("Beginning");
+		module->beginningIndex = stof(iter.getValue());
+
+		iter = xmliter.getChildrenOfName("End");
+		module->endIndex = stof(iter.getValue());
+	}
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+	}
 }
 void DataManager::xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter)
 {
-	//TODO
+	ModuleSubImageIndexRandom* module;
+	try
+	{
+		copyParent<ModuleSubImageIndexRandom>(xmliter, &module);
+
+		XMLIterator iter;
+		iter = xmliter.getChildrenOfName("Min");
+		module->min = stof(iter.getValue());
+
+		iter = xmliter.getChildrenOfName("Max");
+		module->max = stof(iter.getValue());
+	}
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+	}
 }
 
 void DataManager::xmlParseVitals(XMLIterator iter, Vitals* vitals)

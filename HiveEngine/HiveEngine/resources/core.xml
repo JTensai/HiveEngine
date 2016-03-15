@@ -318,6 +318,8 @@
 	<ParticleEmitter id="BaseEmitter">
 		<BaseVariables>
 			<EmitterName value="ParticleEmitter"/>
+      <BlendingMode value="Transparent"/>
+      <Texture value="DefaultTexture"/>
 			<EmitterLocalOrigin>
 				<X value="0"/>
 				<Y value="0"/>
@@ -341,7 +343,7 @@
 			<ConstantRate value="10"/>
 			<Burst value="0"/>
 			<Looping value="0"/>
-			<EmitterDealy value="0.0"/>
+			<EmitterDelay value="0.0"/>
 		</SpawnVariables>
 		<SubUVVariables>
 			<SubImagesHorizontal value="1"/>

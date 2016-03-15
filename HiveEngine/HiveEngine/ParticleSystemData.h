@@ -20,11 +20,11 @@ namespace Hive
 		glm::vec3 emitterLocalOrigin;
 		glm::vec2 lifetime;
 		glm::vec2 initialSize;
-		glm::vec3 InitialVelocity;
+		glm::vec3 initialVelocity;
 		int constantRate;
 		int burst;
-		bool Looping;
-		float EmitterDelay;
+		bool looping;
+		float emitterDelay;
 		int subImagesHorizontal;
 		int subImagesVertical;
 		std::vector<std::string> modulesIDs;
@@ -62,7 +62,7 @@ namespace Hive
 	class ModuleSubImageIndexRandom: public DataCollection<ModuleSubImageIndexRandom>
 	{
 	public:
-		int beginningIndex;
-		int endIndex;
+		int min;
+		int max;
 	};
 }
