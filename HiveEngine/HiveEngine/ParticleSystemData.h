@@ -9,13 +9,11 @@ namespace Hive
 	class ParticleSystem : public DataCollection<ParticleSystem> 
 	{
 	public:
-		std::string id;
-		std::vector<std::string> emittersIDs[];
+		std::vector<std::string> emittersIDs;
 	};
 	class ParticleEmitter : public DataCollection<ParticleEmitter>
 	{
 	public:
-		std::string id;
 		std::string emitterName;
 		std::string blendingMode;
 		std::string texture;
@@ -34,42 +32,36 @@ namespace Hive
 	class ModuleSizeOverLife: public DataCollection<ModuleSizeOverLife>
 	{
 	public:
-		std::string id;
 		float beinningFactor;
 		float endFactor;
 	};
 	class ModuleColorOverLife: public DataCollection<ModuleColorOverLife>
 	{
 	public:
-		std::string id;
 		glm::vec4 beginningColor;
 		glm::vec4 endColor;
 	};
 	class ModuleInitialRotation: public DataCollection<ModuleInitialRotation>
 	{
 	public:
-		std::string id;
 		float min;
 		float max;
 	};
 	class ModuleInitialRotationRate: public DataCollection<ModuleInitialRotationRate>
 	{
 	public:
-		std::string id;
 		float min;
 		float max;
 	};
 	class ModuleSubImageIndexOverLife: public DataCollection<ModuleSubImageIndexOverLife>
 	{
 	public:
-		std::string id;
 		int beginningIndex;
 		int endIndex;
 	};
 	class ModuleSubImageIndexRandom: public DataCollection<ModuleSubImageIndexRandom>
 	{
 	public:
-		std::string id;
 		int beginningIndex;
 		int endIndex;
 	};
