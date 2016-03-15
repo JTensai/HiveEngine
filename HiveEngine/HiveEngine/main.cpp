@@ -15,11 +15,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <tinyxml2/tinyxml2.h>
 #include <tiny_obj_loader.h>
+#include <IL\il.h>
+#include <IL\ilu.h>
 
 #include <iostream>
 #include <stdio.h>
 
 #include "game.h"
+#include "Asset.h"
 ////////////////////////////////////////////////////////////
 /// Entry point of application
 ///
@@ -37,9 +40,18 @@ int main(int argc, char** argv)
 		if (!glfwInit())
 		{
 			fprintf(stderr, "Failed to initialize GLFW\n");
-			return -1;
+			return 1;
 		}
 		fprintf(stdout, "Finished initializing GLFW.\n");
+
+		fprintf(stdout, "Initializing IL\\ILU...\n");
+		ilInit();
+		if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
+		{
+			printf("DevIL version mismatch ...exiting!\n");
+			return 2;
+		}
+		fprintf(stdout, "Finished initializing IL\\ILU.\n");
 		
 		fprintf(stdout, "Initializing game...\n");
 		game.initialize(argv[1]);
@@ -50,7 +62,7 @@ int main(int argc, char** argv)
 		if (window == NULL) {
 			fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible.\n");
 			glfwTerminate();
-			return -1;
+			return 3;
 		}
 
 		//InputManager::getInstance()->setKeyCallbackForWindow(window);//set up the key input
@@ -60,7 +72,7 @@ int main(int argc, char** argv)
 		glewExperimental = true; // Needed in core profile
 		if (glewInit() != GLEW_OK) {
 			fprintf(stderr, "Failed to initialize GLEW\n");
-			return -1;
+			return 4;
 		}
 
 		fprintf(stdout, "Loading game...\n");
@@ -94,10 +106,16 @@ int main(int argc, char** argv)
 		fprintf(stdout, "Execution complete.\n");
 		return 0;
 	}
+	catch (const Hive::AssetLoadException& e)
+	{
+		fprintf(stderr, "Asset Load Exception: %s\n", e.err.c_str());
+		std::system("PAUSE");
+		return 5;
+	}
 	catch(...)
 	{
 		std::cerr << "Unkown exception excountered.\n";
 		std::system("PAUSE");
-		return 1;
+		return 6;
 	}
 }

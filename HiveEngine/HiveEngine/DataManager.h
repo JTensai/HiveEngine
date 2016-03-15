@@ -8,6 +8,7 @@
 #include "IDataManager.h"
 #include "DataCollection.h"
 #include "XMLInterface.h"
+#include "Material.h"
 
 namespace Hive
 {
@@ -18,71 +19,82 @@ namespace Hive
 #pragma region XML Functions
 		void xmlFirstPass(XMLInterface& xmlif);
 
-		void xmlFirstPassAbilities(XMLInterface::XMLIterator xmliter);
-		void xmlFirstPassActors(XMLInterface::XMLIterator xmliter);
-		void xmlFirstPassBehaviors(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassAbilities(XMLIterator xmliter);
+		void xmlFirstPassActors(XMLIterator xmliter);
+		void xmlFirstPassBehaviors(XMLIterator xmliter);
 
-		void xmlFirstPassEffect(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassEffect(XMLIterator xmliter);
 
-		void xmlFirstPassTextures(XMLInterface::XMLIterator xmliter);
-		void xmlFirstPassModels(XMLInterface::XMLIterator xmliter);
-		void xmlFirstPassUnits(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassTextures(XMLIterator xmliter);
+		void xmlFirstPassMaterials(XMLIterator xmliter);
+		void xmlFirstPassModels(XMLIterator xmliter);
+		void xmlFirstPassUnits(XMLIterator xmliter);
 
-		void xmlFirstPassValidator(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassValidator(XMLIterator xmliter);
 
-		void xmlFirstPassParticleSystem(XMLInterface::XMLIterator xmliter);
-		void xmlFirstPassParticleEmitter(XMLInterface::XMLIterator xmliter);
-		void xmlFirstPassModuleSizeOverLife(XMLInterface::XMLIterator xmliter);
-		void xmlFirstPassModuleColorOverLife(XMLInterface::XMLIterator xmliter);
-		void xmlFirstPassModuleInitialRotation(XMLInterface::XMLIterator xmliter);
-		void xmlFirstPassModuleInitialRotationRate(XMLInterface::XMLIterator xmliter);
-		void xmlFirstPassModuleSubImageIndexOverLife(XMLInterface::XMLIterator xmliter);
-		void xmlFirstPassModuleSubImageIndexRandom(XMLInterface::XMLIterator xmliter);
+		void xmlFirstPassParticleSystem(XMLIterator xmliter);
+		void xmlFirstPassParticleEmitter(XMLIterator xmliter);
+		void xmlFirstPassModuleSizeOverLife(XMLIterator xmliter);
+		void xmlFirstPassModuleColorOverLife(XMLIterator xmliter);
+		void xmlFirstPassModuleInitialRotation(XMLIterator xmliter);
+		void xmlFirstPassModuleInitialRotationRate(XMLIterator xmliter);
+		void xmlFirstPassModuleSubImageIndexOverLife(XMLIterator xmliter);
+		void xmlFirstPassModuleSubImageIndexRandom(XMLIterator xmliter);
 
 		void xmlSecondPass(XMLInterface& xmlif);
 
-		void xmlSecondPassAbilities(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassActors(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassBehaviors(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassAbilities(XMLIterator xmliter);
+		void xmlSecondPassActors(XMLIterator xmliter);
+		void xmlSecondPassBehaviors(XMLIterator xmliter);
 
-		void xmlSecondPassEffectModifyUnit(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassEffectSearch(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassEffectSet(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassEffectSetBehavior(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassEffectSpawnUnit(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassEffectSwitch(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassEffectModifyUnit(XMLIterator xmliter);
+		void xmlSecondPassEffectSearch(XMLIterator xmliter);
+		void xmlSecondPassEffectSet(XMLIterator xmliter);
+		void xmlSecondPassEffectSetBehavior(XMLIterator xmliter);
+		void xmlSecondPassEffectSpawnUnit(XMLIterator xmliter);
+		void xmlSecondPassEffectSwitch(XMLIterator xmliter);
 
-		void xmlSecondPassTextures(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassModels(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassUnits(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassTextures(XMLIterator xmliter);
+		void xmlSecondPassMaterials(XMLIterator xmliter);
+		void xmlSecondPassModels(XMLIterator xmliter);
+		void xmlSecondPassUnits(XMLIterator xmliter);
 
-		void xmlSecondPassValidatorBehaviorCount(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassValidatorCombine(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassValidatorCompareVital(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassValidatorCondition(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassValidatorLocationRange(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassValidatorLocationPathable(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassValidatorFilterUnit(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassValidatorPlayer(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassValidatorBehaviorCount(XMLIterator xmliter);
+		void xmlSecondPassValidatorCombine(XMLIterator xmliter);
+		void xmlSecondPassValidatorCompareVital(XMLIterator xmliter);
+		void xmlSecondPassValidatorCondition(XMLIterator xmliter);
+		void xmlSecondPassValidatorLocationRange(XMLIterator xmliter);
+		void xmlSecondPassValidatorLocationPathable(XMLIterator xmliter);
+		void xmlSecondPassValidatorFilterUnit(XMLIterator xmliter);
+		void xmlSecondPassValidatorPlayer(XMLIterator xmliter);
 
-		void xmlSecondPassParticleSystem(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassParticleEmitter(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassModuleSizeOverLife(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassModuleColorOverLife(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassModuleInitialRotation(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassModuleInitialRotationRate(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassModuleSubImageIndexOverLife(XMLInterface::XMLIterator xmliter);
-		void xmlSecondPassModuleSubImageIndexRandom(XMLInterface::XMLIterator xmliter);
+		void xmlSecondPassParticleSystem(XMLIterator xmliter);
+		void xmlSecondPassParticleEmitter(XMLIterator xmliter);
+		void xmlSecondPassModuleSizeOverLife(XMLIterator xmliter);
+		void xmlSecondPassModuleColorOverLife(XMLIterator xmliter);
+		void xmlSecondPassModuleInitialRotation(XMLIterator xmliter);
+		void xmlSecondPassModuleInitialRotationRate(XMLIterator xmliter);
+		void xmlSecondPassModuleSubImageIndexOverLife(XMLIterator xmliter);
+		void xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter);
 
-		void xmlParseVitals(XMLInterface::XMLIterator iter, Vitals* vitals);
-		void xmlParseCharges(XMLInterface::XMLIterator iter, Charges* charges);
-		void xmlParseCost(XMLInterface::XMLIterator iter, Cost* cost);
-		void xmlParseEffectList(XMLInterface::XMLIterator iter, EffectList* effects);
-		void xmlParseFilter(XMLInterface::XMLIterator iter, Filter* filter);
-		void xmlParseUnitFilter(XMLInterface::XMLIterator iter, UnitFilter* filter);
+		void xmlParseVitals(XMLIterator iter, Vitals* vitals);
+		void xmlParseCharges(XMLIterator iter, Charges* charges);
+		void xmlParseCost(XMLIterator iter, Cost* cost);
+		void xmlParseEffectList(XMLIterator iter, EffectList* effects);
+		void xmlParseFilter(XMLIterator iter, Filter* filter);
+		void xmlParseUnitFilter(XMLIterator iter, UnitFilter* filter);
+		void xmlParseMeshList(XMLIterator iter, std::vector<int>* mesh_mat_handles);
+		void xmlParseMesh(XMLIterator iter, std::vector<int>* mesh_mat_handles);
+		void xmlParseAttributes(XMLIterator iter, Attributes* attributes);
+		void xmlParseAbilityList(XMLIterator iter, std::vector<int>* abilities);
+		void xmlParseBehaviorList(XMLIterator iter, std::vector<int>* behaviors);
 
-		void xmlParseTexture(XMLInterface::XMLIterator iter, int* textureHandle);
-		void xmlParseModel(XMLInterface::XMLIterator iter, int* modelHandle);
+		template <class T>
+		void linkData(XMLIterator iter, int* handle);
+
+		template <class T>
+		void copyParent(XMLIterator iter, T** t);
+
 #pragma endregion
 
 	public:
@@ -94,4 +106,47 @@ namespace Hive
 		~DataManager();
 	};
 
+	template <class T>
+	void DataManager::linkData(XMLIterator iter, int* handle)
+	{
+		if (iter.isValid())
+		{
+			std::string id = iter.getValue();
+			if (!id.empty())
+			{
+				if (T::hasKey(id))
+				{
+					*handle = T::getIndex(id);
+				}
+				else
+				{
+					throw DataErrorException("Could not link to id: " + id);
+				}
+			}
+		}
+	}
+
+	template <class T>
+	void DataManager::copyParent(XMLIterator iter, T** t)
+	{
+		std::string id = iter.getID();
+		if (!T::hasKey(id)) throw DataErrorException("ID missing during second pass: " + id);
+
+		*t = T::getItem(T::getIndex(id));
+
+		std::string parentId = iter.getParentID();
+
+		if (!parentId.empty())
+		{
+			if (T::hasKey(parentId))
+			{
+				int index = T::getIndex(parentId);
+				**t = *(T::getItem(index));
+			}
+			else
+			{
+				throw DataErrorException("Model parent specified but not found: " + parentId);
+			}
+		}
+	}
 }

@@ -1,10 +1,28 @@
 #include "game.h"
+/*#include "Graph.h"
+#include "Node.h"
+#include "EuclideanHeuristic.h"*/
 
 using namespace std;
 using namespace Hive;
 
 Game::Game() {
 	camera_position = glm::vec3(20, 10, 35);
+	//below is some code i was using to debug A*, please don't delete
+	/*char tempMap[8][8] =
+	{
+		{ '1','1','1','1','1','1','1','1' },
+		{ '1','1','1','1','1','1','1','1' },
+		{ '1','1','1','0','1','1','1','1' },
+		{ '1','1','1','1','1','1','1','1' },
+		{ '1','1','1','1','1','1','1','1' },
+		{ '1','1','1','1','1','1','1','1' },
+		{ '1','1','1','1','1','1','1','1' },
+		{ '1','1','1','1','1','1','1','1' }
+	};
+	Graph g(tempMap);
+	Node* goal = new Node(7, 7);
+	g.pathfindAStar(g, new Node(0, 0), goal, new EuclideanHeuristic(goal));*/
 }
 
 void Game::initialize(char* XMLFilename) {
@@ -51,6 +69,7 @@ void Game::load(GLFWwindow* window) {
 	glClearColor(BG.r, BG.g, BG.b, 0.0f);
 
 	//glEnable(GL_CULL_FACE);
+	glEnable(GL_TEXTURE_2D);
 	//glCullFace(GL_FRONT);
 
 	// Enable depth test
@@ -60,8 +79,10 @@ void Game::load(GLFWwindow* window) {
 
 	shader_program_id = LoadShader("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
 	Actor::setShader(shader_program_id);
-
-	temp_model = new TempModel("resources/teapot.obj");
+	
+	light_direction = glm::normalize(glm::vec3(1, -4, -1));
+	light_color = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
+	ambient_color = glm::vec3(0.1f);
 
 	glGenVertexArrays(1, &vertex_array_id);
 	glBindVertexArray(vertex_array_id);
@@ -70,7 +91,7 @@ void Game::load(GLFWwindow* window) {
 	{
 		ServiceLocator::getInstance()->getDataManager()->loadXMLData(xml_filename);
 	}
-	catch (IDataManager::DataErrorException e)
+	catch (DataErrorException e)
 	{
 		printf("Error loading data: %s\n", e.err.c_str());
 	}
@@ -93,45 +114,20 @@ void Game::load(GLFWwindow* window) {
 		printf("Error loading map: %s\n", e.what());
 	}
 
-	ServiceLocator::getInstance()->getComponentManager()->load();
+	IComponentManager* cm = ServiceLocator::getInstance()->getComponentManager();
+	cm->load();
+	player_unit_handle = cm->spawn_unit(glm::vec2(20, 25), DUnit::getIndex("BASE_UNIT"));
+	Unit* u = Unit::get_component(player_unit_handle);
+	player_actor_handle = u->get_actor();
+	cm->attach_player_input(player_unit_handle);
 }
 
 
 Gamestate Game::update(float delta) {
-	//bool tmp = glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS;
-	//tmp = glfwWindowShouldClose(window) == 0;
 	if (glfwGetKey(glfw_window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(glfw_window) != 0) {
 		//Close if the escape key is pressed or the window was closed.
 		return Gamestate::CLOSING;
 	}
-	//camera_rotation += delta;
-	glm::vec3 _movDir = glm::vec3(0);
-	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_W)) {
-		_movDir.z -= 1.0;
-	}
-	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_A)) {
-		_movDir.x -= 1.0;
-	}
-	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_S)) {
-		_movDir.z += 1.0;
-	}
-	if (ServiceLocator::getInstance()->getInputManager()->isKeyDown(GLFW_KEY_D)) {
-		_movDir.x += 1.0;
-	}
-
-	if (glm::length(_movDir) != 0) {
-		_movDir = glm::normalize(_movDir);
-		_movDir *= delta * 5;
-		camera_position += _movDir;
-	}
-
-	view_matrix = glm::lookAt(
-		camera_position, //eye
-		glm::vec3(camera_position.x, camera_position.y - .5f, camera_position.z - .5f), //look at
-		glm::vec3(0, 1, 0) //up
-		);
-
-	world_view_projection = projection_matrix * view_matrix * world_matrix;
 
 	ServiceLocator::getInstance()->getComponentManager()->update_free(delta, update_cache_swap_flag);
 
@@ -145,6 +141,18 @@ Gamestate Game::update(float delta) {
 		update_cache_swap_flag = !update_cache_swap_flag;
 	}
 
+	Actor* actor = Actor::get_component(player_actor_handle);
+	glm::vec3 a_pos = actor->get_position();
+	camera_position = glm::vec3(a_pos.x, a_pos.y + 10, a_pos.z + 10);
+
+	view_matrix = glm::lookAt(
+		camera_position, //eye
+		glm::vec3(camera_position.x, camera_position.y - .5f, camera_position.z - .5f), //look at
+		glm::vec3(0, 1, 0) //up
+		);
+
+	world_view_projection = projection_matrix * view_matrix * world_matrix;
+
 	ServiceLocator::getInstance()->getUIManager()->update(delta);
 
 	return Gamestate::NORMAL;
@@ -157,16 +165,13 @@ void Game::draw() {
 	ServiceLocator::getInstance()->getGameWorld()->draw(world_view_projection);
 	
 	glUseProgram(shader_program_id);
-	//shader_matrix_id = glGetUniformLocation(shader_program_id, "MVP");
-	shader_view_matrix_id = glGetUniformLocation(shader_program_id, "V");
-	//shader_world_matrix_id = glGetUniformLocation(shader_program_id, "M");
-	glm::vec3 lightPos = glm::vec3(4, 4, 4);
-	GLuint LightID = glGetUniformLocation(shader_program_id, "LightPosition_worldspace");
-	glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
-	//glUniformMatrix4fv(shader_matrix_id, 1, GL_FALSE, &world_view_projection[0][0]);
-	//glUniformMatrix4fv(shader_world_matrix_id, 1, GL_FALSE, &world_matrix[0][0]);
-	glUniformMatrix4fv(shader_view_matrix_id, 1, GL_FALSE, &view_matrix[0][0]);
-	//temp_model->draw();
+	GLuint LightDirection = glGetUniformLocation(shader_program_id, "LightDirection");
+	GLuint LightColor = glGetUniformLocation(shader_program_id, "LightColor");
+	GLuint AmbientColor = glGetUniformLocation(shader_program_id, "AmbientColor");
+
+	glUniform3f(LightDirection, light_direction.x, light_direction.y, light_direction.z);
+	glUniform4f(LightColor, light_color.r, light_color.g, light_color.b, light_color.w);
+	glUniform3f(AmbientColor, ambient_color.r, ambient_color.g, ambient_color.b);
 
 	ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
 
@@ -175,8 +180,6 @@ void Game::draw() {
 
 
 void Game::close() {
-	delete temp_model;
-	glDeleteVertexArrays(1, &vertex_array_id);
 	glDeleteProgram(shader_program_id);
 }
 

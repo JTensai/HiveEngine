@@ -29,6 +29,7 @@ namespace Hive
 	{
 	private:
 		static GLuint actor_shader_handle;
+		glm::vec3 velocity;
 		glm::vec3 position;
 		glm::vec3 spin;
 		glm::vec3 rotation;
@@ -43,6 +44,14 @@ namespace Hive
 		static void setShader(GLuint shader);
 		static void predraw();
 		static void postdraw();
+
+		glm::vec3 get_position() { return position; }
+
+		void set_position(glm::vec2 pos, float height);
+		void set_velocity(glm::vec2 plane);
+
+		void set_rotation(float rotation);
+		void set_spin(float spin);
 
 		/*
 		Update will handle things like the actor's animation and timed events.

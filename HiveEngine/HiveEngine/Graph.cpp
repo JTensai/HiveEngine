@@ -4,35 +4,35 @@ Graph::Graph()
 {
 	//Graph(tempMap);
 }
-
+/*
 template <size_t size_x, size_t size_y>
-Graph::Graph(char (&map)[size_x][size_y]):row(size_x),col(size_y)
+Graph::Graph(char (&map)[size_x][size_y]):numRows(size_x),numCols(size_y)
 {
 	//connections = new Connections[size_x * size_ y][9];
 	Node* nodeMap[size_x][size_y];
 
 	//create map of Nodes
-	for (int i = 0; i < row; ++i)
+	for (int i = 0; i < numRows; ++i)
 	{
-		for (int j = 0; j < col; ++j)
+		for (int j = 0; j < numCols; ++j)
 		{
 			nodeMap[i][j] = new Node(i, j);
 		}
 	}
 
 	//For each node create a list of Connections
-	for (int i = 0; i < row; ++i)
+	for (int i = 0; i < numRows; ++i)
 	{
-		for (int j = 0; j < col; ++j)
+		for (int j = 0; j < numCols; ++j)
 		{
 			Node currNode = nodeMap[i][j];
-			int key = (i * col) + j;
+			int key = (i * numCols) + j;
 			map[key] = vector<Node*>();
 			if (i - 1 >= 0 && map[i - 1][j] == '1')
 			{
 				map[key].push_back(map[i - 1][j]);
 			}
-			if (i + 1 < row && map[i + 1][j] == '1')
+			if (i + 1 < numRows && map[i + 1][j] == '1')
 			{
 				map[key].push_back(map[i + 1][j]);
 			}
@@ -40,40 +40,40 @@ Graph::Graph(char (&map)[size_x][size_y]):row(size_x),col(size_y)
 			{
 				map[key].push_back(map[i][j - 1]);
 			}
-			if (j + 1 < col && map[i][j + 1] == '1')
+			if (j + 1 < numCols && map[i][j + 1] == '1')
 			{
 				map[key].push_back(map[i][j + 1]);
 			}
-			if (i - 1 >= 0 && j - 1 >= 0 
+			/*if (i - 1 >= 0 && j - 1 >= 0 
 				&& map[i - 1][j - 1] == '1' && (map[i - 1][j] == '1' || map[i][j - 1] == '1'))
 			{
 				map[key].push_back(map[i - 1][j - 1]);
 			}
-			if (i - 1 >= 0 && j + 1 < col 
+			if (i - 1 >= 0 && j + 1 < numCols
 				&& map[i - 1][j + 1] == '1' && (map[i - 1][j] == '1' || map[i][j + 1] == '1'))
 			{
 				map[key].push_back(map[i - 1][j + 1]);
 			}
-			if (i + 1 < row && j - 1 >= 0 
+			if (i + 1 < numRows && j - 1 >= 0
 				&& map[i + 1][j - 1] == '1' && (map[i + 1][j] == '1' || map[i][j - 1] == '1'))
 			{
 				map[key].push_back(map[i + 1][j - 1]);
 			}
-			if (i + 1 < row && j + 1 < col 
+			if (i + 1 < numRows && j + 1 < numCols
 				&& map[i + 1][j + 1] == '1' && (map[i + 1][j] == '1' || map[i][j + 1] == '1'))
 			{
 				map[key].push_back(map[i + 1][j + 1]);
-			}
-		}
+			}*/
+/*		}
 	}
 }
-
+*/
 Graph::~Graph()
 {
-	int size = row * col;
+	int size = numRows * numCols;
 	for (int key = 0; key < size; ++key)
 	{
-		int tempSize = connections[key].size();
+		int tempSize = (int)connections[key].size();
 		for (int i = 0; i < tempSize; ++i)
 		{
 			delete connections[key][i];
@@ -85,6 +85,6 @@ Graph::~Graph()
 
 vector<Node*>* Graph::getConnections(Node* fromNode)
 {
-	int key = (fromNode->getRow() * col) + fromNode->getCol();
+	int key = (fromNode->getRow() * numCols) + fromNode->getCol();
 	return &connections[key];
 }

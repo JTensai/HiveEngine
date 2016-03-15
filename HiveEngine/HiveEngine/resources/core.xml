@@ -47,7 +47,7 @@
 		<Name value=""/>
 		<Tooltip value=""/>
 		<Icon value=""/>
-		<Visible value="false"/>
+		<Visible value="0"/>
 		<VitalsMaxDelta>
 			<HP value="0.0"/>
 			<Mana value="0.0"/>
@@ -113,7 +113,7 @@
 		</Unit>
 		<Behavior value=""/>
 		<Count value="1"/>
-		<Relative value="false"/>
+		<Relative value="0"/>
 		<Validator value="-1"/>
 	</EffectSetBehavior>
 
@@ -147,9 +147,31 @@
 		<Validator value="-1"/>
 	</EffectSwitch>
 
+  <Material id="BASE_MATERIAL">
+    <DiffuseTexture value="BASE_TEXTURE"/>
+  </Material>
+  
+  <Material id="MISSING_MATERIAL">
+    <DiffuseTexture value="MISSING_TEXTURE"/>
+  </Material>
+  
 	<Model id="BASE_MODEL">
 		<File value="resources/blockman.obj"/>
+    <Meshes>
+      <Mesh>
+        <Material value="BASE_MATERIAL"/>
+      </Mesh>
+    </Meshes>
 	</Model>
+
+  <Model id="MISSING_MODEL">
+    <File value="resources/blockman.obj"/>
+    <Meshes>
+      <Mesh>
+        <Material value="MISSING_MATERIAL"/>
+      </Mesh>
+    </Meshes>
+  </Model>
 
 	<Unit id="BASE_UNIT">
 		<Name value=""/>
@@ -161,11 +183,12 @@
 			<HP value="1.0"/>
 			<Mana value="5.0"/>
 		</VitalRegen>
-		<Speed value="1.0"/>
+		<Speed value="4.0"/>
 		<Attributes>
-			<Missile value="false"/>
+			<Missile value="0"/>
 		</Attributes>
 		<Actor value="BASE_ACTOR"/>
+    <Height value="0"/>
 <!-- EXAMPLE:
 		<Behaviors>
 			<Behavior value="B_IMMOLATE"/>
@@ -180,7 +203,7 @@
 		<Behavior value=""/>
 		<Compare value="EQ"/>
 		<Constant value="1"/>
-		<Negated value="false"/>
+		<Negated value="0"/>
 	</ValidatorBehaviorCount>
 
 	<ValidatorCombine id="BASE_VALIDATOR_COMBINE">
@@ -191,7 +214,7 @@
 			<Validator value="V_UNIT_HP_GT_50P"/>
 		</Validators>
 -->
-		<Negated value="false"/>
+		<Negated value="0"/>
 	</ValidatorCombine>
 
 	<ValidatorCompareVital id="BASE_VALIDATOR_COMPARE_VITAL">
@@ -207,7 +230,7 @@
 			<Unit value="NONE"/>
 		</OtherUnit>
 		<Constant value="0.5"/>
-		<Negated value="false"/>
+		<Negated value="0"/>
 	</ValidatorCompareVital>
 
 	<ValidatorCondition id="BASE_VALIDATOR_CONDITION">
@@ -224,7 +247,7 @@
 		</Cases>
 -->
 		<ElseValidator value=""/>
-		<Negated value="false"/>
+		<Negated value="0"/>
 	</ValidatorCondition>
 
 	<ValidatorLocationRange id="BASE_VALIDATOR_LOCATION_RANGE">
@@ -238,7 +261,7 @@
 		</LocationB>
 		<CompareMethod value="LTE"/>
 		<Constant value="100.0"/>
-		<Negated value="false"/>
+		<Negated value="0"/>
 	</ValidatorLocationRange>
 
 	<ValidatorLocationPathable id="BASE_VALIDATOR_LOCATION_PATHABLE">
@@ -246,7 +269,7 @@
 			<Effect value=""/>
 			<Location value="TARGET"/>
 		</Location>
-		<Negated value="false"/>
+		<Negated value="0"/>
 	</ValidatorLocationPathable>
 
 	<ValidatorFilterUnit>
@@ -271,7 +294,7 @@
 			<Effect value=""/>
 			<Player value="CASTER"/>
 		</PlayerToFilterBy>
-		<Negated value="false"/>
+		<Negated value="0"/>
 	</ValidatorFilterUnit>
 
 	<ValidatorPlayer id="BASE_VALIDATOR_PLAYER">
@@ -283,7 +306,7 @@
 			<Effect value=""/>
 			<Player value="CASTER"/>
 		</PlayerToCompareTo>
-		<Negated value="false"/>
+		<Negated value="0"/>
 	</ValidatorPlayer>
 
 	<ParticleSystem id="BaseParticleSystem">
@@ -377,5 +400,9 @@
 
 	<Texture id="BASE_TEXTURE">
 		<File value="resources/texture.jpg"/>
+	</Texture>
+
+	<Texture id="MISSING_TEXTURE">
+		<File value="resources/missing_image.jpg"/>
 	</Texture>
 </Catalog>

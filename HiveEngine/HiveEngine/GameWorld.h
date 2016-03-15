@@ -19,7 +19,7 @@ namespace Hive
 	{
 	private:
 		const int map_height = 4;
-		const int bottom = -2;
+		const int bottom = -3;
 
 		int map_width;
 		int map_depth;

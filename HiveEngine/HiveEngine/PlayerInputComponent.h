@@ -9,13 +9,24 @@
  ***************************
  */
 
+#include <GL\glew.h>
+#include <glm\glm.hpp>
+#include <GLFW\glfw3.h>
+
+#include "Unit.h"
+#include "ServiceLocator.h"
+
 namespace Hive
 {
 
 	class PlayerInputComponent
 	{
+	private:
+		int player_unit_handle;
+
 	public:
 		PlayerInputComponent();
+		void setPlayerHandle(int handle) { player_unit_handle = handle; }
 		void update(float delta, bool is_a);
 		~PlayerInputComponent();
 	};

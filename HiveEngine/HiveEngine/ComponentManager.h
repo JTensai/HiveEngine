@@ -18,6 +18,7 @@ namespace Hive
 	{
 	private:
 		PlayerInputComponent pic;
+
 	public:
 		ComponentManager() {};
 
@@ -25,6 +26,8 @@ namespace Hive
 		void load();
 		void update_free(float delta, bool is_a);
 		void update_fixed(float delta, bool is_a);
+		int spawn_unit(glm::vec2 position, int dunit_handle);
+		void attach_player_input(int unit_handle);
 		void draw(const glm::mat4& VP);
 
 		~ComponentManager();

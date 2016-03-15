@@ -15,19 +15,25 @@
 #include <glm\glm.hpp>
 #include <tiny_obj_loader.h>
 
+#include "Asset.h"
+#include "Data.h"
+#include "Material.h"
+
 namespace Hive
 {
 	class Mesh {
 	private:
 		std::vector<float> data;
-		int numVerts;
-		std::vector<int> indices;
+		int num_verts;
+		std::vector<unsigned short> indices;
 
-		GLuint VBO = -1; //Vertex Buffer Object
-		GLuint IBO = -1; //Index Buffer Object
+		int mat_id;
+
+		GLuint VBO; //Vertex Buffer Object
+		GLuint IBO; //Index Buffer Object
 
 	public:
-		Mesh(const tinyobj::mesh_t& mesh);
+		Mesh(const tinyobj::mesh_t& mesh, int mat_id);
 
 		void draw(GLuint shader_handle);
 

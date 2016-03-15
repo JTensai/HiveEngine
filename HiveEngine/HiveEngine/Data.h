@@ -9,6 +9,13 @@
 namespace Hive
 {
 
+	class DataErrorException : public std::exception
+	{
+	public:
+		DataErrorException(std::string err) : err(err) {};
+		std::string err;
+	};
+
 #pragma region Enums
 	enum class EffectUnitEnum {
 		CASTER_UNIT,
@@ -119,6 +126,13 @@ namespace Hive
 		float
 			hp,
 			mana;
+
+		Vitals operator-() const { return Vitals{ -hp, -mana }; }
+		Vitals operator*(float f) const { return Vitals{ hp * f, mana * f }; }
+		Vitals operator+(const Vitals& o) const { return Vitals{ hp + o.hp, mana + o.mana }; }
+		Vitals operator-(const Vitals& o) const { return *this + -o; }
+		void operator*=(float f) { hp *= f; mana *= f; }
+		void operator+=(const Vitals& o) { hp += o.hp; mana += o.mana; }
 	};
 
 	struct UnitFilter {
@@ -172,6 +186,7 @@ namespace Hive
 			vitalMax,
 			vitalRegen;
 
+		float height;
 		float speed;
 		float collisionRadius;
 
@@ -415,11 +430,15 @@ namespace Hive
 #pragma region Assets
 	class Model;
 	//typedef DataCollection<AssetData<Model>> DModel;
-	class DModel : public AssetData<Model>, public DataCollection<DModel> {};
+	class DModel : public AssetData<Model, DModel>, public DataCollection<DModel>
+	{
+	public:
+		std::vector<int> mesh_mat_handles;
+	};
 
 	class Texture;
 	//typedef DataCollection<AssetData<Texture>> DTexture;
-	class DTexture : public AssetData<Texture>, public DataCollection<DTexture> {};
+	class DTexture : public AssetData<Texture, DTexture>, public DataCollection<DTexture> {};
 #pragma endregion
 
 }

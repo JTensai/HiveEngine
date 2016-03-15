@@ -31,8 +31,7 @@ namespace Hive
 		std::vector<Mesh*> meshes;
 
 	public:
-		Model();
-		Model(std::string filepath);
+		Model(std::string filepath, DModel* data);
 
 		/*
 		Draw iterates over the model's meshes and calls their draw functions, providing the world-view-perspective matrix needed to do so.
