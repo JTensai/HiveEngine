@@ -1,4 +1,4 @@
-/*#include "QuadTree.h"
+#include "QuadTree.h"
 
 
 QuadTree::QuadTree(float map_width, float map_height) {
@@ -8,9 +8,9 @@ QuadTree::QuadTree(float map_width, float map_height) {
 
 void QuadTree::populate_tree(std::vector<glm::vec2> points_array)
 {
-	root = new QuadTreeNode(0, width, 0, height);
+	root = new QuadTreeNode(0, width, 0, height, false);
 
-	for (int i = 0; i < points_array.size; i++) {
+	for (int i = 0; i < points_array.size(); i++) {
 		root->insert(points_array[i]);
 	}
 
@@ -29,4 +29,3 @@ QuadTree::~QuadTree()
 		delete root;
 	}
 }
-*/
