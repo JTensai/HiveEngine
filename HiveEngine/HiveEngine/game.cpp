@@ -1,7 +1,9 @@
 #include "game.h"
-/*#include "Graph.h"
+/*
+#include "Graph.h"
 #include "Node.h"
-#include "EuclideanHeuristic.h"*/
+#include "EuclideanHeuristic.h"
+*/
 
 using namespace std;
 using namespace Hive;
@@ -9,20 +11,19 @@ using namespace Hive;
 Game::Game() {
 	camera_position = glm::vec3(20, 10, 35);
 	//below is some code i was using to debug A*, please don't delete
-	/*char tempMap[8][8] =
+	/*
+	char tempMap[5][5] =
 	{
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','0','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' }
+		{ '1','1','1','1','1' },
+		{ '1','0','0','1','0' },
+		{ '1','0','1','1','0' },
+		{ '1','1','1','0','1' },
+		{ '0','0','1','1','1' }
 	};
 	Graph g(tempMap);
-	Node* goal = new Node(7, 7);
-	g.pathfindAStar(g, new Node(0, 0), goal, new EuclideanHeuristic(goal));*/
+	Node* goal = new Node(3, 4);
+	g.pathfindAStar(g, new Node(0, 0), goal, new EuclideanHeuristic(goal));
+	*/
 }
 
 void Game::initialize(char* XMLFilename) {
