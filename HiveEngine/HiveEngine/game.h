@@ -3,16 +3,16 @@
 #define HE_GAMESTATE_NORMAL 0
 #define HE_GAMESTATE_CLOSING 1
 
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <tinyxml2/tinyxml2.h>
-
-#include <iostream>
-#include <fstream>
-#include <stdio.h>
 
 #include "tempmodel.h"
 #include "ServiceLocator.h"

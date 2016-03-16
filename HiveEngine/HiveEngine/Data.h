@@ -3,19 +3,14 @@
 #include <string>
 #include <vector>
 
+#include <glm\glm.hpp>
+
 #include "DataCollection.h"
 #include "Asset.h"
+#include "Exceptions.h"
 
 namespace Hive
 {
-
-	class DataErrorException : public std::exception
-	{
-	public:
-		DataErrorException(std::string err) : err(err) {};
-		std::string err;
-	};
-
 #pragma region Enums
 	enum class EffectUnitEnum {
 		CASTER_UNIT,
@@ -100,6 +95,13 @@ namespace Hive
 	};
 #pragma endregion
 #pragma region Structs
+	struct Order {
+		int abilityID;
+		AbilityType type;
+		int targetUnit;
+		glm::vec2 targetPoint;
+	};
+
 	struct EffectList {
 		int effectInitial;
 		int effectPeriodic;

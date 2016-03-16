@@ -62,7 +62,7 @@ Mesh::Mesh(const tinyobj::mesh_t& mesh, int mat_id)
 	}
 	catch (const AssetLoadException& e)
 	{
-		throw AssetLoadException("Unable to load material: " + e.err);
+		throw AssetLoadException("Unable to load material: " + e.msg);
 	}
 
 	glGenBuffers(1, &VBO);

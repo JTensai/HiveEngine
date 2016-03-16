@@ -93,7 +93,7 @@ void Game::load(GLFWwindow* window) {
 	}
 	catch (DataErrorException e)
 	{
-		printf("Error loading data: %s\n", e.err.c_str());
+		printf("Error loading data: %s\n", e.msg.c_str());
 	}
 
 	try

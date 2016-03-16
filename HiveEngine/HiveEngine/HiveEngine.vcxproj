@@ -165,6 +165,8 @@
     <ClCompile Include="ComponentManager.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="Effects.cpp" />
+    <ClCompile Include="EffectTree.cpp" />
     <ClCompile Include="EuclideanHeuristic.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameWorld.cpp" />
@@ -200,7 +202,10 @@
     <ClInclude Include="Connection.h" />
     <ClInclude Include="DataCollection.h" />
     <ClInclude Include="DataManager.h" />
+    <ClInclude Include="Effects.h" />
+    <ClInclude Include="EffectTree.h" />
     <ClInclude Include="EuclideanHeuristic.h" />
+    <ClInclude Include="Exceptions.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Graph.h" />

@@ -108,7 +108,7 @@ int main(int argc, char** argv)
 	}
 	catch (const Hive::AssetLoadException& e)
 	{
-		fprintf(stderr, "Asset Load Exception: %s\n", e.err.c_str());
+		fprintf(stderr, "Asset Load Exception: %s\n", e.msg.c_str());
 		std::system("PAUSE");
 		return 5;
 	}

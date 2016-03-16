@@ -22,7 +22,7 @@ int DataManager::loadXMLData(char* filename)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException(std::string(filename) + ": " + e.err);
+		throw DataErrorException(std::string(filename) + ": " + e.msg);
 	}
 
 	return 0;
@@ -281,7 +281,7 @@ void DataManager::xmlSecondPassAbilities(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Ability(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Ability(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 
@@ -298,7 +298,7 @@ void DataManager::xmlSecondPassActors(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Actor(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Actor(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassBehaviors(XMLIterator xmliter) {}
@@ -323,7 +323,7 @@ void DataManager::xmlSecondPassTextures(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Texture(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Texture(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassMaterials(XMLIterator xmliter)
@@ -339,7 +339,7 @@ void DataManager::xmlSecondPassMaterials(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Material(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Material(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModels(XMLIterator xmliter)
@@ -358,7 +358,7 @@ void DataManager::xmlSecondPassModels(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassUnits(XMLIterator xmliter)
@@ -395,7 +395,7 @@ void DataManager::xmlSecondPassUnits(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Unit(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Unit(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 
@@ -426,7 +426,7 @@ void DataManager::xmlSecondPassParticleSystem(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("ParticleSystem(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ParticleSystem(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
@@ -526,7 +526,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("ParticleEmitter(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ParticleEmitter(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleSizeOverLife(XMLIterator xmliter)
@@ -543,7 +543,7 @@ void DataManager::xmlSecondPassModuleSizeOverLife(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleColorOverLife(XMLIterator xmliter)
@@ -575,7 +575,7 @@ void DataManager::xmlSecondPassModuleColorOverLife(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleInitialRotation(XMLIterator xmliter)
@@ -594,7 +594,7 @@ void DataManager::xmlSecondPassModuleInitialRotation(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleInitialRotationRate(XMLIterator xmliter)
@@ -613,7 +613,7 @@ void DataManager::xmlSecondPassModuleInitialRotationRate(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleSubImageIndexOverLife(XMLIterator xmliter)
@@ -632,7 +632,7 @@ void DataManager::xmlSecondPassModuleSubImageIndexOverLife(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter)
@@ -651,7 +651,7 @@ void DataManager::xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 

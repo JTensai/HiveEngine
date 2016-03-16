@@ -2,15 +2,10 @@
 
 #include <vector>
 
+#include "Exceptions.h"
+
 namespace Hive
 {
-	class AssetLoadException : public std::exception
-	{
-	public:
-		AssetLoadException(std::string err) : err(err) {};
-		std::string err;
-	};
-
 	template <class T, class D>
 	class AssetData
 	{

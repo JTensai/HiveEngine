@@ -34,7 +34,7 @@ Model::Model(std::string filepath, DModel* data)
 		}
 		catch (const AssetLoadException& e)
 		{
-			throw AssetLoadException("Error loading model from: \"" + filepath + "\"; Error occured in mesh " + std::to_string(i) + "; Err: " + e.err);
+			throw AssetLoadException("Error loading model from: \"" + filepath + "\"; Error occured in mesh " + std::to_string(i) + "; Err: " + e.msg);
 		}
 	}
 }
