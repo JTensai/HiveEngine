@@ -30,7 +30,7 @@ namespace Hive
 		ObjectPool<Behavior> behaviors;
 	public:
 		BehaviorComponent();
-		void update_component(float delta, bool is_a);
+		void update_component(float delta);
 		~BehaviorComponent();
 	};
 

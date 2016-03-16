@@ -6,7 +6,7 @@ BehaviorComponent::BehaviorComponent()
 {
 }
 
-void BehaviorComponent::update_component(float delta, bool is_a)
+void BehaviorComponent::update_component(float delta)
 {
 	//TODO: update component
 }

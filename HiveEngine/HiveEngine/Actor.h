@@ -56,7 +56,7 @@ namespace Hive
 		/*
 		Update will handle things like the actor's animation and timed events.
 		*/
-		void update_component(float delta, bool is_a);
+		void update_component(float delta);
 
 		/*
 		Draw multiplies the given view-projection matrix by its own world transform and then calls its model's draw function passing the newly formed world-view-projection matrix.

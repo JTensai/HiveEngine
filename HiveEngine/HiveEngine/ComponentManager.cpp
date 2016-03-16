@@ -18,22 +18,22 @@ namespace Hive
 	{
 	}
 
-	void ComponentManager::update_free(float delta, bool is_a)
+	void ComponentManager::update_free(float delta)
 	{
-		Actor::update(delta, is_a);
-		ParticleSystemComponent::update(delta, is_a);
+		Actor::update(delta);
+		ParticleSystemComponent::update(delta);
 	}
 
-	void ComponentManager::update_fixed(float delta, bool is_a)
+	void ComponentManager::update_fixed(float delta)
 	{
-		pic.update(delta, is_a);
-		AbilityComponent::update(delta, is_a);
-		AIComponent::update(delta, is_a);
-		BehaviorComponent::update(delta, is_a);
-		Unit::update(delta, is_a);
+		pic.update(delta);
+		AbilityComponent::update(delta);
+		AIComponent::update(delta);
+		BehaviorComponent::update(delta);
+		Unit::update(delta);
 	}
 
-	int ComponentManager::spawn_unit(glm::vec2 position, int dunit_handle)
+	int ComponentManager::spawn_unit(glm::vec2 position, int dunit_handle, int player)
 	{
 		DUnit* dunit = DUnit::getItem(dunit_handle);
 
@@ -43,7 +43,7 @@ namespace Hive
 
 		int unit_handle = Unit::create_component();
 		Unit* unit = Unit::get_component(unit_handle);
-		unit->init_unit(actor_handle, dunit_handle, position);
+		unit->init_unit(actor_handle, dunit_handle, player, position);
 
 		return unit_handle;
 	}

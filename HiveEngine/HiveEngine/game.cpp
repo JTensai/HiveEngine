@@ -135,7 +135,7 @@ void Game::load(GLFWwindow* window) {
 
 	IComponentManager* cm = ServiceLocator::getInstance()->getComponentManager();
 	cm->load();
-	player_unit_handle = cm->spawn_unit(glm::vec2(20, 25), DUnit::getIndex("BASE_UNIT"));
+	player_unit_handle = cm->spawn_unit(glm::vec2(20, 25), DUnit::getIndex("BASE_UNIT"), LOCAL_PLAYER);
 	Unit* u = Unit::get_component(player_unit_handle);
 	player_actor_handle = u->get_actor();
 	cm->attach_player_input(player_unit_handle);
@@ -148,16 +148,15 @@ Gamestate Game::update(float delta) {
 		return Gamestate::CLOSING;
 	}
 
-	ServiceLocator::getInstance()->getComponentManager()->update_free(delta, update_cache_swap_flag);
+	ServiceLocator::getInstance()->getComponentManager()->update_free(delta);
 
 	timestep_delta += delta;
 	while (timestep_delta >= TIMESTEP)
 	{
-		ServiceLocator::getInstance()->getComponentManager()->update_fixed(TIMESTEP, update_cache_swap_flag);
+		ServiceLocator::getInstance()->getComponentManager()->update_fixed(TIMESTEP);
 		ServiceLocator::getInstance()->getGameWorld()->update(TIMESTEP);
 
 		timestep_delta -= TIMESTEP;
-		update_cache_swap_flag = !update_cache_swap_flag;
 	}
 
 	Actor* actor = Actor::get_component(player_actor_handle);

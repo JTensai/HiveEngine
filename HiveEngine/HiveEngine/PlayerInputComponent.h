@@ -27,7 +27,7 @@ namespace Hive
 	public:
 		PlayerInputComponent();
 		void setPlayerHandle(int handle) { player_unit_handle = handle; }
-		void update(float delta, bool is_a);
+		void update(float delta);
 		~PlayerInputComponent();
 	};
 

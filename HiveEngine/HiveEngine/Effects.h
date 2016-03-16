@@ -6,6 +6,9 @@
 #include "Data.h"
 #include "EffectTree.h"
 #include "Exceptions.h"
+#include "Unit.h"
+#include "IComponentManager.h"
+#include "ServiceLocator.h"
 
 namespace Hive
 {

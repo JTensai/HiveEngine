@@ -58,7 +58,7 @@ void Actor::set_spin(float spin)
 	Actor::spin.y = spin;
 }
 
-void Actor::update_component(float delta, bool is_a)
+void Actor::update_component(float delta)
 {
 	world_transform = glm::translate(glm::vec3(position));
 	world_transform *= glm::rotate(rotation.x, glm::vec3(1, 0, 0));

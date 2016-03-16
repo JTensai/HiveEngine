@@ -6,7 +6,7 @@ ParticleSystemComponent::ParticleSystemComponent()
 {
 }
 
-void ParticleSystemComponent::update_component(float delta, bool is_a)
+void ParticleSystemComponent::update_component(float delta)
 {
 	//TODO: update component
 }

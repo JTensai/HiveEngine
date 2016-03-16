@@ -11,11 +11,15 @@
 
 namespace Hive
 {
+	const int LOCAL_PLAYER = 0;
+	const int NEUTRAL_PLAYER = 1;
+	const int HOSTILE_PLAYER = 2;
 #pragma region Enums
 	enum class EffectUnitEnum {
 		CASTER_UNIT,
 		SOURCE_UNIT,
 		TARGET_UNIT,
+		SPAWNED_UNIT,
 		NONE_UNIT
 	};
 

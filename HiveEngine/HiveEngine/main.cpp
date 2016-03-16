@@ -104,6 +104,7 @@ int main(int argc, char** argv)
 		glfwTerminate();
 
 		fprintf(stdout, "Execution complete.\n");
+		//std::system("PAUSE");
 		return 0;
 	}
 	catch (const Hive::AssetLoadException& e)

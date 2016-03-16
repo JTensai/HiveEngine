@@ -53,6 +53,7 @@ EffectTree::EffectTree()
 EffectTree* EffectTree::findEffect(int effect)
 {
 	EffectTree* ptr = this;
+	if (effect == -1) return ptr;
 	while (ptr->effect != effect && ptr->parent != nullptr)
 	{
 		ptr = ptr->parent;
@@ -126,6 +127,23 @@ int EffectTree::getCastingPlayer(int effect)
 	return ptr->castingPlayer;
 }
 
+glm::vec2 EffectTree::setCasterLocation(glm::vec2 casterLocation)
+{
+	EffectTree::casterLocation = casterLocation;
+	hasCasterLocation = true;
+	return casterLocation;
+}
+glm::vec2 EffectTree::getCasterLocation(int effect)
+{
+	EffectTree* ptr = findEffect(effect);
+	while (!ptr->hasCasterLocation && ptr->parent != nullptr)
+	{
+		ptr = ptr->parent;
+	}
+	if (!ptr->hasCasterLocation) throw EffectTreeException("Unable to get caster location.");
+	return ptr->casterLocation;
+}
+
 int EffectTree::setSourceUnit(int sourceUnit)
 {
 	EffectTree::sourceUnit = sourceUnit;
@@ -140,6 +158,22 @@ int EffectTree::getSourceUnit(int effect)
 	}
 	if (ptr->sourceUnit == -1) throw EffectTreeException("Unable to get source unit.");
 	return ptr->sourceUnit;
+}
+
+int EffectTree::setSourcePlayer(int sourcePlayer)
+{
+	EffectTree::sourcePlayer = sourcePlayer;
+	return sourcePlayer;
+}
+int EffectTree::getSourcePlayer(int effect)
+{
+	EffectTree* ptr = findEffect(effect);
+	while (ptr->sourcePlayer == -1 && ptr->parent != nullptr)
+	{
+		ptr = ptr->parent;
+	}
+	if (ptr->sourcePlayer == -1) throw EffectTreeException("Unable to get source player.");
+	return ptr->sourcePlayer;
 }
 
 glm::vec2 EffectTree::setSourceLocation(glm::vec2 sourceLocation)
@@ -230,6 +264,64 @@ EffectTree* EffectTree::addChild()
 	activeReferences++;
 	children.back()->parent = this;
 	return children.back();
+}
+
+
+int EffectTree::getUnit(EffectUnit unit)
+{
+	switch (unit.unit)
+	{
+	case EffectUnitEnum::CASTER_UNIT:
+		return getCastingUnit(unit.effectHandle);
+	case EffectUnitEnum::SOURCE_UNIT:
+		return getSourceUnit(unit.effectHandle);
+	case EffectUnitEnum::TARGET_UNIT:
+		return getTargetUnit(unit.effectHandle);
+	case EffectUnitEnum::SPAWNED_UNIT:
+		return getSpawnedUnit(unit.effectHandle);
+	case EffectUnitEnum::NONE_UNIT:
+		throw EffectTreeException("Attempting to get NONE unit.");
+	default:
+		throw EffectTreeException("Unrecognized unit enum.");
+	}
+}
+
+int EffectTree::getPlayer(EffectPlayer player)
+{
+	switch (player.player)
+	{
+	case EffectPlayerEnum::CASTER_PLAYER:
+		return getCastingPlayer(player.effectHandle);
+	case EffectPlayerEnum::SOURCE_PLAYER:
+		return getSourcePlayer(player.effectHandle);
+	case EffectPlayerEnum::TARGET_PLAYER:
+		return getTargetPlayer(player.effectHandle);
+	case EffectPlayerEnum::NONE_PLAYER:
+		throw EffectTreeException("Attempting to get NONE player.");
+	case EffectPlayerEnum::NEUTRAL_PLAYER:
+		return NEUTRAL_PLAYER;
+	case EffectPlayerEnum::HOSTILE_PLAYER:
+		return HOSTILE_PLAYER;
+	default:
+		throw EffectTreeException("Unrecognized player enum.");
+	}
+}
+
+glm::vec2 EffectTree::getLocation(EffectLocation loc)
+{
+	switch (loc.location)
+	{
+	case EffectLocationEnum::CASTER_LOCATION:
+		return getCasterLocation(loc.effectHandle);
+	case EffectLocationEnum::SOURCE_LOCATION:
+		return getSourceLocation(loc.effectHandle);
+	case EffectLocationEnum::TARGET_LOCATION:
+		return getTargetLocation(loc.effectHandle);
+	case EffectLocationEnum::NONE_LOCATION:
+		throw EffectTreeException("Attempting to get NONE location.");
+	default:
+		throw EffectTreeException("Unrecognized location enum.");
+	}
 }
 
 EffectTree::~EffectTree()

@@ -6,7 +6,7 @@ AbilityComponent::AbilityComponent()
 {
 }
 
-void AbilityComponent::update_component(float delta, bool is_a)
+void AbilityComponent::update_component(float delta)
 {
 	//TODO: update component
 }

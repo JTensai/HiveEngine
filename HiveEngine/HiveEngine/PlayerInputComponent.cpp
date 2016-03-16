@@ -7,7 +7,7 @@ PlayerInputComponent::PlayerInputComponent()
 	player_unit_handle = -1;
 }
 
-void PlayerInputComponent::update(float delta, bool is_a)
+void PlayerInputComponent::update(float delta)
 {
 	if (player_unit_handle >= 0)
 	{
@@ -34,7 +34,7 @@ void PlayerInputComponent::update(float delta, bool is_a)
 			mov_dir = glm::normalize(mov_dir) * 0.05f;
 
 			Unit* unit = Unit::get_component(player_unit_handle);
-			unit->set_target(unit->get_position(is_a) + mov_dir);
+			unit->set_target(unit->get_position() + mov_dir);
 		}
 	}
 }

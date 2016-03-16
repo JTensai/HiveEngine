@@ -25,8 +25,8 @@ namespace Hive
 		static void destroy_component(int id);
 
 		static void preupdate() {}
-		static void update(float delta, bool is_a);
-		virtual void update_component(float delta, bool is_a) = 0;
+		static void update(float delta);
+		virtual void update_component(float delta) = 0;
 		static void postupdate() {}
 	};
 
@@ -80,7 +80,7 @@ namespace Hive
 	}
 
 	template <class T>
-	void Component<T>::update(float delta, bool is_a)
+	void Component<T>::update(float delta)
 	{
 		T::preupdate();
 		int i = 0;
@@ -93,7 +93,7 @@ namespace Hive
 			{
 				++num;
 				T& t = *pool.get(i);
-				t.update_component(delta, is_a);
+				t.update_component(delta);
 			}
 		}
 		// TODO: if i/cap is significantly larger than num_used/cap, the objectpool should be sorted.
