@@ -1,4 +1,6 @@
 #include "game.h"
+#include "QuadTree.h"
+#include <vector>
 /*#include "Graph.h"
 #include "Node.h"
 #include "EuclideanHeuristic.h"*/
@@ -8,7 +10,23 @@ using namespace Hive;
 
 Game::Game() {
 	camera_position = glm::vec3(20, 10, 35);
-	//below is some code i was using to debug A*, please don't delete
+	//Below is code being used to test the quadTree. Please do not delete. Testing in progress.
+	/*
+	QuadTree tree = QuadTree(100, 100);
+	vector<glm::vec2> quadTreeTest = {glm::vec2(1,1), glm::vec2(1,2), glm::vec2(1,3), glm::vec2(1,4),
+		glm::vec2(2,2), glm::vec2(2,4), glm::vec2(2,6),
+		glm::vec2(3,3), glm::vec2(3,6), glm::vec2(3,9),
+		glm::vec2(10, 10), glm::vec2(2, 20), glm::vec2(3, 25), glm::vec2(2, 18),
+		glm::vec2(10, 40), glm::vec2(8, 48), glm::vec2(9, 53), glm::vec2(3, 60),
+		glm::vec2(40, 40), glm::vec2(40, 30), glm::vec2(44, 50), glm::vec2(40, 12),
+		glm::vec2(50, 7), glm::vec2(55, 32), glm::vec2(70, 3), glm::vec2(70, 20),
+		glm::vec2(60, 20), glm::vec2(62, 27), glm::vec2(69, 50), glm::vec2(85, 12),
+		glm::vec2(78, 60), glm::vec2(79, 90), glm::vec2(93, 9), glm::vec2(95, 35),
+		glm::vec2(95, 83), glm::vec2(10, 73), glm::vec2(12, 98), glm::vec2(30, 92)};
+
+	tree.populate_tree(quadTreeTest);
+	*/
+	//below is some code I was using to debug A*, please don't delete
 	/*char tempMap[8][8] =
 	{
 		{ '1','1','1','1','1','1','1','1' },
