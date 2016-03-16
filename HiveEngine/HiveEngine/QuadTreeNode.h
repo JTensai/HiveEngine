@@ -5,7 +5,7 @@ class QuadTreeNode
 {
 public:
 	QuadTreeNode();
-	QuadTreeNode(float min_x, float max_x, float min_y, float max_y, bool is_leaf);
+	QuadTreeNode(float min_x, float max_x, float min_y, float max_y, int parent_depth, bool is_leaf);
 	QuadTreeNode* get_NENode();
 	QuadTreeNode* get_SENode();
 	QuadTreeNode* get_SWNode();
@@ -17,6 +17,8 @@ public:
 	int get_number_contained_points();
 	void insert(glm::vec2 point);
 	void cleanup_tree();
+
+	int get_depth();
 
 	bool get_is_leaf_node();
 	glm::vec2 get_contained_point();
