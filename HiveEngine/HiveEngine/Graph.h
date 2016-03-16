@@ -83,7 +83,7 @@ public:
 	struct NodeRecord
 	{
 		Node* node;
-		NodeRecord* fromNode;
+		//NodeRecord* fromNode;
 		float costSoFar;
 		float estimatedTotalCost;
 		bool operator!=(const NodeRecord &other) const { return *node != *other.node; }
@@ -99,7 +99,7 @@ public:
 
 		NodeRecord startRecord;
 		startRecord.node = start;
-		startRecord.fromNode = nullptr;
+		startRecord.node->setParent(nullptr);
 		startRecord.costSoFar = 0;
 		startRecord.estimatedTotalCost = heuristic->estimate(start);
 
@@ -112,7 +112,7 @@ public:
 
 			if (*curr.node == *end)
 			{
-				return generatePath(curr,start);
+				return generatePath(curr.node,start);
 			}
 
 			vector<Node*> connectingNodes = *graph.getConnections(curr.node);
@@ -127,7 +127,8 @@ public:
 					{
 						open.deleteObject(temp);
 
-						temp.fromNode = &curr;
+						//temp.fromNode = &curr;
+						temp.node->setParent(curr.node);
 						temp.costSoFar = tempCost;
 						temp.estimatedTotalCost = temp.costSoFar + heuristic->estimate(curr.node);
 
@@ -142,7 +143,8 @@ public:
 					{
 						remove(closed,temp);
 
-						temp.fromNode = &curr;
+						//temp.fromNode = &curr;
+						temp.node->setParent(curr.node);
 						temp.costSoFar = tempCost;
 						temp.estimatedTotalCost = temp.costSoFar + heuristic->estimate(curr.node);
 
@@ -153,7 +155,8 @@ public:
 				{
 					NodeRecord toAdd;
 					toAdd.node = connectingNodes[i];
-					toAdd.fromNode = &curr;
+					//toAdd.fromNode = &curr;
+					toAdd.node->setParent(curr.node);
 					toAdd.costSoFar = curr.costSoFar + curr.node->distTo(toAdd.node);
 					toAdd.estimatedTotalCost = toAdd.costSoFar + heuristic->estimate(toAdd.node);
 					
@@ -164,15 +167,17 @@ public:
 		return &vector<Node*>();
 	}
 
-	vector<Node*>* generatePath(NodeRecord &curr, Node* start)
+	vector<Node*>* generatePath(Node* curr, Node* start)
 	{
 		vector<Node*> path;
-		path.insert(path.begin(), curr.node);
+		path.insert(path.begin(), curr);
 
-		while (*curr.node != *start)
+		while (curr->getParent() != nullptr)
 		{
-			curr = *curr.fromNode;
-			path.insert(path.begin(),curr.node);
+			Node* temp = curr;
+			curr = curr->getParent();
+			temp->setParent(nullptr);
+			path.insert(path.begin(),curr);
 		}
 
 		return &path;
