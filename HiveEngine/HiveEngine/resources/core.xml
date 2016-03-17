@@ -43,6 +43,10 @@
 		<Model value="BASE_MODEL"/>
 	</Actor>
 
+	<Actor id="QUAD_ACTOR">
+		<Model value="QUAD_MODEL"/>
+	</Actor>
+
 	<Behavior id="BASE_BEHAVIOR">
 		<Name value=""/>
 		<Tooltip value=""/>
@@ -147,22 +151,22 @@
 		<Validator value="-1"/>
 	</EffectSwitch>
 
-  <Material id="BASE_MATERIAL">
-    <DiffuseTexture value="BASE_TEXTURE"/>
-  </Material>
-  
-  <Material id="MISSING_MATERIAL">
-    <DiffuseTexture value="MISSING_TEXTURE"/>
-  </Material>
-  
-	<Model id="BASE_MODEL">
-		<File value="resources/blockman.obj"/>
-    <Meshes>
-      <Mesh>
-        <Material value="BASE_MATERIAL"/>
-      </Mesh>
-    </Meshes>
-	</Model>
+	<Material id="BASE_MATERIAL">
+		<DiffuseTexture value="BASE_TEXTURE"/>
+	</Material>
+
+	<Material id="MISSING_MATERIAL">
+		<DiffuseTexture value="MISSING_TEXTURE"/>
+	</Material>
+
+  <Model id="BASE_MODEL">
+	  <File value="resources/blockman.obj"/>
+	  <Meshes>
+		  <Mesh>
+			  <Material value="BASE_MATERIAL"/>
+		  </Mesh>
+	  </Meshes>
+  </Model>
 
   <Model id="MISSING_MODEL">
     <File value="resources/blockman.obj"/>
@@ -172,6 +176,16 @@
       </Mesh>
     </Meshes>
   </Model>
+
+  <Model id="QUAD_MODEL">
+	  <File value="resources/quad.obj"/>
+	  <Meshes>
+		  <Mesh>
+			  <Material value="MISSING_MATERIAL"/>
+		  </Mesh>
+	  </Meshes>
+  </Model>
+
 
 	<Unit id="BASE_UNIT">
 		<Name value=""/>

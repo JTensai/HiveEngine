@@ -8,6 +8,9 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <iostream>
+#include <stdio.h>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -18,11 +21,9 @@
 #include <IL\il.h>
 #include <IL\ilu.h>
 
-#include <iostream>
-#include <stdio.h>
-
 #include "game.h"
 #include "Asset.h"
+#include "Exceptions.h"
 ////////////////////////////////////////////////////////////
 /// Entry point of application
 ///
@@ -31,6 +32,7 @@
 ////////////////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
+	GLFWwindow* window = nullptr; // (In the accompanying source code, this variable is global)
 	try
 	{
 		double lastTime = 0;
@@ -57,7 +59,6 @@ int main(int argc, char** argv)
 		game.initialize(argv[1]);
 		fprintf(stdout, "Finished initializing game.\n");
 
-		GLFWwindow* window; // (In the accompanying source code, this variable is global)
 		window = glfwCreateWindow(1024, 768, "Hive Engine", NULL, NULL);
 		if (window == NULL) {
 			fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible.\n");
@@ -104,19 +105,52 @@ int main(int argc, char** argv)
 		glfwTerminate();
 
 		fprintf(stdout, "Execution complete.\n");
-		//std::system("PAUSE");
-		return 0;
 	}
 	catch (const Hive::AssetLoadException& e)
 	{
+		glfwTerminate();
 		fprintf(stderr, "Asset Load Exception: %s\n", e.msg.c_str());
-		std::system("PAUSE");
 		return 5;
 	}
-	catch(...)
+	catch (const Hive::DataErrorException& e)
 	{
-		std::cerr << "Unkown exception excountered.\n";
-		std::system("PAUSE");
+		glfwTerminate();
+		fprintf(stderr, "Data Error Exception: %s\n", e.msg.c_str());
 		return 6;
 	}
+	catch (const Hive::EffectException& e)
+	{
+		glfwTerminate();
+		fprintf(stderr, "Effect Error Exception: %s\n", e.msg.c_str());
+		return 7;
+	}
+	catch (const Hive::EffectTreeException& e)
+	{
+		glfwTerminate();
+		fprintf(stderr, "Effect Tree Exception: %s\n", e.msg.c_str());
+		return 8;
+	}
+	catch (const Hive::UnimplementedException& e)
+	{
+		glfwTerminate();
+		fprintf(stderr, "Unimplemented Exception: %s\n", e.msg.c_str());
+		return 9;
+	}
+	catch (const Hive::Exception& e)
+	{
+		glfwTerminate();
+		fprintf(stderr, "Exception: %s\n", e.msg.c_str());
+		return 10;
+	}
+	catch(const std::exception& e)
+	{
+		glfwTerminate();
+		fprintf(stderr, "Unkown exception excountered: %s\n", e.what());
+		return 11;
+	}
+
+#ifdef _DEBUG
+	std::system("PAUSE");
+#endif // DEBUG
+	return 0;
 }

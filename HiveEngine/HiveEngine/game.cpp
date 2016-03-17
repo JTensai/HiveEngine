@@ -82,6 +82,7 @@ void Game::load(GLFWwindow* window) {
 	glfw_window = window;
 	input_manager = new InputManager(glfw_window);
 	ServiceLocator::getInstance()->registerInputManager(input_manager);
+	ServiceLocator::getInstance()->getInputManager()->updateProjection(projection_matrix, 0.1f);
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(glfw_window, GLFW_STICKY_KEYS, GL_FALSE);
 
@@ -134,11 +135,22 @@ void Game::load(GLFWwindow* window) {
 	}
 
 	IComponentManager* cm = ServiceLocator::getInstance()->getComponentManager();
+	cm->initialize();
+
 	cm->load();
 	player_unit_handle = cm->spawn_unit(glm::vec2(20, 25), DUnit::getIndex("BASE_UNIT"), LOCAL_PLAYER);
 	Unit* u = Unit::get_component(player_unit_handle);
 	player_actor_handle = u->get_actor();
 	cm->attach_player_input(player_unit_handle);
+
+	world_cursor_actor_handle = -1;
+	world_cursor_actor_handle = Actor::create_component();
+	printf("cursor handle %i\n", world_cursor_actor_handle);
+	Actor* cursor = Actor::get_component(world_cursor_actor_handle);
+	cursor->loadFromData(DActor::getIndex("QUAD_ACTOR"));
+	cursor->set_rotation(glm::vec3(-glm::half_pi<float>(), 0, 0));
+	cursor->set_spin(glm::vec3(0, 0, 1));
+	cursor->set_scale(glm::vec3(0.5f));
 }
 
 
@@ -163,13 +175,19 @@ Gamestate Game::update(float delta) {
 	glm::vec3 a_pos = actor->get_position();
 	camera_position = glm::vec3(a_pos.x, a_pos.y + 10, a_pos.z + 10);
 
+
 	view_matrix = glm::lookAt(
 		camera_position, //eye
 		glm::vec3(camera_position.x, camera_position.y - .5f, camera_position.z - .5f), //look at
 		glm::vec3(0, 1, 0) //up
 		);
 
+	ServiceLocator::getInstance()->getInputManager()->updateView(view_matrix, camera_position);
 	world_view_projection = projection_matrix * view_matrix * world_matrix;
+
+	actor = Actor::get_component(world_cursor_actor_handle);
+	glm::vec2 mpos = ServiceLocator::getInstance()->getInputManager()->getMousePositionWorld();
+	actor->set_position(mpos, 0.1f);
 
 	ServiceLocator::getInstance()->getUIManager()->update(delta);
 

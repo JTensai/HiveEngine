@@ -6,6 +6,8 @@ GLuint Actor::actor_shader_handle = -1;
 
 Actor::Actor()
 {
+	scale = glm::vec3(1);
+	rotation = glm::vec3(0);
 	position = glm::vec3(0);
 	spin = glm::vec3(0);
 	world_transform = glm::mat4();
@@ -37,6 +39,11 @@ void Actor::postdraw()
 	glDisableVertexAttribArray(2);
 }
 
+void Actor::set_scale(glm::vec3 scale)
+{
+	Actor::scale = scale;
+}
+
 void Actor::set_position(glm::vec2 pos, float height)
 {
 	position = glm::vec3(pos.x, height, pos.y);
@@ -52,10 +59,18 @@ void Actor::set_rotation(float rotation)
 {
 	Actor::rotation.y = rotation;
 }
+void Actor::set_rotation(glm::vec3 rotation)
+{
+	Actor::rotation = rotation;
+}
 
 void Actor::set_spin(float spin)
 {
 	Actor::spin.y = spin;
+}
+void Actor::set_spin(glm::vec3 spin)
+{
+	Actor::spin = spin;
 }
 
 void Actor::update_component(float delta)
@@ -64,6 +79,7 @@ void Actor::update_component(float delta)
 	world_transform *= glm::rotate(rotation.x, glm::vec3(1, 0, 0));
 	world_transform *= glm::rotate(rotation.y, glm::vec3(0, 1, 0));
 	world_transform *= glm::rotate(rotation.z, glm::vec3(0, 0, 1));
+	world_transform *= glm::scale(scale);
 
 	// Update state for next frame because if an update loop pushed data to the actor, that data is authoritative. 
 	rotation += spin * delta;

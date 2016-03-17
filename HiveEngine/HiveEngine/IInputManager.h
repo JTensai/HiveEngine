@@ -14,8 +14,12 @@ namespace Hive
 
 	class IInputManager {
 	public:
+		virtual void updateProjection(glm::mat4 projection, float near_z) = 0;
+		virtual void updateView(glm::mat4 view, glm::vec3 camera_position) = 0;
 		virtual bool isKeyDown(int key) = 0;
 		virtual glm::vec2 getMousePosition() = 0;
+		virtual glm::vec2 getMousePositionFraction() = 0;
+		virtual glm::vec2 getMousePositionWorld() = 0;
 		virtual bool isMouseDown(int button) = 0;
 		virtual void registerMouseCallback(int button, void(*callback)()) = 0;
 		virtual void registerKeyCallback(int key, void(*callback)()) = 0;

@@ -60,6 +60,7 @@ namespace Hive
 		bool update_cache_swap_flag;
 		int player_unit_handle;
 		int player_actor_handle;
+		int world_cursor_actor_handle;
 
 	public:
 		Game();
