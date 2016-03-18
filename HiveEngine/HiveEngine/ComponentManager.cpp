@@ -20,17 +20,18 @@ namespace Hive
 
 	void ComponentManager::update_free(float delta)
 	{
-		Actor::update(delta);
-		ParticleSystemComponent::update(delta);
+		Actor::update_all(delta);
+		ParticleSystemComponent::update_all(delta);
 	}
 
 	void ComponentManager::update_fixed(float delta)
 	{
-		pic.update(delta);
-		AbilityComponent::update(delta);
-		AIComponent::update(delta);
-		BehaviorComponent::update(delta);
-		Unit::update(delta);
+		//player input component does not derive from component, its in a bit of a hacked together state right now.
+		player_input_component.update(delta);
+		AbilityComponent::update_all(delta);
+		AIComponent::update_all(delta);
+		BehaviorComponent::update_all(delta);
+		Unit::update_all(delta);
 	}
 
 	int ComponentManager::spawn_unit(glm::vec2 position, int dunit_handle, int player)
@@ -50,14 +51,14 @@ namespace Hive
 
 	void ComponentManager::attach_player_input(int unit_handle)
 	{
-		pic = PlayerInputComponent();
-		pic.setPlayerHandle(unit_handle);
+		player_input_component = PlayerInputComponent();
+		player_input_component.setPlayerHandle(unit_handle);
 	}
 
 	void ComponentManager::draw(const glm::mat4& VP)
 	{
-		Actor::draw(VP);
-		ParticleSystemComponent::draw(VP);
+		Actor::draw_all(VP);
+		ParticleSystemComponent::draw_all(VP);
 	}
 
 	ComponentManager::~ComponentManager()

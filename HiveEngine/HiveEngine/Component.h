@@ -25,7 +25,7 @@ namespace Hive
 		static void destroy_component(int id);
 
 		static void preupdate() {}
-		static void update(float delta);
+		static void update_all(float delta);
 		virtual void update_component(float delta) = 0;
 		static void postupdate() {}
 	};
@@ -80,7 +80,7 @@ namespace Hive
 	}
 
 	template <class T>
-	void Component<T>::update(float delta)
+	void Component<T>::update_all(float delta)
 	{
 		T::preupdate();
 		int i = 0;
@@ -106,13 +106,13 @@ namespace Hive
 	{
 	public:
 		static void predraw() {}
-		static void draw(const glm::mat4& VP);
+		static void draw_all(const glm::mat4& VP);
 		virtual void draw_component(const glm::mat4& VP) = 0;
 		static void postdraw() {}
 	};
 
 	template <class T>
-	void DrawableComponent<T>::draw(const glm::mat4& VP)
+	void DrawableComponent<T>::draw_all(const glm::mat4& VP)
 	{
 		T::predraw();
 		int i = 0;

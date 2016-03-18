@@ -134,14 +134,16 @@ void Game::load(GLFWwindow* window) {
 		printf("Error loading map: %s\n", e.what());
 	}
 
-	IComponentManager* cm = ServiceLocator::getInstance()->getComponentManager();
-	cm->initialize();
+	IComponentManager* component_manager = ServiceLocator::getInstance()->getComponentManager();
+	component_manager->initialize();
 
-	cm->load();
-	player_unit_handle = cm->spawn_unit(glm::vec2(20, 25), DUnit::getIndex("BASE_UNIT"), LOCAL_PLAYER);
-	Unit* u = Unit::get_component(player_unit_handle);
-	player_actor_handle = u->get_actor();
-	cm->attach_player_input(player_unit_handle);
+	component_manager->load();
+
+	// Code below here is temporary hackish code to get something in game until we are loading the world from XML.
+	player_unit_handle = component_manager->spawn_unit(glm::vec2(20, 25), DUnit::getIndex("BASE_UNIT"), LOCAL_PLAYER);
+	Unit* unit = Unit::get_component(player_unit_handle);
+	player_actor_handle = unit->get_actor();
+	component_manager->attach_player_input(player_unit_handle);
 
 	world_cursor_actor_handle = -1;
 	world_cursor_actor_handle = Actor::create_component();
@@ -172,8 +174,8 @@ Gamestate Game::update(float delta) {
 	}
 
 	Actor* actor = Actor::get_component(player_actor_handle);
-	glm::vec3 a_pos = actor->get_position();
-	camera_position = glm::vec3(a_pos.x, a_pos.y + 10, a_pos.z + 10);
+	glm::vec3 actor_pos = actor->get_position();
+	camera_position = glm::vec3(actor_pos.x, actor_pos.y + 10, actor_pos.z + 10);
 
 
 	view_matrix = glm::lookAt(
@@ -186,8 +188,8 @@ Gamestate Game::update(float delta) {
 	world_view_projection = projection_matrix * view_matrix * world_matrix;
 
 	actor = Actor::get_component(world_cursor_actor_handle);
-	glm::vec2 mpos = ServiceLocator::getInstance()->getInputManager()->getMousePositionWorld();
-	actor->set_position(mpos, 0.1f);
+	glm::vec2 mouse_pos = ServiceLocator::getInstance()->getInputManager()->getMousePositionWorld();
+	actor->set_position(mouse_pos, 0.1f);
 
 	ServiceLocator::getInstance()->getUIManager()->update(delta);
 

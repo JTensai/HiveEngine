@@ -17,7 +17,8 @@ namespace Hive
 	class ComponentManager : public IComponentManager
 	{
 	private:
-		PlayerInputComponent pic;
+		// Exists as a bit of a hack assuming we won't need more than one for quite some time.
+		PlayerInputComponent player_input_component;
 
 	public:
 		ComponentManager() {};
