@@ -3,53 +3,53 @@
 namespace Hive
 {
 
-	ServiceLocator* ServiceLocator::_instance = NULL;
+	ServiceLocator* ServiceLocator::instance = NULL;
 	ServiceLocator::ServiceLocator() {
-		_inputManager = NULL;
+		input_manager = NULL;
 	}
 
 	ServiceLocator* ServiceLocator::getInstance() {
-		if (!_instance) {
-			_instance = new ServiceLocator();
+		if (!instance) {
+			instance = new ServiceLocator();
 		}
-		return _instance;
+		return instance;
 	}
 
 	void ServiceLocator::registerInputManager(IInputManager* inputManager) {
-		_inputManager = inputManager;
+		getInstance()->input_manager = inputManager;
 	}
 	IInputManager* ServiceLocator::getInputManager() {
-		return _inputManager;
+		return getInstance()->input_manager;
 	}
 
 	void ServiceLocator::registerDataManager(IDataManager* dataManager) {
-		_dataManager = dataManager;
+		getInstance()->data_manager = dataManager;
 	}
 	IDataManager* ServiceLocator::getDataManager() {
-		return _dataManager;
+		return getInstance()->data_manager;
 	}
 
 	void ServiceLocator::registerComponentManager(IComponentManager* componentManager) {
-		_componentManager = componentManager;
+		getInstance()->component_manager = componentManager;
 	}
 	IComponentManager* ServiceLocator::getComponentManager() {
-		return _componentManager;
+		return getInstance()->component_manager;
 	}
 
 	void ServiceLocator::registerUIManager(IUIManager* uiManager) {
-		_uiManager = uiManager;
+		getInstance()->ui_manager = uiManager;
 	}
 	IUIManager* ServiceLocator::getUIManager() {
-		return _uiManager;
+		return getInstance()->ui_manager;
 	}
 
 	void ServiceLocator::registerGameWorld(IGameWorld* gameWorld)
 	{
-		game_world = gameWorld;
+		getInstance()->game_world = gameWorld;
 	}
 
 	IGameWorld* ServiceLocator::getGameWorld()
 	{
-		return game_world;
+		return getInstance()->game_world;
 	}
 }

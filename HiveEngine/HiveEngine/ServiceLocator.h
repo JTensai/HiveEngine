@@ -16,11 +16,11 @@ namespace Hive
 
 	class ServiceLocator {
 	private:
-		static ServiceLocator* _instance;
-		IInputManager* _inputManager;
-		IDataManager* _dataManager;
-		IComponentManager* _componentManager;
-		IUIManager* _uiManager;
+		static ServiceLocator* instance;
+		IInputManager* input_manager;
+		IDataManager* data_manager;
+		IComponentManager* component_manager;
+		IUIManager* ui_manager;
 		IGameWorld* game_world;
 
 		ServiceLocator();
@@ -28,20 +28,20 @@ namespace Hive
 	public:
 		static ServiceLocator* getInstance();
 
-		void registerInputManager(IInputManager* inputManager);
-		IInputManager* getInputManager();
+		static void registerInputManager(IInputManager* inputManager);
+		static IInputManager* getInputManager();
 
-		void registerDataManager(IDataManager* dataManager);
-		IDataManager* getDataManager();
+		static void registerDataManager(IDataManager* dataManager);
+		static IDataManager* getDataManager();
 
-		void registerComponentManager(IComponentManager* componentManager);
-		IComponentManager* getComponentManager();
+		static void registerComponentManager(IComponentManager* componentManager);
+		static IComponentManager* getComponentManager();
 
-		void registerUIManager(IUIManager* uiManager);
-		IUIManager* getUIManager();
+		static void registerUIManager(IUIManager* uiManager);
+		static IUIManager* getUIManager();
 
-		void registerGameWorld(IGameWorld* gameWorld);
-		IGameWorld* getGameWorld();
+		static void registerGameWorld(IGameWorld* gameWorld);
+		static IGameWorld* getGameWorld();
 	};
 
 }
