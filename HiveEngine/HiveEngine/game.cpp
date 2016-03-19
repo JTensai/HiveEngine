@@ -30,7 +30,7 @@ Game::Game() {
 	*/
 	//below is some code i was using to debug A*, please don't delete
 	/*
-	char tempMap[5][5] =
+	char temp_map[5][5] =
 	{
 		{ '1','1','1','1','1' },
 		{ '1','0','0','1','0' },
@@ -38,9 +38,9 @@ Game::Game() {
 		{ '1','1','1','0','1' },
 		{ '0','0','1','1','1' }
 	};
-	Graph g(tempMap);
+	Graph g(temp_map);
 	Node* goal = new Node(3, 4);
-	g.pathfindAStar(g, new Node(0, 0), goal, new EuclideanHeuristic(goal));
+	g.pathfind_a_star(g, new Node(0, 0), goal, new EuclideanHeuristic(goal));
 	*/
 }
 
