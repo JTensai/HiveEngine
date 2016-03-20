@@ -57,8 +57,12 @@ namespace Hive
 
 	void ComponentManager::draw(const glm::mat4& VP)
 	{
+		ServiceLocator::get_graphics()->update_view_projection_matrix(VP);
+
 		Actor::draw_all(VP);
 		ParticleSystemComponent::draw_all(VP);
+
+		ServiceLocator::get_graphics()->draw_all();
 	}
 
 	ComponentManager::~ComponentManager()

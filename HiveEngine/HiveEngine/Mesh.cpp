@@ -2,10 +2,23 @@
 
 using namespace Hive;
 
-Mesh::Mesh(const tinyobj::mesh_t& mesh, int mat_id)
+std::vector<Mesh*> Mesh::meshes = std::vector<Mesh*>();
+
+Mesh* Mesh::get_mesh(int index)
+{
+	return meshes[index];
+}
+
+int Mesh::new_mesh(const tinyobj::mesh_t& mesh)
+{
+	int index = meshes.size();
+	meshes.push_back(new Mesh(mesh));
+	return index;
+}
+
+Mesh::Mesh(const tinyobj::mesh_t& mesh)
 {
 	int index;
-	Mesh::mat_id = mat_id;
 
 	if (mesh.positions.size() % 3 != 0) throw AssetLoadException("Position data incomplete.");
 	if (mesh.texcoords.size() % 2 != 0) throw AssetLoadException("UV data incomplete.");
@@ -56,15 +69,6 @@ Mesh::Mesh(const tinyobj::mesh_t& mesh, int mat_id)
 		indices[i] = mesh.indices[i];
 	}
 
-	try
-	{
-		Material::getItem(mat_id)->bind(); //Ensure the textures are loaded and get it in memory
-	}
-	catch (const AssetLoadException& e)
-	{
-		throw AssetLoadException("Unable to load material: " + e.msg);
-	}
-
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(float), data.data(), GL_STATIC_DRAW);
@@ -74,9 +78,8 @@ Mesh::Mesh(const tinyobj::mesh_t& mesh, int mat_id)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short), indices.data(), GL_STATIC_DRAW);
 }
 
-void Mesh::draw(GLuint shader_handle)
+void Mesh::set_vertex_attributes()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glVertexAttribPointer(
 		0,							// Positions are at 0. No particular reason for 0, but must match the layout in the shader.
 		3,							// size
@@ -101,12 +104,12 @@ void Mesh::draw(GLuint shader_handle)
 		8 * sizeof(float),			// stride
 		(void*)(5 * sizeof(float))	// array buffer offset
 		);
+}
 
+void Mesh::bind()
+{
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-
-	Material::getItem(mat_id)->bind();
-
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_SHORT, (void*)0);
 }
 
 Mesh::~Mesh()

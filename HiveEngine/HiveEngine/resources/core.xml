@@ -41,10 +41,12 @@
 
 	<Actor id="BASE_ACTOR">
 		<Model value="BASE_MODEL"/>
+    <Material value="BASE_MATERIAL"/>
 	</Actor>
 
 	<Actor id="QUAD_ACTOR">
 		<Model value="QUAD_MODEL"/>
+    <Material value="MISSING_MATERIAL"/>
 	</Actor>
 
 	<Behavior id="BASE_BEHAVIOR">
@@ -161,31 +163,11 @@
 
   <Model id="BASE_MODEL">
 	  <File value="resources/blockman.obj"/>
-	  <Meshes>
-		  <Mesh>
-			  <Material value="BASE_MATERIAL"/>
-		  </Mesh>
-	  </Meshes>
-  </Model>
-
-  <Model id="MISSING_MODEL">
-    <File value="resources/blockman.obj"/>
-    <Meshes>
-      <Mesh>
-        <Material value="MISSING_MATERIAL"/>
-      </Mesh>
-    </Meshes>
   </Model>
 
   <Model id="QUAD_MODEL">
 	  <File value="resources/quad.obj"/>
-	  <Meshes>
-		  <Mesh>
-			  <Material value="MISSING_MATERIAL"/>
-		  </Mesh>
-	  </Meshes>
   </Model>
-
 
 	<Unit id="BASE_UNIT">
 		<Name value=""/>

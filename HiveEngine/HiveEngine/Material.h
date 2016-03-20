@@ -7,13 +7,13 @@
 
 namespace Hive
 {
-	class Material : public DataCollection<Material>
+	class DMaterial : public DataCollection<DMaterial>
 	{
 	public:
 		int diffuse_tex;
 
-		Material();
-		void bind();
-		~Material();
+		DMaterial();
+		void bind() const;
+		~DMaterial();
 	};
 }

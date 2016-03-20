@@ -209,6 +209,7 @@ namespace Hive
 	{
 	public:
 		int dModelHandle;
+		int dMaterialHandle;
 	};
 #pragma endregion
 
@@ -436,11 +437,7 @@ namespace Hive
 #pragma region Assets
 	class Model;
 	//typedef DataCollection<AssetData<Model>> DModel;
-	class DModel : public AssetData<Model, DModel>, public DataCollection<DModel>
-	{
-	public:
-		std::vector<int> mesh_mat_handles;
-	};
+	class DModel : public AssetData<Model, DModel>, public DataCollection<DModel> {};
 
 	class Texture;
 	//typedef DataCollection<AssetData<Texture>> DTexture;

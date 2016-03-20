@@ -87,7 +87,7 @@ void Effects::eSpawnUnit(EffectTree* effectTree, DEffectSpawnUnit* effect)
 		int player = effectTree->getPlayer(effect->owner);
 		int data = effect->unitDataHandle;
 		glm::vec2 loc = effectTree->getLocation(effect->location);
-		int unit = ServiceLocator::getComponentManager()->spawn_unit(loc, data, player);
+		int unit = ServiceLocator::get_component_manager()->spawn_unit(loc, data, player);
 		effectTree->setSpawnedUnit(unit);
 
 		EffectTree::clean(effectTree);

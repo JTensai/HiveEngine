@@ -12,19 +12,19 @@ void PlayerInputComponent::update(float delta)
 	if (player_unit_handle >= 0)
 	{
 		glm::vec2 mov_dir = glm::vec2(0);
-		if (ServiceLocator::getInputManager()->isKeyDown(GLFW_KEY_W))
+		if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_W))
 		{
 			mov_dir.y -= 1.0;
 		}
-		if (ServiceLocator::getInputManager()->isKeyDown(GLFW_KEY_A))
+		if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_A))
 		{
 			mov_dir.x -= 1.0;
 		}
-		if (ServiceLocator::getInputManager()->isKeyDown(GLFW_KEY_S))
+		if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_S))
 		{
 			mov_dir.y += 1.0;
 		}
-		if (ServiceLocator::getInputManager()->isKeyDown(GLFW_KEY_D))
+		if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_D))
 		{
 			mov_dir.x += 1.0;
 		}

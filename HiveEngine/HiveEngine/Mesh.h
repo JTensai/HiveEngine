@@ -23,19 +23,22 @@ namespace Hive
 {
 	class Mesh {
 	private:
+		static std::vector<Mesh*> meshes;
+		Mesh(const tinyobj::mesh_t& mesh);
+
 		std::vector<float> data;
 		int num_verts;
 		std::vector<unsigned short> indices;
-
-		int mat_id;
 
 		GLuint VBO; //Vertex Buffer Object
 		GLuint IBO; //Index Buffer Object
 
 	public:
-		Mesh(const tinyobj::mesh_t& mesh, int mat_id);
-
-		void draw(GLuint shader_handle);
+		static Mesh* get_mesh(int index);
+		static int new_mesh(const tinyobj::mesh_t& mesh);
+		static void set_vertex_attributes();
+		void bind();
+		void draw() { glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_SHORT, (void*)0); }
 
 		~Mesh();
 	};

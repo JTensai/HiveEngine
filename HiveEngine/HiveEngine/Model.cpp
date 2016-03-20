@@ -14,23 +14,12 @@ Model::Model(std::string filepath, DModel* data)
 		throw AssetLoadException("Error loading model from: \"" + filepath + "\"; Err: " + err);
 	}
 
-	int missing_mat = Material::getIndex("MISSING_MATERIAL");
-	meshes = std::vector<Mesh*>(shapes.size());
+	meshes = std::vector<int>(shapes.size());
 	for (int i = 0; i < shapes.size(); i++)
 	{
 		try
 		{
-			int mat_id;
-			if (data->mesh_mat_handles.size() <= i)
-			{
-				mat_id = missing_mat;
-			}
-			else
-			{
-				mat_id = data->mesh_mat_handles[i];
-			}
-
-			meshes[i] = new Mesh(shapes[i].mesh, mat_id);
+			meshes[i] = Mesh::new_mesh(shapes[i].mesh);
 		}
 		catch (const AssetLoadException& e)
 		{
@@ -39,21 +28,18 @@ Model::Model(std::string filepath, DModel* data)
 	}
 }
 
-void Model::draw(GLuint shader_handle) const
+int Model::get_num_meshes() const
 {
-	for (int i = 0; i < meshes.size(); ++i)
-	{
-		meshes[i]->draw(shader_handle);
-	}
+	return meshes.size();
+}
+
+int Model::get_mesh(int mesh) const
+{
+	if (mesh < 0 || mesh > meshes.size()) throw std::out_of_range("Mesh out of range.");
+	return meshes[mesh];
 }
 
 Model::~Model()
 {
-	for (int i = 0; i < meshes.size(); ++i)
-	{
-		if (meshes[i] != nullptr)
-		{
-			delete meshes[i];
-		}
-	}
+	//TODO make meshes more dynamic, right now they can't be unloaded
 }

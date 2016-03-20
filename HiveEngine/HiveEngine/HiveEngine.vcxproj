@@ -171,6 +171,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -209,8 +210,10 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="IComponentManager.h" />
     <ClInclude Include="IDataManager.h" />
+    <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IInputManager.h" />
     <ClInclude Include="IGameWorld.h" />
     <ClInclude Include="InputManager.h" />

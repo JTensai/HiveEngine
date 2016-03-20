@@ -69,10 +69,10 @@ void Game::initialize(char* XMLFilename) {
 
 	timestep_delta = 0;
 
-	ServiceLocator::registerUIManager(new UIManager());
-	ServiceLocator::registerComponentManager(new ComponentManager());
-	ServiceLocator::registerDataManager(new DataManager());
-	ServiceLocator::registerGameWorld(new GameWorld());
+	ServiceLocator::register_ui_manager(new UIManager());
+	ServiceLocator::register_component_manager(new ComponentManager());
+	ServiceLocator::register_data_manager(new DataManager());
+	ServiceLocator::register_game_world(new GameWorld());
 
 	//ServiceLocator::getComponentManager()->initialize();
 }
@@ -81,8 +81,8 @@ void Game::initialize(char* XMLFilename) {
 void Game::load(GLFWwindow* window) {
 	glfw_window = window;
 	input_manager = new InputManager(glfw_window);
-	ServiceLocator::registerInputManager(input_manager);
-	ServiceLocator::getInputManager()->updateProjection(projection_matrix, 0.1f);
+	ServiceLocator::register_input_manager(input_manager);
+	ServiceLocator::get_input_manager()->updateProjection(projection_matrix, 0.1f);
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(glfw_window, GLFW_STICKY_KEYS, GL_FALSE);
 
@@ -99,6 +99,7 @@ void Game::load(GLFWwindow* window) {
 
 	shader_program_id = LoadShader("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
 	Actor::setShader(shader_program_id);
+	ServiceLocator::register_graphics(new Graphics(shader_program_id));
 	
 	light_direction = glm::normalize(glm::vec3(1, -4, -1));
 	light_color = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
@@ -109,7 +110,7 @@ void Game::load(GLFWwindow* window) {
 
 	try
 	{
-		ServiceLocator::getDataManager()->loadXMLData(xml_filename);
+		ServiceLocator::get_data_manager()->loadXMLData(xml_filename);
 	}
 	catch (DataErrorException e)
 	{
@@ -118,7 +119,7 @@ void Game::load(GLFWwindow* window) {
 
 	try
 	{
-		ServiceLocator::getUIManager()->load(LoadShader("resources/2DVertexShader.vertexshader", "resources/2DFragmentShader.fragmentshader"));
+		ServiceLocator::get_ui_manager()->load(LoadShader("resources/2DVertexShader.vertexshader", "resources/2DFragmentShader.fragmentshader"));
 	}
 	catch (std::exception e)
 	{
@@ -127,14 +128,14 @@ void Game::load(GLFWwindow* window) {
 
 	try
 	{
-		ServiceLocator::getGameWorld()->load(LoadShader("resources/WorldVertexShader.vertexshader", "resources/WorldFragmentShader.fragmentshader"));
+		ServiceLocator::get_game_world()->load(LoadShader("resources/WorldVertexShader.vertexshader", "resources/WorldFragmentShader.fragmentshader"));
 	}
 	catch (std::exception e)
 	{
 		printf("Error loading map: %s\n", e.what());
 	}
 
-	IComponentManager* component_manager = ServiceLocator::getComponentManager();
+	IComponentManager* component_manager = ServiceLocator::get_component_manager();
 	component_manager->initialize();
 
 	component_manager->load();
@@ -162,13 +163,13 @@ Gamestate Game::update(float delta) {
 		return Gamestate::CLOSING;
 	}
 
-	ServiceLocator::getComponentManager()->update_free(delta);
+	ServiceLocator::get_component_manager()->update_free(delta);
 
 	timestep_delta += delta;
 	while (timestep_delta >= TIMESTEP)
 	{
-		ServiceLocator::getComponentManager()->update_fixed(TIMESTEP);
-		ServiceLocator::getGameWorld()->update(TIMESTEP);
+		ServiceLocator::get_component_manager()->update_fixed(TIMESTEP);
+		ServiceLocator::get_game_world()->update(TIMESTEP);
 
 		timestep_delta -= TIMESTEP;
 	}
@@ -184,14 +185,14 @@ Gamestate Game::update(float delta) {
 		glm::vec3(0, 1, 0) //up
 		);
 
-	ServiceLocator::getInputManager()->updateView(view_matrix, camera_position);
+	ServiceLocator::get_input_manager()->updateView(view_matrix, camera_position);
 	world_view_projection = projection_matrix * view_matrix * world_matrix;
 
 	actor = Actor::get_component(world_cursor_actor_handle);
-	glm::vec2 mouse_pos = ServiceLocator::getInputManager()->getMousePositionWorld();
+	glm::vec2 mouse_pos = ServiceLocator::get_input_manager()->getMousePositionWorld();
 	actor->set_position(mouse_pos, 0.1f);
 
-	ServiceLocator::getUIManager()->update(delta);
+	ServiceLocator::get_ui_manager()->update(delta);
 
 	return Gamestate::NORMAL;
 }
@@ -200,7 +201,7 @@ Gamestate Game::update(float delta) {
 void Game::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	ServiceLocator::getGameWorld()->draw(world_view_projection);
+	ServiceLocator::get_game_world()->draw(world_view_projection);
 	
 	glUseProgram(shader_program_id);
 	GLuint LightDirection = glGetUniformLocation(shader_program_id, "LightDirection");
@@ -211,7 +212,7 @@ void Game::draw() {
 	glUniform4f(LightColor, light_color.r, light_color.g, light_color.b, light_color.w);
 	glUniform3f(AmbientColor, ambient_color.r, ambient_color.g, ambient_color.b);
 
-	ServiceLocator::getComponentManager()->draw(world_view_projection);
+	ServiceLocator::get_component_manager()->draw(world_view_projection);
 
 	//ServiceLocator::getUIManager()->draw();
 }

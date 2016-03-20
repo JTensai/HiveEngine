@@ -25,6 +25,8 @@ namespace Hive
 		virtual void update(float delta) = 0;
 		virtual void draw(const glm::mat4& VP) = 0;
 		virtual void close() = 0;
+
+		virtual ~IGameWorld() {}
 	};
 
 }

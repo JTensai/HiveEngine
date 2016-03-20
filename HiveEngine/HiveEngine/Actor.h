@@ -38,6 +38,7 @@ namespace Hive
 
 		glm::mat4 world_transform;
 		int d_model_handle;
+		int d_material_handle;
 
 	public:
 		Actor();

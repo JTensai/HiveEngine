@@ -21,6 +21,7 @@
 #include "ComponentManager.h"
 #include "UIManager.h"
 #include "GameWorld.h"
+#include "Graphics.h"
 
 using namespace std;
 
