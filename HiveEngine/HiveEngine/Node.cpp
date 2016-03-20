@@ -14,29 +14,29 @@ Node::~Node()
 {
 }
 
-int Node::getRow()
+int Node::get_row()
 {
 	return row;
 }
 
-int Node::getCol()
+int Node::get_col()
 {
 	return col;
 }
 
-float Node::distTo(Node* toNode)
+float Node::distance_to(Node* toNode)
 {
-	int xDiff = toNode->getRow() - row;
-	int yDiff = toNode->getCol() - col;
+	int xDiff = toNode->get_row() - row;
+	int yDiff = toNode->get_col() - col;
 	return (float) sqrt(xDiff * xDiff + yDiff * yDiff);
 }
 
-void Node::setParent(Node* parent)
+void Node::set_parent(Node* parent)
 {
 	this->parent = parent;
 }
 
-Node* Node::getParent()
+Node* Node::get_parent()
 {
 	return parent;
 }

@@ -10,5 +10,5 @@ EuclideanHeuristic::~EuclideanHeuristic()
 
 float EuclideanHeuristic::estimate(Node* node)
 {
-	return node->distTo(getGoalNode());
+	return node->distance_to(get_goal_node());
 }

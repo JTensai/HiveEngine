@@ -10,7 +10,6 @@
 
 #include <stdexcept>
 #include <iostream>
-#define NULL 0
 
 
 
@@ -18,34 +17,34 @@ template <class T>
 class PriorityQueue {
 private:
 	T* pq;
-	int pqSize;
+	int pq_size;//current size of queue
 	int mode;
 
 	void balance(int index)
 	{
 		if (mode == ASCENDING)
 		{
-			ascendingBalance(index);
+			ascending_balance(index);
 		}
 		else
 		{
-			descendingBalance(index);
+			descending_balance(index);
 		}
 	}
 
-	void ascendingBalance(int index)
+	void ascending_balance(int index)
 	{
 		int i = index + 1;
-		int leftIndex = i * 2 - 1;
-		int rightIndex = i * 2;
+		int left_index = i * 2 - 1;
+		int right_index = i * 2;
 		int smallest = index;
-		if (leftIndex <= pqSize - 1 && pq[leftIndex] < pq[index])
+		if (left_index <= pq_size - 1 && pq[left_index] < pq[index])
 		{
-			smallest = leftIndex;
+			smallest = left_index;
 		}
-		if (rightIndex <= pqSize - 1 && pq[rightIndex] < pq[smallest])
+		if (right_index <= pq_size - 1 && pq[right_index] < pq[smallest])
 		{
-			smallest = rightIndex;
+			smallest = right_index;
 		}
 		if (smallest != index)
 		{
@@ -56,19 +55,19 @@ private:
 		}
 	}
 
-	void descendingBalance(int index)
+	void descending_balance(int index)
 	{
 		int i = index + 1;
-		int leftIndex = i * 2 - 1;
-		int rightIndex = i * 2;
+		int left_index = i * 2 - 1;
+		int right_index = i * 2;
 		int largest = index;
-		if (leftIndex <= pqSize - 1 && pq[leftIndex] > pq[index])
+		if (left_index <= pq_size - 1 && pq[left_index] > pq[index])
 		{
-			largest = leftIndex;
+			largest = left_index;
 		}
-		if (rightIndex <= pqSize - 1 && pq[rightIndex] > pq[largest])
+		if (right_index <= pq_size - 1 && pq[right_index] > pq[largest])
 		{
-			largest = rightIndex;
+			largest = right_index;
 		}
 		if (largest != index)
 		{
@@ -79,41 +78,41 @@ private:
 		}
 	}
 
-	void decreaseKey(T &c, int index)
+	void decrease_key(T &c, int index)
 	{
 		if (mode == ASCENDING)
 		{
-			ascendingDecreaseKey(c, index);
+			ascending_decrease_key(c, index);
 		}
 		else
 		{
-			descendingDecreaseKey(c, index);
+			descending_decrease_key(c, index);
 		}
 	}
 
-	void ascendingDecreaseKey(T &c, int index)
+	void ascending_decrease_key(T &c, int index)
 	{
 		int i = index + 1;
-		int parentIndex = (i / 2) - 1;
-		while (i - 1 > 0 && pq[parentIndex] > pq[i - 1])
+		int parent_index = (i / 2) - 1;
+		while (i - 1 > 0 && pq[parent_index] > pq[i - 1])
 		{
-			pq[i - 1] = pq[parentIndex];
-			pq[parentIndex] = c;
-			i = parentIndex + 1;
-			parentIndex = (i / 2) - 1;
+			pq[i - 1] = pq[parent_index];
+			pq[parent_index] = c;
+			i = parent_index + 1;
+			parent_index = (i / 2) - 1;
 		}
 	}
 
-	void descendingDecreaseKey(T &c, int index)
+	void descending_decrease_key(T &c, int index)
 	{
 		int i = index + 1;
-		int parentIndex = (i / 2) - 1;
-		while (i - 1 > 0 && pq[parentIndex] < pq[i - 1])
+		int parent_index = (i / 2) - 1;
+		while (i - 1 > 0 && pq[parent_index] < pq[i - 1])
 		{
-			pq[i - 1] = pq[parentIndex];
-			pq[parentIndex] = c;
-			i = parentIndex + 1;
-			parentIndex = (i / 2) - 1;
+			pq[i - 1] = pq[parent_index];
+			pq[parent_index] = c;
+			i = parent_index + 1;
+			parent_index = (i / 2) - 1;
 		}
 	}
 
@@ -125,13 +124,13 @@ public:
 
 	PriorityQueue() {
 		pq = nullptr;
-		pqSize = 0;
+		pq_size = 0;
 		mode = ASCENDING;
 	}
 
 	PriorityQueue(int size) {
 		pq = new T[size];
-		pqSize = 0;
+		pq_size = 0;
 		mode = ASCENDING;
 	}
 
@@ -140,26 +139,26 @@ public:
 
 	void insert(T& c)
 	{
-		++pqSize;
-		pq[pqSize - 1] = c;
-		decreaseKey(c, pqSize - 1);
+		++pq_size;
+		pq[pq_size - 1] = c;
+		decrease_key(c, pq_size - 1);
 	}
 
 	T deleteMin()
 	{
 		T min = pq[0];
-		pq[0] = pq[pqSize - 1];
-		--pqSize;
+		pq[0] = pq[pq_size - 1];
+		--pq_size;
 		balance(0);
 		return min;
 	}
 
 	int size()
 	{
-		return pqSize;
+		return pq_size;
 	}
 
-	T getIndex(int index)
+	T get_index(int index)
 	{
 		try
 		{
@@ -177,35 +176,35 @@ public:
 		throw std::out_of_range("");
 	}
 
-	void deleteObject(T c)
+	void delete_object(T c)
 	{
-		T toDelete = pq[0];
+		T to_delete = pq[0];
 		int i = 0;
-		while (toDelete != c)
+		while (to_delete != c)
 		{
 			++i;
-			if (i >= pqSize)
+			if (i >= pq_size)
 			{
 				return;
 			}
-			toDelete = pq[i];
+			to_delete = pq[i];
 		}
 
-		pq[i] = pq[pqSize - 1];
-		--pqSize;
+		pq[i] = pq[pq_size - 1];
+		--pq_size;
 		balance(i);
 	}
 
-	void setMode(int newMode)
+	void set_mode(int new_mode)
 	{
-		mode = newMode;
+		mode = new_mode;
 	}
 
 	bool contains(T obj)
 	{
-		for (int i = 0; i < pqSize; ++i)
+		for (int i = 0; i < pq_size; ++i)
 		{
-			if (pq[pqSize] == obj)
+			if (pq[pq_size] == obj)
 			{
 				return true;
 			}

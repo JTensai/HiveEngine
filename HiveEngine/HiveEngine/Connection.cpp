@@ -1,29 +1,27 @@
 #include "Connection.h"
 
-
-
-Connection::Connection(Node* fromNode, Node* toNode):fromNode(fromNode), toNode(toNode), cost(fromNode->distTo(toNode))
+Connection::Connection(Node* fromNode, Node* toNode):from_node(fromNode), to_node(toNode), cost(fromNode->distance_to(toNode))
 {
 }
 
 
 Connection::~Connection()
 {
-	delete fromNode;
-	delete toNode;
+	delete from_node;
+	delete to_node;
 }
 
-int Connection::getCost() 
+int Connection::get_cost() 
 { 
 	return cost; 
 }
 
-Node* Connection::getFromNode() 
+Node* Connection::get_from_node() 
 {
-	return fromNode;
+	return from_node;
 }
 
-Node* Connection::getToNode()
+Node* Connection::get_to_node()
 { 
-	return toNode; 
+	return to_node;
 }
