@@ -1,14 +1,9 @@
 #define TINYOBJLOADER_IMPLEMENTATION
-#define DBOUT( s )            \
-{                             \
-   std::wostringstream os_;    \
-   os_ << s << std::endl;                   \
-   OutputDebugStringW( os_.str().c_str() );  \
-}
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <iostream>
+#include <fstream>
 #include <stdio.h>
 
 #include <GL/glew.h>
@@ -24,6 +19,22 @@
 #include "game.h"
 #include "Asset.h"
 #include "Exceptions.h"
+
+bool file_valid(const char* filename)
+{
+	ifstream file(filename);
+	if (file.good())
+	{
+		file.close();
+		return true;
+	}
+	else
+	{
+		file.close();
+		return false;
+	}
+}
+
 ////////////////////////////////////////////////////////////
 /// Entry point of application
 ///
@@ -32,6 +43,42 @@
 ////////////////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
+	char* core_xml_filename = "resources/core.xml";
+	char* game_xml_filename = "resources/game.xml";
+	char* map_xml_filename = "resources/map.xml";
+
+	if (argc > 1)
+	{
+		core_xml_filename = argv[1];
+		if (argc > 2)
+		{
+			game_xml_filename = argv[2];
+			if (argc > 3)
+			{
+				map_xml_filename = argv[3];
+			}
+		}
+	}
+
+	fprintf(stdout, "Loading from:\n\tCore: %s\n\tGame: %s\n\tMap: %s\n", core_xml_filename, game_xml_filename, map_xml_filename);
+
+	if (!file_valid(core_xml_filename))
+	{
+		fprintf(stderr, "Unable to open core xml file %s, can not continue.", core_xml_filename);
+		return 12;
+	}
+	if (!file_valid(game_xml_filename))
+	{
+		fprintf(stderr, "Unable to open game xml file %s, can not continue.", game_xml_filename);
+		return 13;
+	}
+	if (!file_valid(map_xml_filename))
+	{
+		fprintf(stderr, "Unable to open map xml file %s, can not continue.", map_xml_filename);
+		return 14;
+	}
+
+
 	GLFWwindow* window = nullptr; // (In the accompanying source code, this variable is global)
 	try
 	{
@@ -56,7 +103,7 @@ int main(int argc, char** argv)
 		fprintf(stdout, "Finished initializing IL\\ILU.\n");
 		
 		fprintf(stdout, "Initializing game...\n");
-		game.initialize(argv[1]);
+		game.initialize(core_xml_filename, game_xml_filename, map_xml_filename);
 		fprintf(stdout, "Finished initializing game.\n");
 
 		window = glfwCreateWindow(1024, 768, "Hive Engine", NULL, NULL);
@@ -110,42 +157,49 @@ int main(int argc, char** argv)
 	{
 		glfwTerminate();
 		fprintf(stderr, "Asset Load Exception: %s\n", e.msg.c_str());
+		std::system("PAUSE");
 		return 5;
 	}
 	catch (const Hive::DataErrorException& e)
 	{
 		glfwTerminate();
 		fprintf(stderr, "Data Error Exception: %s\n", e.msg.c_str());
+		std::system("PAUSE");
 		return 6;
 	}
 	catch (const Hive::EffectException& e)
 	{
 		glfwTerminate();
 		fprintf(stderr, "Effect Error Exception: %s\n", e.msg.c_str());
+		std::system("PAUSE");
 		return 7;
 	}
 	catch (const Hive::EffectTreeException& e)
 	{
 		glfwTerminate();
 		fprintf(stderr, "Effect Tree Exception: %s\n", e.msg.c_str());
+		std::system("PAUSE");
 		return 8;
 	}
 	catch (const Hive::UnimplementedException& e)
 	{
 		glfwTerminate();
 		fprintf(stderr, "Unimplemented Exception: %s\n", e.msg.c_str());
+		std::system("PAUSE");
 		return 9;
 	}
 	catch (const Hive::Exception& e)
 	{
 		glfwTerminate();
 		fprintf(stderr, "Exception: %s\n", e.msg.c_str());
+		std::system("PAUSE");
 		return 10;
 	}
 	catch(const std::exception& e)
 	{
 		glfwTerminate();
 		fprintf(stderr, "Unkown exception excountered: %s\n", e.what());
+		std::system("PAUSE");
 		return 11;
 	}
 

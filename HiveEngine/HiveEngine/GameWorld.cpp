@@ -4,41 +4,7 @@ using namespace Hive;
 
 GameWorld::GameWorld()
 {
-	map_width = 40;
-	map_depth = 40;
-	map = std::vector<char>(map_width * map_depth);
-
 	scale = 1;
-
-	srand(time(0));
-
-	for (int i = 0; i < map_width * map_depth; ++i)
-	{
-		if (rand() % 100 < 60)
-		{
-			map[i] = 1;
-		}
-		else
-		{
-			if (rand() % 100 < 75)
-			{
-				map[i] = 0;
-			}
-			else
-			{
-				map[i] = rand() % (map_height - 1) + 1;
-			}
-		}
-	}
-
-	for (int z = map_depth - 1; z >= 0; --z)
-	{
-		for (int x = 0; x < map_width; ++x)
-		{
-			fprintf(stdout, "%i,", map[get_map_index(x, z)]);
-		}
-		fprintf(stdout, "\n");
-	}
 }
 
 GameWorld::~GameWorld()
@@ -60,8 +26,70 @@ const std::vector<char> GameWorld::grid()
 	return map;
 }
 
-void GameWorld::load(GLuint shader)
+void GameWorld::load(GLuint shader, XMLIterator map_iter, int& player_handle)
 {
+	//TODO, load map from map_iter
+	XMLIterator iter, subiter, subsubiter;
+	iter = map_iter.getChildrenOfName("Size");
+	if (!iter.isValid()) throw DataErrorException("Map has no Size node.");
+	subiter = iter.getChildrenOfName("X");
+	if (!subiter.isValid()) throw DataErrorException("Map has no X size.");
+	map_width = std::stoi(subiter.getValue());
+	subiter = iter.getChildrenOfName("Y");
+	if (!subiter.isValid()) throw DataErrorException("Map has no Y size.");
+	map_depth = std::stoi(subiter.getValue());
+
+	map = std::vector<char>(map_width * map_depth);
+
+	iter = map_iter.getChildrenOfName("Terrain");
+	if (!iter.isValid()) throw DataErrorException("Map has no Terrain node.");
+	subiter = iter.getChildrenOfName("Row");
+
+	int row = 0;
+	while (row < map_depth)
+	{
+		if (!subiter.isValid()) throw DataErrorException("Map missing rows, found " + std::to_string(row) + " out of " + std::to_string(map_depth));
+		std::string rowval = subiter.getValue();
+
+		std::regex re("\\d+");
+		std::sregex_iterator next(rowval.begin(), rowval.end(), re);
+		std::sregex_iterator end;
+
+		int col = 0;
+		while (next != end)
+		{
+			std::smatch match = *next;
+			map[row * map_width + col++] = std::stoi(match.str());
+			next++;
+		}
+		if (col < map_width) throw DataErrorException("Map missing columns in row " + std::to_string(row) + ". Found " + std::to_string(col) + " out of " + std::to_string(map_width) + " expected.");
+
+		subiter = subiter.next();
+		row++;
+	}
+
+	std::string player_type;
+	glm::vec2 player_spawn_point;
+
+	iter = map_iter.getChildrenOfName("Player");
+	if (!iter.isValid()) throw DataErrorException("Map missing Player node.");
+	subiter = iter.getChildrenOfName("Spawn");
+	if (!subiter.isValid()) throw DataErrorException("Map Player node missing Spawn node.");
+	subsubiter = subiter.getChildrenOfName("X");
+	if (!subsubiter.isValid()) throw DataErrorException("Map Player Spawn node missing X.");
+	player_spawn_point.x = std::stof(subsubiter.getValue());
+	subsubiter = subiter.getChildrenOfName("Y");
+	if (!subsubiter.isValid()) throw DataErrorException("Map Player Spawn node missing Y.");
+	player_spawn_point.y = std::stof(subsubiter.getValue());
+	subiter = iter.getChildrenOfName("Unit");
+	if (!subiter.isValid()) throw DataErrorException("Map Player missing Unit node.");
+	player_type = subiter.getValue();
+
+	IComponentManager* component_manager = ServiceLocator::get_component_manager();
+
+	player_handle = component_manager->spawn_unit(player_spawn_point, DUnit::getIndex(player_type), LOCAL_PLAYER);
+	component_manager->attach_player_input(player_handle);
+
 	GameWorld::shader = shader;
 	generate_mesh();
 	glUseProgram(shader);

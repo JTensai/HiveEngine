@@ -44,13 +44,10 @@ Game::Game() {
 	*/
 }
 
-void Game::initialize(char* XMLFilename) {
-	cout << "Core XML File: \"" << XMLFilename << "\"" << endl;
-	xml_filename = XMLFilename;
-	if (xml_filename == NULL || xml_filename == "") {
-		cout << "Didn't pass in reference to core.xml. Using default." << endl;
-		xml_filename = "resources\core.xml";
-	}
+void Game::initialize(char* core_xml_filename, char* game_xml_filename, char* map_xml_filename) {
+	Game::core_xml_filename = core_xml_filename;
+	Game::game_xml_filename = game_xml_filename;
+	Game::map_xml_filename = map_xml_filename;
 
 	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
@@ -74,7 +71,7 @@ void Game::initialize(char* XMLFilename) {
 	ServiceLocator::register_data_manager(new DataManager());
 	ServiceLocator::register_game_world(new GameWorld());
 
-	//ServiceLocator::getComponentManager()->initialize();
+	ServiceLocator::get_component_manager()->initialize();
 }
 
 
@@ -110,41 +107,45 @@ void Game::load(GLFWwindow* window) {
 
 	try
 	{
-		ServiceLocator::get_data_manager()->loadXMLData(xml_filename);
+		ServiceLocator::get_data_manager()->loadXMLData(core_xml_filename);
+		ServiceLocator::get_data_manager()->loadXMLData(game_xml_filename);
 	}
-	catch (DataErrorException e)
+	catch (const DataErrorException& e)
 	{
 		printf("Error loading data: %s\n", e.msg.c_str());
+		throw e;
 	}
+
+	ServiceLocator::get_component_manager()->load();
 
 	try
 	{
 		ServiceLocator::get_ui_manager()->load(LoadShader("resources/2DVertexShader.vertexshader", "resources/2DFragmentShader.fragmentshader"));
 	}
-	catch (std::exception e)
+	catch (const Exception& e)
 	{
-		fprintf(stderr, "Error loading UIManager: %s\n", e.what());
+		fprintf(stderr, "Error loading UIManager: %s\n", e.msg.c_str());
+		throw e;
 	}
 
 	try
 	{
-		ServiceLocator::get_game_world()->load(LoadShader("resources/WorldVertexShader.vertexshader", "resources/WorldFragmentShader.fragmentshader"));
+		XMLInterface xml_interface(map_xml_filename);
+		ServiceLocator::get_game_world()->load(
+			LoadShader("resources/WorldVertexShader.vertexshader", "resources/WorldFragmentShader.fragmentshader"),
+			xml_interface.begin(),
+			player_unit_handle
+			);
+		Unit* unit = Unit::get_component(player_unit_handle);
+		player_actor_handle = unit->get_actor();
 	}
-	catch (std::exception e)
+	catch (const Exception& e)
 	{
-		printf("Error loading map: %s\n", e.what());
+		printf("Error loading map: %s\n", e.msg.c_str());
+		throw e;
 	}
-
-	IComponentManager* component_manager = ServiceLocator::get_component_manager();
-	component_manager->initialize();
-
-	component_manager->load();
 
 	// Code below here is temporary hackish code to get something in game until we are loading the world from XML.
-	player_unit_handle = component_manager->spawn_unit(glm::vec2(20, 25), DUnit::getIndex("BASE_UNIT"), LOCAL_PLAYER);
-	Unit* unit = Unit::get_component(player_unit_handle);
-	player_actor_handle = unit->get_actor();
-	component_manager->attach_player_input(player_unit_handle);
 
 	world_cursor_actor_handle = -1;
 	world_cursor_actor_handle = Actor::create_component();

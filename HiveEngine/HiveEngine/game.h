@@ -52,7 +52,9 @@ namespace Hive
 		glm::mat4 view_matrix;
 		glm::mat4 world_matrix;
 		glm::mat4 world_view_projection;
-		char* xml_filename;
+		char* core_xml_filename;
+		char* game_xml_filename;
+		char* map_xml_filename;
 		GLuint shader_program_id;
 		GLuint vertex_array_id;
 		GLFWwindow* glfw_window;
@@ -69,7 +71,7 @@ namespace Hive
 
 		//Initialize
 		//Called after GLFW initialization but before OpenGL context creation and GLEW initialization.
-		void initialize(char* xmlFilename);
+		void initialize(char* core_xml_filename, char* game_xml_filename, char* map_xml_filename);
 
 		//Load
 		//Called after initialization of OpenGL context before entering game loop.

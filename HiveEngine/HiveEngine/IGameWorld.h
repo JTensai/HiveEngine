@@ -5,6 +5,8 @@
 #include <GL\glew.h>
 #include <glm\glm.hpp>
 
+#include "XMLInterface.h"
+
 namespace Hive
 {
 	/**
@@ -21,7 +23,7 @@ namespace Hive
 		virtual int width() = 0;
 		virtual int depth() = 0;
 		virtual const std::vector<char> grid() = 0;
-		virtual void load(GLuint shader) = 0;
+		virtual void load(GLuint shader, XMLIterator map_iter, int& player_handle) = 0;
 		virtual void update(float delta) = 0;
 		virtual void draw(const glm::mat4& VP) = 0;
 		virtual void close() = 0;
