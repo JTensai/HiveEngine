@@ -19,22 +19,23 @@ namespace Hive
 		//Debug Emitters
 	}
 
-	void ComponentManager::update_free(float delta, bool is_a)
+	void ComponentManager::update_free(float delta)
 	{
-		Actor::update(delta, is_a);
-		ParticleSystemComponent::update(delta, is_a);
+		Actor::update_all(delta);
+		ParticleSystemComponent::update_all(delta);
 	}
 
-	void ComponentManager::update_fixed(float delta, bool is_a)
+	void ComponentManager::update_fixed(float delta)
 	{
-		pic.update(delta, is_a);
-		AbilityComponent::update(delta, is_a);
-		AIComponent::update(delta, is_a);
-		BehaviorComponent::update(delta, is_a);
-		Unit::update(delta, is_a);
+		//player input component does not derive from component, its in a bit of a hacked together state right now.
+		player_input_component.update(delta);
+		AbilityComponent::update_all(delta);
+		AIComponent::update_all(delta);
+		BehaviorComponent::update_all(delta);
+		Unit::update_all(delta);
 	}
 
-	int ComponentManager::spawn_unit(glm::vec2 position, int dunit_handle)
+	int ComponentManager::spawn_unit(glm::vec2 position, int dunit_handle, int player)
 	{
 		DUnit* dunit = DUnit::getItem(dunit_handle);
 
@@ -44,21 +45,25 @@ namespace Hive
 
 		int unit_handle = Unit::create_component();
 		Unit* unit = Unit::get_component(unit_handle);
-		unit->init_unit(actor_handle, dunit_handle, position);
+		unit->init_unit(actor_handle, dunit_handle, player, position);
 
 		return unit_handle;
 	}
 
 	void ComponentManager::attach_player_input(int unit_handle)
 	{
-		pic = PlayerInputComponent();
-		pic.setPlayerHandle(unit_handle);
+		player_input_component = PlayerInputComponent();
+		player_input_component.setPlayerHandle(unit_handle);
 	}
 
 	void ComponentManager::draw(const glm::mat4& VP)
 	{
-		Actor::draw(VP);
-		ParticleSystemComponent::draw(VP);
+		ServiceLocator::get_graphics()->update_view_projection_matrix(VP);
+
+		Actor::draw_all(VP);
+		ParticleSystemComponent::draw_all(VP);
+
+		ServiceLocator::get_graphics()->draw_all();
 	}
 
 	ComponentManager::~ComponentManager()

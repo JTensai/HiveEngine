@@ -17,7 +17,7 @@ namespace Hive
 	{
 	public:
 		AIComponent();
-		void update_component(float delta, bool is_a);
+		void update_component(float delta);
 		~AIComponent();
 	};
 

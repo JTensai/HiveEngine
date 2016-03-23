@@ -6,7 +6,7 @@ AIComponent::AIComponent()
 {
 }
 
-void AIComponent::update_component(float delta, bool is_a)
+void AIComponent::update_component(float delta)
 {
 	//TODO: update component
 }

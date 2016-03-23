@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<Catalog>
+	<Unit id="PLAYER_UNIT" parent="BASE_UNIT"/>
+</Catalog>

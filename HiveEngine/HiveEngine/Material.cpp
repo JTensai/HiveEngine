@@ -2,16 +2,16 @@
 
 using namespace Hive;
 
-Material::Material()
+DMaterial::DMaterial()
 {
 }
 
-void Material::bind()
+void DMaterial::bind() const
 {
 	const Texture* tex = (DTexture::getItem(diffuse_tex))->getAsset();
 	glBindTexture(GL_TEXTURE_2D, tex->get_handle());
 }
 
-Material::~Material()
+DMaterial::~DMaterial()
 {
 }

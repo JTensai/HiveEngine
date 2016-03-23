@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string>
+#include <regex>
 
 #include <GL\glew.h>
 #include <glm\glm.hpp>
@@ -11,6 +12,10 @@
 
 #include "IGameWorld.h"
 #include "game.h"
+#include "Exceptions.h"
+#include "IComponentManager.h"
+#include "ServiceLocator.h"
+#include "Data.h"
 
 namespace Hive
 {
@@ -47,7 +52,7 @@ namespace Hive
 		int width();
 		int depth();
 		const std::vector<char> grid();
-		void load(GLuint shader);
+		void load(GLuint shader, XMLIterator map_iter, int& player_handle);
 		void update(float delta);
 		void draw(const glm::mat4& VP);
 		void close();

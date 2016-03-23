@@ -41,6 +41,12 @@
 
 	<Actor id="BASE_ACTOR">
 		<Model value="BASE_MODEL"/>
+		<Material value="BASE_MATERIAL"/>
+	</Actor>
+
+	<Actor id="QUAD_ACTOR">
+		<Model value="QUAD_MODEL"/>
+		<Material value="MISSING_MATERIAL"/>
 	</Actor>
 
 	<Behavior id="BASE_BEHAVIOR">
@@ -147,31 +153,21 @@
 		<Validator value="-1"/>
 	</EffectSwitch>
 
-  <Material id="BASE_MATERIAL">
-    <DiffuseTexture value="BASE_TEXTURE"/>
-  </Material>
-  
-  <Material id="MISSING_MATERIAL">
-    <DiffuseTexture value="MISSING_TEXTURE"/>
-  </Material>
-  
+	<Material id="BASE_MATERIAL">
+		<DiffuseTexture value="BASE_TEXTURE"/>
+	</Material>
+
+	<Material id="MISSING_MATERIAL">
+		<DiffuseTexture value="MISSING_TEXTURE"/>
+	</Material>
+
 	<Model id="BASE_MODEL">
 		<File value="resources/blockman.obj"/>
-    <Meshes>
-      <Mesh>
-        <Material value="BASE_MATERIAL"/>
-      </Mesh>
-    </Meshes>
 	</Model>
 
-  <Model id="MISSING_MODEL">
-    <File value="resources/blockman.obj"/>
-    <Meshes>
-      <Mesh>
-        <Material value="MISSING_MATERIAL"/>
-      </Mesh>
-    </Meshes>
-  </Model>
+	<Model id="QUAD_MODEL">
+		<File value="resources/quad.obj"/>
+	</Model>
 
 	<Unit id="BASE_UNIT">
 		<Name value=""/>
@@ -188,7 +184,7 @@
 			<Missile value="0"/>
 		</Attributes>
 		<Actor value="BASE_ACTOR"/>
-    <Height value="0"/>
+		<Height value="0"/>
 <!-- EXAMPLE:
 		<Behaviors>
 			<Behavior value="B_IMMOLATE"/>
@@ -318,8 +314,8 @@
 	<ParticleEmitter id="BaseEmitter">
 		<BaseVariables>
 			<EmitterName value="ParticleEmitter"/>
-      <BlendingMode value="Transparent"/>
-      <Texture value="DefaultTexture"/>
+			<BlendingMode value="Transparent"/>
+			<Texture value="DefaultTexture"/>
 			<EmitterLocalOrigin>
 				<X value="0"/>
 				<Y value="0"/>

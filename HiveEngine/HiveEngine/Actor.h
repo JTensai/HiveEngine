@@ -29,12 +29,16 @@ namespace Hive
 	{
 	private:
 		static GLuint actor_shader_handle;
-		glm::vec3 velocity;
-		glm::vec3 position;
-		glm::vec3 spin;
+		glm::vec3 scale;
 		glm::vec3 rotation;
+		glm::vec3 position;
+
+		glm::vec3 spin;
+		glm::vec3 velocity;
+
 		glm::mat4 world_transform;
 		int d_model_handle;
+		int d_material_handle;
 
 	public:
 		Actor();
@@ -47,16 +51,20 @@ namespace Hive
 
 		glm::vec3 get_position() { return position; }
 
+		void set_scale(glm::vec3 scale);
+
 		void set_position(glm::vec2 pos, float height);
 		void set_velocity(glm::vec2 plane);
 
 		void set_rotation(float rotation);
+		void set_rotation(glm::vec3 rotation);
 		void set_spin(float spin);
+		void set_spin(glm::vec3 spin);
 
 		/*
 		Update will handle things like the actor's animation and timed events.
 		*/
-		void update_component(float delta, bool is_a);
+		void update_component(float delta);
 
 		/*
 		Draw multiplies the given view-projection matrix by its own world transform and then calls its model's draw function passing the newly formed world-view-projection matrix.

@@ -6,25 +6,27 @@ Unit::Unit()
 {
 }
 
-void Unit::init_unit(int actor, int data, glm::vec2 position)
+void Unit::init_unit(int actor, int data, int player, glm::vec2 position)
 {
 	actorHandle = actor;
 	dataHandle = data;
 
-	target = position;
-	position_a = position;
-	position_b = position;
+	player_owner = player;
 
-	rotation_a = 270;
-	rotation_b = 270;
+	target = position;
+	cached_position = position;
+	new_position = position;
+
+	cached_rotation = 270;
+	new_rotation = 270;
 
 	DUnit* unit = DUnit::getItem(dataHandle);
 	Actor* actor_c = Actor::get_component(actorHandle);
 	actor_c->set_position(position, unit->height);
 
 	max_vitals = unit->vitalMax;
-	vitals_a = max_vitals;
-	vitals_b = max_vitals;
+	cached_vitals = max_vitals;
+	new_vitals = max_vitals;
 	regen = unit->vitalRegen;
 
 	height = unit->height;
@@ -32,36 +34,38 @@ void Unit::init_unit(int actor, int data, glm::vec2 position)
 	speed = unit->speed;
 }
 
-void Unit::update_component(float delta, bool is_a)
+void Unit::update_component(float delta)
 {
 	Actor* actor = Actor::get_component(actorHandle);
 
-	new_position(is_a) = cached_position(is_a);
-	new_rotation(is_a) = cached_rotation(is_a);
-	new_vitals(is_a) = cached_vitals(is_a) + regen * delta;
-	if (new_vitals(is_a).hp > max_vitals.hp) new_vitals(is_a).hp = max_vitals.hp;
-	if (new_vitals(is_a).mana > max_vitals.mana) new_vitals(is_a).mana = max_vitals.mana;
+	new_vitals = cached_vitals + regen * delta;
+	if (new_vitals.hp > max_vitals.hp) new_vitals.hp = max_vitals.hp;
+	if (new_vitals.mana > max_vitals.mana) new_vitals.mana = max_vitals.mana;
 
-	float diff = glm::distance(target, cached_position(is_a));
+	float diff = glm::distance(target, cached_position);
 	float dist = speed * delta;
 	if (diff != 0)
 	{
-		new_rotation(is_a) = std::atan2(target.y - cached_position(is_a).y, target.x - cached_position(is_a).x);
+		new_rotation = std::atan2(target.y - cached_position.y, target.x - cached_position.x);
 		if (diff < dist)
 		{
-			new_position(is_a) = target;
+			new_position = target;
 			actor->set_velocity(glm::vec2(0));
 		}
 		else
 		{
-			glm::vec2 velocity = glm::normalize(target - cached_position(is_a)) * speed;
+			glm::vec2 velocity = glm::normalize(target - cached_position) * speed;
 			actor->set_velocity(velocity);
-			new_position(is_a) = cached_position(is_a) + velocity * delta;
+			new_position = cached_position + velocity * delta;
 		}
 	}
 
-	actor->set_position(new_position(is_a), height);
-	actor->set_rotation(new_rotation(is_a));
+	actor->set_position(new_position, height);
+	actor->set_rotation(new_rotation);
+
+	cached_position = new_position;
+	cached_rotation = new_rotation;
+	cached_vitals = new_vitals;
 }
 
 Unit::~Unit()

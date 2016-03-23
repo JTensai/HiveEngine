@@ -28,15 +28,13 @@ namespace Hive
 	class Model
 	{
 	private:
-		std::vector<Mesh*> meshes;
+		std::vector<int> meshes;
 
 	public:
 		Model(std::string filepath, DModel* data);
 
-		/*
-		Draw iterates over the model's meshes and calls their draw functions, providing the world-view-perspective matrix needed to do so.
-		*/
-		void draw(GLuint shader_handle) const;
+		int get_num_meshes() const;
+		int get_mesh(int mesh) const;
 
 		~Model();
 	};

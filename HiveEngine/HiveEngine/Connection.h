@@ -7,12 +7,12 @@ class Connection
 {
 private:
 	int cost;
-	Node* fromNode;
-	Node* toNode;
+	Node* from_node;
+	Node* to_node;
 public:
-	Connection(Node* fromNode, Node* toNode);
+	Connection(Node* from_node, Node* to_node);
 	~Connection();
-	int getCost();
-	Node* getFromNode();
-	Node* getToNode();
+	int get_cost();
+	Node* get_from_node();
+	Node* get_to_node();
 };

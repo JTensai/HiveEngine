@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 #include "QuadTreeNode.h"
 #include <vector>
 #include <glm\glm.hpp>
@@ -18,4 +18,3 @@ private:
 	float height;
 };
 
-*/

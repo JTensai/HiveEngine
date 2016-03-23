@@ -22,7 +22,7 @@ int DataManager::loadXMLData(char* filename)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException(std::string(filename) + ": " + e.err);
+		throw DataErrorException(std::string(filename) + ": " + e.msg);
 	}
 
 	return 0;
@@ -110,9 +110,9 @@ void DataManager::xmlFirstPassTextures(XMLIterator xmliter)
 }
 void DataManager::xmlFirstPassMaterials(XMLIterator xmliter)
 {
-	Material mat;
+	DMaterial mat;
 	std::string id = xmliter.getID();
-	Material::addItem(id, mat);
+	DMaterial::addItem(id, mat);
 }
 void DataManager::xmlFirstPassModels(XMLIterator xmliter)
 {
@@ -281,7 +281,7 @@ void DataManager::xmlSecondPassAbilities(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Ability(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Ability(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 
@@ -295,10 +295,13 @@ void DataManager::xmlSecondPassActors(XMLIterator xmliter)
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("Model");
 		linkData<DModel>(iter, &actor->dModelHandle);
+
+		iter = xmliter.getChildrenOfName("Material");
+		linkData<DMaterial>(iter, &actor->dMaterialHandle);
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Actor(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Actor(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassBehaviors(XMLIterator xmliter) {}
@@ -323,15 +326,15 @@ void DataManager::xmlSecondPassTextures(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Texture(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Texture(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassMaterials(XMLIterator xmliter)
 {
-	Material* mat;
+	DMaterial* mat;
 	try
 	{
-		copyParent<Material>(xmliter, &mat);
+		copyParent<DMaterial>(xmliter, &mat);
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("DiffuseTexture");
@@ -339,7 +342,7 @@ void DataManager::xmlSecondPassMaterials(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Material(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Material(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModels(XMLIterator xmliter)
@@ -352,13 +355,10 @@ void DataManager::xmlSecondPassModels(XMLIterator xmliter)
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("File");
 		if (iter.isValid()) model->setFilepath(iter.getValue());
-
-		iter = xmliter.getChildrenOfName("Meshes");
-		xmlParseMeshList(iter, &model->mesh_mat_handles);
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassUnits(XMLIterator xmliter)
@@ -395,7 +395,7 @@ void DataManager::xmlSecondPassUnits(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Unit(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("Unit(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 
@@ -431,7 +431,7 @@ void DataManager::xmlSecondPassParticleSystem(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("ParticleSystem(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ParticleSystem(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
@@ -583,7 +583,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("ParticleEmitter(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ParticleEmitter(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleSizeOverLife(XMLIterator xmliter)
@@ -917,28 +917,6 @@ void DataManager::xmlParseUnitFilter(XMLIterator iter, UnitFilter* filter)
 	}
 }
 
-void DataManager::xmlParseMeshList(XMLIterator iter, std::vector<int>* mesh_mat_list)
-{
-	if (iter.isValid())
-	{
-		XMLIterator subIter = iter.getChildrenOfName("Mesh");
-		while (subIter.isValid())
-		{
-			xmlParseMesh(subIter, mesh_mat_list);
-			subIter = subIter.next();
-		}
-	}
-}
-void DataManager::xmlParseMesh(XMLIterator iter, std::vector<int>* mesh_mat_list)
-{
-	XMLIterator subIter = iter.getChildrenOfName("Material");
-	if (subIter.isValid())
-	{
-		int mat;
-		linkData<Material>(subIter, &mat);
-		mesh_mat_list->push_back(mat);
-	}
-}
 void DataManager::xmlParseAttributes(XMLIterator iter, Attributes* attributes)
 {
 	if (iter.isValid())

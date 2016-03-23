@@ -32,7 +32,7 @@ namespace Hive
 		ObjectPool<Ability> abilities;
 	public:
 		AbilityComponent();
-		void update_component(float delta, bool is_a);
+		void update_component(float delta);
 		~AbilityComponent();
 	};
 

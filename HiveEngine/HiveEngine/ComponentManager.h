@@ -17,16 +17,17 @@ namespace Hive
 	class ComponentManager : public IComponentManager
 	{
 	private:
-		PlayerInputComponent pic;
+		// Exists as a bit of a hack assuming we won't need more than one for quite some time.
+		PlayerInputComponent player_input_component;
 
 	public:
 		ComponentManager() {};
 
 		void initialize();
 		void load();
-		void update_free(float delta, bool is_a);
-		void update_fixed(float delta, bool is_a);
-		int spawn_unit(glm::vec2 position, int dunit_handle);
+		void update_free(float delta);
+		void update_fixed(float delta);
+		int spawn_unit(glm::vec2 position, int dunit_handle, int player);
 		void attach_player_input(int unit_handle);
 		void draw(const glm::mat4& VP);
 

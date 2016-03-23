@@ -18,7 +18,7 @@ namespace Hive
 	{
 	public:
 		ParticleSystemComponent();
-		void update_component(float delta, bool is_a);
+		void update_component(float delta);
 		void draw_component(const glm::mat4& VP);
 		~ParticleSystemComponent();
 	};

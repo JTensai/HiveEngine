@@ -30,6 +30,8 @@ namespace Hive
 	public:
 		virtual int loadCoreData() = 0;
 		virtual int loadXMLData(char* filename) = 0;
+
+		virtual ~IDataManager() {}
 	};
 
 }

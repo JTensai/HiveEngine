@@ -1,37 +1,53 @@
 #include "game.h"
-/*#include "Graph.h"
+/*
+#include "QuadTree.h"
+#include <vector>
+#include "Graph.h"
 #include "Node.h"
-#include "EuclideanHeuristic.h"*/
+#include "EuclideanHeuristic.h"
+*/
 
 using namespace std;
 using namespace Hive;
 
 Game::Game() {
 	camera_position = glm::vec3(20, 10, 35);
+	//Below is code being used to test the quadTree. Please do not delete. Testing in progress.
+	/*
+	QuadTree tree = QuadTree(100, 100);
+	vector<glm::vec2> quadTreeTest = {glm::vec2(1,1), glm::vec2(1,2), glm::vec2(1,3), glm::vec2(1,4),
+		glm::vec2(2,2), glm::vec2(2,4), glm::vec2(2,6),
+		glm::vec2(3,3), glm::vec2(3,6), glm::vec2(3,9),
+		glm::vec2(10, 10), glm::vec2(2, 20), glm::vec2(3, 25), glm::vec2(2, 18),
+		glm::vec2(10, 40), glm::vec2(8, 48), glm::vec2(9, 53), glm::vec2(3, 60),
+		glm::vec2(40, 40), glm::vec2(40, 30), glm::vec2(44, 50), glm::vec2(40, 12),
+		glm::vec2(50, 7), glm::vec2(55, 32), glm::vec2(70, 3), glm::vec2(70, 20),
+		glm::vec2(60, 20), glm::vec2(62, 27), glm::vec2(69, 50), glm::vec2(85, 12),
+		glm::vec2(78, 60), glm::vec2(79, 90), glm::vec2(93, 9), glm::vec2(95, 35),
+		glm::vec2(95, 83), glm::vec2(10, 73), glm::vec2(12, 98), glm::vec2(30, 92)};
+
+	tree.populate_tree(quadTreeTest);
+	*/
 	//below is some code i was using to debug A*, please don't delete
-	/*char tempMap[8][8] =
+	/*
+	char temp_map[5][5] =
 	{
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','0','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' }
+		{ '1','1','1','1','1' },
+		{ '1','0','0','1','0' },
+		{ '1','0','1','1','0' },
+		{ '1','1','1','0','1' },
+		{ '0','0','1','1','1' }
 	};
-	Graph g(tempMap);
-	Node* goal = new Node(7, 7);
-	g.pathfindAStar(g, new Node(0, 0), goal, new EuclideanHeuristic(goal));*/
+	Graph g(temp_map);
+	Node* goal = new Node(3, 4);
+	g.pathfind_a_star(g, new Node(0, 0), goal, new EuclideanHeuristic(goal));
+	*/
 }
 
-void Game::initialize(char* XMLFilename) {
-	cout << "Core XML File: \"" << XMLFilename << "\"" << endl;
-	xml_filename = XMLFilename;
-	if (xml_filename == NULL || xml_filename == "") {
-		cout << "Didn't pass in reference to core.xml. Using default." << endl;
-		xml_filename = "resources\core.xml";
-	}
+void Game::initialize(char* core_xml_filename, char* game_xml_filename, char* map_xml_filename) {
+	Game::core_xml_filename = core_xml_filename;
+	Game::game_xml_filename = game_xml_filename;
+	Game::map_xml_filename = map_xml_filename;
 
 	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
@@ -50,19 +66,20 @@ void Game::initialize(char* XMLFilename) {
 
 	timestep_delta = 0;
 
-	ServiceLocator::getInstance()->registerUIManager(new UIManager());
-	ServiceLocator::getInstance()->registerComponentManager(new ComponentManager());
-	ServiceLocator::getInstance()->registerDataManager(new DataManager());
-	ServiceLocator::getInstance()->registerGameWorld(new GameWorld());
+	ServiceLocator::register_ui_manager(new UIManager());
+	ServiceLocator::register_component_manager(new ComponentManager());
+	ServiceLocator::register_data_manager(new DataManager());
+	ServiceLocator::register_game_world(new GameWorld());
 
-	//ServiceLocator::getInstance()->getComponentManager()->initialize();
+	ServiceLocator::get_component_manager()->initialize();
 }
 
 
 void Game::load(GLFWwindow* window) {
 	glfw_window = window;
 	input_manager = new InputManager(glfw_window);
-	ServiceLocator::getInstance()->registerInputManager(input_manager);
+	ServiceLocator::register_input_manager(input_manager);
+	ServiceLocator::get_input_manager()->updateProjection(projection_matrix, 0.1f);
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(glfw_window, GLFW_STICKY_KEYS, GL_FALSE);
 
@@ -79,6 +96,7 @@ void Game::load(GLFWwindow* window) {
 
 	shader_program_id = LoadShader("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
 	Actor::setShader(shader_program_id);
+	ServiceLocator::register_graphics(new Graphics(shader_program_id));
 	
 	light_direction = glm::normalize(glm::vec3(1, -4, -1));
 	light_color = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
@@ -89,37 +107,54 @@ void Game::load(GLFWwindow* window) {
 
 	try
 	{
-		ServiceLocator::getInstance()->getDataManager()->loadXMLData(xml_filename);
+		ServiceLocator::get_data_manager()->loadXMLData(core_xml_filename);
+		ServiceLocator::get_data_manager()->loadXMLData(game_xml_filename);
 	}
-	catch (DataErrorException e)
+	catch (const DataErrorException& e)
 	{
-		printf("Error loading data: %s\n", e.err.c_str());
+		printf("Error loading data: %s\n", e.msg.c_str());
+		throw e;
+	}
+
+	ServiceLocator::get_component_manager()->load();
+
+	try
+	{
+		ServiceLocator::get_ui_manager()->load(LoadShader("resources/2DVertexShader.vertexshader", "resources/2DFragmentShader.fragmentshader"));
+	}
+	catch (const Exception& e)
+	{
+		fprintf(stderr, "Error loading UIManager: %s\n", e.msg.c_str());
+		throw e;
 	}
 
 	try
 	{
-		ServiceLocator::getInstance()->getUIManager()->load(LoadShader("resources/2DVertexShader.vertexshader", "resources/2DFragmentShader.fragmentshader"));
+		XMLInterface xml_interface(map_xml_filename);
+		ServiceLocator::get_game_world()->load(
+			LoadShader("resources/WorldVertexShader.vertexshader", "resources/WorldFragmentShader.fragmentshader"),
+			xml_interface.begin(),
+			player_unit_handle
+			);
+		Unit* unit = Unit::get_component(player_unit_handle);
+		player_actor_handle = unit->get_actor();
 	}
-	catch (std::exception e)
+	catch (const Exception& e)
 	{
-		fprintf(stderr, "Error loading UIManager: %s\n", e.what());
+		printf("Error loading map: %s\n", e.msg.c_str());
+		throw e;
 	}
 
-	try
-	{
-		ServiceLocator::getInstance()->getGameWorld()->load(LoadShader("resources/WorldVertexShader.vertexshader", "resources/WorldFragmentShader.fragmentshader"));
-	}
-	catch (std::exception e)
-	{
-		printf("Error loading map: %s\n", e.what());
-	}
+	// Code below here is temporary hackish code to get something in game until we are loading the world from XML.
 
-	IComponentManager* cm = ServiceLocator::getInstance()->getComponentManager();
-	cm->load();
-	player_unit_handle = cm->spawn_unit(glm::vec2(20, 25), DUnit::getIndex("BASE_UNIT"));
-	Unit* u = Unit::get_component(player_unit_handle);
-	player_actor_handle = u->get_actor();
-	cm->attach_player_input(player_unit_handle);
+	world_cursor_actor_handle = -1;
+	world_cursor_actor_handle = Actor::create_component();
+	printf("cursor handle %i\n", world_cursor_actor_handle);
+	Actor* cursor = Actor::get_component(world_cursor_actor_handle);
+	cursor->loadFromData(DActor::getIndex("QUAD_ACTOR"));
+	cursor->set_rotation(glm::vec3(-glm::half_pi<float>(), 0, 0));
+	cursor->set_spin(glm::vec3(0, 0, 1));
+	cursor->set_scale(glm::vec3(0.5f));
 }
 
 
@@ -129,21 +164,21 @@ Gamestate Game::update(float delta) {
 		return Gamestate::CLOSING;
 	}
 
-	ServiceLocator::getInstance()->getComponentManager()->update_free(delta, update_cache_swap_flag);
+	ServiceLocator::get_component_manager()->update_free(delta);
 
 	timestep_delta += delta;
 	while (timestep_delta >= TIMESTEP)
 	{
-		ServiceLocator::getInstance()->getComponentManager()->update_fixed(TIMESTEP, update_cache_swap_flag);
-		ServiceLocator::getInstance()->getGameWorld()->update(TIMESTEP);
+		ServiceLocator::get_component_manager()->update_fixed(TIMESTEP);
+		ServiceLocator::get_game_world()->update(TIMESTEP);
 
 		timestep_delta -= TIMESTEP;
-		update_cache_swap_flag = !update_cache_swap_flag;
 	}
 
 	Actor* actor = Actor::get_component(player_actor_handle);
-	glm::vec3 a_pos = actor->get_position();
-	camera_position = glm::vec3(a_pos.x, a_pos.y + 10, a_pos.z + 10);
+	glm::vec3 actor_pos = actor->get_position();
+	camera_position = glm::vec3(actor_pos.x, actor_pos.y + 10, actor_pos.z + 10);
+
 
 	view_matrix = glm::lookAt(
 		camera_position, //eye
@@ -151,9 +186,14 @@ Gamestate Game::update(float delta) {
 		glm::vec3(0, 1, 0) //up
 		);
 
+	ServiceLocator::get_input_manager()->updateView(view_matrix, camera_position);
 	world_view_projection = projection_matrix * view_matrix * world_matrix;
 
-	ServiceLocator::getInstance()->getUIManager()->update(delta);
+	actor = Actor::get_component(world_cursor_actor_handle);
+	glm::vec2 mouse_pos = ServiceLocator::get_input_manager()->getMousePositionWorld();
+	actor->set_position(mouse_pos, 0.1f);
+
+	ServiceLocator::get_ui_manager()->update(delta);
 
 	return Gamestate::NORMAL;
 }
@@ -162,7 +202,7 @@ Gamestate Game::update(float delta) {
 void Game::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	ServiceLocator::getInstance()->getGameWorld()->draw(world_view_projection);
+	ServiceLocator::get_game_world()->draw(world_view_projection);
 	
 	glUseProgram(shader_program_id);
 	GLuint LightDirection = glGetUniformLocation(shader_program_id, "LightDirection");
@@ -173,9 +213,9 @@ void Game::draw() {
 	glUniform4f(LightColor, light_color.r, light_color.g, light_color.b, light_color.w);
 	glUniform3f(AmbientColor, ambient_color.r, ambient_color.g, ambient_color.b);
 
-	ServiceLocator::getInstance()->getComponentManager()->draw(world_view_projection);
+	ServiceLocator::get_component_manager()->draw(world_view_projection);
 
-	//ServiceLocator::getInstance()->getUIManager()->draw();
+	//ServiceLocator::getUIManager()->draw();
 }
 
 

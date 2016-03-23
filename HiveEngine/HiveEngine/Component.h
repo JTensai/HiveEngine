@@ -25,8 +25,8 @@ namespace Hive
 		static void destroy_component(int id);
 
 		static void preupdate() {}
-		static void update(float delta, bool is_a);
-		virtual void update_component(float delta, bool is_a) = 0;
+		static void update_all(float delta);
+		virtual void update_component(float delta) = 0;
 		static void postupdate() {}
 	};
 
@@ -80,7 +80,7 @@ namespace Hive
 	}
 
 	template <class T>
-	void Component<T>::update(float delta, bool is_a)
+	void Component<T>::update_all(float delta)
 	{
 		T::preupdate();
 		int i = 0;
@@ -93,7 +93,7 @@ namespace Hive
 			{
 				++num;
 				T& t = *pool.get(i);
-				t.update_component(delta, is_a);
+				t.update_component(delta);
 			}
 		}
 		// TODO: if i/cap is significantly larger than num_used/cap, the objectpool should be sorted.
@@ -106,13 +106,13 @@ namespace Hive
 	{
 	public:
 		static void predraw() {}
-		static void draw(const glm::mat4& VP);
+		static void draw_all(const glm::mat4& VP);
 		virtual void draw_component(const glm::mat4& VP) = 0;
 		static void postdraw() {}
 	};
 
 	template <class T>
-	void DrawableComponent<T>::draw(const glm::mat4& VP)
+	void DrawableComponent<T>::draw_all(const glm::mat4& VP)
 	{
 		T::predraw();
 		int i = 0;

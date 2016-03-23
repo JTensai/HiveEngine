@@ -3,24 +3,23 @@
 #include <string>
 #include <vector>
 
+#include <glm\glm.hpp>
+
 #include "DataCollection.h"
 #include "Asset.h"
+#include "Exceptions.h"
 
 namespace Hive
 {
-
-	class DataErrorException : public std::exception
-	{
-	public:
-		DataErrorException(std::string err) : err(err) {};
-		std::string err;
-	};
-
+	const int LOCAL_PLAYER = 0;
+	const int NEUTRAL_PLAYER = 1;
+	const int HOSTILE_PLAYER = 2;
 #pragma region Enums
 	enum class EffectUnitEnum {
 		CASTER_UNIT,
 		SOURCE_UNIT,
 		TARGET_UNIT,
+		SPAWNED_UNIT,
 		NONE_UNIT
 	};
 
@@ -100,6 +99,13 @@ namespace Hive
 	};
 #pragma endregion
 #pragma region Structs
+	struct Order {
+		int abilityID;
+		AbilityType type;
+		int targetUnit;
+		glm::vec2 targetPoint;
+	};
+
 	struct EffectList {
 		int effectInitial;
 		int effectPeriodic;
@@ -203,6 +209,7 @@ namespace Hive
 	{
 	public:
 		int dModelHandle;
+		int dMaterialHandle;
 	};
 #pragma endregion
 
@@ -430,11 +437,7 @@ namespace Hive
 #pragma region Assets
 	class Model;
 	//typedef DataCollection<AssetData<Model>> DModel;
-	class DModel : public AssetData<Model, DModel>, public DataCollection<DModel>
-	{
-	public:
-		std::vector<int> mesh_mat_handles;
-	};
+	class DModel : public AssetData<Model, DModel>, public DataCollection<DModel> {};
 
 	class Texture;
 	//typedef DataCollection<AssetData<Texture>> DTexture;

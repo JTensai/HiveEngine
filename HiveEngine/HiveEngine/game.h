@@ -3,16 +3,16 @@
 #define HE_GAMESTATE_NORMAL 0
 #define HE_GAMESTATE_CLOSING 1
 
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <tinyxml2/tinyxml2.h>
-
-#include <iostream>
-#include <fstream>
-#include <stdio.h>
 
 #include "tempmodel.h"
 #include "ServiceLocator.h"
@@ -21,6 +21,7 @@
 #include "ComponentManager.h"
 #include "UIManager.h"
 #include "GameWorld.h"
+#include "Graphics.h"
 
 using namespace std;
 
@@ -51,7 +52,9 @@ namespace Hive
 		glm::mat4 view_matrix;
 		glm::mat4 world_matrix;
 		glm::mat4 world_view_projection;
-		char* xml_filename;
+		char* core_xml_filename;
+		char* game_xml_filename;
+		char* map_xml_filename;
 		GLuint shader_program_id;
 		GLuint vertex_array_id;
 		GLFWwindow* glfw_window;
@@ -60,6 +63,7 @@ namespace Hive
 		bool update_cache_swap_flag;
 		int player_unit_handle;
 		int player_actor_handle;
+		int world_cursor_actor_handle;
 
 	public:
 		Game();
@@ -67,7 +71,7 @@ namespace Hive
 
 		//Initialize
 		//Called after GLFW initialization but before OpenGL context creation and GLEW initialization.
-		void initialize(char* xmlFilename);
+		void initialize(char* core_xml_filename, char* game_xml_filename, char* map_xml_filename);
 
 		//Load
 		//Called after initialization of OpenGL context before entering game loop.
