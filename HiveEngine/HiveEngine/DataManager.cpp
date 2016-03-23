@@ -136,52 +136,52 @@ void DataManager::xmlFirstPassValidator(XMLIterator xmliter)
 
 void DataManager::xmlFirstPassParticleSystem(XMLIterator xmliter)
 {
-	ParticleSystem system;
+	DParticleSystem system;
 	std::string id = xmliter.getID();
-	ParticleSystem::addItem(id, system);
+	DParticleSystem::addItem(id, system);
 }
 void DataManager::xmlFirstPassParticleEmitter(XMLIterator xmliter)
 {
-	ParticleEmitter emitter;
+	DParticleEmitter emitter;
 	std::string id = xmliter.getID();
-	ParticleEmitter::addItem(id, emitter);
+	DParticleEmitter::addItem(id, emitter);
 }
 //modules...
 void DataManager::xmlFirstPassModuleSizeOverLife(XMLIterator xmliter)
 {
-	ModuleSizeOverLife module;
+	DModuleSizeOverLife module;
 	std::string id = xmliter.getID();
-	ModuleSizeOverLife::addItem(id, module);
+	DModuleSizeOverLife::addItem(id, module);
 }
 void DataManager::xmlFirstPassModuleColorOverLife(XMLIterator xmliter)
 {
-	ModuleColorOverLife module;
+	DModuleColorOverLife module;
 	std::string id = xmliter.getID();
-	ModuleColorOverLife::addItem(id, module);
+	DModuleColorOverLife::addItem(id, module);
 }
 void DataManager::xmlFirstPassModuleInitialRotation(XMLIterator xmliter)
 {
-	ModuleInitialRotation module;
+	DModuleInitialRotation module;
 	std::string id = xmliter.getID();
-	ModuleInitialRotation::addItem(id, module);
+	DModuleInitialRotation::addItem(id, module);
 }
 void DataManager::xmlFirstPassModuleInitialRotationRate(XMLIterator xmliter)
 {
-	ModuleInitialRotationRate module;
+	DModuleInitialRotationRate module;
 	std::string id = xmliter.getID();
-	ModuleInitialRotationRate::addItem(id, module);
+	DModuleInitialRotationRate::addItem(id, module);
 }
 void DataManager::xmlFirstPassModuleSubImageIndexOverLife(XMLIterator xmliter)
 {
-	ModuleSubImageIndexOverLife module;
+	DModuleSubImageIndexOverLife module;
 	std::string id = xmliter.getID();
-	ModuleSubImageIndexOverLife::addItem(id, module);
+	DModuleSubImageIndexOverLife::addItem(id, module);
 }
 void DataManager::xmlFirstPassModuleSubImageIndexRandom(XMLIterator xmliter)
 {
-	ModuleSubImageIndexRandom module;
+	DModuleSubImageIndexRandom module;
 	std::string id = xmliter.getID();
-	ModuleSubImageIndexRandom::addItem(id, module);
+	DModuleSubImageIndexRandom::addItem(id, module);
 }
 
 void DataManager::xmlSecondPass(XMLInterface& xmlif)
@@ -410,18 +410,23 @@ void DataManager::xmlSecondPassValidatorPlayer(XMLIterator xmliter) {}
 
 void DataManager::xmlSecondPassParticleSystem(XMLIterator xmliter)
 {
-	ParticleSystem* pSystem;
+	DParticleSystem* pSystem;
 	try
 	{
-		copyParent<ParticleSystem>(xmliter, &pSystem);
+		copyParent<DParticleSystem>(xmliter, &pSystem);
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("Emitters");
-		iter = iter.getChildrenOfName("ParticleEmitter");
-		while (iter.isValid())
+		if (iter.isValid())
 		{
-			pSystem->emittersIDs.push_back(iter.getValue());
-			iter = iter.next();
+			iter = iter.getChildrenOfName("ParticleEmitter");
+			while (iter.isValid())
+			{
+				int temp_handle;
+				linkData<DParticleEmitter>(iter, &temp_handle);
+				pSystem->emitters_handles.push_back(temp_handle);
+				iter = iter.next();
+			}
 		}
 	}
 	catch (DataErrorException e)
@@ -431,10 +436,10 @@ void DataManager::xmlSecondPassParticleSystem(XMLIterator xmliter)
 }
 void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 {
-	ParticleEmitter* emitter;
+	DParticleEmitter* emitter;
 	try
 	{
-		copyParent<ParticleEmitter>(xmliter, &emitter);
+		copyParent<DParticleEmitter>(xmliter, &emitter);
 
 		XMLIterator iter;
 		XMLIterator subiter;
@@ -444,85 +449,137 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 		float z;
 
 		iter = xmliter.getChildrenOfName("BaseVariables");
+		if (iter.isValid())
+		{
+			subiter = iter.getChildrenOfName("EmitterName");
+			if (iter.isValid()) emitter->emitterName = subiter.getValue();
 
-		subiter = iter.getChildrenOfName("EmitterName");
-		emitter->emitterName = subiter.getValue();
+			subiter = iter.getChildrenOfName("BlendingMode");
+			if (iter.isValid()) emitter->blendingMode = subiter.getValue();
 
-		subiter = iter.getChildrenOfName("BlendingMode");
-		emitter->blendingMode = subiter.getValue();
+			subiter = iter.getChildrenOfName("Texture");
+			if (subiter.isValid())
+			{
+				int temp_handle;
+				linkData<DTexture>(subiter, &temp_handle);
+				emitter->texture_handle = temp_handle;
+			}
 
-		subiter = iter.getChildrenOfName("Texture");
-		emitter->texture = subiter.getValue();
+			subiter = iter.getChildrenOfName("EmitterLocalOrigin");
+			if (subiter.isValid())
+			{
+				XMLIterator subsubiter = subiter.getChildrenOfName("X");
+				if (subsubiter.isValid()) emitter->emitterLocalOrigin.x = stof(subsubiter.getValue());
+				XMLIterator subsubiter = subiter.getChildrenOfName("Y");
+				if (subsubiter.isValid()) emitter->emitterLocalOrigin.y = stof(subsubiter.getValue());
+				XMLIterator subsubiter = subiter.getChildrenOfName("Z");
+				if (subsubiter.isValid()) emitter->emitterLocalOrigin.z = stof(subsubiter.getValue());
+			}
 
-		subiter = iter.getChildrenOfName("EmitterLocalOrigin");
-		x = std::stof(subiter.getChildrenOfName("X").getValue());
-		y = std::stof(subiter.getChildrenOfName("Y").getValue());
-		z = std::stof(subiter.getChildrenOfName("Z").getValue());
-		emitter->emitterLocalOrigin = glm::vec3(x, y, z);
+			subiter = iter.getChildrenOfName("Lifetime");
+			if (subiter.isValid())
+			{
+				XMLIterator subsubiter = subiter.getChildrenOfName("Min");
+				if (subsubiter.isValid()) emitter->lifetime.x = stof(subsubiter.getValue());
+				XMLIterator subsubiter = subiter.getChildrenOfName("Max");
+				if (subsubiter.isValid()) emitter->lifetime.y = stof(subsubiter.getValue());
+			}
 
-		subiter = iter.getChildrenOfName("Lifetime");
-		x = std::stof(subiter.getChildrenOfName("Min").getValue());
-		y = std::stof(subiter.getChildrenOfName("Max").getValue());
-		emitter->lifetime = glm::vec2(x, y);
+			subiter = iter.getChildrenOfName("InitialSize");
+			if (subiter.isValid()) {
+				XMLIterator subsubiter = subiter.getChildrenOfName("Min");
+				if (subsubiter.isValid()) emitter->initialSize.x = stof(subsubiter.getValue());
+				XMLIterator subsubiter = subiter.getChildrenOfName("Max");
+				if (subsubiter.isValid()) emitter->initialSize.y = stof(subsubiter.getValue());
+			}
 
-		subiter = iter.getChildrenOfName("InitialSize");
-		x = std::stof(subiter.getChildrenOfName("Min").getValue());
-		y = std::stof(subiter.getChildrenOfName("Max").getValue());
-		emitter->initialSize = glm::vec2(x, y);
-
-		subiter = iter.getChildrenOfName("InitialVelocity");
-		x = std::stof(subiter.getChildrenOfName("X").getValue());
-		y = std::stof(subiter.getChildrenOfName("Y").getValue());
-		z = std::stof(subiter.getChildrenOfName("Z").getValue());
-		emitter->initialVelocity = glm::vec3(x, y, z);
-
+			subiter = iter.getChildrenOfName("InitialVelocity");
+			if (subiter.isValid())
+			{
+				XMLIterator subsubiter = subiter.getChildrenOfName("X");
+				if (subsubiter.isValid()) emitter->initialVelocity.x = stof(subsubiter.getValue());
+				XMLIterator subsubiter = subiter.getChildrenOfName("Y");
+				if (subsubiter.isValid()) emitter->initialVelocity.y = stof(subsubiter.getValue());
+				XMLIterator subsubiter = subiter.getChildrenOfName("Z");
+				if (subsubiter.isValid()) emitter->initialVelocity.z = stof(subsubiter.getValue());
+			}
+		}
 		iter = xmliter.getChildrenOfName("SpawnVariables");
 
-		subiter = iter.getChildrenOfName("ConstantRate");
-		emitter->constantRate = std::stoi(subiter.getValue());
+		if (iter.isValid())
+		{
+			subiter = iter.getChildrenOfName("ConstantRate");
+			if(subiter.isValid()) emitter->constantRate = std::stoi(subiter.getValue());
 
-		subiter = iter.getChildrenOfName("Burst");
-		emitter->burst = std::stoi(subiter.getValue());
+			subiter = iter.getChildrenOfName("Burst");
+			if(subiter.isValid()) emitter->burst = std::stoi(subiter.getValue());
 
-		subiter = iter.getChildrenOfName("Looping");
-		emitter->looping = std::stoi(subiter.getValue());
+			subiter = iter.getChildrenOfName("Looping");
+			if(subiter.isValid()) emitter->looping = std::stoi(subiter.getValue());
 
-		subiter = iter.getChildrenOfName("EmitterDelay");
-		emitter->emitterDelay = std::stof(subiter.getValue());
-
+			subiter = iter.getChildrenOfName("EmitterDelay");
+			if(subiter.isValid()) emitter->emitterDelay = std::stof(subiter.getValue());
+		}
 		iter = xmliter.getChildrenOfName("SubUVVariables");
+		if (iter.isValid)
+		{
+			subiter = iter.getChildrenOfName("SubImagesHorizontal");
+			if(subiter.isValid()) emitter->subImagesHorizontal = std::stoi(subiter.getValue());
 
-		subiter = iter.getChildrenOfName("SubImagesHorizontal");
-		emitter->subImagesHorizontal = std::stoi(subiter.getValue());
-
-		subiter = iter.getChildrenOfName("SubImagesVertical");
-		emitter->subImagesVertical = std::stoi(subiter.getValue());
-
+			subiter = iter.getChildrenOfName("SubImagesVertical");
+			if(subiter.isValid()) emitter->subImagesVertical = std::stoi(subiter.getValue());
+		}
 		iter = xmliter.getChildrenOfName("Modules");
+		if (iter.isValid())
+		{
+			subiter = iter.getChildrenOfName("ModuleSizeOverLife");
+			if (subiter.isValid())
+			{
+				int temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
+				emitter->modules_handles.push_back(temp_handle); 
+			}
 
-		/*subiter = iter.getChildrenOfName("ModuleSizeOverLife");
-		if (subiter.isValid())
-			emitter->modulesIDs.push_back(subiter.getValue());
+			subiter = iter.getChildrenOfName("ModuleColorOverLife");
+			if (subiter.isValid())
+			{
+				int temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
+				emitter->modules_handles.push_back(temp_handle);
+			}
 
-		subiter = iter.getChildrenOfName("ModuleColorOverLife");
-		if (subiter.isValid())
-			emitter->modulesIDs.push_back(subiter.getValue());
+			subiter = iter.getChildrenOfName("ModuleInitialRotation");
+			if (subiter.isValid())
+			{
+				int temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
+				emitter->modules_handles.push_back(temp_handle);
+			}
 
-		subiter = iter.getChildrenOfName("ModuleInitialRotation");
-		if (subiter.isValid())
-			emitter->modulesIDs.push_back(subiter.getValue());
+			subiter = iter.getChildrenOfName("ModuleInitialRotationRate");
+			if (subiter.isValid())
+			{
+				int temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
+				emitter->modules_handles.push_back(temp_handle);
+			}
 
-		subiter = iter.getChildrenOfName("ModuleInitialRotationRate");
-		if (subiter.isValid())
-			emitter->modulesIDs.push_back(subiter.getValue());
+			subiter = iter.getChildrenOfName("ModuleSubImageIndexOverLife");
+			if (subiter.isValid())
+			{
+				int temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
+				emitter->modules_handles.push_back(temp_handle);
+			}
 
-		subiter = iter.getChildrenOfName("ModuleSubImageIndexOverLife");
-		if (subiter.isValid())
-			emitter->modulesIDs.push_back(subiter.getValue());
-
-		subiter = iter.getChildrenOfName("ModuleSubImageIndexRandom");
-		if (subiter.isValid())
-			emitter->modulesIDs.push_back(subiter.getValue());*/
+			subiter = iter.getChildrenOfName("ModuleSubImageIndexRandom");
+			if (subiter.isValid())
+			{
+				int temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
+				emitter->modules_handles.push_back(temp_handle);
+			}
+		}
 	}
 	catch (DataErrorException e)
 	{
@@ -531,127 +588,147 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 }
 void DataManager::xmlSecondPassModuleSizeOverLife(XMLIterator xmliter)
 {
-	ModuleSizeOverLife* module;
+	DModuleSizeOverLife* module;
 	try
 	{
-		copyParent<ModuleSizeOverLife>(xmliter, &module);
+		copyParent<DModuleSizeOverLife>(xmliter, &module);
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("ScaleMultiplier");
-		module->beinningFactor = std::stof(iter.getChildrenOfName("Beginning").getValue());
-		module->endFactor = std::stof(iter.getChildrenOfName("End").getValue());
+		if (iter.isValid())
+		{
+			XMLIterator subiter = iter.getChildrenOfName("Beginning");
+			if (subiter.isValid()) module->beinningFactor = std::stof(subiter.getValue());
+			subiter = iter.getChildrenOfName("End");
+			if (subiter.isValid()) module->endFactor = std::stof(subiter.getValue());
+		}
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleSizeOverLife(" + xmliter.getID() + ")::" + e.err);
 	}
 }
 void DataManager::xmlSecondPassModuleColorOverLife(XMLIterator xmliter)
 {
-	ModuleColorOverLife* module;
+	DModuleColorOverLife* module;
 	try
 	{
-		copyParent<ModuleColorOverLife>(xmliter, &module);
+		copyParent<DModuleColorOverLife>(xmliter, &module);
 
 		XMLIterator iter;
+		XMLIterator subiter;
+		XMLIterator subsubiter;
 		float r;
 		float g;
 		float b;
 		float a;
 
-		iter = xmliter.getChildrenOfName("ColorMultiplier").getChildrenOfName("Beginning");
-		r = std::stof(iter.getChildrenOfName("R").getValue());
-		g = std::stof(iter.getChildrenOfName("G").getValue());
-		b = std::stof(iter.getChildrenOfName("B").getValue());
-		a = std::stof(iter.getChildrenOfName("A").getValue());
-		module->beginningColor = glm::vec4(r, g, b, a);
-
-		iter = xmliter.getChildrenOfName("ColorMultiplier").getChildrenOfName("End");
-		r = std::stof(iter.getChildrenOfName("R").getValue());
-		g = std::stof(iter.getChildrenOfName("G").getValue());
-		b = std::stof(iter.getChildrenOfName("B").getValue());
-		a = std::stof(iter.getChildrenOfName("A").getValue());
-		module->endColor = glm::vec4(r, g, b, a);
+		iter = xmliter.getChildrenOfName("ColorMultiplier");
+		if (iter.isValid())
+		{
+			subiter = iter.getChildrenOfName("Beginning");
+			if (subiter.isValid()) {
+				subsubiter = subiter.getChildrenOfName("R");
+				if (subsubiter.isValid()) module->beginningColor.r = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("G");
+				if (subsubiter.isValid()) module->beginningColor.g = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("B");
+				if (subsubiter.isValid()) module->beginningColor.b = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("A");
+				if (subsubiter.isValid()) module->beginningColor.a = std::stof(subsubiter.getValue());
+			}
+			subiter = iter.getChildrenOfName("End");
+			if (subiter.isValid()) {
+				subsubiter = subiter.getChildrenOfName("R");
+				if (subsubiter.isValid()) module->endColor.r = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("G");
+				if (subsubiter.isValid()) module->endColor.g = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("B");
+				if (subsubiter.isValid()) module->endColor.b = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("A");
+				if (subsubiter.isValid()) module->endColor.a = std::stof(subsubiter.getValue());
+			}
+		}
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleColorOverLife(" + xmliter.getID() + ")::" + e.err);
 	}
 }
 void DataManager::xmlSecondPassModuleInitialRotation(XMLIterator xmliter)
 {
-	ModuleInitialRotation* module;
+	DModuleInitialRotation* module;
 	try
 	{
-		copyParent<ModuleInitialRotation>(xmliter, &module);
+		copyParent<DModuleInitialRotation>(xmliter, &module);
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("Min");
-		module->min = stof(iter.getValue());
+		if(iter.isValid()) module->min = stof(iter.getValue());
 
 		iter = xmliter.getChildrenOfName("Max");
-		module->max = stof(iter.getValue());
+		if(iter.isValid()) module->max = stof(iter.getValue());
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleInitialRotation(" + xmliter.getID() + ")::" + e.err);
 	}
 }
 void DataManager::xmlSecondPassModuleInitialRotationRate(XMLIterator xmliter)
 {
-	ModuleInitialRotationRate* module;
+	DModuleInitialRotationRate* module;
 	try
 	{
-		copyParent<ModuleInitialRotationRate>(xmliter, &module);
+		copyParent<DModuleInitialRotationRate>(xmliter, &module);
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("Min");
-		module->min = stof(iter.getValue());
+		if(iter.isValid()) module->min = stof(iter.getValue());
 
 		iter = xmliter.getChildrenOfName("Max");
-		module->max = stof(iter.getValue());
+		if(iter.isValid()) module->max = stof(iter.getValue());
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleInitialRotationRate(" + xmliter.getID() + ")::" + e.err);
 	}
 }
 void DataManager::xmlSecondPassModuleSubImageIndexOverLife(XMLIterator xmliter)
 {
-	ModuleSubImageIndexOverLife* module;
+	DModuleSubImageIndexOverLife* module;
 	try
 	{
-		copyParent<ModuleSubImageIndexOverLife>(xmliter, &module);
+		copyParent<DModuleSubImageIndexOverLife>(xmliter, &module);
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("Beginning");
-		module->beginningIndex = stof(iter.getValue());
+		if(iter.isValid()) module->beginningIndex = stof(iter.getValue());
 
 		iter = xmliter.getChildrenOfName("End");
-		module->endIndex = stof(iter.getValue());
+		if(iter.isValid()) module->endIndex = stof(iter.getValue());
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleSubImageIndexOverLife(" + xmliter.getID() + ")::" + e.err);
 	}
 }
 void DataManager::xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter)
 {
-	ModuleSubImageIndexRandom* module;
+	DModuleSubImageIndexRandom* module;
 	try
 	{
-		copyParent<ModuleSubImageIndexRandom>(xmliter, &module);
+		copyParent<DModuleSubImageIndexRandom>(xmliter, &module);
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("Min");
-		module->min = stof(iter.getValue());
+		if(iter.isValid()) module->min = stof(iter.getValue());
 
 		iter = xmliter.getChildrenOfName("Max");
-		module->max = stof(iter.getValue());
+		if(iter.isValid()) module->max = stof(iter.getValue());
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("Model(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleSubImageIndexRandom(" + xmliter.getID() + ")::" + e.err);
 	}
 }
 

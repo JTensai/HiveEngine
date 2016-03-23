@@ -6,17 +6,17 @@
 
 namespace Hive
 {
-	class ParticleSystem : public DataCollection<ParticleSystem> 
+	class DParticleSystem : public DataCollection<DParticleSystem> 
 	{
 	public:
-		std::vector<std::string> emittersIDs;
+		std::vector<int> emitters_handles;
 	};
-	class ParticleEmitter : public DataCollection<ParticleEmitter>
+	class DParticleEmitter : public DataCollection<DParticleEmitter>
 	{
 	public:
 		std::string emitterName;
 		std::string blendingMode;
-		std::string texture;
+		int texture_handle;
 		glm::vec3 emitterLocalOrigin;
 		glm::vec2 lifetime;
 		glm::vec2 initialSize;
@@ -27,39 +27,44 @@ namespace Hive
 		float emitterDelay;
 		int subImagesHorizontal;
 		int subImagesVertical;
-		std::vector<std::string> modulesIDs;
+		std::vector<int> modules_handles;
 	};
-	class ModuleSizeOverLife: public DataCollection<ModuleSizeOverLife>
+	class DModule
+	{
+	public:
+		std::string moduleType;
+	};
+	class DModuleSizeOverLife: public DataCollection<DModuleSizeOverLife>, DModule
 	{
 	public:
 		float beinningFactor;
 		float endFactor;
 	};
-	class ModuleColorOverLife: public DataCollection<ModuleColorOverLife>
+	class DModuleColorOverLife: public DataCollection<DModuleColorOverLife>, DModule
 	{
 	public:
 		glm::vec4 beginningColor;
 		glm::vec4 endColor;
 	};
-	class ModuleInitialRotation: public DataCollection<ModuleInitialRotation>
+	class DModuleInitialRotation: public DataCollection<DModuleInitialRotation>, DModule
 	{
 	public:
 		float min;
 		float max;
 	};
-	class ModuleInitialRotationRate: public DataCollection<ModuleInitialRotationRate>
+	class DModuleInitialRotationRate: public DataCollection<DModuleInitialRotationRate>, DModule
 	{
 	public:
 		float min;
 		float max;
 	};
-	class ModuleSubImageIndexOverLife: public DataCollection<ModuleSubImageIndexOverLife>
+	class DModuleSubImageIndexOverLife: public DataCollection<DModuleSubImageIndexOverLife>, DModule
 	{
 	public:
 		int beginningIndex;
 		int endIndex;
 	};
-	class ModuleSubImageIndexRandom: public DataCollection<ModuleSubImageIndexRandom>
+	class DModuleSubImageIndexRandom: public DataCollection<DModuleSubImageIndexRandom>, DModule
 	{
 	public:
 		int min;
