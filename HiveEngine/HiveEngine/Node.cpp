@@ -1,11 +1,11 @@
 #include "Node.h"
 
-Node::Node():row(-1),col(-1)
+Node::Node():width(-1),depth(-1)
 {
 	parent = nullptr;
 }
 
-Node::Node(int row,int col):row(row),col(col)
+Node::Node(int width,int depth): width(width), depth(depth)
 {
 	parent = nullptr;
 }
@@ -14,20 +14,20 @@ Node::~Node()
 {
 }
 
-int Node::get_row()
+int Node::get_width()
 {
-	return row;
+	return width;
 }
 
-int Node::get_col()
+int Node::get_depth()
 {
-	return col;
+	return depth;
 }
 
 float Node::distance_to(Node* toNode)
 {
-	int xDiff = toNode->get_row() - row;
-	int yDiff = toNode->get_col() - col;
+	int xDiff = toNode->get_width() - width;
+	int yDiff = toNode->get_depth() - depth;
 	return (float) sqrt(xDiff * xDiff + yDiff * yDiff);
 }
 

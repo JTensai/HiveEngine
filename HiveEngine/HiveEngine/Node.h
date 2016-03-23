@@ -5,20 +5,20 @@
 class Node
 {
 private:
-	int row;
-	int col;
+	int width;
+	int depth;
 	Node* parent;
 public:
 	Node();
 	Node(int,int);
 	~Node();
-	int get_row();
-	int get_col();
+	int get_width();
+	int get_depth();
 	float distance_to(Node* toNode);
 	void set_parent(Node* parent);
 	Node* get_parent();
 
-	bool operator!=(const Node &other) const { return row != other.row || col != other.col; }
-	bool operator==(const Node &other) const { return row == other.row && col == other.col; }
+	bool operator!=(const Node &other) const { return width != other.width || depth != other.depth; }
+	bool operator==(const Node &other) const { return width == other.width && depth == other.depth; }
 };
 
