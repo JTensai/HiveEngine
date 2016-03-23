@@ -605,7 +605,7 @@ void DataManager::xmlSecondPassModuleSizeOverLife(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("ModuleSizeOverLife(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleSizeOverLife(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleColorOverLife(XMLIterator xmliter)
@@ -652,7 +652,7 @@ void DataManager::xmlSecondPassModuleColorOverLife(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("ModuleColorOverLife(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleColorOverLife(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleInitialRotation(XMLIterator xmliter)
@@ -671,7 +671,7 @@ void DataManager::xmlSecondPassModuleInitialRotation(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("ModuleInitialRotation(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleInitialRotation(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleInitialRotationRate(XMLIterator xmliter)
@@ -690,7 +690,7 @@ void DataManager::xmlSecondPassModuleInitialRotationRate(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("ModuleInitialRotationRate(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleInitialRotationRate(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleSubImageIndexOverLife(XMLIterator xmliter)
@@ -709,7 +709,7 @@ void DataManager::xmlSecondPassModuleSubImageIndexOverLife(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("ModuleSubImageIndexOverLife(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleSubImageIndexOverLife(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 void DataManager::xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter)
@@ -728,7 +728,7 @@ void DataManager::xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter)
 	}
 	catch (DataErrorException e)
 	{
-		throw DataErrorException("ModuleSubImageIndexRandom(" + xmliter.getID() + ")::" + e.err);
+		throw DataErrorException("ModuleSubImageIndexRandom(" + xmliter.getID() + ")::" + e.msg);
 	}
 }
 
