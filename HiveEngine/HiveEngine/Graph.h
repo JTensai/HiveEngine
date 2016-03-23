@@ -12,45 +12,35 @@ using namespace std;
 
 class Graph
 {
-private:
-	// 1 is walkable
-	char temp_map[8][8] =
-	{
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','0','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' },
-		{ '1','1','1','1','1','1','1','1' }
-	};
-	int num_rows;
-	int num_cols;
+private:	
+	int map_width;
+	int map_depth;
 
 	map<int, vector<Node*> > connections;
 	
 public:
 	Graph();
+	Graph(vector<char>&,int,int);
+	/*
 	template <size_t size_x, size_t size_y>
-	Graph(char(&char_map)[size_x][size_y]):numRows(size_x), numCols(size_y)
+	Graph(char(&char_map)[size_x][size_y]):map_width(size_x), map_depth(size_y)
 	{
 		//connections = new Connections[size_x * size_ y][9];
 		Node* node_map[size_x][size_y];
 
 		//create map of Nodes
-		for (int i = 0; i < num_rows; ++i)
+		for (int i = 0; i < map_width; ++i)
 		{
-			for (int j = 0; j < num_cols; ++j)
+			for (int j = 0; j < map_depth; ++j)
 			{
 				node_map[i][j] = new Node(i, j);
 			}
 		}
 
 		//For each node create a list of Connections
-		for (int i = 0; i < num_rows; ++i)
+		for (int i = 0; i < map_width; ++i)
 		{
-			for (int j = 0; j < num_cols; ++j)
+			for (int j = 0; j < map_depth; ++j)
 			{
 				Node* curr_node = node_map[i][j];
 				int key = (i * num_cols) + j;
@@ -74,6 +64,7 @@ public:
 			}
 		}
 	}
+	*/
 	~Graph();
 	// Returns an array of connections(of class
 	// Connection) outgoing from the given node
@@ -94,7 +85,7 @@ public:
 
 	vector<Node*>* pathfind_a_star(Graph graph, Node* start, Node* end, BaseHeuristic* heuristic)
 	{
-		PriorityQueue<NodeRecord> open(graph.num_rows * graph.num_cols);
+		PriorityQueue<NodeRecord> open(graph.map_width * graph.map_depth);
 		vector<NodeRecord> closed;//list of visited nodes
 
 		NodeRecord start_record;

@@ -16,6 +16,7 @@ namespace Hive
 
 	void ComponentManager::load()
 	{
+		//Debug Emitters
 	}
 
 	void ComponentManager::update_free(float delta)

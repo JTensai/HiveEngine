@@ -1,4 +1,6 @@
 #include "GameWorld.h"
+#include "Graph.h"
+#include "EuclideanHeuristic.h"
 
 using namespace Hive;
 
@@ -140,6 +142,12 @@ void GameWorld::load(GLuint shader, XMLIterator map_iter, int& player_handle)
 		throw DataErrorException("Map::Lighting::WallTop::" + e.msg);
 	}
 #pragma endregion
+	//below is some code i was using to debug A*, please don't delete
+	/*
+	Graph g(map,map_width,map_depth);
+	Node* goal = new Node(3, 4);
+	g.pathfind_a_star(g, new Node(0, 0), goal, new EuclideanHeuristic(goal));
+	*/
 
 	std::string player_type;
 	glm::vec2 player_spawn_point;
@@ -448,7 +456,7 @@ void GameWorld::generate_mesh()
 				push_quad(index);
 
 				verts[0]->y = top;
-				
+
 				verts[1]->y = top;
 				verts[1]->x = x + 1;
 

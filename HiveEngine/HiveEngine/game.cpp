@@ -28,20 +28,6 @@ Game::Game() {
 
 	tree.populate_tree(quadTreeTest);
 	*/
-	//below is some code i was using to debug A*, please don't delete
-	/*
-	char temp_map[5][5] =
-	{
-		{ '1','1','1','1','1' },
-		{ '1','0','0','1','0' },
-		{ '1','0','1','1','0' },
-		{ '1','1','1','0','1' },
-		{ '0','0','1','1','1' }
-	};
-	Graph g(temp_map);
-	Node* goal = new Node(3, 4);
-	g.pathfind_a_star(g, new Node(0, 0), goal, new EuclideanHeuristic(goal));
-	*/
 }
 
 void Game::initialize(char* core_xml_filename, char* game_xml_filename, char* map_xml_filename) {
