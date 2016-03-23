@@ -315,7 +315,7 @@
 		<BaseVariables>
 			<EmitterName value="ParticleEmitter"/>
 			<BlendingMode value="Transparent"/>
-			<Texture value="DefaultTexture"/>
+			<Texture value="BASE_TEXTURE"/>
 			<EmitterLocalOrigin>
 				<X value="0"/>
 				<Y value="0"/>

@@ -443,6 +443,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 
 		XMLIterator iter;
 		XMLIterator subiter;
+		XMLIterator subsubiter;
 
 		float x;
 		float y;
@@ -468,40 +469,40 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("EmitterLocalOrigin");
 			if (subiter.isValid())
 			{
-				XMLIterator subsubiter = subiter.getChildrenOfName("X");
-				if (subsubiter.isValid()) emitter->emitterLocalOrigin.x = stof(subsubiter.getValue());
-				XMLIterator subsubiter = subiter.getChildrenOfName("Y");
-				if (subsubiter.isValid()) emitter->emitterLocalOrigin.y = stof(subsubiter.getValue());
-				XMLIterator subsubiter = subiter.getChildrenOfName("Z");
-				if (subsubiter.isValid()) emitter->emitterLocalOrigin.z = stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("X");
+				if (subsubiter.isValid()) emitter->emitterLocalOrigin.x = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("Y");
+				if (subsubiter.isValid()) emitter->emitterLocalOrigin.y = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("Z");
+				if (subsubiter.isValid()) emitter->emitterLocalOrigin.z = std::stof(subsubiter.getValue());
 			}
 
 			subiter = iter.getChildrenOfName("Lifetime");
 			if (subiter.isValid())
 			{
-				XMLIterator subsubiter = subiter.getChildrenOfName("Min");
-				if (subsubiter.isValid()) emitter->lifetime.x = stof(subsubiter.getValue());
-				XMLIterator subsubiter = subiter.getChildrenOfName("Max");
-				if (subsubiter.isValid()) emitter->lifetime.y = stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("Min");
+				if (subsubiter.isValid()) emitter->lifetime.x = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("Max");
+				if (subsubiter.isValid()) emitter->lifetime.y = std::stof(subsubiter.getValue());
 			}
 
 			subiter = iter.getChildrenOfName("InitialSize");
 			if (subiter.isValid()) {
-				XMLIterator subsubiter = subiter.getChildrenOfName("Min");
-				if (subsubiter.isValid()) emitter->initialSize.x = stof(subsubiter.getValue());
-				XMLIterator subsubiter = subiter.getChildrenOfName("Max");
-				if (subsubiter.isValid()) emitter->initialSize.y = stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("Min");
+				if (subsubiter.isValid()) emitter->initialSize.x = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("Max");
+				if (subsubiter.isValid()) emitter->initialSize.y = std::stof(subsubiter.getValue());
 			}
 
 			subiter = iter.getChildrenOfName("InitialVelocity");
 			if (subiter.isValid())
 			{
-				XMLIterator subsubiter = subiter.getChildrenOfName("X");
-				if (subsubiter.isValid()) emitter->initialVelocity.x = stof(subsubiter.getValue());
-				XMLIterator subsubiter = subiter.getChildrenOfName("Y");
-				if (subsubiter.isValid()) emitter->initialVelocity.y = stof(subsubiter.getValue());
-				XMLIterator subsubiter = subiter.getChildrenOfName("Z");
-				if (subsubiter.isValid()) emitter->initialVelocity.z = stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("X");
+				if (subsubiter.isValid()) emitter->initialVelocity.x = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("Y");
+				if (subsubiter.isValid()) emitter->initialVelocity.y = std::stof(subsubiter.getValue());
+				subsubiter = subiter.getChildrenOfName("Z");
+				if (subsubiter.isValid()) emitter->initialVelocity.z = std::stof(subsubiter.getValue());
 			}
 		}
 		iter = xmliter.getChildrenOfName("SpawnVariables");
@@ -521,7 +522,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			if(subiter.isValid()) emitter->emitterDelay = std::stof(subiter.getValue());
 		}
 		iter = xmliter.getChildrenOfName("SubUVVariables");
-		if (iter.isValid)
+		if (iter.isValid())
 		{
 			subiter = iter.getChildrenOfName("SubImagesHorizontal");
 			if(subiter.isValid()) emitter->subImagesHorizontal = std::stoi(subiter.getValue());
@@ -536,7 +537,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			if (subiter.isValid())
 			{
 				int temp_handle;
-				linkData<DModule>(subiter, &temp_handle);
+				linkData<DModuleSizeOverLife>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle); 
 			}
 
@@ -544,7 +545,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			if (subiter.isValid())
 			{
 				int temp_handle;
-				linkData<DModule>(subiter, &temp_handle);
+				linkData<DModuleColorOverLife>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
 
@@ -552,7 +553,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			if (subiter.isValid())
 			{
 				int temp_handle;
-				linkData<DModule>(subiter, &temp_handle);
+				linkData<DModuleInitialRotation>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
 
@@ -560,7 +561,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			if (subiter.isValid())
 			{
 				int temp_handle;
-				linkData<DModule>(subiter, &temp_handle);
+				linkData<DModuleInitialRotationRate>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
 
@@ -568,7 +569,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			if (subiter.isValid())
 			{
 				int temp_handle;
-				linkData<DModule>(subiter, &temp_handle);
+				linkData<DModuleSubImageIndexOverLife>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
 
@@ -576,7 +577,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			if (subiter.isValid())
 			{
 				int temp_handle;
-				linkData<DModule>(subiter, &temp_handle);
+				linkData<DModuleSubImageIndexRandom>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
 		}
