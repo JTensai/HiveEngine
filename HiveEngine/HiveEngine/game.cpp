@@ -54,7 +54,6 @@ void Game::initialize(char* core_xml_filename, char* game_xml_filename, char* ma
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
 
-	//world_matrix = glm::scale(glm::vec3(1 / 60.f));
 	world_matrix = glm::scale(glm::vec3(1));
 
 	projection_matrix = glm::perspective(
@@ -83,8 +82,6 @@ void Game::load(GLFWwindow* window) {
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(glfw_window, GLFW_STICKY_KEYS, GL_FALSE);
 
-	glClearColor(BG.r, BG.g, BG.b, 0.0f);
-
 	//glEnable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
 	//glCullFace(GL_FRONT);
@@ -97,10 +94,6 @@ void Game::load(GLFWwindow* window) {
 	shader_program_id = LoadShader("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
 	Actor::setShader(shader_program_id);
 	ServiceLocator::register_graphics(new Graphics(shader_program_id));
-	
-	light_direction = glm::normalize(glm::vec3(1, -4, -1));
-	light_color = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f);
-	ambient_color = glm::vec3(0.1f);
 
 	glGenVertexArrays(1, &vertex_array_id);
 	glBindVertexArray(vertex_array_id);
@@ -109,6 +102,7 @@ void Game::load(GLFWwindow* window) {
 	{
 		ServiceLocator::get_data_manager()->loadXMLData(core_xml_filename);
 		ServiceLocator::get_data_manager()->loadXMLData(game_xml_filename);
+		ServiceLocator::get_data_manager()->loadXMLData(map_xml_filename);
 	}
 	catch (const DataErrorException& e)
 	{
@@ -131,9 +125,13 @@ void Game::load(GLFWwindow* window) {
 	try
 	{
 		XMLInterface xml_interface(map_xml_filename);
+		XMLIterator xiter = xml_interface.begin();
+		XMLIterator map_iter = xiter.getChildrenOfName("Map");
+		if (!map_iter.isValid()) throw DataErrorException("Map xml does not contain map node.");
+
 		ServiceLocator::get_game_world()->load(
 			LoadShader("resources/WorldVertexShader.vertexshader", "resources/WorldFragmentShader.fragmentshader"),
-			xml_interface.begin(),
+			map_iter,
 			player_unit_handle
 			);
 		Unit* unit = Unit::get_component(player_unit_handle);
@@ -200,6 +198,12 @@ Gamestate Game::update(float delta) {
 
 
 void Game::draw() {
+	glm::vec3 bg = ServiceLocator::get_game_world()->background();
+	glm::vec3 light_direction = ServiceLocator::get_game_world()->light_direction();
+	glm::vec4 light_color = ServiceLocator::get_game_world()->light();
+	glm::vec3 ambient_color = ServiceLocator::get_game_world()->ambient();
+
+	glClearColor(bg.r, bg.g, bg.b, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	ServiceLocator::get_game_world()->draw(world_view_projection);

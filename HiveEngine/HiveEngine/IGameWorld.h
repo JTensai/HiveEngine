@@ -23,6 +23,12 @@ namespace Hive
 		virtual int width() = 0;
 		virtual int depth() = 0;
 		virtual const std::vector<char> grid() = 0;
+
+		virtual const glm::vec3& ambient() = 0;
+		virtual const glm::vec4& light() = 0;
+		virtual const glm::vec3& light_direction() = 0;
+		virtual const glm::vec3& background() = 0;
+
 		virtual void load(GLuint shader, XMLIterator map_iter, int& player_handle) = 0;
 		virtual void update(float delta) = 0;
 		virtual void draw(const glm::mat4& VP) = 0;

@@ -1,34 +1,50 @@
 #version 330 core
 
 // Interpolated values from the vertex shaders
-in vec3 Position_worldspace;
+in float y_worldspace;
+in vec2 UV;
+in vec3 Normal_worldspace;
 
 // Ouput data
 out vec3 color;
 
-uniform vec3 bg;
-uniform vec3 subfloor;
-uniform vec3 floor;
+uniform vec3 background;
 uniform vec3 wallbase;
 uniform vec3 walltop;
+uniform float depth;
+uniform float height;
+
+uniform vec3 LightDirection;
+uniform vec4 LightColor; //a is used for intensity
+uniform vec3 AmbientColor;
+uniform sampler2D diffuse_sampler;
 
 void main(){
+
+	color = AmbientColor;
+	
+	vec3 MaterialDiffuseColor = vec3(1);//texture(diffuse_sampler, UV).rgb;
+
+	float cosTheta = clamp( dot( Normal_worldspace,-LightDirection ), 0,1 );
+	
+	color = 
+		AmbientColor * MaterialDiffuseColor +
+		MaterialDiffuseColor * LightColor.rgb * LightColor.a * cosTheta;
+
+	vec3 wallbase_color = wallbase * color;
+
 	color =
 		mix(
 			mix(
-				mix(
-					bg,
-					subfloor,
-					clamp((Position_worldspace.y + 3) / 3, 0, 1)
-				),
-				floor,
-				step(-.025, Position_worldspace.y)
+				background,
+				wallbase_color,
+				clamp((y_worldspace + depth) / depth, 0, 1)
 			),
 			mix(
-				wallbase,
-				walltop,
-				clamp((Position_worldspace.y) / 3, 0, 1)
+				wallbase_color,
+				walltop * color,
+				clamp(y_worldspace / height, 0, 1)
 			),
-			step(0.0001, Position_worldspace.y)
+			step(0.0001, y_worldspace)
 		);
 }
