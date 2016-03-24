@@ -1,6 +1,6 @@
 #include "GameWorld.h"
-#include "Graph.h"
-#include "EuclideanHeuristic.h"
+//#include "Graph.h"
+//#include "EuclideanHeuristic.h"
 
 using namespace Hive;
 
