@@ -16,6 +16,7 @@
 #include "IComponentManager.h"
 #include "ServiceLocator.h"
 #include "Data.h"
+#include "Graph.h"
 
 namespace Hive
 {
@@ -34,6 +35,8 @@ namespace Hive
 		std::vector<char> map;
 		std::vector<float> vert_data;
 		std::vector<unsigned short> indices;
+
+		Graph nav_mesh;
 
 		GLuint shader;
 		GLuint MVP;
@@ -74,6 +77,8 @@ namespace Hive
 		const glm::vec4& light() { return directional_light_color; }
 		const glm::vec3& light_direction() { return directional_light_direction; }
 		const glm::vec3& background() { return background_color; }
+
+		const Graph& get_nav_mesh() { return nav_mesh; }
 
 		void load(GLuint shader, XMLIterator map_iter, int& player_handle);
 		void update(float delta);

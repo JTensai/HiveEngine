@@ -71,3 +71,13 @@ vector<Node*>* Graph::get_connections(Node* fromNode)
 	int key = (fromNode->get_width() * map_depth) + fromNode->get_depth();
 	return &connections[key];
 }
+
+int Graph::get_map_width()
+{
+	return map_width;
+}
+
+int Graph::get_map_depth()
+{
+	return map_depth;
+}
