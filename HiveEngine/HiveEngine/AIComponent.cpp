@@ -175,3 +175,13 @@ void AIComponent::remove(vector<NodeRecord>& closed, NodeRecord toRemove)
 		}
 	}
 }
+
+void AIComponent::set_unit_handle(int unit_handle)
+{
+	this->unit_handle = unit_handle;
+}
+
+void AIComponent::set_player_handle(int player_handle)
+{
+	this->player_handle = player_handle;
+}

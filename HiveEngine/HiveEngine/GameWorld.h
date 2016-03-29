@@ -36,7 +36,7 @@ namespace Hive
 		std::vector<float> vert_data;
 		std::vector<unsigned short> indices;
 
-		Graph nav_mesh;
+		Graph* nav_mesh;
 
 		GLuint shader;
 		GLuint MVP;
@@ -78,7 +78,7 @@ namespace Hive
 		const glm::vec3& light_direction() { return directional_light_direction; }
 		const glm::vec3& background() { return background_color; }
 
-		const Graph& get_nav_mesh() { return nav_mesh; }
+		const Graph* get_nav_mesh() { return nav_mesh; }
 
 		void load(GLuint shader, XMLIterator map_iter, int& player_handle);
 		void update(float delta);

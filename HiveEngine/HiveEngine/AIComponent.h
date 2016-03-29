@@ -43,7 +43,12 @@ namespace Hive
 		~AIComponent();
 
 		std::vector<Node*>* pathfind_a_star(Graph& graph, Node* start, Node* end, BaseHeuristic* heuristic);
+		void set_unit_handle(int);
+		void set_player_handle(int);
+
 	private:
+		int unit_handle;
+		int player_handle;
 
 		vector<Node*>* generate_path(Node* curr, Node* start);
 		bool contains(PriorityQueue<NodeRecord>& pq, Node* node);

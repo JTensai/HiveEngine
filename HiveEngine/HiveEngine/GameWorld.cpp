@@ -11,6 +11,7 @@ GameWorld::GameWorld()
 
 GameWorld::~GameWorld()
 {
+	delete nav_mesh;
 }
 
 int GameWorld::width()
@@ -142,14 +143,6 @@ void GameWorld::load(GLuint shader, XMLIterator map_iter, int& player_handle)
 		throw DataErrorException("Map::Lighting::WallTop::" + e.msg);
 	}
 #pragma endregion
-	//below is some code i was using to debug A*, please don't delete
-	/*
-	Graph g(map,map_width,map_depth);
-	Node* goal = new Node(3, 4);
-	g.pathfind_a_star(g, new Node(0, 0), goal, new EuclideanHeuristic(goal));
-	*/
-
-	nav_mesh = Graph(map, map_width, map_depth);
 
 	std::string player_type;
 	glm::vec2 player_spawn_point;
@@ -177,6 +170,17 @@ void GameWorld::load(GLuint shader, XMLIterator map_iter, int& player_handle)
 
 	player_handle = component_manager->spawn_unit(player_spawn_point, DUnit::getIndex(player_type), LOCAL_PLAYER);
 	component_manager->attach_player_input(player_handle);
+
+	//below is some code i was using to debug A*, please don't delete
+	/*
+	Graph g(map,map_width,map_depth);
+	Node* goal = new Node(3, 4);
+	g.pathfind_a_star(g, new Node(0, 0), goal, new EuclideanHeuristic(goal));
+	*/
+	nav_mesh = new Graph(map, map_width, map_depth);
+
+//	glm::vec2 ai_spawn_point(14,14);
+//	component_manager->spawn_ai_unit(ai_spawn_point, DUnit::getIndex(player_type), LOCAL_PLAYER);
 
 	GameWorld::shader = shader;
 	generate_mesh();

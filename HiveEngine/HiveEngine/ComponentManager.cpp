@@ -50,6 +50,17 @@ namespace Hive
 		return unit_handle;
 	}
 
+	int ComponentManager::spawn_ai_unit(glm::vec2 position, int dunit_handle, int player)
+	{
+		int unit_handle = spawn_unit(position, dunit_handle, player);
+
+		int ai_component_handle = AIComponent::create_component();
+		AIComponent* ai_component = AIComponent::get_component(ai_component_handle);
+		ai_component->set_unit_handle(unit_handle);
+
+		return unit_handle;
+	}
+
 	void ComponentManager::attach_player_input(int unit_handle)
 	{
 		player_input_component = PlayerInputComponent();
