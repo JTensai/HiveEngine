@@ -16,6 +16,7 @@
 #include "Graph.h"
 #include "Node.h"
 #include "PriorityQueue.h"
+#include "Unit.h"
 
 using namespace std;
 
@@ -42,15 +43,17 @@ namespace Hive
 		void update_component(float delta);
 		~AIComponent();
 
-		std::vector<Node*>* pathfind_a_star(Graph& graph, Node* start, Node* end, BaseHeuristic* heuristic);
+		void pathfind_a_star(Graph& graph, Node* start, Node* end, BaseHeuristic* heuristic);
 		void set_unit_handle(int);
 		void set_player_handle(int);
 
 	private:
-		int unit_handle;
-		int player_handle;
+		int unit_handle;//unit that uses this component
+		int player_handle;//handle for player's unit (currently assuming there is only one player unit in the game)
 
-		vector<Node*>* generate_path(Node* curr, Node* start);
+		vector<Node*> nav_path;
+
+		void generate_path(Node* curr, Node* start);
 		bool contains(PriorityQueue<NodeRecord>& pq, Node* node);
 		bool contains(vector<NodeRecord>& closed, Node* node);
 		NodeRecord find(PriorityQueue<NodeRecord>& pq, Node* toFind);

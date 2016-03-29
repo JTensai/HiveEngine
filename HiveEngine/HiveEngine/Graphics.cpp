@@ -28,7 +28,7 @@ void Graphics::draw_all()
 		normal_draws.end(),
 		[](NormalDrawCall a, NormalDrawCall b)
 		{
-			return (a.mesh != b.mesh) ? a.mesh < b.mesh : a.material <= b.material;
+			return (a.mesh != b.mesh) ? a.mesh < b.mesh : a.material < b.material;
 		}
 	);
 	std::sort(
@@ -37,7 +37,7 @@ void Graphics::draw_all()
 		[](AlphaDrawCall a, AlphaDrawCall b)
 		{
 			return (a.depth == b.depth) ?
-				(a.mesh != b.mesh) ? a.mesh < b.mesh : a.material <= b.material :
+				(a.mesh != b.mesh) ? a.mesh < b.mesh : a.material < b.material :
 				a.depth < b.depth;
 		}
 	);

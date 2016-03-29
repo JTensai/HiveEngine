@@ -9,13 +9,15 @@ AIComponent::AIComponent()
 void AIComponent::update_component(float delta)
 {
 	//TODO: update component
+	Unit* player_unit = Unit::get_component(player_handle);
+	glm::vec2 player_position = player_unit->get_position();
 }
 
 AIComponent::~AIComponent()
 {
 }
 
-vector<Node*>* AIComponent::pathfind_a_star(Graph& graph, Node* start, Node* end, BaseHeuristic* heuristic)
+void AIComponent::pathfind_a_star(Graph& graph, Node* start, Node* end, BaseHeuristic* heuristic)
 {
 	PriorityQueue<NodeRecord> open(graph.get_map_width() * graph.get_map_depth());
 	vector<NodeRecord> closed;//list of visited nodes
@@ -35,7 +37,8 @@ vector<Node*>* AIComponent::pathfind_a_star(Graph& graph, Node* start, Node* end
 
 		if (*curr.node == *end)
 		{
-			return generate_path(curr.node, start);
+			generate_path(curr.node, start);
+			return;
 		}
 
 		vector<Node*> connecting_nodes = *graph.get_connections(curr.node);
@@ -87,23 +90,21 @@ vector<Node*>* AIComponent::pathfind_a_star(Graph& graph, Node* start, Node* end
 			}
 		}
 	}
-	return &vector<Node*>();
+	//return &vector<Node*>();
 }
 
-vector<Node*>* AIComponent::generate_path(Node* curr, Node* start)
+void AIComponent::generate_path(Node* curr, Node* start)
 {
-	vector<Node*> path;
-	path.insert(path.begin(), curr);
+	nav_path.clear();
+	nav_path.insert(nav_path.begin(), curr);
 
 	while (curr->get_parent() != nullptr)
 	{
 		Node* temp = curr;
 		curr = curr->get_parent();
 		temp->set_parent(nullptr);
-		path.insert(path.begin(), curr);
+		nav_path.insert(nav_path.begin(), curr);
 	}
-
-	return &path;
 }
 
 bool AIComponent::contains(PriorityQueue<NodeRecord>& pq, Node* node)
