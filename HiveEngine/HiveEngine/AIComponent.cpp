@@ -9,24 +9,41 @@ AIComponent::AIComponent()
 void AIComponent::update_component(float delta)
 {
 	//TODO: update component
+
 	Unit* player_unit = Unit::get_component(player_handle);
 	glm::vec2 player_position = player_unit->get_position();
+	Node goal(player_position.x, player_position.y);
+
+	Unit* ai_unit = Unit::get_component(unit_handle);
+	glm::vec2 ai_position = ai_unit->get_position();
+	Node start(ai_position.x, ai_position.y);
+
+	IGameWorld* game_world = ServiceLocator::get_game_world();
+
+/*
+	if (nav_path.size() == 0 || cached_player_position != player_position)
+	{
+		pathfind_a_star(game_world->get_nav_mesh(), start, goal, EuclideanHeuristic(&goal));
+	}
+	*/
+//	glm::vec2 target(nav_path[nav_path.size() - 1]->get_width(), nav_path[nav_path.size() - 1]->get_depth());
+//	ai_unit->set_target(target);
 }
 
 AIComponent::~AIComponent()
 {
 }
 
-void AIComponent::pathfind_a_star(Graph& graph, Node* start, Node* end, BaseHeuristic* heuristic)
+void AIComponent::pathfind_a_star(Graph* graph, Node& start, Node& end, BaseHeuristic& heuristic)
 {
-	PriorityQueue<NodeRecord> open(graph.get_map_width() * graph.get_map_depth());
+	PriorityQueue<NodeRecord> open(graph->get_map_width() * graph->get_map_depth());
 	vector<NodeRecord> closed;//list of visited nodes
 
 	NodeRecord start_record;
-	start_record.node = start;
+	start_record.node = &start;
 	start_record.node->set_parent(nullptr);
 	start_record.cost_so_far = 0;
-	start_record.estimated_total_cost = heuristic->estimate(start);
+	start_record.estimated_total_cost = heuristic.estimate(&start);
 
 	open.insert(start_record);
 
@@ -35,13 +52,14 @@ void AIComponent::pathfind_a_star(Graph& graph, Node* start, Node* end, BaseHeur
 		NodeRecord curr = open.deleteMin();
 		closed.push_back(curr);
 
-		if (*curr.node == *end)
+		if (*curr.node == end)
 		{
-			generate_path(curr.node, start);
+			generate_path(curr.node, &start);
+			closed.clear();
 			return;
 		}
 
-		vector<Node*> connecting_nodes = *graph.get_connections(curr.node);
+		vector<Node*> connecting_nodes = *graph->get_connections(curr.node);
 
 		for (int i = 0; i < connecting_nodes.size(); ++i)
 		{
@@ -56,7 +74,7 @@ void AIComponent::pathfind_a_star(Graph& graph, Node* start, Node* end, BaseHeur
 					//temp.fromNode = &curr;
 					temp.node->set_parent(curr.node);
 					temp.cost_so_far = temp_cost;
-					temp.estimated_total_cost = temp.cost_so_far + heuristic->estimate(curr.node);
+					temp.estimated_total_cost = temp.cost_so_far + heuristic.estimate(curr.node);
 
 					open.insert(temp);
 				}
@@ -72,7 +90,7 @@ void AIComponent::pathfind_a_star(Graph& graph, Node* start, Node* end, BaseHeur
 					//temp.fromNode = &curr;
 					temp.node->set_parent(curr.node);
 					temp.cost_so_far = temp_cost;
-					temp.estimated_total_cost = temp.cost_so_far + heuristic->estimate(curr.node);
+					temp.estimated_total_cost = temp.cost_so_far + heuristic.estimate(curr.node);
 
 					closed.push_back(temp);
 				}
@@ -84,7 +102,7 @@ void AIComponent::pathfind_a_star(Graph& graph, Node* start, Node* end, BaseHeur
 				//toAdd.fromNode = &curr;
 				to_add.node->set_parent(curr.node);
 				to_add.cost_so_far = curr.cost_so_far + curr.node->distance_to(to_add.node);
-				to_add.estimated_total_cost = to_add.cost_so_far + heuristic->estimate(to_add.node);
+				to_add.estimated_total_cost = to_add.cost_so_far + heuristic.estimate(to_add.node);
 
 				open.insert(to_add);
 			}
@@ -98,7 +116,7 @@ void AIComponent::generate_path(Node* curr, Node* start)
 	nav_path.clear();
 	nav_path.insert(nav_path.begin(), curr);
 
-	while (curr->get_parent() != nullptr)
+	while (curr->get_parent()->get_parent() != nullptr)
 	{
 		Node* temp = curr;
 		curr = curr->get_parent();

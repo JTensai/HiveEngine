@@ -16,7 +16,6 @@
 #include "IComponentManager.h"
 #include "ServiceLocator.h"
 #include "Data.h"
-#include "Graph.h"
 
 namespace Hive
 {
@@ -78,7 +77,7 @@ namespace Hive
 		const glm::vec3& light_direction() { return directional_light_direction; }
 		const glm::vec3& background() { return background_color; }
 
-		const Graph* get_nav_mesh() { return nav_mesh; }
+		Graph* get_nav_mesh() { return nav_mesh; }
 
 		void load(GLuint shader, XMLIterator map_iter, int& player_handle);
 		void update(float delta);

@@ -8,15 +8,17 @@
  ***************************
  */
 
-#include "Component.h"
-
-#include <vector>
 
 #include "BaseHeuristic.h"
+#include "Component.h"
+#include "EuclideanHeuristic.h"
 #include "Graph.h"
+#include "IGameWorld.h"
 #include "Node.h"
 #include "PriorityQueue.h"
 #include "Unit.h"
+
+#include <vector>
 
 using namespace std;
 
@@ -43,13 +45,14 @@ namespace Hive
 		void update_component(float delta);
 		~AIComponent();
 
-		void pathfind_a_star(Graph& graph, Node* start, Node* end, BaseHeuristic* heuristic);
+		void pathfind_a_star(Graph* graph, Node& start, Node& end, BaseHeuristic& heuristic);
 		void set_unit_handle(int);
 		void set_player_handle(int);
 
 	private:
 		int unit_handle;//unit that uses this component
 		int player_handle;//handle for player's unit (currently assuming there is only one player unit in the game)
+		glm::vec2 cached_player_position;
 
 		vector<Node*> nav_path;
 
