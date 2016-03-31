@@ -18,6 +18,9 @@
 #include "PriorityQueue.h"
 #include "Unit.h"
 
+#include <iostream>
+#include <limits>
+#include <math.h>
 #include <vector>
 
 using namespace std;
@@ -62,6 +65,9 @@ namespace Hive
 		NodeRecord find(PriorityQueue<NodeRecord>& pq, Node* toFind);
 		NodeRecord find(vector<NodeRecord>& closed, Node* toFind);
 		void remove(vector<NodeRecord>& closed, NodeRecord toRemove);
+		float distance(glm::vec2 a, glm::vec2 b);
+		void smooth_path();
+		bool ray_clear(Node* start, Node* end);
 	};
 
 }

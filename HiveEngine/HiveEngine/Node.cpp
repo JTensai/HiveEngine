@@ -40,3 +40,13 @@ Node* Node::get_parent()
 {
 	return parent;
 }
+
+void Node::set_width(int width)
+{
+	this->width = width;
+}
+
+void Node::set_depth(int depth)
+{
+	this->depth = depth;
+}
