@@ -21,9 +21,15 @@ void AIComponent::update_component(float delta)
 	float dist_to_player = distance(player_position, ai_position);
 	float player_position_delta = distance(player_position, cached_player_position);
 
-	//cout << "player position delta:" << player_position_delta << " dist to player:" << dist_to_player << endl;
+	if (dist_to_player >= perception_exit_radius || dist_to_player < 0.5f)
+	{
+		glm::vec2 target(ai_unit->get_position());
+		ai_unit->set_target(target);
+		nav_path.clear();
+		return;
+	}
 
-	if ((nav_path.size() == 0 || player_position_delta > 0.5f) && dist_to_player > 0.5)
+	if ((nav_path.size() == 0 || player_position_delta > 2.0f) && dist_to_player > 0.5 && dist_to_player <= perception_enter_radius)
 	{
 		cached_player_position = player_position;
 		IGameWorld* game_world = ServiceLocator::get_game_world();
@@ -33,7 +39,7 @@ void AIComponent::update_component(float delta)
 			nav_path[nav_path.size() - 1]->set_width(player_position.x);
 			nav_path[nav_path.size() - 1]->set_depth(player_position.y);
 
-			glm::vec2 target(nav_path[0]->get_width(), nav_path[0]->get_depth());
+			glm::vec2 target(nav_path[0]->get_width() + 0.5, nav_path[0]->get_depth() + 0.5);
 			ai_unit->set_target(target);
 		}
 		return;
@@ -44,7 +50,7 @@ void AIComponent::update_component(float delta)
 		return;
 	}
 
-	float dist_to_target = distance(ai_position, glm::vec2(nav_path[0]->get_width(), nav_path[0]->get_depth()));
+	float dist_to_target = distance(ai_position, glm::vec2(nav_path[0]->get_width() + 0.5, nav_path[0]->get_depth() + 0.5));
 
 	if (dist_to_target <= 0.25f)
 	{
@@ -52,7 +58,7 @@ void AIComponent::update_component(float delta)
 
 		if (nav_path.size() > 0)
 		{
-			glm::vec2 target(nav_path[0]->get_width(), nav_path[0]->get_depth());
+			glm::vec2 target(nav_path[0]->get_width() + 0.5, nav_path[0]->get_depth() + 0.5);
 			ai_unit->set_target(target);
 		}
 	}
@@ -144,11 +150,6 @@ void AIComponent::generate_path(Node* curr, Node* start)
 	nav_path.clear();
 	nav_path.insert(nav_path.begin(), curr);
 
-//	if (curr->get_parent() == nullptr)
-//	{
-//		return;
-//	}
-
 	while (curr->get_parent() != nullptr)
 	{
 		Node* temp = curr;
@@ -157,6 +158,7 @@ void AIComponent::generate_path(Node* curr, Node* start)
 		nav_path.insert(nav_path.begin(), curr);
 	}
 	smooth_path();
+	nav_path.erase(nav_path.begin());
 }
 
 bool AIComponent::contains(PriorityQueue<NodeRecord>& pq, Node* node)
@@ -346,17 +348,24 @@ bool AIComponent::ray_clear(Node* start, Node* end)
 
 	const float offset = 0.2f;
 
-	float normalize_diff_x = float(diff_x) / float(abs(diff_y));
-	float normalize_diff_y = diff_y > 0 ? 1 : -1; // = diff_y / diff_y
-	float curr_x = start->get_width();
-	float curr_y = start->get_depth();
+	//tan(@) = opposite / adjacent
+	//@ = atan2(opposite/adjacent)
+	float angle = abs(atan2(diff_y, diff_x));// 0 <= angle <= PI
+	//angle = angle > PI / 2 ? PI - angle : angle;
+	const float x_offset = diff_x > 0 ? cos(angle) * offset : cos(angle) * offset * -1;// adjacent = cos(@) * hypotenuse
+	const float y_offset = diff_y > 0 ? sin(angle) * offset : sin(angle) * offset * -1;// opposite = sin(@) * hypotenuse
+
+	//float normalize_diff_x = float(diff_x) / float(abs(diff_y));
+	//float normalize_diff_y = diff_y > 0 ? 1 : -1; // = diff_y / diff_y
+	float curr_x = start->get_width() - 0.5;
+	float curr_y = start->get_depth() - 0.5;
 	int curr_width = curr_x;
 	int curr_depth = curr_y;
 
 	do
 	{
-		curr_x += (normalize_diff_x * offset);
-		curr_y += (normalize_diff_y * offset);
+		curr_x += x_offset;
+		curr_y += y_offset;
 		curr_width = int(curr_x);
 		curr_depth = int(curr_y);
 
@@ -364,4 +373,14 @@ bool AIComponent::ray_clear(Node* start, Node* end)
 
 	} while (curr_width != end->get_width() && curr_depth != end->get_depth());
 	return true;
+}
+
+void AIComponent::set_perception_enter_radius(float enter_radius)
+{
+	perception_enter_radius = enter_radius;
+}
+
+void AIComponent::set_perception_exit_radius(float exit_radius)
+{
+	perception_exit_radius = exit_radius;
 }

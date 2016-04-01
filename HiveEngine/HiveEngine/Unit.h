@@ -55,6 +55,8 @@ namespace Hive
 		int get_player() { return player_owner; }
 		void set_player(int player) { player_owner = player; }
 
+		void set_speed(float speed) { this->speed = speed; }
+
 		~Unit();
 	};
 
