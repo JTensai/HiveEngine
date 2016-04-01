@@ -205,7 +205,7 @@ void Game::draw() {
 
 	ServiceLocator::get_component_manager()->draw(world_view_projection);
 
-	//ServiceLocator::getUIManager()->draw();
+	ServiceLocator::get_ui_manager()->draw();
 }
 
 

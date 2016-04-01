@@ -4,6 +4,7 @@
 #include "glm\gtc\matrix_transform.hpp"
 #include <vector>
 #include "UIElement.h"
+#include "Material.h"
 
 namespace Hive
 {
