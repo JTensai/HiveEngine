@@ -45,22 +45,52 @@ namespace Hive
 
 
 		// temp test stuff
-		UIElement action_bar = UIElement(glm::vec2(.25, 0), 0.5f, 0.1f);
-		elements.push_back(action_bar);
+		// UIElement(bottom_left(vec2), width (0-1), height (0-1))
 
-		UIElement rotate_test = UIElement(glm::vec2(.4, .4), .2, .2);
+		/* Screen layout
+		   1|
+			|
+			|
+		Y	|
+			|
+			|
+		   0|________________
+			 0		X		1		
+		*/
+		DTexture* data = new DTexture();
+		Texture texture = Texture("resources/texture.jpg", data);
+		
+		/*UIElement action_bar = UIElement(glm::vec2(.25, 0), 0.5f, 0.1f , texture);
+		elements.push_back(action_bar);*/
+
+
+		/*UIElement center_test = UIElement(glm::vec2(.4625, .45), .075, .1, Texture("resources/texture.jpg", data));
+		elements.push_back(center_test);*/
+
+
+
+
+	/*	UIElement rotate_test = UIElement(glm::vec2(.45, .45), .1, .1);
 		rotate_test.rotation = 90;
 		elements.push_back(rotate_test);
 
+		UIElement rotate_test2 = UIElement(glm::vec2(.0, .0), .2, .2);
+		rotate_test.rotation = 90;
+		elements.push_back(rotate_test2);
 
-		UIElement center_test = UIElement(glm::vec2(.45,.45), .1, .1);
-		elements.push_back(center_test);
+		UIElement rotate_test3 = UIElement(glm::vec2(.7, .7), .1, .1);
+		rotate_test.rotation = 90;
+		elements.push_back(rotate_test3);*/
+
+
 
 		//elements.push_back(UIElement(glm::vec2(50, 50), 30.0f, 10.0f, 0));
 	}
 
 	void UIManager::update(float delta) {
-
+		//elements[1].rotation += 1 * delta;
+		//elements[2].rotation += 1 * delta;
+		//elements[3].rotation += 1 * delta;
 	}
 
 	void UIManager::draw()
@@ -84,32 +114,39 @@ namespace Hive
 
 		for(UIElement element : elements)
 		{
-
-			//glm::vec3 center = glm::vec3(0, 0, 1);
-			//glm::vec3 center = glm::vec3(element.width / 2, element.height / 2, 1);
-			//glm::vec3 center = glm::vec3(element.bottom_left.x, element.bottom_left.y, 1);
-			glm::vec3 center = glm::vec3(element.bottom_left.x + (element.width / 2), element.bottom_left.y + (element.height) / 2, 1);
-
 			glm::mat4 projection = glm::ortho(0.0f, 1.0f, 0.0f, 1.0f);
-			//glm::mat4 projection = glm::ortho(0.0f, 1.0f, 1.0f, 0.0f);
-			glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(element.bottom_left.x, element.bottom_left.y, 0.0f));
-			glm::mat4 rotate = glm::rotate(glm::mat4(), element.rotation, center);
+
+			// Rotation is not working correctly. If the object is centered on screen this works. if not, then it starts rotating strangely
+			glm::mat4 untrans_for_rot = glm::translate(glm::mat4(), glm::vec3(-element.bottom_left.x - (element.width / 2), -element.bottom_left.y - (element.height) / 2, 0));
+			glm::mat4 rotate = glm::rotate(glm::mat4(), element.rotation, glm::vec3(0, 0, 1));
+			glm::mat4 retrans_after_rot = glm::translate(glm::mat4(), glm::vec3(element.bottom_left.x + (element.width / 2), element.bottom_left.y + (element.height) / 2, 0));
+
 			glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(element.width, element.height, 1.0f));
-			glm::mat4 combined = projection * translate * scale * rotate;
+			glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(element.bottom_left.x, element.bottom_left.y, 0.0f));
 
-
-			/*glm::mat4 scale = glm::scale(glm::mat4(), glm::vec3(element.width, element.height, 1));
-			glm::mat4 translate = glm::translate(glm::mat4(), glm::vec3(element.bottom_left.x, element.bottom_left.y, 0));
-			glm::mat4 rotate = glm::rotate(glm::mat4(), 90.0f, glm::vec3(0,0,1));
-			glm::mat4 combined = glm::ortho(0.0f, 1.0f, 0.0f, 1.0f) * translate * scale * rotate;*/
-
+			glm::mat4 combined = projection * translate * scale * retrans_after_rot * rotate * untrans_for_rot;
 
 			// tell the graphics card about the current matrix being used
 			glUniformMatrix4fv(ui_shader_matrix_id, 1, GL_FALSE, &combined[0][0]);
 
+
+
+
+			//for (NormalDrawCall draw_call : normal_draws)
+			//{
+			/*	int material_handle = -1;
+				const DMaterial* material = nullptr;
+
+					material_handle = 0;
+					material = DMaterial::getItem(material_handle);
+					material->bind();*/
+				
+			//}
+
+
+
 			// draw the element
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
-			//element.draw();
 		}
 
 		glDisableVertexAttribArray(0);

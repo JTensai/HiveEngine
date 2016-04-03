@@ -14,6 +14,8 @@ public:
 	~Node();
 	int get_width();
 	int get_depth();
+	void set_width(int width);
+	void set_depth(int depth);
 	float distance_to(Node* toNode);
 	void set_parent(Node* parent);
 	Node* get_parent();

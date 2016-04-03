@@ -173,8 +173,11 @@ void GameWorld::load(GLuint shader, XMLIterator map_iter, int& player_handle)
 
 	nav_mesh = new Graph(map, map_width, map_depth);
 
-	glm::vec2 ai_spawn_point(14,14);
+	glm::vec2 ai_spawn_point(7,10);
 	int ai_handle = component_manager->spawn_ai_unit(ai_spawn_point, DUnit::getIndex(player_type), LOCAL_PLAYER, player_handle);
+	Unit* ai_unit = Unit::get_component(ai_handle);
+	ai_unit->set_speed(2.0f);
+
 
 	GameWorld::shader = shader;
 	generate_mesh();

@@ -62,6 +62,8 @@ namespace Hive
 		AIComponent* ai_component = AIComponent::get_component(ai_component_handle);
 		ai_component->set_unit_handle(unit_handle);
 		ai_component->set_player_handle(player_unit_handle);
+		ai_component->set_perception_enter_radius(4.5f);
+		ai_component->set_perception_exit_radius(8.0f);
 
 		return unit_handle;
 	}
