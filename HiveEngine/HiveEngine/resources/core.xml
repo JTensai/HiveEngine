@@ -307,15 +307,15 @@
 
 	<ParticleSystem id="BaseParticleSystem">
 		<Emitters>
-			<ParticleEmitter id="BaseEmitter"/>
+			<ParticleEmitter value="BASE_EMITTER"/>
 		</Emitters>
 	</ParticleSystem>
 
-	<ParticleEmitter id="BaseEmitter">
+	<ParticleEmitter id="BASE_EMITTER">
 		<BaseVariables>
 			<EmitterName value="ParticleEmitter"/>
 			<BlendingMode value="Transparent"/>
-			<Texture value="BASE_TEXTURE"/>
+			<Material value="BASE_MATERIAL"/>
 			<EmitterLocalOrigin>
 				<X value="0"/>
 				<Y value="0"/>
@@ -331,7 +331,7 @@
 			</InitialSize>
 			<InitialVelocity>
 				<X value="0.0"/>
-				<Y value="0.0"/>
+				<Y value="5.0"/>
 				<Z value="0.0"/>
 			</InitialVelocity>
 		</BaseVariables>
@@ -347,7 +347,7 @@
 		</SubUVVariables>
 <!-- EXAMPLE:
 	<Modules>
-		<ColorOverLife id="TurnRed"/>
+		<ColorOverLife value="TurnRed"/>
 	</Modules>
 -->
 	</ParticleEmitter>

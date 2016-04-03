@@ -4,6 +4,8 @@
 #include <vector>
 #include <glm/glm.hpp>
 
+#include "DataCollection.h"
+
 namespace Hive
 {
 	class DParticleSystem : public DataCollection<DParticleSystem> 
@@ -16,7 +18,7 @@ namespace Hive
 	public:
 		std::string emitterName;
 		std::string blendingMode;
-		int texture_handle;
+		int mat_handle;
 		glm::vec3 emitterLocalOrigin;
 		glm::vec2 lifetime;
 		glm::vec2 initialSize;

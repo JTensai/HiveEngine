@@ -17,6 +17,10 @@ namespace Hive
 	void ComponentManager::load()
 	{
 		//Debug Emitters
+		int p = ParticleSystemComponent::create_component();
+		ParticleSystemComponent* pSystem = ParticleSystemComponent::get_component(p);
+
+		pSystem->load_from_data(DParticleSystem::getIndex("BaseParticleSystem"), glm::vec3(0,0,0));
 	}
 
 	void ComponentManager::update_free(float delta)

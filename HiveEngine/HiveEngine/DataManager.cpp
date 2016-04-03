@@ -458,12 +458,12 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("BlendingMode");
 			if (iter.isValid()) emitter->blendingMode = subiter.getValue();
 
-			subiter = iter.getChildrenOfName("Texture");
+			subiter = iter.getChildrenOfName("Material");
 			if (subiter.isValid())
 			{
 				int temp_handle;
-				linkData<DTexture>(subiter, &temp_handle);
-				emitter->texture_handle = temp_handle;
+				linkData<DMaterial>(subiter, &temp_handle);
+				emitter->mat_handle = temp_handle;
 			}
 
 			subiter = iter.getChildrenOfName("EmitterLocalOrigin");

@@ -10,6 +10,7 @@
 #include "PlayerInputComponent.h"
 #include "IComponentManager.h"
 #include "Unit.h"
+#include "ParticleSystemData.h"
 
 namespace Hive
 {
