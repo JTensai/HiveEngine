@@ -24,10 +24,10 @@ void ParticleSystemComponent::draw_component(const glm::mat4& VP)
 	}
 }
 
-void ParticleSystemComponent::load_from_data(int data_handle, glm::vec3 origin)
+void ParticleSystemComponent::load_from_data(DParticleSystemHandle data_handle, glm::vec3 origin)
 {
+	ParticleSystemComponent::origin = origin;
 	DParticleSystem* data = DParticleSystem::getItem(data_handle);
-	origin = origin;
 
 	for (unsigned int i = 0; i < data->emitters_handles.size(); i++)
 	{

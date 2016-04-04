@@ -6,7 +6,7 @@ ParticleEmitter::ParticleEmitter()
 {
 }
 
-ParticleEmitter::ParticleEmitter(int data_handle)
+ParticleEmitter::ParticleEmitter(DParticleEmitterHandle data_handle)
 {
 	data = DParticleEmitter::getItem(data_handle);
 	time_between_particle_spawns = 1.0f / data->constantRate;

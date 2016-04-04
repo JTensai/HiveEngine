@@ -7,28 +7,28 @@ bool Validators::validate(EffectTree* effectTree, DValidator* validator)
 	switch (validator->u.dBase.type)
 	{
 	case ValidatorType::BEHAVIOR_COUNT:
-		return validate(effectTree, (DValidatorBehaviorCount*) &(validator->u));
+		return validate(effectTree, &(validator->u.dBehaviorCount));
 		break;
 	case ValidatorType::COMBINE:
-		return validate(effectTree, (DValidatorCombine*)&(validator->u));
+		return validate(effectTree, &(validator->u.dCombine));
 		break;
 	case ValidatorType::COMPARE_VITAL:
-		return validate(effectTree, (DValidatorCompareVital*)&(validator->u));
+		return validate(effectTree, &(validator->u.dCompareVital));
 		break;
 	case ValidatorType::CONDITION:
-		return validate(effectTree, (DValidatorCondition*)&(validator->u));
+		return validate(effectTree, &(validator->u.dCondition));
 		break;
 	case ValidatorType::FILTER_UNIT:
-		return validate(effectTree, (DValidatorFilterUnit*)&(validator->u));
+		return validate(effectTree, &(validator->u.dFilterUnit));
 		break;
 	case ValidatorType::LOCATION_PATHABLE:
-		return validate(effectTree, (DValidatorLocationPathable*)&(validator->u));
+		return validate(effectTree, &(validator->u.dLocationPathable));
 		break;
 	case ValidatorType::LOCATION_RANGE:
-		return validate(effectTree, (DValidatorLocationRange*)&(validator->u));
+		return validate(effectTree, &(validator->u.dLocationRange));
 		break;
 	case ValidatorType::PLAYER:
-		return validate(effectTree, (DValidatorPlayer*)&(validator->u));
+		return validate(effectTree, &(validator->u.dPlayer));
 		break;
 	default:
 		throw ValidatorException("Unknown validator type encountered.");

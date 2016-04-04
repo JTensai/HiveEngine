@@ -34,12 +34,7 @@ namespace Hive
 
 		void xmlFirstPassParticleSystem(XMLIterator xmliter);
 		void xmlFirstPassParticleEmitter(XMLIterator xmliter);
-		void xmlFirstPassModuleSizeOverLife(XMLIterator xmliter);
-		void xmlFirstPassModuleColorOverLife(XMLIterator xmliter);
-		void xmlFirstPassModuleInitialRotation(XMLIterator xmliter);
-		void xmlFirstPassModuleInitialRotationRate(XMLIterator xmliter);
-		void xmlFirstPassModuleSubImageIndexOverLife(XMLIterator xmliter);
-		void xmlFirstPassModuleSubImageIndexRandom(XMLIterator xmliter);
+		void xmlFirstPassModules(XMLIterator xmliter);
 
 		void xmlSecondPass(XMLInterface& xmlif);
 
@@ -144,7 +139,7 @@ namespace Hive
 			}
 			else
 			{
-				throw DataErrorException("Model parent specified but not found: " + parentId);
+				throw DataErrorException("Parent specified but not found: " + parentId);
 			}
 		}
 	}

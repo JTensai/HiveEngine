@@ -21,7 +21,7 @@ namespace Hive {
 		float time_since_last_spawn;
 	public:
 		ParticleEmitter();
-		ParticleEmitter(int data_handle);
+		ParticleEmitter(DParticleEmitterHandle data_handle);
 		void draw(glm::vec3 origin);
 		void update(float delta);
 		~ParticleEmitter();

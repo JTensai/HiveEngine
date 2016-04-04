@@ -26,7 +26,7 @@ namespace Hive
 		ParticleSystemComponent();
 		void update_component(float delta);
 		void draw_component(const glm::mat4& VP);
-		void load_from_data(int data_handle, glm::vec3 origin);
+		void load_from_data(DParticleSystemHandle data_handle, glm::vec3 origin);
 		~ParticleSystemComponent();
 	};
 

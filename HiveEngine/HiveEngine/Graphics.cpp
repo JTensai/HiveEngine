@@ -7,7 +7,7 @@ void Graphics::update_view_projection_matrix(glm::mat4 view_projection_matrix)
 	Graphics::view_projection_matrix = view_projection_matrix;
 }
 
-void Graphics::queue_draw(DrawShader shader, glm::mat4 transform, int mesh, int material)
+void Graphics::queue_draw(DrawShader shader, glm::mat4 transform, MeshHandle mesh, DMaterialHandle material)
 {
 	switch (shader)
 	{
