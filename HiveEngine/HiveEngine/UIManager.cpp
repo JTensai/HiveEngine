@@ -19,12 +19,12 @@ namespace Hive
 		projection_matrix = glm::ortho(0,1,1,0);
 
 		// sets up the verticies of our custom square mesh with 4 corners
-		verts = new float [12]
+		verts = new float [20]
 		{
-			0,0,0,
-			1,0,0,
-			1,1,0,
-			0,1,0
+			0,0,0,1,1,
+			1,0,0,1,0,
+			1,1,0,0,0,
+			0,1,0,0,1,
 		};
 		// All polygons in a mesh need to be tris, this is where we define the tris of our square mesh. These are the indices of the verts in the above array
 		indices = new unsigned short [6]
@@ -36,7 +36,7 @@ namespace Hive
 		// sends the verts array to the graphics card so it knows how to draw them
 		glGenBuffers(1, &VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, 4 * 3 * sizeof(float), verts, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, 4 * 5 * sizeof(float), verts, GL_STATIC_DRAW);
 
 		// sends the indices array to the praphics card to it knows how to draw them
 		glGenBuffers(1, &IBO);
@@ -60,8 +60,8 @@ namespace Hive
 		//DTexture* data = new DTexture();
 		//Texture texture = Texture("resources/texture.jpg", data);
 		
-		/*UIElement action_bar = UIElement(glm::vec2(.25, 0), 0.5f, 0.1f , texture);
-		elements.push_back(action_bar);*/
+		UIElement action_bar = UIElement(glm::vec2(.25, 0), 0.5f, 0.1f , DTexture::getIndex("HEART"));
+		elements.push_back(action_bar);
 
 
 		/*UIElement center_test = UIElement(glm::vec2(.4625, .45), .075, .1, Texture("resources/texture.jpg", data));
@@ -101,15 +101,24 @@ namespace Hive
 
 		// in the currently assigned shader on the graphics card, set its "0" variable
 		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glVertexAttribPointer(
 			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
 			3,                  // size
 			GL_FLOAT,           // type
 			GL_FALSE,           // normalized?
-			0,                  // stride
+			5 * sizeof(float),  // stride
 			(void*)0            // array buffer offset
-		);
+			);
+		glVertexAttribPointer(
+			1,								// attribute 0. No particular reason for 0, but must match the layout in the shader.
+			2,								// size
+			GL_FLOAT,						// type
+			GL_FALSE,						// normalized?
+			5 * sizeof(float),				// stride
+			(void*)(3 * sizeof(float))      // array buffer offset
+			);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
 		for(UIElement element : elements)
@@ -128,6 +137,9 @@ namespace Hive
 
 			// tell the graphics card about the current matrix being used
 			glUniformMatrix4fv(ui_shader_matrix_id, 1, GL_FALSE, &combined[0][0]);
+
+			const Texture* tex = (DTexture::getItem(element.texture_handle))->getAsset();
+			glBindTexture(GL_TEXTURE_2D, tex->get_handle());
 
 
 
@@ -150,6 +162,7 @@ namespace Hive
 		}
 
 		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
 		// foreach ui element
 			// make translation matrix
 			// make scale matrix
