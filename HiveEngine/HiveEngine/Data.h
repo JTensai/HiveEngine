@@ -11,9 +11,29 @@
 
 namespace Hive
 {
-	const int LOCAL_PLAYER = 0;
-	const int NEUTRAL_PLAYER = 1;
-	const int HOSTILE_PLAYER = 2;
+#pragma region Typedefs
+	//typedef int Handle; This is defined in DataCollection.h
+
+	typedef Handle DAbilityHandle;
+	typedef Handle DActorHandle;
+	typedef Handle DBehaviorHandle;
+	typedef Handle DEffectHandle;
+	typedef Handle DMaterialHandle;
+	typedef Handle DModelHandle;
+	typedef Handle DUnitHandle;
+	typedef Handle DTextureHandle;
+	typedef Handle DValidatorHandle;
+
+	typedef Handle AIHandle;
+	typedef Handle MeshHandle;
+	typedef Handle UnitHandle;
+	typedef Handle ActorHandle;
+	typedef Handle PlayerHandle;
+
+	const PlayerHandle LOCAL_PLAYER = 0;
+	const PlayerHandle NEUTRAL_PLAYER = 1;
+	const PlayerHandle HOSTILE_PLAYER = 2;
+#pragma endregion
 #pragma region Enums
 	enum class EffectUnitEnum {
 		CASTER_UNIT,
@@ -34,6 +54,7 @@ namespace Hive
 		CASTER_PLAYER,
 		SOURCE_PLAYER,
 		TARGET_PLAYER,
+		LOCAL_PLAYER,
 		NEUTRAL_PLAYER,
 		HOSTILE_PLAYER,
 		NONE_PLAYER
@@ -100,31 +121,31 @@ namespace Hive
 #pragma endregion
 #pragma region Structs
 	struct Order {
-		int abilityID;
+		DAbilityHandle abilityID;
 		AbilityType type;
-		int targetUnit;
+		UnitHandle targetUnit;
 		glm::vec2 targetPoint;
 	};
 
 	struct EffectList {
-		int effectInitial;
-		int effectPeriodic;
-		int effectFinal;
-		int effectExpire;
+		DEffectHandle effectInitial;
+		DEffectHandle effectPeriodic;
+		DEffectHandle effectFinal;
+		DEffectHandle effectExpire;
 	};
 
 	struct EffectUnit {
-		int effectHandle;
+		DEffectHandle effectHandle;
 		EffectUnitEnum unit;
 	};
 
 	struct EffectLocation {
-		int effectHandle;
+		DEffectHandle effectHandle;
 		EffectLocationEnum location;
 	};
 
 	struct EffectPlayer {
-		int effectHandle;
+		DEffectHandle effectHandle;
 		EffectPlayerEnum player;
 	};
 
@@ -173,13 +194,13 @@ namespace Hive
 	};
 
 	struct ValidatorConditionCase {
-		int ifValidator;
-		int thenValidator;
+		DValidatorHandle ifValidator;
+		DValidatorHandle thenValidator;
 	};
 
 	struct EffectSwitchCase {
-		int ifValidator;
-		int thenEffect;
+		DValidatorHandle ifValidator;
+		DEffectHandle thenEffect;
 	};
 #pragma endregion
 
@@ -198,18 +219,9 @@ namespace Hive
 
 		Attributes attributes;
 
-		int actorDataHandle;
-		std::vector<int> behaviorHandles;
-		std::vector<int> abilityHandles;
-	};
-#pragma endregion
-
-#pragma region Actors
-	class DActor : public DataCollection<DActor>
-	{
-	public:
-		int dModelHandle;
-		int dMaterialHandle;
+		DActorHandle actorDataHandle;
+		std::vector<DBehaviorHandle> behaviorHandles;
+		std::vector<DAbilityHandle> abilityHandles;
 	};
 #pragma endregion
 
@@ -220,11 +232,20 @@ namespace Hive
 		AbilityType type;
 		std::string name;
 		std::string tooltip;
-		int iconTextureHandle;
+		DTextureHandle iconTextureHandle;
 		Cost cost;
 		EffectList effects;
 		float range;
 		UnitFilter targetFilter;
+	};
+#pragma endregion
+
+#pragma region Actors
+	class DActor : public DataCollection<DActor>
+	{
+	public:
+		DModelHandle dModelHandle;
+		DMaterialHandle dMaterialHandle;
 	};
 #pragma endregion
 
@@ -234,7 +255,7 @@ namespace Hive
 	public:
 		std::string name;
 		std::string tooltip;
-		int icon_texture_handle;
+		DTextureHandle icon_texture_handle;
 		bool is_visible;
 		Vitals
 			vital_delta,
@@ -257,14 +278,14 @@ namespace Hive
 	};
 
 	struct DValidatorBehaviorCount : DValidatorBase {
-		int behaviorDataHandle;
+		DBehaviorHandle behaviorDataHandle;
 		CompareMethod method;
 		int constant;
 	};
 
 	struct DValidatorCombine : DValidatorBase {
 		ValidatorCombineType combineType;
-		std::vector<int> handles;
+		std::vector<DValidatorHandle> handles;
 	};
 
 	struct DValidatorCompareVital : DValidatorBase {
@@ -277,7 +298,7 @@ namespace Hive
 	};
 	struct DValidatorCondition : DValidatorBase {
 		std::vector<ValidatorConditionCase> cases;
-		int elseHandle;
+		DValidatorHandle elseHandle;
 	};
 	struct DValidatorLocationRange : DValidatorBase {
 		EffectLocation sourceLocation;
@@ -354,7 +375,7 @@ namespace Hive
 #pragma region Effects
 	struct DEffectBase {
 		EffectType type;
-		int validatorHandle;
+		DValidatorHandle validatorHandle;
 	};
 
 	struct DEffectModifyUnit : DEffectBase {
@@ -369,25 +390,25 @@ namespace Hive
 	};
 
 	struct DEffectSet : DEffectBase {
-		std::vector<int> effectHandles;
+		std::vector<DEffectHandle> effectHandles;
 	};
 
 	struct DEffectSetBehavior : DEffectBase {
 		EffectUnit unit;
-		int behaviorDataHandle;
+		DBehaviorHandle behaviorDataHandle;
 		int amount;
 		bool relative;
 	};
 
 	struct DEffectSpawnUnit : DEffectBase {
-		int unitDataHandle;
+		DUnitHandle unitDataHandle;
 		EffectPlayer owner;
 		EffectLocation location;
 	};
 
 	struct DEffectSwitch : DEffectBase {
 		std::vector<EffectSwitchCase> cases;
-		int elseEffectHandle;
+		DEffectHandle elseEffectHandle;
 	};
 
 	union DEffectUnion {

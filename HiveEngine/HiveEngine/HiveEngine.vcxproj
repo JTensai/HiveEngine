@@ -191,6 +191,7 @@
     <ClCompile Include="tempmodel.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="Validators.cpp" />
     <ClCompile Include="XMLInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +242,7 @@
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UIManager.h" />
+    <ClInclude Include="Validators.h" />
     <ClInclude Include="XMLInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

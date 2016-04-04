@@ -422,7 +422,7 @@ void DataManager::xmlSecondPassParticleSystem(XMLIterator xmliter)
 			iter = iter.getChildrenOfName("ParticleEmitter");
 			while (iter.isValid())
 			{
-				int temp_handle;
+				Handle temp_handle;
 				linkData<DParticleEmitter>(iter, &temp_handle);
 				pSystem->emitters_handles.push_back(temp_handle);
 				iter = iter.next();
@@ -461,7 +461,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("Material");
 			if (subiter.isValid())
 			{
-				int temp_handle;
+				DMaterialHandle temp_handle;
 				linkData<DMaterial>(subiter, &temp_handle);
 				emitter->mat_handle = temp_handle;
 			}
@@ -536,7 +536,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("ModuleSizeOverLife");
 			if (subiter.isValid())
 			{
-				int temp_handle;
+				Handle temp_handle;
 				linkData<DModuleSizeOverLife>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle); 
 			}
@@ -544,7 +544,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("ModuleColorOverLife");
 			if (subiter.isValid())
 			{
-				int temp_handle;
+				Handle temp_handle;
 				linkData<DModuleColorOverLife>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
@@ -552,7 +552,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("ModuleInitialRotation");
 			if (subiter.isValid())
 			{
-				int temp_handle;
+				Handle temp_handle;
 				linkData<DModuleInitialRotation>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
@@ -560,7 +560,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("ModuleInitialRotationRate");
 			if (subiter.isValid())
 			{
-				int temp_handle;
+				Handle temp_handle;
 				linkData<DModuleInitialRotationRate>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
@@ -568,7 +568,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("ModuleSubImageIndexOverLife");
 			if (subiter.isValid())
 			{
-				int temp_handle;
+				Handle temp_handle;
 				linkData<DModuleSubImageIndexOverLife>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
@@ -576,7 +576,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("ModuleSubImageIndexRandom");
 			if (subiter.isValid())
 			{
-				int temp_handle;
+				Handle temp_handle;
 				linkData<DModuleSubImageIndexRandom>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
@@ -928,14 +928,14 @@ void DataManager::xmlParseAttributes(XMLIterator iter, Attributes* attributes)
 	}
 }
 
-void DataManager::xmlParseAbilityList(XMLIterator iter, std::vector<int>* abilities)
+void DataManager::xmlParseAbilityList(XMLIterator iter, std::vector<DAbilityHandle>* abilities)
 {
 	if (iter.isValid())
 	{
 		XMLIterator subIter = iter.getChildrenOfName("Ability");
 		while (subIter.isValid())
 		{
-			int tmp = -1;
+			DAbilityHandle tmp = -1;
 			linkData<DAbility>(subIter, &tmp);
 			if (tmp >= 0)
 			{
@@ -949,14 +949,14 @@ void DataManager::xmlParseAbilityList(XMLIterator iter, std::vector<int>* abilit
 		}
 	}
 }
-void DataManager::xmlParseBehaviorList(XMLIterator iter, std::vector<int>* behaviors)
+void DataManager::xmlParseBehaviorList(XMLIterator iter, std::vector<DBehaviorHandle>* behaviors)
 {
 	if (iter.isValid())
 	{
 		XMLIterator subIter = iter.getChildrenOfName("Behavior");
 		while (subIter.isValid())
 		{
-			int tmp = -1;
+			DBehaviorHandle tmp = -1;
 			linkData<DBehavior>(subIter, &tmp);
 			if (tmp >= 0)
 			{

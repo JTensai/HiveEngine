@@ -15,7 +15,7 @@ Actor::Actor()
 	d_material_handle = -1;
 }
 
-void Actor::loadFromData(int handle)
+void Actor::loadFromData(DActorHandle handle)
 {
 	DActor* data = DActor::getItem(handle);
 	d_model_handle = data->dModelHandle;

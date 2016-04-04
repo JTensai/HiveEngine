@@ -57,8 +57,8 @@ namespace Hive
 		   0|________________
 			 0		X		1		
 		*/
-		DTexture* data = new DTexture();
-		Texture texture = Texture("resources/texture.jpg", data);
+		//DTexture* data = new DTexture();
+		//Texture texture = Texture("resources/texture.jpg", data);
 		
 		/*UIElement action_bar = UIElement(glm::vec2(.25, 0), 0.5f, 0.1f , texture);
 		elements.push_back(action_bar);*/

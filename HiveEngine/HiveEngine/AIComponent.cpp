@@ -10,7 +10,7 @@ void AIComponent::update_component(float delta)
 {
 	//TODO: update component
 
-	Unit* player_unit = Unit::get_component(player_handle);
+	Unit* player_unit = Unit::get_component(player_unit_handle);
 	glm::vec2 player_position = player_unit->get_position();
 	Node goal(player_position.x, player_position.y);
 
@@ -231,14 +231,14 @@ void AIComponent::remove(vector<NodeRecord>& closed, NodeRecord toRemove)
 	}
 }
 
-void AIComponent::set_unit_handle(int unit_handle)
+void AIComponent::set_unit_handle(UnitHandle unit_handle)
 {
 	this->unit_handle = unit_handle;
 }
 
-void AIComponent::set_player_handle(int player_handle)
+void AIComponent::set_player_handle(UnitHandle player_handle)
 {
-	this->player_handle = player_handle;
+	this->player_unit_handle = player_handle;
 }
 
 float AIComponent::distance(glm::vec2 a, glm::vec2 b)

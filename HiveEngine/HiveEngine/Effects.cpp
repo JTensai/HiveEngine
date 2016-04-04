@@ -58,10 +58,12 @@ void Effects::eModifyUnit(EffectTree* effectTree, DEffectModifyUnit* effect)
 		throw EffectException("Error in ModifyUnit effect: " + e.msg);
 	}
 }
+
 void Effects::eSearch(EffectTree* effectTree, DEffectSearch* effect)
 {
 	throw UnimplementedException();
 }
+
 void Effects::eSet(EffectTree* effectTree, DEffectSet* set)
 {
 	std::vector<EffectTree*> new_effects;
@@ -76,10 +78,12 @@ void Effects::eSet(EffectTree* effectTree, DEffectSet* set)
 		Effects::launchEffect(new_effects[i]);
 	}
 }
+
 void Effects::eSetBehavior(EffectTree* effectTree, DEffectSetBehavior* effect)
 {
 	throw UnimplementedException();
 }
+
 void Effects::eSpawnUnit(EffectTree* effectTree, DEffectSpawnUnit* effect)
 {
 	try
@@ -97,6 +101,7 @@ void Effects::eSpawnUnit(EffectTree* effectTree, DEffectSpawnUnit* effect)
 		throw EffectException("Error in SpawnUnit effect: " + e.msg);
 	}
 }
+
 void Effects::eSwitch(EffectTree* effectTree, DEffectSwitch* effect)
 {
 	throw UnimplementedException();

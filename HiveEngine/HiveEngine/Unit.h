@@ -14,8 +14,8 @@ namespace Hive
 	class Unit : public Component<Unit>
 	{
 	private:
-		int actorHandle; //Actor
-		int dataHandle; //DUnit
+		ActorHandle actorHandle; //Actor
+		DUnitHandle dataHandle; //DUnit
 
 		float height;
 
@@ -35,14 +35,14 @@ namespace Hive
 		float cached_rotation;
 		float new_rotation;
 
-		int player_owner;
+		PlayerHandle player_owner;
 
 	public:
 		Unit();
-		void init_unit(int actor, int data, int player, glm::vec2 position);
+		void init_unit(ActorHandle actor, DUnitHandle data, PlayerHandle player, glm::vec2 position);
 		void update_component(float delta);
 
-		int get_actor() { return actorHandle; }
+		ActorHandle get_actor() { return actorHandle; }
 
 		void set_target(glm::vec2 target) { Unit::target = target; }
 
@@ -52,8 +52,8 @@ namespace Hive
 		Vitals get_vitals() { return cached_vitals; }
 		void set_vitals(Vitals vitals) { new_vitals = vitals; }
 
-		int get_player() { return player_owner; }
-		void set_player(int player) { player_owner = player; }
+		PlayerHandle get_player() { return player_owner; }
+		void set_player(PlayerHandle player) { player_owner = player; }
 
 		void set_speed(float speed) { this->speed = speed; }
 

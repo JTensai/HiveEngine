@@ -84,11 +84,11 @@ namespace Hive
 		void xmlParseFilter(XMLIterator iter, Filter* filter);
 		void xmlParseUnitFilter(XMLIterator iter, UnitFilter* filter);
 		void xmlParseAttributes(XMLIterator iter, Attributes* attributes);
-		void xmlParseAbilityList(XMLIterator iter, std::vector<int>* abilities);
-		void xmlParseBehaviorList(XMLIterator iter, std::vector<int>* behaviors);
+		void xmlParseAbilityList(XMLIterator iter, std::vector<DAbilityHandle>* abilities);
+		void xmlParseBehaviorList(XMLIterator iter, std::vector<DBehaviorHandle>* behaviors);
 
 		template <class T>
-		void linkData(XMLIterator iter, int* handle);
+		void linkData(XMLIterator iter, Handle* handle);
 
 		template <class T>
 		void copyParent(XMLIterator iter, T** t);
@@ -98,6 +98,7 @@ namespace Hive
 	public:
 		DataManager();
 
+		
 		int loadCoreData();
 		int loadXMLData(char* filename);
 
@@ -105,7 +106,7 @@ namespace Hive
 	};
 
 	template <class T>
-	void DataManager::linkData(XMLIterator iter, int* handle)
+	void DataManager::linkData(XMLIterator iter, Handle* handle)
 	{
 		if (iter.isValid())
 		{
@@ -138,7 +139,7 @@ namespace Hive
 		{
 			if (T::hasKey(parentId))
 			{
-				int index = T::getIndex(parentId);
+				Handle index = T::getIndex(parentId);
 				**t = *(T::getItem(index));
 			}
 			else

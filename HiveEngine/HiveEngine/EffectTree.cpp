@@ -50,7 +50,7 @@ EffectTree::EffectTree()
 	activeReferences = 0;
 }
 
-EffectTree* EffectTree::findEffect(int effect)
+EffectTree* EffectTree::findEffect(DEffectHandle effect)
 {
 	EffectTree* ptr = this;
 	if (effect == -1) return ptr;
@@ -71,7 +71,7 @@ EffectTree* EffectTree::findEffect(int effect)
 	throw EffectTreeException("Specified effect(" + std::to_string(effect) + ") not found in effect tree.");
 }
 
-EffectTree* EffectTree::findEffectDown(int effect)
+EffectTree* EffectTree::findEffectDown(DEffectHandle effect)
 {
 	if (EffectTree::effect == effect) return this;
 
@@ -85,22 +85,22 @@ EffectTree* EffectTree::findEffectDown(int effect)
 	return nullptr;
 }
 
-int EffectTree::setEffect(int effect)
+DEffectHandle EffectTree::setEffect(DEffectHandle effect)
 {
 	EffectTree::effect = effect;
 	return effect;
 }
-int EffectTree::getEffect()
+DEffectHandle EffectTree::getEffect()
 {
 	return effect;
 }
 
-int EffectTree::setCastingUnit(int castingUnit)
+UnitHandle EffectTree::setCastingUnit(UnitHandle castingUnit)
 {
 	EffectTree::castingUnit = castingUnit;
 	return castingUnit;
 }
-int EffectTree::getCastingUnit(int effect)
+UnitHandle EffectTree::getCastingUnit(DEffectHandle effect)
 {
 	EffectTree* ptr = findEffect(effect);
 	while (ptr->castingUnit == -1 && ptr->parent != nullptr)
@@ -111,12 +111,12 @@ int EffectTree::getCastingUnit(int effect)
 	return ptr->castingUnit;
 }
 
-int EffectTree::setCastingPlayer(int castingPlayer)
+PlayerHandle EffectTree::setCastingPlayer(PlayerHandle castingPlayer)
 {
 	EffectTree::castingPlayer = castingPlayer;
 	return castingPlayer;
 }
-int EffectTree::getCastingPlayer(int effect)
+PlayerHandle EffectTree::getCastingPlayer(DEffectHandle effect)
 {
 	EffectTree* ptr = findEffect(effect);
 	while (ptr->castingPlayer == -1 && ptr->parent != nullptr)
@@ -133,7 +133,7 @@ glm::vec2 EffectTree::setCasterLocation(glm::vec2 casterLocation)
 	hasCasterLocation = true;
 	return casterLocation;
 }
-glm::vec2 EffectTree::getCasterLocation(int effect)
+glm::vec2 EffectTree::getCasterLocation(DEffectHandle effect)
 {
 	EffectTree* ptr = findEffect(effect);
 	while (!ptr->hasCasterLocation && ptr->parent != nullptr)
@@ -144,12 +144,12 @@ glm::vec2 EffectTree::getCasterLocation(int effect)
 	return ptr->casterLocation;
 }
 
-int EffectTree::setSourceUnit(int sourceUnit)
+UnitHandle EffectTree::setSourceUnit(UnitHandle sourceUnit)
 {
 	EffectTree::sourceUnit = sourceUnit;
 	return sourceUnit;
 }
-int EffectTree::getSourceUnit(int effect)
+UnitHandle EffectTree::getSourceUnit(DEffectHandle effect)
 {
 	EffectTree* ptr = findEffect(effect);
 	while (ptr->sourceUnit == -1 && ptr->parent != nullptr)
@@ -160,12 +160,12 @@ int EffectTree::getSourceUnit(int effect)
 	return ptr->sourceUnit;
 }
 
-int EffectTree::setSourcePlayer(int sourcePlayer)
+PlayerHandle EffectTree::setSourcePlayer(PlayerHandle sourcePlayer)
 {
 	EffectTree::sourcePlayer = sourcePlayer;
 	return sourcePlayer;
 }
-int EffectTree::getSourcePlayer(int effect)
+PlayerHandle EffectTree::getSourcePlayer(DEffectHandle effect)
 {
 	EffectTree* ptr = findEffect(effect);
 	while (ptr->sourcePlayer == -1 && ptr->parent != nullptr)
@@ -182,7 +182,7 @@ glm::vec2 EffectTree::setSourceLocation(glm::vec2 sourceLocation)
 	hasSourceLocation = true;
 	return sourceLocation;
 }
-glm::vec2 EffectTree::getSourceLocation(int effect)
+glm::vec2 EffectTree::getSourceLocation(DEffectHandle effect)
 {
 	EffectTree* ptr = findEffect(effect);
 	while (!ptr->hasSourceLocation && ptr->parent != nullptr)
@@ -193,12 +193,12 @@ glm::vec2 EffectTree::getSourceLocation(int effect)
 	return ptr->sourceLocation;
 }
 
-int EffectTree::setTargetUnit(int targetUnit)
+UnitHandle EffectTree::setTargetUnit(UnitHandle targetUnit)
 {
 	EffectTree::targetUnit = targetUnit;
 	return targetUnit;
 }
-int EffectTree::getTargetUnit(int effect)
+UnitHandle EffectTree::getTargetUnit(DEffectHandle effect)
 {
 	EffectTree* ptr = findEffect(effect);
 	while (ptr->targetUnit == -1 && ptr->parent != nullptr)
@@ -209,12 +209,12 @@ int EffectTree::getTargetUnit(int effect)
 	return ptr->targetUnit;
 }
 
-int EffectTree::setTargetPlayer(int targetPlayer)
+PlayerHandle EffectTree::setTargetPlayer(PlayerHandle targetPlayer)
 {
 	EffectTree::targetPlayer = targetPlayer;
 	return targetPlayer;
 }
-int EffectTree::getTargetPlayer(int effect)
+PlayerHandle EffectTree::getTargetPlayer(DEffectHandle effect)
 {
 	EffectTree* ptr = findEffect(effect);
 	while (ptr->targetPlayer == -1 && ptr->parent != nullptr)
@@ -231,7 +231,7 @@ glm::vec2 EffectTree::setTargetLocation(glm::vec2 targetLocation)
 	hasTargetLocation = true;
 	return targetLocation;
 }
-glm::vec2 EffectTree::getTargetLocation(int effect)
+glm::vec2 EffectTree::getTargetLocation(DEffectHandle effect)
 {
 	EffectTree* ptr = findEffect(effect);
 	while (!ptr->hasTargetLocation && ptr->parent != nullptr)
@@ -242,12 +242,12 @@ glm::vec2 EffectTree::getTargetLocation(int effect)
 	return ptr->targetLocation;
 }
 
-int EffectTree::setSpawnedUnit(int spawnedUnit)
+UnitHandle EffectTree::setSpawnedUnit(UnitHandle spawnedUnit)
 {
 	EffectTree::spawnedUnit = spawnedUnit;
 	return spawnedUnit;
 }
-int EffectTree::getSpawnedUnit(int effect)
+UnitHandle EffectTree::getSpawnedUnit(DEffectHandle effect)
 {
 	EffectTree* ptr = findEffect(effect);
 	while (ptr->spawnedUnit == -1 && ptr->parent != nullptr)
@@ -267,18 +267,19 @@ EffectTree* EffectTree::addChild()
 }
 
 
-int EffectTree::getUnit(EffectUnit unit)
+UnitHandle EffectTree::getUnit(EffectUnit unit)
 {
+	EffectTree* et = findEffect(unit.effectHandle);
 	switch (unit.unit)
 	{
 	case EffectUnitEnum::CASTER_UNIT:
-		return getCastingUnit(unit.effectHandle);
+		return et->getCastingUnit(unit.effectHandle);
 	case EffectUnitEnum::SOURCE_UNIT:
-		return getSourceUnit(unit.effectHandle);
+		return et->getSourceUnit(unit.effectHandle);
 	case EffectUnitEnum::TARGET_UNIT:
-		return getTargetUnit(unit.effectHandle);
+		return et->getTargetUnit(unit.effectHandle);
 	case EffectUnitEnum::SPAWNED_UNIT:
-		return getSpawnedUnit(unit.effectHandle);
+		return et->getSpawnedUnit(unit.effectHandle);
 	case EffectUnitEnum::NONE_UNIT:
 		throw EffectTreeException("Attempting to get NONE unit.");
 	default:
@@ -286,18 +287,22 @@ int EffectTree::getUnit(EffectUnit unit)
 	}
 }
 
-int EffectTree::getPlayer(EffectPlayer player)
+PlayerHandle EffectTree::getPlayer(EffectPlayer player)
 {
+	EffectTree* et = findEffect(player.effectHandle);
 	switch (player.player)
 	{
 	case EffectPlayerEnum::CASTER_PLAYER:
-		return getCastingPlayer(player.effectHandle);
+		return et->getCastingPlayer(player.effectHandle);
 	case EffectPlayerEnum::SOURCE_PLAYER:
-		return getSourcePlayer(player.effectHandle);
+		return et->getSourcePlayer(player.effectHandle);
 	case EffectPlayerEnum::TARGET_PLAYER:
-		return getTargetPlayer(player.effectHandle);
+		return et->getTargetPlayer(player.effectHandle);
 	case EffectPlayerEnum::NONE_PLAYER:
 		throw EffectTreeException("Attempting to get NONE player.");
+	case EffectPlayerEnum::LOCAL_PLAYER:
+		//TODO if/when networking is incorporated this should grab synchronized id for local player.
+		return LOCAL_PLAYER;
 	case EffectPlayerEnum::NEUTRAL_PLAYER:
 		return NEUTRAL_PLAYER;
 	case EffectPlayerEnum::HOSTILE_PLAYER:
@@ -309,14 +314,15 @@ int EffectTree::getPlayer(EffectPlayer player)
 
 glm::vec2 EffectTree::getLocation(EffectLocation loc)
 {
+	EffectTree* et = findEffect(loc.effectHandle);
 	switch (loc.location)
 	{
 	case EffectLocationEnum::CASTER_LOCATION:
-		return getCasterLocation(loc.effectHandle);
+		return et->getCasterLocation(loc.effectHandle);
 	case EffectLocationEnum::SOURCE_LOCATION:
-		return getSourceLocation(loc.effectHandle);
+		return et->getSourceLocation(loc.effectHandle);
 	case EffectLocationEnum::TARGET_LOCATION:
-		return getTargetLocation(loc.effectHandle);
+		return et->getTargetLocation(loc.effectHandle);
 	case EffectLocationEnum::NONE_LOCATION:
 		throw EffectTreeException("Attempting to get NONE location.");
 	default:

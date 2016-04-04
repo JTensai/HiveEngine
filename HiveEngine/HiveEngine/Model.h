@@ -19,8 +19,8 @@
 #include <glm/vec3.hpp>
 #include <tiny_obj_loader.h>
 
-#include "ServiceLocator.h"
 #include "Data.h"
+#include "ServiceLocator.h"
 #include "Mesh.h"
 
 namespace Hive
@@ -28,13 +28,13 @@ namespace Hive
 	class Model
 	{
 	private:
-		std::vector<int> meshes;
+		std::vector<MeshHandle> meshes;
 
 	public:
-		Model(std::string filepath, DModel* data);
+		Model(std::string filepath);
 
 		int get_num_meshes() const;
-		int get_mesh(int mesh) const;
+		MeshHandle get_mesh(int mesh) const;
 
 		~Model();
 	};

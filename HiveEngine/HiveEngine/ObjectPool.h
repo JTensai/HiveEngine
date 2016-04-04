@@ -9,6 +9,7 @@ namespace Hive
 	class ObjectPool
 	{
 	private:
+		
 		int in_use;
 		std::vector<T> pool;
 		std::vector<bool> used;
@@ -64,11 +65,11 @@ namespace Hive
 		iterator end();
 		const_iterator cend();
 
-		T* get(int index);
+		T* get(Handle index);
 		int get_num_in_use();
-		bool is_used(int index);
-		void remove(int index);
-		int create();
+		bool is_used(Handle index);
+		void remove(Handle index);
+		Handle create();
 		int count();
 		int capacity();
 
@@ -113,7 +114,7 @@ namespace Hive
 	}
 
 	template <class T>
-	T* ObjectPool<T>::get(int index)
+	T* ObjectPool<T>::get(Handle index)
 	{
 		return &pool.at(index);
 	}
@@ -125,13 +126,13 @@ namespace Hive
 	}
 
 	template <class T>
-	bool ObjectPool<T>::is_used(int index)
+	bool ObjectPool<T>::is_used(Handle index)
 	{
 		return used[index];
 	}
 
 	template <class T>
-	int ObjectPool<T>::create()
+	Handle ObjectPool<T>::create()
 	{
 		for (int i = 0; i < used.size(); i++)
 		{
@@ -146,7 +147,7 @@ namespace Hive
 	}
 
 	template <class T>
-	void ObjectPool<T>::remove(int index)
+	void ObjectPool<T>::remove(Handle index)
 	{
 		if (index < 0 || index >= pool.size()) throw std::out_of_range("Objectpool remove index out of range.");
 		used[index] = false;

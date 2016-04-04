@@ -8,11 +8,9 @@
 #include <IL\il.h>
 
 #include "Asset.h"
-#include "Data.h"
 
 namespace Hive
 {
-
 	class Texture
 	{
 	private:
@@ -22,7 +20,7 @@ namespace Hive
 		GLuint gl_handle;
 
 	public:
-		Texture(std::string filepath, DTexture* data);
+		Texture(std::string filepath);
 		GLuint get_handle() const;
 		~Texture();
 	};

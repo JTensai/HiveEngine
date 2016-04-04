@@ -22,11 +22,11 @@ namespace Hive
 	class PlayerInputComponent
 	{
 	private:
-		int player_unit_handle;
+		UnitHandle player_unit_handle;
 
 	public:
 		PlayerInputComponent();
-		void setPlayerHandle(int handle) { player_unit_handle = handle; }
+		void setPlayerHandle(UnitHandle handle) { player_unit_handle = handle; }
 		void update(float delta);
 		~PlayerInputComponent();
 	};

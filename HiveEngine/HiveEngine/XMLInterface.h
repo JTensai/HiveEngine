@@ -5,7 +5,7 @@
 
 #include <tinyxml2\tinyxml2.h>
 
-#include "IDataManager.h"
+#include "Exceptions.h"
 
 namespace Hive
 {

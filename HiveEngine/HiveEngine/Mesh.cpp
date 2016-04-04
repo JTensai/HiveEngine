@@ -4,16 +4,16 @@ using namespace Hive;
 
 std::vector<Mesh*> Mesh::meshes = std::vector<Mesh*>();
 
-Mesh* Mesh::get_mesh(int index)
+Mesh* Mesh::get_mesh(MeshHandle index)
 {
 	return meshes[index];
 }
 
-int Mesh::new_mesh(const tinyobj::mesh_t& mesh)
+MeshHandle Mesh::new_mesh(const tinyobj::mesh_t& mesh)
 {
 	int index = meshes.size();
 	meshes.push_back(new Mesh(mesh));
-	return index;
+	return (MeshHandle) index;
 }
 
 Mesh::Mesh(const tinyobj::mesh_t& mesh)

@@ -24,7 +24,6 @@
 
 namespace Hive
 {
-
 	class Actor : public DrawableComponent<Actor>
 	{
 	private:
@@ -37,13 +36,13 @@ namespace Hive
 		glm::vec3 velocity;
 
 		glm::mat4 world_transform;
-		int d_model_handle;
-		int d_material_handle;
+		DModelHandle d_model_handle;
+		DMaterialHandle d_material_handle;
 
 	public:
 		Actor();
 
-		void loadFromData(int handle);
+		void loadFromData(DActorHandle handle);
 
 		static void setShader(GLuint shader);
 		static void predraw();
@@ -73,5 +72,4 @@ namespace Hive
 
 		~Actor();
 	};
-
 }

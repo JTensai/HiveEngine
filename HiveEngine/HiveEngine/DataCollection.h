@@ -5,21 +5,22 @@
 
 namespace Hive
 {
+	typedef int Handle;
 
 	template <class T>
 	class DataCollection
 	{
 	protected:
 		static const int DEFAULT_COLLECTION_SIZE = 10;
-		static std::unordered_map<std::string, int> index_map;
+		static std::unordered_map<std::string, Handle> index_map;
 		static std::vector<T> data;
 		static int head;
 
 	public:
 		static void reserve(int size);
 		static bool hasKey(std::string key);
-		static int getIndex(std::string key);
-		static T* getItem(int index);
+		static Handle getIndex(std::string key);
+		static T* getItem(Handle index);
 		
 		//Copies from data, keeping data afterwards is unnecessary.
 		static void addItem(std::string key, const T& new_data);
@@ -29,7 +30,7 @@ namespace Hive
 	int DataCollection<T>::head = 0;
 
 	template <class T>
-	std::unordered_map<std::string, int> DataCollection<T>::index_map = std::unordered_map<std::string, int>(DEFAULT_COLLECTION_SIZE);
+	std::unordered_map<std::string, Handle> DataCollection<T>::index_map = std::unordered_map<std::string, Handle>(DEFAULT_COLLECTION_SIZE);
 
 	template <class T>
 	std::vector<T> DataCollection<T>::data = std::vector<T>(DEFAULT_COLLECTION_SIZE);
@@ -48,12 +49,12 @@ namespace Hive
 	}
 
 	template <class T>
-	int DataCollection<T>::getIndex(std::string key) {
+	Handle DataCollection<T>::getIndex(std::string key) {
 		return index_map[key];
 	}
 
 	template <class T>
-	T* DataCollection<T>::getItem(int index) {
+	T* DataCollection<T>::getItem(Handle index) {
 		if (index < 0 || index >= data.size()) throw std::out_of_range("Data collection getItem index out of range.");
 		return &data[index];
 	}

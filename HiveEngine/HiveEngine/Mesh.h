@@ -34,8 +34,8 @@ namespace Hive
 		GLuint IBO; //Index Buffer Object
 
 	public:
-		static Mesh* get_mesh(int index);
-		static int new_mesh(const tinyobj::mesh_t& mesh);
+		static Mesh* get_mesh(MeshHandle index);
+		static MeshHandle new_mesh(const tinyobj::mesh_t& mesh);
 		static void set_vertex_attributes();
 		void bind();
 		void draw() { glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_SHORT, (void*)0); }
