@@ -52,19 +52,11 @@
   </UIElement>
   
   <UIElement id="BASE_BAR_BACKGROUND" parent="BASE_BAR">
-    <X value="0.3"/>
-    <Y value="0"/>
-    <Height value="0.075f"/>
-    <Width value="0.4f"/>
     <ZIndex value="-10"/>
     <Texture value="GRAY_BACKGROUND"/>
   </UIElement>
 
   <UIElement id="HEALTH_BAR" parent="BASE_BAR">
-    <X value="0.3"/>
-    <Y value="0"/>
-    <Height value="0.075f"/>
-    <Width value="0.4f"/>
     <ZIndex value="0"/>
     <Texture value="GREEN_FILL"/>
   </UIElement>
