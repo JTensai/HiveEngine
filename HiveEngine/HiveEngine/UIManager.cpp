@@ -100,13 +100,13 @@ namespace Hive
 			elements.push_back(element);
 		}
 		else {
-			// not the first one
-			vector<UIElement>::iterator it = elements.begin();
-			while (it->z_index <= element.z_index) {
-				//cout << "moved" << endl;
-				it++;
-			}
-			elements.insert(it, element);
+			//// not the first one
+			//vector<UIElement>::iterator it = elements.begin();
+			//while (it->z_index <= element.z_index) {
+			//	//cout << "moved" << endl;
+			//	it++;
+			//}
+			//elements.insert(it, element);
 		}
 
 		cout << "Ordering of UI Elements" << endl;
