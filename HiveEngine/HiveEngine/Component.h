@@ -24,6 +24,7 @@ namespace Hive
 		static Handle create_component();
 		static T* get_component(Handle id);
 		static void destroy_component(Handle id);
+		static bool is_active(Handle id);
 
 		static void preupdate() {}
 		static void update_all(float delta);
@@ -67,7 +68,7 @@ namespace Hive
 	T* Component<T>::get_component(Handle id)
 	{
 		if (id < 0 || id >= id_to_index.capacity()) throw std::out_of_range("get_component id out of bounds");
-		Handle index = id_to_index[id];
+		int index = id_to_index[id];
 		if (index < 0 || index >= pool.capacity()) throw std::out_of_range("get_component index out of bounds");
 		return pool.get(index);
 	}
@@ -77,7 +78,7 @@ namespace Hive
 	{
 		if (id < 0 || id >= id_to_index.capacity()) throw std::out_of_range("destroy_component id out of bounds");
 		
-		index = id_to_index[id];
+		int index = id_to_index[id];
 		if (index < 0 || index >= pool.capacity()) throw std::out_of_range("destroy_component index out of bounds");
 		pool.remove(index);
 		id_to_index[id] = -1;
@@ -104,6 +105,15 @@ namespace Hive
 		}
 		// TODO: if i/cap is significantly larger than num_used/cap, the objectpool should be sorted.
 		T::postupdate();
+	}
+
+	template <class T>
+	bool Component<T>::is_active(Handle id)
+	{
+		if (id < 0 || id >= id_to_index.capacity()) throw std::out_of_range("is_active id out of bounds");
+		int index = id_to_index[id];
+		if (index < 0 || index >= pool.capacity()) throw std::out_of_range("is_active index out of bounds");
+		return pool.is_used(index);
 	}
 
 

@@ -115,11 +115,11 @@ namespace Hive
 	void UIManager::update(float delta) {
 
 		// Should work for updating the player HP bar
-		/*player_unit = Unit::get_component(player_unit_handle);
-		elements[1].width = elements[1].orig_width * (player_unit->get_vitals().hp / player_unit->get_max_vitals().hp);*/
+		player_unit = Unit::get_component(player_unit_handle);
+		elements[1]->width = elements[1]->orig_width * (player_unit->get_vitals().hp / player_unit->get_max_vitals().hp);
 		
-		temp_float -= delta * 5;
-		temp_hp_bar.width = temp_hp_bar.orig_width * (temp_float / 100);
+		//temp_float -= delta * 5;
+		//temp_hp_bar.width = temp_hp_bar.orig_width * (temp_float / 100);
 	}
 
 	void UIManager::draw()

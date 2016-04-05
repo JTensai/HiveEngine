@@ -28,6 +28,11 @@ void PlayerInputComponent::setPlayerHandle(UnitHandle handle)
 
 void PlayerInputComponent::onleft()
 {
+	if (player_unit_handle == -1) return;
+	if (!Unit::is_active(player_unit_handle))
+	{
+		player_unit_handle = -1;
+	}
 	Unit* unit = Unit::get_component(player_unit_handle);
 	Order order;
 	order.ability_handle = left_click;
@@ -38,6 +43,11 @@ void PlayerInputComponent::onleft()
 
 void PlayerInputComponent::onright()
 {
+	if (player_unit_handle == -1) return;
+	if (!Unit::is_active(player_unit_handle))
+	{
+		player_unit_handle = -1;
+	}
 	Unit* unit = Unit::get_component(player_unit_handle);
 	Order order;
 	order.ability_handle = right_click;
@@ -48,33 +58,36 @@ void PlayerInputComponent::onright()
 
 void PlayerInputComponent::update(float delta)
 {
-	if (player_unit_handle >= 0)
+	if (player_unit_handle == -1) return;
+	if (!Unit::is_active(player_unit_handle))
 	{
-		glm::vec2 mov_dir = glm::vec2(0);
-		if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_W))
-		{
-			mov_dir.y -= 1.0;
-		}
-		if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_A))
-		{
-			mov_dir.x -= 1.0;
-		}
-		if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_S))
-		{
-			mov_dir.y += 1.0;
-		}
-		if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_D))
-		{
-			mov_dir.x += 1.0;
-		}
+		player_unit_handle = -1;
+	}
 
-		if (mov_dir.x || mov_dir.y)
-		{
-			mov_dir = glm::normalize(mov_dir) * 0.05f;
+	glm::vec2 mov_dir = glm::vec2(0);
+	if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_W))
+	{
+		mov_dir.y -= 1.0;
+	}
+	if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_A))
+	{
+		mov_dir.x -= 1.0;
+	}
+	if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_S))
+	{
+		mov_dir.y += 1.0;
+	}
+	if (ServiceLocator::get_input_manager()->isKeyDown(GLFW_KEY_D))
+	{
+		mov_dir.x += 1.0;
+	}
 
-			Unit* unit = Unit::get_component(player_unit_handle);
-			unit->set_target(unit->get_position() + mov_dir);
-		}
+	if (mov_dir.x || mov_dir.y)
+	{
+		mov_dir = glm::normalize(mov_dir) * 0.05f;
+
+		Unit* unit = Unit::get_component(player_unit_handle);
+		unit->set_target(unit->get_position() + mov_dir);
 	}
 }
 

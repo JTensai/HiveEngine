@@ -70,7 +70,7 @@ void Effects::eModifyUnit(EffectTree* effectTree, DEffectModifyUnit* effect)
 		int iUnit = effectTree->getUnit(eUnit);
 		Unit* unit = Unit::get_component(iUnit);
 		if (unit == nullptr) throw EffectException("Could not get unit.");
-		unit->set_vitals(unit->get_vitals() + effect->vitalsDelta);
+		unit->change_vitals(effect->vitalsDelta);
 
 		EffectTree::clean(effectTree);
 	}

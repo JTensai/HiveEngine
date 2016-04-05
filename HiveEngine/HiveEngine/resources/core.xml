@@ -418,6 +418,7 @@
     <Y value="0"/>
     <Height value="0.2f"/>
     <Width value="0.2f"/>
+    <ZIndex value="5"/>
     <Texture value="MISSING_TEXTURE"/>
   </UIElement>
 </Catalog>

@@ -21,6 +21,7 @@ namespace Hive
 		UnitHandle self;
 		ActorHandle actor_handle;
 		DUnitHandle data_handle;
+		AIHandle ai_handle;
 
 		float height;
 
@@ -32,13 +33,10 @@ namespace Hive
 		float speed;
 
 		glm::vec2 cached_position;
-		glm::vec2 new_position;
 
 		Vitals cached_vitals;
-		Vitals new_vitals;
 
 		float cached_rotation;
-		float new_rotation;
 
 		PlayerHandle player_owner;
 
@@ -56,15 +54,19 @@ namespace Hive
 		UnitHandle get_handle() const { return self; }
 		ActorHandle get_actor() const { return actor_handle; }
 		DUnitHandle get_type() const { return data_handle; }
+		AIHandle get_AI() const { return ai_handle; }
+
+		void set_AI(AIHandle handle) { ai_handle = handle; }
 
 		void set_target(glm::vec2 target) { Unit::target = target; }
 
 		glm::vec2 get_position() const { return cached_position; }
-		void set_position(glm::vec2 pos) { new_position = pos; }
+		void set_position(glm::vec2 pos) { cached_position = pos; }
 
 		Vitals get_vitals() const { return cached_vitals; }
 		Vitals get_max_vitals() const { return max_vitals; }
-		void set_vitals(Vitals vitals) { new_vitals = vitals; }
+		void set_vitals(Vitals vitals);
+		void change_vitals(Vitals delta);
 
 		PlayerHandle get_player() const { return player_owner; }
 		void set_player(PlayerHandle player) { player_owner = player; }
