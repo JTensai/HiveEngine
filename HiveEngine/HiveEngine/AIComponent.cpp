@@ -157,7 +157,7 @@ void AIComponent::generate_path(Node* curr, Node* start)
 		temp->set_parent(nullptr);
 		nav_path.insert(nav_path.begin(), curr);
 	}
-	smooth_path();
+	//smooth_path();
 	nav_path.erase(nav_path.begin());
 }
 
@@ -346,19 +346,19 @@ bool AIComponent::ray_clear(Node* start, Node* end)
 		return true;
 	}
 
-	const float offset = 0.2f;
+	const float offset = 0.05f;
 
 	//tan(@) = opposite / adjacent
 	//@ = atan2(opposite/adjacent)
 	float angle = abs(atan2(diff_y, diff_x));// 0 <= angle <= PI
 	//angle = angle > PI / 2 ? PI - angle : angle;
-	const float x_offset = diff_x > 0 ? cos(angle) * offset : cos(angle) * offset * -1;// adjacent = cos(@) * hypotenuse
-	const float y_offset = diff_y > 0 ? sin(angle) * offset : sin(angle) * offset * -1;// opposite = sin(@) * hypotenuse
+	const float x_offset = cos(angle) * offset;//diff_x > 0 ? cos(angle) * offset : cos(angle) * offset * -1;// adjacent = cos(@) * hypotenuse
+	const float y_offset = sin(angle) * offset;//diff_y > 0 ? sin(angle) * offset : sin(angle) * offset * -1;// opposite = sin(@) * hypotenuse
 
 	//float normalize_diff_x = float(diff_x) / float(abs(diff_y));
 	//float normalize_diff_y = diff_y > 0 ? 1 : -1; // = diff_y / diff_y
-	float curr_x = start->get_width() - 0.5;
-	float curr_y = start->get_depth() - 0.5;
+	float curr_x = start->get_width() + 0.5;
+	float curr_y = start->get_depth() + 0.5;
 	int curr_width = curr_x;
 	int curr_depth = curr_y;
 
