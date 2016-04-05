@@ -1,25 +1,26 @@
 #pragma once
+
+#include "IQuadTree.h"
 #include "QuadTreeNode.h"
-#include "Unit.h"
-#include <vector>
-#include <glm\glm.hpp>
 
 namespace Hive 
 {
-	class QuadTree
+	class QuadTree : public IQuadTree
 	{
 	public:
-		QuadTree(float map_width, float map_height);
-		QuadTreeNode* get_root();
+		QuadTree();
+		void set_dimensions(glm::vec2 map_min, glm::vec2 map_max);
+		void populate_tree(std::vector<Unit*> units_array);
 		void collide();
 
-		void populate_tree(std::vector<Unit*> units_array);
+		std::vector<glm::vec2> get_units_in_area(glm::vec2 center, float radius);
+
 		~QuadTree();
 
 	private:
 		QuadTreeNode* root;
-		float width;
-		float height;
+		glm::vec2 map_minimum;
+		glm::vec2 map_maximum;
 		float collision_threshold;
 	};
 }

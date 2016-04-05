@@ -1,6 +1,4 @@
 #pragma once
-#include <glm/glm.hpp>
-#include "Unit.h"
 #include "Actor.h"
 
 namespace Hive
@@ -25,7 +23,6 @@ namespace Hive
 		void collide();
 
 		int get_depth();
-
 		//bool get_is_leaf_node();
 		Unit* get_contained_point();
 		bool is_empty();

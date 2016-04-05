@@ -218,6 +218,7 @@
     <ClInclude Include="IInputManager.h" />
     <ClInclude Include="IGameWorld.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="IQuadTree.h" />
     <ClInclude Include="IUIManager.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />

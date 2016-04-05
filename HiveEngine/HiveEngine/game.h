@@ -22,6 +22,7 @@
 #include "UIManager.h"
 #include "GameWorld.h"
 #include "Graphics.h"
+#include "QuadTree.h"
 
 using namespace std;
 

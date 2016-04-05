@@ -60,4 +60,13 @@ namespace Hive
 	{
 		return get_instance()->graphics;
 	}
+
+	void ServiceLocator::register_quadtree(IQuadTree* tree)
+	{
+		get_instance()->quadtree = tree;
+	}
+	IQuadTree* ServiceLocator::get_quadtree()
+	{
+		return get_instance()->quadtree;
+	}
 }

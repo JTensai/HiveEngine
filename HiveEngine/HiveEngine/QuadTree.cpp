@@ -2,15 +2,23 @@
 
 using namespace Hive;
 
-QuadTree::QuadTree(float map_width, float map_height) {
-	width = map_width;
-	height = map_height;
-	collision_threshold = 1;
+QuadTree::QuadTree() {
+	collision_threshold = .3;
+}
+
+
+void QuadTree::set_dimensions(glm::vec2 map_min, glm::vec2 map_max)
+{
+	map_minimum = map_min;
+	map_maximum = map_max;
 }
 
 void QuadTree::populate_tree(std::vector<Unit*> units_array)
 {
-	root = new QuadTreeNode(0, width, 0, height, collision_threshold, 0, false);
+	if (root != nullptr) {
+		delete root;
+	}
+	root = new QuadTreeNode(map_minimum.x, map_maximum.x, map_minimum.y, map_maximum.y, collision_threshold, 0, false);
 
 	for (int i = 0; i < units_array.size(); i++) {
 		root->insert(units_array[i]);
@@ -23,10 +31,11 @@ void QuadTree::collide() {
 	root->collide();
 }
 
-QuadTreeNode* QuadTree::get_root() {
-	return root;
+std::vector<glm::vec2> QuadTree::get_units_in_area(glm::vec2 center, float radius) {
+	//Philosophy: find the bounding box of the circle made by the area, use those corners to isolate the quads we want, 
+		//then grab everything from those and return them.
+	return std::vector<glm::vec2>();
 }
-
 
 QuadTree::~QuadTree()
 {

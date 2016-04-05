@@ -1,5 +1,4 @@
 #include "Unit.h"
-#include "QuadTree.h"
 #include <glm/glm.hpp>
 #include <vector>
 
@@ -55,7 +54,6 @@ void Unit::update_component(float delta)
 	update_abilities(delta);
 
 	change_vitals(regen * delta);
-
 	float diff = glm::distance(target, cached_position);
 	float dist = speed * delta;
 	if (diff != 0)
@@ -162,7 +160,6 @@ OrderResponse Unit::issue_order(Order& order)
 
 void Unit::preupdate()
 {
-	/*
 	std::vector<Unit*> units = std::vector<Unit*>();
 
 	int i = 0;
@@ -178,24 +175,10 @@ void Unit::preupdate()
 		}
 	}
 
-	QuadTree tree = QuadTree(100, 100);
-//	vector<glm::vec2> quadTreeTest = { glm::vec2(1,1), glm::vec2(1,2), glm::vec2(1,3), glm::vec2(1,4),
-//		glm::vec2(2,2), glm::vec2(2,4), glm::vec2(2,6),
-//		glm::vec2(3,3), glm::vec2(3,6), glm::vec2(3,9),
-//		glm::vec2(10, 10), glm::vec2(2, 20), glm::vec2(3, 25), glm::vec2(2, 18),
-//		glm::vec2(10, 40), glm::vec2(8, 48), glm::vec2(9, 53), glm::vec2(3, 60),
-//		glm::vec2(40, 40), glm::vec2(40, 30), glm::vec2(44, 50), glm::vec2(40, 12),
-//		glm::vec2(50, 7), glm::vec2(55, 32), glm::vec2(70, 3), glm::vec2(70, 20),
-//		glm::vec2(60, 20), glm::vec2(62, 27), glm::vec2(69, 50), glm::vec2(85, 12),
-//		glm::vec2(78, 60), glm::vec2(79, 90), glm::vec2(93, 9), glm::vec2(95, 35),
-//		glm::vec2(95, 83), glm::vec2(10, 73), glm::vec2(12, 98), glm::vec2(30, 92) };
-//
-//	tree.populate_tree(quadTreeTest);
-	tree.populate_tree(units);
-	tree.collide();//Ideally what gets done in this call is that units that are colliding have a flag set that will not 
-		//allow them to update their location in the subsequent call to update_component.
-	//Not worrying about deleting the tree: http://stackoverflow.com/questions/4355468/is-it-possible-to-delete-a-non-new-object
-	*/
+	ServiceLocator::get_quadtree()->populate_tree(units);
+	ServiceLocator::get_quadtree()->collide();//Ideally what gets done in this call is that units that are colliding 
+		//have a flag set that will not allow them to update their location in the subsequent call to update_component.
+	
 }
 
 void Unit::set_vitals(Vitals vitals)

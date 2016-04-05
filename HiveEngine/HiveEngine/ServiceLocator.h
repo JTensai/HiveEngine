@@ -5,6 +5,7 @@
 #include "IComponentManager.h"
 #include "IUIManager.h"
 #include "IGraphics.h"
+#include "IQuadTree.h"
 
 namespace Hive
 {
@@ -14,6 +15,7 @@ namespace Hive
 	class IComponentManager;
 	class IUIManager;
 	class IGameWorld;
+	class IQuadTree;
 
 	class ServiceLocator {
 	private:
@@ -24,6 +26,7 @@ namespace Hive
 		IUIManager* ui_manager;
 		IGameWorld* game_world;
 		IGraphics* graphics;
+		IQuadTree* quadtree;
 
 		ServiceLocator();
 
@@ -47,6 +50,9 @@ namespace Hive
 
 		static void register_graphics(IGraphics* graphics);
 		static IGraphics* get_graphics();
+
+		static void register_quadtree(IQuadTree* tree);
+		static IQuadTree* get_quadtree();
 	};
 
 }

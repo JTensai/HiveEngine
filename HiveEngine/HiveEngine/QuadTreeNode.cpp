@@ -90,6 +90,13 @@ bool QuadTreeNode::is_empty() {
 }
 
 void QuadTreeNode::insert(Unit* unit) {
+	if (unit->get_position().x < x_min || unit->get_position().x > x_max
+		|| unit->get_position().y < y_min || unit->get_position().y > y_max)
+	{//ignore anything that falls outside of the dimensions of the node. 
+	//Ideally, this would be used to trigger 'collision' with the edges of the world
+		return;
+	}
+
 	if (is_leaf_node) {
 		if (this->is_empty()) {
 			contained_unit = unit;
@@ -188,7 +195,7 @@ void QuadTreeNode::collide() {
 				//Actor* actor_0 = Actor::get_component(contained_units[i]->get_actor());
 				//Actor* actor_1 = Actor::get_component(contained_units[j]->get_actor());
 				//if (actor_0->somehow_get_size_of_actor < distance) then do a colliding thing
-				if (distance < 5) {
+				if (distance < 0.5) {
 					std::cout << "Some things are very close!!!!";
 				}
 			}
@@ -198,7 +205,9 @@ void QuadTreeNode::collide() {
 
 std::vector<Unit*> QuadTreeNode::get_contained_units() {
 	std::vector<Unit*> contained_units = std::vector<Unit*>();
-	if (number_contained_units > 0) {
+	if (number_contained_units == 1) {
+		contained_units.push_back(contained_unit);
+	} else if (number_contained_units > 1) {
 		aggregate_vectors(contained_units, SWNode->get_contained_units());
 		aggregate_vectors(contained_units, NWNode->get_contained_units());
 		aggregate_vectors(contained_units, SENode->get_contained_units());

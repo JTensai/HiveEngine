@@ -37,6 +37,7 @@ void Game::initialize(char* core_xml_filename, char* game_xml_filename, char* ma
 	ServiceLocator::register_component_manager(new ComponentManager());
 	ServiceLocator::register_data_manager(new DataManager());
 	ServiceLocator::register_game_world(new GameWorld());
+	ServiceLocator::register_quadtree(new QuadTree());
 
 	ServiceLocator::get_component_manager()->initialize();
 }
@@ -93,6 +94,9 @@ void Game::load(GLFWwindow* window) {
 			map_iter,
 			player_unit_handle
 			);
+		glm::vec2 world_min = glm::vec2(0, 0);
+		glm::vec2 world_max = glm::vec2(ServiceLocator::get_game_world()->width(), ServiceLocator::get_game_world()->depth());
+		ServiceLocator::get_quadtree()->set_dimensions(world_min, world_max);
 		Unit* unit = Unit::get_component(player_unit_handle);
 		player_actor_handle = unit->get_actor();
 	}
