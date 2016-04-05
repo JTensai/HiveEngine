@@ -791,22 +791,28 @@ void DataManager::xmlSecondPassUIElements(XMLIterator xmliter)
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("X");
-		element->position.x = iter.isValid() ? std::stof(iter.getValue()) : 0;
-
+		//element->position.x = iter.isValid() ? std::stof(iter.getValue()) : 0;
+		if (iter.isValid()) { element->position.x = std::stof(iter.getValue()); }
+		
 		iter = xmliter.getChildrenOfName("Y");
-		element->position.y = iter.isValid() ? std::stof(iter.getValue()) : 0;
+		//element->position.y = iter.isValid() ? std::stof(iter.getValue()) : 0;
+		if (iter.isValid()) { element->position.y = std::stof(iter.getValue()); }
 
 		iter = xmliter.getChildrenOfName("Width");
-		element->size.x = iter.isValid() ? std::stof(iter.getValue()) : 0.1f;
+		//element->size.x = iter.isValid() ? std::stof(iter.getValue()) : 0.1f;
+		if (iter.isValid()) { element->size.x = std::stof(iter.getValue()); }
 
 		iter = xmliter.getChildrenOfName("Height");
-		element->size.y = iter.isValid() ? std::stof(iter.getValue()) : 0.1f;
+		//element->size.y = iter.isValid() ? std::stof(iter.getValue()) : 0.1f;
+		if (iter.isValid()) { element->size.y = std::stof(iter.getValue()); }
 
 		iter = xmliter.getChildrenOfName("ZIndex");
-		element->z_index = iter.isValid() ? std::stoi(iter.getValue()) : 0;
+		//element->z_index = iter.isValid() ? std::stoi(iter.getValue()) : 0;
+		if (iter.isValid()) { element->z_index = std::stoi(iter.getValue()); }
 
 		iter = xmliter.getChildrenOfName("Texture");
-		element->texture = iter.isValid() ? DTexture::getIndex(iter.getValue()) : DTexture::getIndex("MISSING_TEXTURE");
+		//element->texture = iter.isValid() ? DTexture::getIndex(iter.getValue()) : DTexture::getIndex("MISSING_TEXTURE");
+		if (iter.isValid()) { element->texture = DTexture::getIndex(iter.getValue()); }
 		//linkData<DTexture>(iter, &element->texture);
 	}
 	catch (DataErrorException e)

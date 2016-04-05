@@ -59,9 +59,7 @@ void Game::load(GLFWwindow* window) {
 	// Accept fragment if it closer to the camera than the former one
 	glDepthFunc(GL_LESS);
 
-	printf("loading simpleshader\n");
 	shader_program_id = LoadShader("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
-	printf("loading simpleshader\n");
 	Actor::setShader(shader_program_id);
 	ServiceLocator::register_graphics(new Graphics(shader_program_id));
 

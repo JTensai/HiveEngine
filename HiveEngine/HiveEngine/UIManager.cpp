@@ -100,14 +100,14 @@ namespace Hive
 			elements.insert(it, element);
 		}
 
-		/*cout << "\n\nOrdering of UI Elements" << endl;
+		/*cout << "\nOrdering of UI Elements" << endl;
 		int cur_z = -1000;
-		for(UIElement ui_element : elements) {
-			if (ui_element.z_index > cur_z) {
-				cur_z = ui_element.z_index;
-				//cout << "Z-Index Level: " << cur_z << endl;
+		for(UIElement* ui_element : elements) {
+			if (ui_element->z_index > cur_z) {
+				cur_z = ui_element->z_index;
+				cout << "Z-Index Level: " << cur_z << endl;
 			}
-			//cout << "Drawing element height: " << ui_element.height << endl;
+			cout << "Drawing element height: " << ui_element->height << endl;
 		}
 		cout << "\n\n";*/
 	}
@@ -117,7 +117,7 @@ namespace Hive
 		// Should work for updating the player HP bar
 		player_unit = Unit::get_component(player_unit_handle);
 		elements[1]->width = elements[1]->orig_width * (player_unit->get_vitals().hp / player_unit->get_max_vitals().hp);
-		
+
 		//temp_float -= delta * 5;
 		//temp_hp_bar.width = temp_hp_bar.orig_width * (temp_float / 100);
 	}
