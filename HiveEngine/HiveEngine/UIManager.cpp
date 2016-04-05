@@ -123,6 +123,10 @@ namespace Hive
 			);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
+		glDepthMask(GL_FALSE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		for(UIElement element : elements)
 		{
 			glm::mat4 projection = glm::ortho(0.0f, 1.0f, 0.0f, 1.0f);
@@ -165,6 +169,10 @@ namespace Hive
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
+
+		glDisable(GL_BLEND);
+		glDepthMask(GL_TRUE);
+
 		// foreach ui element
 			// make translation matrix
 			// make scale matrix

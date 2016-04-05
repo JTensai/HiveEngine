@@ -157,6 +157,10 @@
 		<DiffuseTexture value="BASE_TEXTURE"/>
 	</Material>
 
+  <Material id="ALPHA_TEST_MATERIAL">
+    <DiffuseTexture value="ALPHA_TEST_TEXTURE"/>
+  </Material>
+
 	<Material id="MISSING_MATERIAL">
 		<DiffuseTexture value="MISSING_TEXTURE"/>
 	</Material>
@@ -315,7 +319,7 @@
 		<BaseVariables>
 			<EmitterName value="ParticleEmitter"/>
 			<BlendingMode value="Transparent"/>
-			<Material value="BASE_MATERIAL"/>
+			<Material value="ALPHA_TEST_MATERIAL"/>
 			<EmitterLocalOrigin>
 				<X value="0"/>
 				<Y value="0"/>
@@ -403,6 +407,10 @@
 	<Texture id="MISSING_TEXTURE">
 		<File value="resources/missing_image.jpg"/>
 	</Texture>
+
+  <Texture id="ALPHA_TEST_TEXTURE">
+    <File value="resources/heart.png"/>
+  </Texture>
 
   <UIElement id="BASE_BAR">
     <X value="0"/>

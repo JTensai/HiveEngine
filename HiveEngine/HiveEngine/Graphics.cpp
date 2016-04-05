@@ -80,6 +80,10 @@ void Graphics::draw_all()
 	}
 	normal_draws.clear();
 
+	glDepthMask(GL_FALSE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	for (AlphaDrawCall draw_call : alpha_draws)
 	{
 		if (draw_call.mesh != mesh_handle)
@@ -107,6 +111,9 @@ void Graphics::draw_all()
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+
+	glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
 }
 
 Graphics::~Graphics()

@@ -5,23 +5,25 @@ in vec2 UV;
 in vec3 Normal_worldspace;
 
 // Ouput data
-out vec3 color;
+out vec4 color;
 
 // Values that stay constant for the whole mesh.
 uniform vec3 LightDirection;
 uniform vec4 LightColor; //a is used for intensity
-uniform vec3 AmbientColor;
+uniform vec4 AmbientColor;
 uniform sampler2D diffuse_sampler;
 
 void main(){
 
 	color = AmbientColor;
 	
-	vec3 MaterialDiffuseColor = texture(diffuse_sampler, UV).rgb;
+	vec4 MaterialDiffuseColor = texture(diffuse_sampler, UV);
 
 	float cosTheta = clamp( dot( Normal_worldspace,-LightDirection ), 0,1 );
-	
+
 	color = 
 		AmbientColor * MaterialDiffuseColor +
 		MaterialDiffuseColor * LightColor.rgb * LightColor.a * cosTheta;
+
+	color.a = MaterialDiffuseColor.a;
 }

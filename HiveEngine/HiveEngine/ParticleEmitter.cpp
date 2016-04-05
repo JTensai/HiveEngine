@@ -57,7 +57,7 @@ void ParticleEmitter::draw(glm::vec3 origin)
 		glm::mat4 world_transform = glm::translate(origin);
 		world_transform *= glm::translate(particles.at(i).position);
 		world_transform *= glm::scale(particles.at(i).scale);
-		ServiceLocator::get_graphics()->queue_draw(DrawShader::NORMAL, world_transform, DModel::getIndex("QUAD_MODEL"), data->mat_handle);
+		ServiceLocator::get_graphics()->queue_draw(DrawShader::ALPHA, world_transform, DModel::getIndex("QUAD_MODEL"), data->mat_handle);
 	}
 }
 
