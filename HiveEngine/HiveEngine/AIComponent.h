@@ -60,6 +60,7 @@ namespace Hive
 		const float PI = 3.1415926535897;
 		float perception_enter_radius;
 		float perception_exit_radius;
+		float ability_cooldown;
 
 		vector<Node*> nav_path;
 
@@ -72,6 +73,8 @@ namespace Hive
 		float distance(glm::vec2 a, glm::vec2 b);
 		void smooth_path();
 		bool ray_clear(Node* start, Node* end);
+		void update_movement(float delta);
+		void update_ability_use(float delta);
 	};
 
 }

@@ -9,7 +9,12 @@ AIComponent::AIComponent()
 void AIComponent::update_component(float delta)
 {
 	//TODO: update component
+	update_movement(delta);
+	update_ability_use(delta);
+}
 
+void AIComponent::update_movement(float delta)
+{
 	Unit* player_unit = Unit::get_component(player_unit_handle);
 	glm::vec2 player_position = player_unit->get_position();
 	Node goal(player_position.x, player_position.y);
@@ -64,6 +69,39 @@ void AIComponent::update_component(float delta)
 			glm::vec2 target(nav_path[0]->get_width() + 0.5, nav_path[0]->get_depth() + 0.5);
 			ai_unit->set_target(target);
 		}
+	}
+}
+
+void AIComponent::update_ability_use(float delta)
+{
+	Unit* player_unit = Unit::get_component(player_unit_handle);
+	glm::vec2 player_position = player_unit->get_position();
+
+	Unit* ai_unit = Unit::get_component(unit_handle);
+	glm::vec2 ai_position = ai_unit->get_position();
+
+	float dist_to_player = distance(player_position, ai_position);
+
+	if (dist_to_player <= 2.0f)
+	{
+		Unit* unit = Unit::get_component(unit_handle);
+		DUnit* data = DUnit::getItem(unit->get_type());
+		if (data->abilityHandles.size() >= 1)
+		{
+			Order order;
+			order.ability_handle = data->abilityHandles[0];
+			order.targetPoint = player_position;
+			order.type = AbilityType::POINT_TARGET;
+			unit->issue_order(order);
+		}
+		/*if (data->abilityHandles.size() >= 2)
+		{
+			Order order;
+			order.ability_handle = data->abilityHandles[0];
+			order.targetPoint = player_position;
+			order.type = AbilityType::POINT_TARGET;
+			unit->issue_order(order);
+		}*/
 	}
 }
 
