@@ -731,29 +731,65 @@ void DataManager::xmlSecondPassUIElements(XMLIterator xmliter)
 	DUIElement* element;
 	try
 	{
-		//copyParent<DUIElement>(xmliter, &element);
-		//XMLIterator iter;
-		/*iter = xmliter.getChildrenOfName("X");
-		element->position*/
+		copyParent<DUIElement>(xmliter, &element);
+
+		XMLIterator iter;
+		iter = xmliter.getChildrenOfName("X");
+		if (iter.isValid()) {element->position.x = std::stof(iter.getValue());}
+
+		iter = xmliter.getChildrenOfName("Y");
+		if (iter.isValid()) { element->position.y = std::stof(iter.getValue()); }
+
+		iter = xmliter.getChildrenOfName("Width");
+		if (iter.isValid()) { element->size.x = std::stof(iter.getValue()); }
+
+		iter = xmliter.getChildrenOfName("Height");
+		if (iter.isValid()) { element->size.y = std::stof(iter.getValue()); }
 
 		//iter = xmliter.getChildrenOfName("Texture");
+		//if (iter.isValid()) { element->texture = DTexture::getIndex(iter.getValue()); }
 		//linkData<DTexture>(iter, &element->texture);
-
 	}
-
-	/*DUnit* unit;
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("UIElement(" + xmliter.getID() + ")::" + e.msg);
+	}
+	/*
+	DUnit* unit;
 	try
 	{
+		copyParent<DUnit>(xmliter, &unit);
+
+		XMLIterator iter;
+		iter = xmliter.getChildrenOfName("VitalMax");
+		xmlParseVitals(iter, &unit->vitalMax);
+
+		iter = xmliter.getChildrenOfName("VitalRegen");
+		xmlParseVitals(iter, &unit->vitalRegen);
+
+		iter = xmliter.getChildrenOfName("Speed");
+		if (iter.isValid()) { unit->speed = std::stof(iter.getValue()); }
+
+		iter = xmliter.getChildrenOfName("Attributes");
+		xmlParseAttributes(iter, &unit->attributes);
+
+		iter = xmliter.getChildrenOfName("Actor");
+		linkData<DActor>(iter, &unit->actorDataHandle);
+
 		iter = xmliter.getChildrenOfName("Height");
 		if (iter.isValid()) { unit->height = std::stof(iter.getValue()); }
 
+		iter = xmliter.getChildrenOfName("Abilities");
+		xmlParseAbilityList(iter, &unit->abilityHandles);
+
+		iter = xmliter.getChildrenOfName("Behaviors");
+		xmlParseAbilityList(iter, &unit->behaviorHandles);
 	}
-	*/
 	catch (DataErrorException e)
 	{
 		throw DataErrorException("Unit(" + xmliter.getID() + ")::" + e.msg);
 	}
-
+	*/
 }
 
 void DataManager::xmlParseVitals(XMLIterator iter, Vitals* vitals)
