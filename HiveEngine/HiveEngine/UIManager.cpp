@@ -113,6 +113,11 @@ namespace Hive
 	}
 
 	void UIManager::update(float delta) {
+		if (!Unit::is_active(player_unit_handle))
+		{
+			elements[1]->width = 0;
+			return;
+		}
 
 		// Should work for updating the player HP bar
 		player_unit = Unit::get_component(player_unit_handle);

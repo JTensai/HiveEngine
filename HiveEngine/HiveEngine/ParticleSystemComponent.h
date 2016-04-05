@@ -21,12 +21,13 @@ namespace Hive
 	{
 	private:
 		glm::vec3 origin;
-		std::vector<ParticleEmitter> emitters;
+		std::vector<ParticleEmitter*> emitters;
+		ParticleSystemHandle self_handle;
 	public:
 		ParticleSystemComponent();
 		void update_component(float delta);
 		void draw_component(const glm::mat4& VP);
-		void load_from_data(DParticleSystemHandle data_handle, glm::vec3 origin);
+		void load_from_data(ParticleSystemHandle self, DParticleSystemHandle data_handle, glm::vec3 origin);
 		~ParticleSystemComponent();
 	};
 

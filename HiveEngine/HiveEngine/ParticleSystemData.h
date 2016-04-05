@@ -13,6 +13,7 @@ namespace Hive
 	typedef Handle DParticleSystemHandle;
 	typedef Handle DParticleEmitterHandle;
 	typedef Handle DModuleHandle;
+	typedef Handle ParticleSystemHandle;
 #pragma endregion
 #pragma region Enums
 	enum class ModuleType {
@@ -43,6 +44,7 @@ namespace Hive
 		int constantRate;
 		int burst;
 		bool looping;
+		float emitterDuration;
 		float emitterDelay;
 		int subImagesHorizontal;
 		int subImagesVertical;

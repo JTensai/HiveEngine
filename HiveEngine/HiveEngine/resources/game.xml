@@ -28,6 +28,23 @@
     </Abilities>
   </Unit>
 
+  <Unit id="ENEMY_UNIT" parent="PLAYER_UNIT">
+    <VitalMax>
+      <HP value="30.0"/>
+    </VitalMax>
+    <Speed value="2.0"/>
+    <Actor value="GOBLIN_ACTOR"/>
+  </Unit>
+
+  <Actor id="GOBLIN_ACTOR" parent="BASE_ACTOR">
+    <Model value="GOBLIN_MODEL"/>
+    <Material value="BASE_MATERIAL"/>
+  </Actor>
+
+  <Model id="GOBLIN_MODEL" parent="BASE_MODEL">
+    <File value="resources/blockgoblin.obj"/>
+  </Model>
+
   <Texture id="HEART">
     <File value="resources/heart.png"/>
   </Texture>

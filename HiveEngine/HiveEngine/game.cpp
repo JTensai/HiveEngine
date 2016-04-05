@@ -147,20 +147,24 @@ Gamestate Game::update(float delta) {
 
 		timestep_delta -= TIMESTEP;
 	}
+	Actor* actor;
 
-	Actor* actor = Actor::get_component(player_actor_handle);
-	glm::vec3 actor_pos = actor->get_position();
-	camera_position = glm::vec3(actor_pos.x, actor_pos.y + 10, actor_pos.z + 10);
+	if (Actor::is_active(player_actor_handle))
+	{
+		actor = Actor::get_component(player_actor_handle);
+		glm::vec3 actor_pos = actor->get_position();
+		camera_position = glm::vec3(actor_pos.x, actor_pos.y + 10, actor_pos.z + 10);
 
 
-	view_matrix = glm::lookAt(
-		camera_position, //eye
-		glm::vec3(camera_position.x, camera_position.y - .5f, camera_position.z - .5f), //look at
-		glm::vec3(0, 1, 0) //up
-		);
+		view_matrix = glm::lookAt(
+			camera_position, //eye
+			glm::vec3(camera_position.x, camera_position.y - .5f, camera_position.z - .5f), //look at
+			glm::vec3(0, 1, 0) //up
+			);
 
-	ServiceLocator::get_input_manager()->updateView(view_matrix, camera_position);
-	world_view_projection = projection_matrix * view_matrix * world_matrix;
+		ServiceLocator::get_input_manager()->updateView(view_matrix, camera_position);
+		world_view_projection = projection_matrix * view_matrix * world_matrix;
+	}
 
 	actor = Actor::get_component(world_cursor_actor_handle);
 	glm::vec2 mouse_pos = ServiceLocator::get_input_manager()->getMousePositionWorld();

@@ -8,6 +8,8 @@ AIComponent::AIComponent()
 
 void AIComponent::update_component(float delta)
 {
+	if (!Unit::is_active(player_unit_handle) || !Unit::is_active(unit_handle))
+		return;
 	//TODO: update component
 	update_movement(delta);
 	update_ability_use(delta);

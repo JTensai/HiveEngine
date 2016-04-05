@@ -15,11 +15,6 @@ namespace Hive
 
 	void ComponentManager::load()
 	{
-		//Debug Emitters
-		int p = ParticleSystemComponent::create_component();
-		ParticleSystemComponent* pSystem = ParticleSystemComponent::get_component(p);
-
-		pSystem->load_from_data(DParticleSystem::getIndex("BaseParticleSystem"), glm::vec3(0,0,0));
 	}
 
 	void ComponentManager::update_free(float delta)
@@ -62,6 +57,8 @@ namespace Hive
 		ai_component->set_player_handle(player_unit_handle);
 		ai_component->set_perception_enter_radius(4.5f);
 		ai_component->set_perception_exit_radius(8.0f);
+
+		Unit::get_component(unit_handle)->set_AI(ai_component_handle);
 
 		return unit_handle;
 	}

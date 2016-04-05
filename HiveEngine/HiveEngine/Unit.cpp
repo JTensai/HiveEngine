@@ -2,6 +2,9 @@
 #include <glm/glm.hpp>
 #include <vector>
 
+#include "ParticleSystemData.h"
+#include "ParticleSystemComponent.h"
+
 using namespace Hive;
 
 Unit::Unit()
@@ -139,12 +142,21 @@ OrderResponse Unit::issue_order(Order& order)
 	effect_tree->setSourceUnit(self);
 	effect_tree->setSourcePlayer(player_owner);
 	effect_tree->setSourceLocation(cached_position);
+
+	ParticleSystemHandle p;
+	ParticleSystemComponent* pSystem;
+
 	switch (order.type)
 	{
 	case AbilityType::INSTANT:
 		break;
 	case AbilityType::POINT_TARGET:
 		effect_tree->setTargetLocation(order.targetPoint);
+		// Spawn Particle System
+		p = ParticleSystemComponent::create_component();
+		pSystem = ParticleSystemComponent::get_component(p);
+		pSystem->load_from_data(p, DParticleSystem::getIndex("SIMPLE_FLAME_SYSTEM"), glm::vec3(order.targetPoint.x, 0, order.targetPoint.y));
+
 		break;
 	case AbilityType::UNIT_TARGET:
 		effect_tree->setTargetUnit(order.targetUnit);
@@ -188,12 +200,13 @@ void Unit::set_vitals(Vitals vitals)
 	if (cached_vitals.hp > max_vitals.hp) cached_vitals.hp = max_vitals.hp;
 	if (cached_vitals.mana > max_vitals.mana) cached_vitals.mana = max_vitals.mana;
 
-	/*if (cached_vitals.hp <= 0)
+	if (cached_vitals.hp <= 0)
 	{
 		Unit::destroy_component(self);
 		Actor::destroy_component(actor_handle);
-		if (ai_handle != -1) AIComponent::destroy_component(ai_handle);
-	}*/
+		if (ai_handle != -1) 
+			AIComponent::destroy_component(ai_handle);
+	}
 }
 
 void Unit::change_vitals(Vitals delta)
@@ -203,12 +216,13 @@ void Unit::change_vitals(Vitals delta)
 	if (cached_vitals.hp > max_vitals.hp) cached_vitals.hp = max_vitals.hp;
 	if (cached_vitals.mana > max_vitals.mana) cached_vitals.mana = max_vitals.mana;
 
-	/*if (cached_vitals.hp <= 0)
+	if (cached_vitals.hp <= 0)
 	{
 		Unit::destroy_component(self);
 		Actor::destroy_component(actor_handle);
-		if (ai_handle != -1) AIComponent::destroy_component(ai_handle);
-	}*/
+		if (ai_handle != -1) 
+			AIComponent::destroy_component(ai_handle);
+	}
 }
 
 Unit::~Unit()
