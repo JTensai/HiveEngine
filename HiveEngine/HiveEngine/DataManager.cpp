@@ -555,6 +555,9 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("Looping");
 			if(subiter.isValid()) emitter->looping = std::stoi(subiter.getValue());
 
+			subiter = iter.getChildrenOfName("EmitterDuration");
+			if (subiter.isValid()) emitter->emitterDuration = std::stof(subiter.getValue());
+
 			subiter = iter.getChildrenOfName("EmitterDelay");
 			if(subiter.isValid()) emitter->emitterDelay = std::stof(subiter.getValue());
 		}

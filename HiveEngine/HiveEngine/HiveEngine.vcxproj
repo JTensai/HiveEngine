@@ -173,9 +173,11 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="ModuleInitialRotationRate.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleEmitter.cpp" />
+    <ClCompile Include="pSysModule.cpp" />
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="QuadTreeNode.cpp" />
     <ClCompile Include="UIElement.cpp" />
@@ -223,6 +225,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ModuleInitialRotationRate.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Order.h" />
@@ -232,6 +235,7 @@
     <ClInclude Include="ParticleSystemData.h" />
     <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="PriorityQueue.h" />
+    <ClInclude Include="pSysModule.h" />
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="QuadTreeNode.h" />
     <ClInclude Include="ServiceLocator.h" />

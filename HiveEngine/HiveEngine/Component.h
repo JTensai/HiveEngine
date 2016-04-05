@@ -67,9 +67,11 @@ namespace Hive
 	template <class T>
 	T* Component<T>::get_component(Handle id)
 	{
-		if (id < 0 || id >= id_to_index.capacity()) throw std::out_of_range("get_component id out of bounds");
+		if (id < 0 || id >= id_to_index.capacity())
+			throw std::out_of_range("get_component id out of bounds");
 		int index = id_to_index[id];
-		if (index < 0 || index >= pool.capacity()) throw std::out_of_range("get_component index out of bounds");
+		if (index < 0 || index >= pool.capacity())
+			throw std::out_of_range("get_component index out of bounds");
 		return pool.get(index);
 	}
 
@@ -112,6 +114,10 @@ namespace Hive
 	{
 		if (id < 0 || id >= id_to_index.capacity()) throw std::out_of_range("is_active id out of bounds");
 		int index = id_to_index[id];
+
+		if (index == -1)
+			return false;
+
 		if (index < 0 || index >= pool.capacity()) throw std::out_of_range("is_active index out of bounds");
 		return pool.is_used(index);
 	}

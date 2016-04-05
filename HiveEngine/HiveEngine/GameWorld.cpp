@@ -188,7 +188,7 @@ void GameWorld::load(GLuint shader, XMLIterator map_iter, UnitHandle& player_uni
 		if (!subsubiter.isValid()) throw DataErrorException("Map AI Spawn node missing Y.");
 		ai_spawn_point.y = std::stof(subsubiter.getValue());
 
-		UnitHandle ai_handle = component_manager->spawn_ai_unit(ai_spawn_point, DUnit::getIndex(player_type), LOCAL_PLAYER, player_unit_handle);
+		UnitHandle ai_handle = component_manager->spawn_ai_unit(ai_spawn_point, DUnit::getIndex("ENEMY_UNIT"), LOCAL_PLAYER, player_unit_handle);
 		Unit* ai_unit = Unit::get_component(ai_handle);
 		ai_unit->set_speed(2.0f);
 

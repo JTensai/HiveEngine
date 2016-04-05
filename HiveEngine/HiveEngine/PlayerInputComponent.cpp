@@ -62,6 +62,7 @@ void PlayerInputComponent::update(float delta)
 	if (!Unit::is_active(player_unit_handle))
 	{
 		player_unit_handle = -1;
+		return;
 	}
 
 	glm::vec2 mov_dir = glm::vec2(0);
