@@ -31,22 +31,33 @@
   <Texture id="HEART">
     <File value="resources/heart.png"/>
   </Texture>
+  
+  <Texture id="BLACK_BORDER">
+    <File value="resources/BlackBorder.png"/>
+  </Texture>
+  <Texture id="GREEN_FILL">
+    <File value="resources/GreenFill.png"/>
+  </Texture>
+  <Texture id="GRAY_BACKGROUND">
+    <File value="resources/GrayBackground.png"/>
+  </Texture>
 
   <UIElement id="BASE_BAR">
     <X value="0.25"/>
     <Y value="0"/>
-    <Height value="0.05f"/>
+    <Height value="0.075f"/>
     <Width value="0.5f"/>
-    <ZIndex value="0"/>
-    <Texture value="HEART"/>
+    <ZIndex value="5"/>
+    <Texture value="BLACK_BORDER"/>
+  </UIElement>
+  
+  <UIElement id="BASE_BAR_BACKGROUND" parent="BASE_BAR">
+    <ZIndex value="-10"/>
+    <Texture value="GRAY_BACKGROUND"/>
   </UIElement>
 
-  <UIElement id="HEALTH_BAR">
-    <X value="0.25"/>
-    <Y value="0"/>
-    <Height value="0.1f"/>
-    <Width value="0.5f"/>
-    <ZIndex value="1"/>
-    <Texture value="MISSING_TEXTURE"/>
+  <UIElement id="HEALTH_BAR" parent="BASE_BAR">
+    <ZIndex value="0"/>
+    <Texture value="GREEN_FILL"/>
   </UIElement>
 </Catalog>
