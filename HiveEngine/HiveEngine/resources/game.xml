@@ -5,4 +5,12 @@
   <Texture id="HEART">
     <File value="resources/heart.png"/>
   </Texture>
+
+  <UIElement id="BASE_BAR">
+    <X value="0.25"/>
+    <Y value="0"/>
+    <Height value="0.2"/>
+    <Width value="0.5"/>
+    <Texture value="HEART"/>
+  </UIElement>
 </Catalog>
