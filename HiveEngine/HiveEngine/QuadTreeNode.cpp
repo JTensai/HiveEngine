@@ -142,6 +142,70 @@ void QuadTreeNode::insert(Unit* unit) {
 	}
 }
 
+
+std::vector<Unit*> Hive::QuadTreeNode::get_units_in_area(float area_left, float area_right, float area_bottom, float area_top)
+{
+	if (is_leaf_node) {//make sure we don't try to access null memory spaces
+		return get_contained_units();
+	}
+
+	if (area_left < x_min && area_right > x_max &&//If the entire node is entirely contained by the bounding box, then just grab everything
+		area_bottom < y_min && area_top > y_max)
+	{
+		return get_contained_units();
+	}
+
+	std::vector<Unit*> units = std::vector<Unit*>();
+	float x_mid = x_min + (x_max - x_min) / 2;
+	float y_mid = y_min + (y_max - y_min) / 2;
+	
+	if (area_left < x_mid) {
+		if (area_bottom < y_mid) {
+			aggregate_vectors(units, SWNode->get_units_in_area(area_left, area_right, area_bottom, area_top));
+		}
+		if (area_top > y_mid) {
+			aggregate_vectors(units, NWNode->get_units_in_area(area_left, area_right, area_bottom, area_top));
+		}
+	}
+	if (area_right > x_mid) {
+		if (area_bottom < y_mid) {
+			aggregate_vectors(units, SENode->get_units_in_area(area_left, area_right, area_bottom, area_top));
+		}
+		if (area_top > y_mid) {
+			aggregate_vectors(units, NENode->get_units_in_area(area_left, area_right, area_bottom, area_top));
+		}
+	}
+	return units;
+}
+/*Don't want to delete this in case it ends up being useful. But for right now, it is never used.
+QuadTreeNode* QuadTreeNode::get_containing_quad(glm::vec2 point)
+{
+	if (point.x < x_min || point.x > x_max
+		|| point.y < y_min || point.y > y_max)
+	{
+		return nullptr;
+	}
+	float x_mid = x_min + (x_max - x_min) / 2;
+	float y_mid = y_min + (y_max - y_min) / 2;
+	if (point.x < x_mid) {
+		if (point.y < y_mid) {
+			return SWNode;
+		}
+		else {
+			return NWNode;
+		}
+	}
+	else {
+		if (point.y < y_mid) {
+			return SENode;
+		}
+		else {
+			return NENode;
+		}
+	}
+
+}*/
+
 /*void QuadTreeNode::cleanup_tree() {
 
 	float x_mid = x_min + (x_max - x_min) / 2;
@@ -180,7 +244,7 @@ void QuadTreeNode::collide() {
 	if (number_contained_units <= 1) {
 		return;
 	}
-	float quad_size = x_max - x_min;//or y_max - y_min
+	float quad_size = x_max - x_min;//or y_max - y_min		//play with collision_threshold (set in the constructor for QuadTree) to make sure everything works
 	if (quad_size / (float)number_contained_units < collision_threshold) {//not enough points to warrant searching, keep recursing
 		SWNode->collide();
 		NWNode->collide();
@@ -195,9 +259,9 @@ void QuadTreeNode::collide() {
 				//Actor* actor_0 = Actor::get_component(contained_units[i]->get_actor());
 				//Actor* actor_1 = Actor::get_component(contained_units[j]->get_actor());
 				//if (actor_0->somehow_get_size_of_actor < distance) then do a colliding thing
-				if (distance < 0.5) {
+				/*if (distance < 0.5) {
 					std::cout << "Some things are very close!!!!";
-				}
+				}*/
 			}
 		}
 	}

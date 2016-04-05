@@ -31,10 +31,24 @@ void QuadTree::collide() {
 	root->collide();
 }
 
-std::vector<glm::vec2> QuadTree::get_units_in_area(glm::vec2 center, float radius) {
+std::vector<UnitHandle> QuadTree::get_units_in_area(glm::vec2 center, float radius) {
 	//Philosophy: find the bounding box of the circle made by the area, use those corners to isolate the quads we want, 
-		//then grab everything from those and return them.
-	return std::vector<glm::vec2>();
+	//then grab everything from those and return them.
+	float x_min = center.x - radius;
+	float x_max = center.x + radius;
+	float y_min = center.y - radius;
+	float y_max = center.y + radius;
+
+	std::vector<UnitHandle> area_units = std::vector<UnitHandle>();
+	std::vector<Unit*> bounding_box_units = root->get_units_in_area(x_min, x_max, y_min, y_max);
+	for (int i = 0; i < bounding_box_units.size(); i++) {
+		Unit* unit = bounding_box_units[i];
+		if (glm::distance(center, unit->get_position()) <= radius) 
+		{
+			area_units.push_back(unit->get_handle());
+		}
+	}
+	return area_units;
 }
 
 QuadTree::~QuadTree()

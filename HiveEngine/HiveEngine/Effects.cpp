@@ -41,7 +41,7 @@ void Effects::launchEffect(EffectTree* effectTree)
 	}
 }
 
-std::vector<UnitHandle> Effects::get_units_in_area(glm::vec2 location, float radius)
+/*std::vector<UnitHandle> Effects::get_units_in_area(glm::vec2 location, float radius)
 {
 	//TODO: use a better search method than going over every one.
 	std::vector<UnitHandle> units = std::vector<UnitHandle>();
@@ -60,7 +60,7 @@ std::vector<UnitHandle> Effects::get_units_in_area(glm::vec2 location, float rad
 		}
 	}
 	return units;
-}
+}*/
 
 void Effects::eModifyUnit(EffectTree* effectTree, DEffectModifyUnit* effect)
 {
@@ -85,7 +85,7 @@ void Effects::eSearch(EffectTree* effectTree, DEffectSearch* effect)
 	try
 	{
 		glm::vec2 location = effectTree->getLocation(effect->location);
-		std::vector<UnitHandle> units = get_units_in_area(location, effect->radius);
+		std::vector<UnitHandle> units = ServiceLocator::get_quadtree()->get_units_in_area(location, effect->radius);
 		std::vector<EffectTree*> children = std::vector<EffectTree*>(units.size());
 		for (int i = 0; i < units.size(); i++)
 		{

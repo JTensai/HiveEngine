@@ -8,6 +8,9 @@ namespace Hive
 	public:
 		QuadTreeNode();
 		QuadTreeNode(float min_x, float max_x, float min_y, float max_y, float coll_threshold, int parent_depth, bool is_leaf);
+		//Disclaimer: I named these nodes as if we were using a typical cartesian plane with x increasing as it goes right or east, and
+		// y increasing as it goes up or north. This won't line up with the "east" and "north" according to the screen, but the tree 
+		// will function all the same.
 		QuadTreeNode* get_NENode();
 		QuadTreeNode* get_SENode();
 		QuadTreeNode* get_SWNode();
@@ -19,6 +22,8 @@ namespace Hive
 		int get_number_contained_points();
 		void insert(Unit* unit);
 		//void cleanup_tree();
+
+		std::vector<Unit*> get_units_in_area(float area_left, float area_right, float area_bottom, float area_top);
 
 		void collide();
 

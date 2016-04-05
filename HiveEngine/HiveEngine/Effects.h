@@ -21,7 +21,8 @@ namespace Hive
 	class Effects
 	{
 	private:
-		static std::vector<UnitHandle> get_units_in_area(glm::vec2 location, float radius);
+		//Shouldn't need this any more, but I'm not going to delete it, just in case.
+		//static std::vector<UnitHandle> get_units_in_area(glm::vec2 location, float radius);
 
 		static void eModifyUnit(EffectTree* effectTree, DEffectModifyUnit* effect);
 		static void eSearch(EffectTree* effectTree, DEffectSearch* effect);

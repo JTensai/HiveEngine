@@ -13,7 +13,7 @@ namespace Hive
 		void populate_tree(std::vector<Unit*> units_array);
 		void collide();
 
-		std::vector<glm::vec2> get_units_in_area(glm::vec2 center, float radius);
+		std::vector<UnitHandle> get_units_in_area(glm::vec2 center, float radius);
 
 		~QuadTree();
 
