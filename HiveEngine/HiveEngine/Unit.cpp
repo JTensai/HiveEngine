@@ -172,6 +172,7 @@ void Unit::issue_order(Order& order)
 
 void Unit::preupdate()
 {
+	/*
 	std::vector<Unit*> units = std::vector<Unit*>();
 
 	int i = 0;
@@ -204,6 +205,7 @@ void Unit::preupdate()
 	tree.collide();//Ideally what gets done in this call is that units that are colliding have a flag set that will not 
 		//allow them to update their location in the subsequent call to update_component.
 	//Not worrying about deleting the tree: http://stackoverflow.com/questions/4355468/is-it-possible-to-delete-a-non-new-object
+	*/
 }
 
 Unit::~Unit()

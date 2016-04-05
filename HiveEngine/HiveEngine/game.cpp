@@ -59,7 +59,9 @@ void Game::load(GLFWwindow* window) {
 	// Accept fragment if it closer to the camera than the former one
 	glDepthFunc(GL_LESS);
 
+	printf("loading simpleshader\n");
 	shader_program_id = LoadShader("resources/SimpleVertexShader.vertexshader", "resources/SimpleFragmentShader.fragmentshader");
+	printf("loading simpleshader\n");
 	Actor::setShader(shader_program_id);
 	ServiceLocator::register_graphics(new Graphics(shader_program_id));
 
@@ -80,15 +82,6 @@ void Game::load(GLFWwindow* window) {
 
 	ServiceLocator::get_component_manager()->load();
 
-	try
-	{
-		ServiceLocator::get_ui_manager()->load(LoadShader("resources/2DVertexShader.vertexshader", "resources/2DFragmentShader.fragmentshader"));
-	}
-	catch (const Exception& e)
-	{
-		fprintf(stderr, "Error loading UIManager: %s\n", e.msg.c_str());
-		throw e;
-	}
 
 	try
 	{
@@ -111,6 +104,18 @@ void Game::load(GLFWwindow* window) {
 		throw e;
 	}
 
+	try
+	{
+		ServiceLocator::get_ui_manager()->load(
+			LoadShader("resources/2DVertexShader.vertexshader", "resources/2DFragmentShader.fragmentshader"),
+			player_unit_handle
+		);
+	}
+	catch (const Exception& e)
+	{
+		fprintf(stderr, "Error loading UIManager: %s\n", e.msg.c_str());
+		throw e;
+	}
 	// Code below here is temporary hackish code to get something in game until we are loading the world from XML.
 
 	world_cursor_actor_handle = -1;
@@ -183,7 +188,7 @@ void Game::draw() {
 
 	glUniform3f(LightDirection, light_direction.x, light_direction.y, light_direction.z);
 	glUniform4f(LightColor, light_color.r, light_color.g, light_color.b, light_color.w);
-	glUniform3f(AmbientColor, ambient_color.r, ambient_color.g, ambient_color.b);
+	glUniform4f(AmbientColor, ambient_color.r, ambient_color.g, ambient_color.b, 1);
 
 	ServiceLocator::get_component_manager()->draw(world_view_projection);
 

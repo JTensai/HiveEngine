@@ -23,7 +23,7 @@ void main(){
 
 	color = 
 		AmbientColor * MaterialDiffuseColor +
-		MaterialDiffuseColor * LightColor.rgb * LightColor.a * cosTheta;
+		MaterialDiffuseColor * vec4(LightColor.rgb, 1) * LightColor.a * cosTheta;
 
 	color.a = MaterialDiffuseColor.a;
 }

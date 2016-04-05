@@ -9,9 +9,16 @@ UIElement::UIElement()
 UIElement::UIElement(DUIElementHandle handle) {
 	DUIElement* element = DUIElement::getItem(handle);
 
-	this->bottom_left.x = element->position.x;
-	this->bottom_left.y = element->position.y;
+	this->bottom_left = element->position;
+	this->z_index = element->z_index;
+	this->texture_handle = element->texture;
 
+	this->orig_height = element->size.y;
+	this->orig_width = element->size.x;
+	this->orig_rotation = 0;
+	this->height = this->orig_height;
+	this->width = this->orig_width;
+	this->rotation = this->orig_rotation;
 }
 
 UIElement::UIElement(glm::vec2 bottom_left, float width, float height, DTextureHandle texture_handle)
