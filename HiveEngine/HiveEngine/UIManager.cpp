@@ -109,14 +109,14 @@ namespace Hive
 			//elements.insert(it, element);
 		}
 
-		cout << "Ordering of UI Elements" << endl;
+		//cout << "Ordering of UI Elements" << endl;
 		int cur_z = -1000;
 		for(UIElement ui_element : elements) {
 			if (ui_element.z_index > cur_z) {
 				cur_z = ui_element.z_index;
-				cout << "Z-Index Level: " << cur_z << endl;
+				//cout << "Z-Index Level: " << cur_z << endl;
 			}
-			cout << "Drawing element height: " << ui_element.height << endl;
+			//cout << "Drawing element height: " << ui_element.height << endl;
 		}
 	}
 

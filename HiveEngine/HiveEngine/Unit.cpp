@@ -113,7 +113,7 @@ void Unit::update_abilities(float delta)
 	}
 }
 
-void Unit::issue_order(Order& order)
+OrderResponse Unit::issue_order(Order& order)
 {
 	AbilityInstance* ability = nullptr;
 	for (int i = 0; i < abilities.size(); i++)
@@ -124,9 +124,11 @@ void Unit::issue_order(Order& order)
 			break;
 		}
 	}
-	if (ability == nullptr) throw AbilityNotFoundException();
-	if (ability->cooldown > 0) throw AbilityOnCooldownException();
-	if (ability->charges < ability->cost.charges.use) throw NotEnoughChargesException();
+	if (ability == nullptr) return OrderResponse::ABILITY_NOT_FOUND;
+	if (ability->cooldown > 0) return OrderResponse::ABILITY_ON_COOLDOWN;
+	if (ability->charges < ability->cost.charges.use) return OrderResponse::NOT_ENOUGH_CHARGES;
+	Unit* target = nullptr;
+	if (order.type == AbilityType::UNIT_TARGET && (target = Unit::get_component(order.targetUnit)) == nullptr) return OrderResponse::NO_TARGET;
 	//TODO: further validate unit's capability to use ability
 
 	DAbility* dability = DAbility::getItem(ability->ability);
@@ -147,8 +149,6 @@ void Unit::issue_order(Order& order)
 	effect_tree->setSourceUnit(self);
 	effect_tree->setSourcePlayer(player_owner);
 	effect_tree->setSourceLocation(cached_position);
-
-	Unit* target = nullptr;
 	switch (order.type)
 	{
 	case AbilityType::INSTANT:
@@ -157,8 +157,6 @@ void Unit::issue_order(Order& order)
 		effect_tree->setTargetLocation(order.targetPoint);
 		break;
 	case AbilityType::UNIT_TARGET:
-		target = Unit::get_component(order.targetUnit);
-		if (target == nullptr) throw NoTargetException();
 		effect_tree->setTargetUnit(order.targetUnit);
 		effect_tree->setTargetLocation(target->cached_position);
 		effect_tree->setTargetPlayer(target->player_owner);

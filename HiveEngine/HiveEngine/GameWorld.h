@@ -60,7 +60,6 @@ namespace Hive
 		void parse_position(XMLIterator xiter, glm::vec3& vec);
 		void generate_mesh();
 		inline int get_vertex_index(int x, int y, int z);
-		inline int get_map_index(int x, int y);
 		inline void push_quad(int& index);
 		inline void prep_quad(int& vert_index, PositionUVNormalVertex** verts, glm::vec3 normal, glm::vec3 defaults);
 
@@ -70,7 +69,8 @@ namespace Hive
 
 		int width();
 		int depth();
-		const std::vector<char> grid();
+		int get_map_index(int x, int y);
+		const std::vector<char>& grid();
 
 		const glm::vec3& ambient() { return ambient_light_color; }
 		const glm::vec4& light() { return directional_light_color; }

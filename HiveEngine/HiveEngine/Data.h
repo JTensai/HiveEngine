@@ -552,17 +552,6 @@ namespace Hive
 	{
 	public:
 		DEffectUnion u;
-		/*DEffect() {}
-		DEffect(const DEffect& o)
-		{
-			u = o.u;
-		}
-		~DEffect() {}
-		DEffect operator=(const DEffect& o)
-		{
-			u = o.u;
-			return *this;
-		}*/
 	};
 #pragma endregion
 
