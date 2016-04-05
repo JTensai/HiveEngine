@@ -10,6 +10,7 @@ namespace Hive
 	{
 	public:
 		UIElement();
+		UIElement(DUIElementHandle);
 		UIElement(glm::vec2 bottom_left, float width, float height, DTextureHandle texture_handle);
 		~UIElement();
 		void update(float delta);

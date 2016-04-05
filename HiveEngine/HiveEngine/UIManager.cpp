@@ -18,13 +18,13 @@ namespace Hive
 		ui_shader_matrix_id = glGetUniformLocation(ui_shader_program_id, "MVP");
 		projection_matrix = glm::ortho(0,1,1,0);
 
-		// sets up the verticies of our custom square mesh with 4 corners
+		// sets up the verticies of our custom square mesh with 4 corners (And the UVs)
 		verts = new float [20]
 		{
-			0,0,0,1,1,
-			1,0,0,1,0,
-			1,1,0,0,0,
-			0,1,0,0,1,
+			0,0,0,0,1,
+			1,0,0,1,1,
+			1,1,0,1,0,
+			0,1,0,0,0,
 		};
 		// All polygons in a mesh need to be tris, this is where we define the tris of our square mesh. These are the indices of the verts in the above array
 		indices = new unsigned short [6]
@@ -61,20 +61,22 @@ namespace Hive
 		//Texture texture = Texture("resources/texture.jpg", data);
 		
 		UIElement action_bar = UIElement(glm::vec2(.25, 0), 0.5f, 0.1f , DTexture::getIndex("HEART"));
+
 		elements.push_back(action_bar);
 
 
-		/*UIElement center_test = UIElement(glm::vec2(.4625, .45), .075, .1, Texture("resources/texture.jpg", data));
-		elements.push_back(center_test);*/
+		UIElement center_test = UIElement(glm::vec2(.4625, .45), .075, .1, DTexture::getIndex("HEART"));
+		elements.push_back(center_test);
+
+		//UIElement base_bar = UIElement(DUIElement::getIndex("BASE_BAR"));
+		//elements.push_back(base_bar);
 
 
-
-
-	/*	UIElement rotate_test = UIElement(glm::vec2(.45, .45), .1, .1);
+		/*UIElement rotate_test = UIElement(glm::vec2(.45, .45), .1, .1, DTexture::getIndex("HEART"));
 		rotate_test.rotation = 90;
-		elements.push_back(rotate_test);
+		elements.push_back(rotate_test);*/
 
-		UIElement rotate_test2 = UIElement(glm::vec2(.0, .0), .2, .2);
+	/*	UIElement rotate_test2 = UIElement(glm::vec2(.0, .0), .2, .2);
 		rotate_test.rotation = 90;
 		elements.push_back(rotate_test2);
 
@@ -88,7 +90,7 @@ namespace Hive
 	}
 
 	void UIManager::update(float delta) {
-		//elements[1].rotation += 1 * delta;
+		elements[1].rotation += 1 * delta;
 		//elements[2].rotation += 1 * delta;
 		//elements[3].rotation += 1 * delta;
 	}

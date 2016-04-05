@@ -36,6 +36,8 @@ namespace Hive
 		void xmlFirstPassParticleEmitter(XMLIterator xmliter);
 		void xmlFirstPassModules(XMLIterator xmliter);
 
+		void xmlFirstPassUIElements(XMLIterator xmliter);
+
 		void xmlSecondPass(XMLInterface& xmlif);
 
 		void xmlSecondPassAbilities(XMLIterator xmliter);
@@ -71,6 +73,8 @@ namespace Hive
 		void xmlSecondPassModuleInitialRotationRate(XMLIterator xmliter);
 		void xmlSecondPassModuleSubImageIndexOverLife(XMLIterator xmliter);
 		void xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter);
+
+		void xmlSecondPassUIElements(XMLIterator xmliter);
 
 		void xmlParseVitals(XMLIterator iter, Vitals* vitals);
 		void xmlParseCharges(XMLIterator iter, Charges* charges);

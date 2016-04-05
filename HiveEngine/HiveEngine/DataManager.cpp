@@ -74,6 +74,8 @@ void DataManager::xmlFirstPass(XMLInterface& xmlif)
 	root.forEachChildOfName("ModuleInitialRotationRate", std::bind(&DataManager::xmlFirstPassModules, this, _1));
 	root.forEachChildOfName("ModuleSubImageIndexOverLife", std::bind(&DataManager::xmlFirstPassModules, this, _1));
 	root.forEachChildOfName("ModuleSubImageIndexRandom", std::bind(&DataManager::xmlFirstPassModules, this, _1));
+
+	root.forEachChildOfName("UIElement", std::bind(&DataManager::xmlFirstPassModules, this, _1));
 }
 
 void DataManager::xmlFirstPassAbilities(XMLIterator xmliter)
@@ -154,6 +156,13 @@ void DataManager::xmlFirstPassModules(XMLIterator xmliter)
 	DModule::addItem(id, module);
 }
 
+void DataManager::xmlFirstPassUIElements(XMLIterator xmliter)
+{
+	DUIElement element;
+	std::string id = xmliter.getID();
+	DUIElement::addItem(id, element);
+}
+
 void DataManager::xmlSecondPass(XMLInterface& xmlif)
 {
 	using std::placeholders::_1;
@@ -194,6 +203,8 @@ void DataManager::xmlSecondPass(XMLInterface& xmlif)
 	root.forEachChildOfName("ModuleInitialRotationRate", std::bind(&DataManager::xmlSecondPassModuleInitialRotationRate, this, _1));
 	root.forEachChildOfName("ModuleSubImageIndexOverLife", std::bind(&DataManager::xmlSecondPassModuleSubImageIndexOverLife, this, _1));
 	root.forEachChildOfName("ModuleSubImageIndexRandom", std::bind(&DataManager::xmlSecondPassModuleSubImageIndexRandom, this, _1));
+
+	root.forEachChildOfName("UIElement", std::bind(&DataManager::xmlSecondPassUIElements, this, _1));
 }
 
 void DataManager::xmlSecondPassAbilities(XMLIterator xmliter)
@@ -713,6 +724,36 @@ void DataManager::xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter)
 	{
 		throw DataErrorException("ModuleSubImageIndexRandom(" + xmliter.getID() + ")::" + e.msg);
 	}
+}
+
+void DataManager::xmlSecondPassUIElements(XMLIterator xmliter) 
+{
+	DUIElement* element;
+	try
+	{
+		//copyParent<DUIElement>(xmliter, &element);
+		//XMLIterator iter;
+		/*iter = xmliter.getChildrenOfName("X");
+		element->position*/
+
+		//iter = xmliter.getChildrenOfName("Texture");
+		//linkData<DTexture>(iter, &element->texture);
+
+	}
+
+	/*DUnit* unit;
+	try
+	{
+		iter = xmliter.getChildrenOfName("Height");
+		if (iter.isValid()) { unit->height = std::stof(iter.getValue()); }
+
+	}
+	*/
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("Unit(" + xmliter.getID() + ")::" + e.msg);
+	}
+
 }
 
 void DataManager::xmlParseVitals(XMLIterator iter, Vitals* vitals)
