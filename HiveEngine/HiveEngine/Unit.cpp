@@ -1,4 +1,7 @@
 #include "Unit.h"
+#include "QuadTree.h"
+#include <glm/glm.hpp>
+#include <vector>
 
 using namespace Hive;
 
@@ -66,6 +69,42 @@ void Unit::update_component(float delta)
 	cached_position = new_position;
 	cached_rotation = new_rotation;
 	cached_vitals = new_vitals;
+}
+
+void Unit::preupdate() 
+{
+	std::vector<Unit*> units = std::vector<Unit*>();
+
+	int i = 0;
+	int num = 0;
+	int cap = pool.capacity();
+	int num_used = pool.get_num_in_use();
+	for (; i < cap && num < num_used; ++i)
+	{
+		if (pool.is_used(i))
+		{
+			++num;
+			units.push_back(pool.get(i));
+		}
+	}
+
+	QuadTree tree = QuadTree(100, 100);
+//	vector<glm::vec2> quadTreeTest = { glm::vec2(1,1), glm::vec2(1,2), glm::vec2(1,3), glm::vec2(1,4),
+//		glm::vec2(2,2), glm::vec2(2,4), glm::vec2(2,6),
+//		glm::vec2(3,3), glm::vec2(3,6), glm::vec2(3,9),
+//		glm::vec2(10, 10), glm::vec2(2, 20), glm::vec2(3, 25), glm::vec2(2, 18),
+//		glm::vec2(10, 40), glm::vec2(8, 48), glm::vec2(9, 53), glm::vec2(3, 60),
+//		glm::vec2(40, 40), glm::vec2(40, 30), glm::vec2(44, 50), glm::vec2(40, 12),
+//		glm::vec2(50, 7), glm::vec2(55, 32), glm::vec2(70, 3), glm::vec2(70, 20),
+//		glm::vec2(60, 20), glm::vec2(62, 27), glm::vec2(69, 50), glm::vec2(85, 12),
+//		glm::vec2(78, 60), glm::vec2(79, 90), glm::vec2(93, 9), glm::vec2(95, 35),
+//		glm::vec2(95, 83), glm::vec2(10, 73), glm::vec2(12, 98), glm::vec2(30, 92) };
+//
+//	tree.populate_tree(quadTreeTest);
+	tree.populate_tree(units);
+	tree.collide();//Ideally what gets done in this call is that units that are colliding have a flag set that will not 
+		//allow them to update their location in the subsequent call to update_component.
+	//Not worrying about deleting the tree: http://stackoverflow.com/questions/4355468/is-it-possible-to-delete-a-non-new-object
 }
 
 Unit::~Unit()
