@@ -12,7 +12,7 @@ namespace Hive
 	{
 	}
 
-	void UIManager::load(GLuint shader)
+	void UIManager::load(GLuint shader, UnitHandle player_unit_handle)
 	{
 		ui_shader_program_id = shader;
 		ui_shader_matrix_id = glGetUniformLocation(ui_shader_program_id, "MVP");
@@ -60,16 +60,26 @@ namespace Hive
 		//DTexture* data = new DTexture();
 		//Texture texture = Texture("resources/texture.jpg", data);
 		
-		UIElement action_bar = UIElement(glm::vec2(.25, 0), 0.5f, 0.1f , DTexture::getIndex("HEART"));
+		/*UIElement action_bar = UIElement(glm::vec2(.25, 0), 0.5f, 0.1f , DTexture::getIndex("HEART"));
 
 		elements.push_back(action_bar);
 
 
 		UIElement center_test = UIElement(glm::vec2(.4625, .45), .075, .1, DTexture::getIndex("HEART"));
-		elements.push_back(center_test);
+		elements.push_back(center_test);*/
 
-		//UIElement base_bar = UIElement(DUIElement::getIndex("BASE_BAR"));
-		//elements.push_back(base_bar);
+
+		player_unit = Unit::get_component(player_unit_handle);
+
+		temp_base_bar = UIElement(DUIElement::getIndex("BASE_BAR"));
+		elements.push_back(temp_base_bar);
+
+		temp_hp_bar = UIElement(DUIElement::getIndex("HEALTH_BAR"));
+		elements.push_back(temp_hp_bar);
+
+		//vector<UIElement>::iterator
+		//elements.insert
+
 
 
 		/*UIElement rotate_test = UIElement(glm::vec2(.45, .45), .1, .1, DTexture::getIndex("HEART"));
@@ -84,15 +94,17 @@ namespace Hive
 		rotate_test.rotation = 90;
 		elements.push_back(rotate_test3);*/
 
-
-
-		//elements.push_back(UIElement(glm::vec2(50, 50), 30.0f, 10.0f, 0));
 	}
 
 	void UIManager::update(float delta) {
-		elements[1].rotation += 1 * delta;
-		//elements[2].rotation += 1 * delta;
-		//elements[3].rotation += 1 * delta;
+
+		// Should work for updating the player HP bar
+		/*player_unit = Unit::get_component(player_unit_handle);
+		elements[1].width = elements[1].orig_width * (player_unit->get_vitals().hp / player_unit->get_max_vitals().hp);*/
+
+
+		temp_float -= delta * 5;
+		temp_hp_bar.width = temp_hp_bar.orig_width * (temp_float / 100);
 	}
 
 	void UIManager::draw()

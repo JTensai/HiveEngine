@@ -50,6 +50,7 @@ namespace Hive
 		void set_position(glm::vec2 pos) { new_position = pos; }
 
 		Vitals get_vitals() { return cached_vitals; }
+		Vitals get_max_vitals() { return max_vitals; }
 		void set_vitals(Vitals vitals) { new_vitals = vitals; }
 
 		PlayerHandle get_player() { return player_owner; }

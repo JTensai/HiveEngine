@@ -19,8 +19,11 @@ namespace Hive
 		//private:
 		glm::vec2 bottom_left = glm::vec2();
 		float width;
+		float orig_width;
 		float height;
+		float orig_height;
 		float rotation;
+		float orig_rotation;
 		int z_index;
 		DTextureHandle texture_handle;
 		// type of element

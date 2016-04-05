@@ -98,15 +98,6 @@ void Game::load(GLFWwindow* window) {
 
 	ServiceLocator::get_component_manager()->load();
 
-	try
-	{
-		ServiceLocator::get_ui_manager()->load(LoadShader("resources/2DVertexShader.vertexshader", "resources/2DFragmentShader.fragmentshader"));
-	}
-	catch (const Exception& e)
-	{
-		fprintf(stderr, "Error loading UIManager: %s\n", e.msg.c_str());
-		throw e;
-	}
 
 	try
 	{
@@ -129,6 +120,18 @@ void Game::load(GLFWwindow* window) {
 		throw e;
 	}
 
+	try
+	{
+		ServiceLocator::get_ui_manager()->load(
+			LoadShader("resources/2DVertexShader.vertexshader", "resources/2DFragmentShader.fragmentshader"),
+			player_unit_handle
+		);
+	}
+	catch (const Exception& e)
+	{
+		fprintf(stderr, "Error loading UIManager: %s\n", e.msg.c_str());
+		throw e;
+	}
 	// Code below here is temporary hackish code to get something in game until we are loading the world from XML.
 
 	world_cursor_actor_handle = -1;

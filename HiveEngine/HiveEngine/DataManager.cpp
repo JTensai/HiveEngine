@@ -75,7 +75,7 @@ void DataManager::xmlFirstPass(XMLInterface& xmlif)
 	root.forEachChildOfName("ModuleSubImageIndexOverLife", std::bind(&DataManager::xmlFirstPassModules, this, _1));
 	root.forEachChildOfName("ModuleSubImageIndexRandom", std::bind(&DataManager::xmlFirstPassModules, this, _1));
 
-	root.forEachChildOfName("UIElement", std::bind(&DataManager::xmlFirstPassModules, this, _1));
+	root.forEachChildOfName("UIElement", std::bind(&DataManager::xmlFirstPassUIElements, this, _1));
 }
 
 void DataManager::xmlFirstPassAbilities(XMLIterator xmliter)
@@ -735,19 +735,22 @@ void DataManager::xmlSecondPassUIElements(XMLIterator xmliter)
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("X");
-		if (iter.isValid()) {element->position.x = std::stof(iter.getValue());}
+		element->position.x = iter.isValid() ? std::stof(iter.getValue()) : 0;
 
 		iter = xmliter.getChildrenOfName("Y");
-		if (iter.isValid()) { element->position.y = std::stof(iter.getValue()); }
+		element->position.y = iter.isValid() ? std::stof(iter.getValue()) : 0;
 
 		iter = xmliter.getChildrenOfName("Width");
-		if (iter.isValid()) { element->size.x = std::stof(iter.getValue()); }
+		element->size.x = iter.isValid() ? std::stof(iter.getValue()) : 0.1f;
 
 		iter = xmliter.getChildrenOfName("Height");
-		if (iter.isValid()) { element->size.y = std::stof(iter.getValue()); }
+		element->size.y = iter.isValid() ? std::stof(iter.getValue()) : 0.1f;
 
-		//iter = xmliter.getChildrenOfName("Texture");
-		//if (iter.isValid()) { element->texture = DTexture::getIndex(iter.getValue()); }
+		iter = xmliter.getChildrenOfName("ZIndex");
+		element->z_index = iter.isValid() ? std::stoi(iter.getValue()) : 0;
+
+		iter = xmliter.getChildrenOfName("Texture");
+		element->texture = iter.isValid() ? DTexture::getIndex(iter.getValue()) : DTexture::getIndex("MISSING_TEXTURE");
 		//linkData<DTexture>(iter, &element->texture);
 	}
 	catch (DataErrorException e)
