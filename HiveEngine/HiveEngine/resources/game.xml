@@ -1,4 +1,31 @@
 <?xml version="1.0"?>
 <Catalog>
-	<Unit id="PLAYER_UNIT" parent="BASE_UNIT"/>
+  <Ability id="A_SMASH" parent="BASE_ABILITY">
+    <Type value="POINT_TARGET"/>
+    <Name value="Smash"/>
+    <Cost>
+      <Cooldown value="1.0"/>
+    </Cost>
+    <Effects>
+      <EffectInitial value="SMASH_INITIAL_SEARCH"/>
+    </Effects>
+  </Ability>
+
+  <EffectModifyUnit id="SMASH_DAMAGE" parent="BASE_EFFECT_MODIFY_UNIT">
+    <VitalsDelta>
+      <HP value="-10.0"/>
+    </VitalsDelta>
+  </EffectModifyUnit>
+  
+  <EffectSearch id="SMASH_INITIAL_SEARCH" parent="BASE_EFFECT_SEARCH">
+    <Radius value="2.0"/>
+    <Effect value="SMASH_DAMAGE"/>
+  </EffectSearch>
+  
+  <Unit id="PLAYER_UNIT" parent="BASE_UNIT">
+    <Abilities>
+      <Ability value="A_SMASH"/>
+    </Abilities>
+  </Unit>
+  
 </Catalog>

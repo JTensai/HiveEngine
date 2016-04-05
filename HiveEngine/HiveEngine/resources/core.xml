@@ -74,14 +74,14 @@
 
 	<EffectModifyUnit id="BASE_EFFECT_MODIFY_UNIT">
 		<Unit>
-			<Effect value="-1"/>
+			<Effect value=""/>
 			<Unit value="TARGET"/>
 		</Unit>
 		<VitalsDelta>
 			<HP value="0.0"/>
 			<Mana value="0.0"/>
 		</VitalsDelta>
-		<Validator value="-1"/>
+		<Validator value=""/>
 	</EffectModifyUnit>
 
 	<EffectSearch id="BASE_EFFECT_SEARCH">
@@ -89,7 +89,8 @@
 			<Effect value=""/>
 			<Point value="TARGET"/>
 		</Location>
-		<Radius value="100.0"/>
+		<Radius value="1.0"/>
+    <Effect value=""/>
 		<Filter>
 			<Dead value="EXCLUDED"/>
 			<Invulnerable value="EXCLUDED"/>
@@ -99,7 +100,7 @@
 			<Enemy value="ALLOWED"/>
 			<Neutral value="ALLOWED"/>
 		</Filter>
-		<Validator value="-1"/>
+		<Validator value=""/>
 	</EffectSearch>
 
 	<EffectSet id="BASE_EFFECT_SET">
@@ -109,7 +110,7 @@
 			<Effect value="E_LEECHLIFE_HEAL_CASTER"/>
 		</Effects>
 -->
-		<Validator value="-1"/>
+		<Validator value=""/>
 	</EffectSet>
 
 	<EffectSetBehavior id="BASE_EFFECT_SET_BEHAVIOR">
@@ -120,7 +121,7 @@
 		<Behavior value=""/>
 		<Count value="1"/>
 		<Relative value="0"/>
-		<Validator value="-1"/>
+		<Validator value=""/>
 	</EffectSetBehavior>
 
 	<EffectSpawnUnit id="BASE_EFFECT_SPAWN_UNIT">
@@ -133,7 +134,7 @@
 			<Effect value=""/>
 			<Location value="TARGET"/>
 		</Location>
-		<Validator value="-1"/>
+		<Validator value=""/>
 	</EffectSpawnUnit>
 
 	<EffectSwitch id="BASE_EFFECT_SWITCH">
@@ -150,7 +151,7 @@
 		</Cases>
 -->
 		<ElseEffect value=""/>
-		<Validator value="-1"/>
+		<Validator value=""/>
 	</EffectSwitch>
 
 	<Material id="BASE_MATERIAL">

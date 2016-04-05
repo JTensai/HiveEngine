@@ -276,8 +276,64 @@ void DataManager::xmlSecondPassActors(XMLIterator xmliter)
 }
 void DataManager::xmlSecondPassBehaviors(XMLIterator xmliter) {}
 
-void DataManager::xmlSecondPassEffectModifyUnit(XMLIterator xmliter) {}
-void DataManager::xmlSecondPassEffectSearch(XMLIterator xmliter) {}
+void DataManager::xmlSecondPassEffectModifyUnit(XMLIterator xmliter)
+{
+	DEffect* effect_base;
+	DEffectModifyUnit* effect;
+	try
+	{
+		copyParent<DEffect>(xmliter, &effect_base);
+		effect = &effect_base->u.dModifyUnit;
+
+		effect->type = EffectType::MODIFY_UNIT;
+
+		XMLIterator iter;
+		iter = xmliter.getChildrenOfName("Unit");
+		xmlParseEffectUnit(iter, &effect->unit);
+
+		iter = xmliter.getChildrenOfName("VitalsDelta");
+		xmlParseVitals(iter, &effect->vitalsDelta);
+
+		iter = xmliter.getChildrenOfName("Validator");
+		linkData<DValidator>(iter, &effect->validatorHandle);
+	}
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("EffectModifyUnit(" + xmliter.getID() + ")::" + e.msg);
+	}
+}
+void DataManager::xmlSecondPassEffectSearch(XMLIterator xmliter)
+{
+	DEffect* effect_base;
+	DEffectSearch* effect;
+	try
+	{
+		copyParent<DEffect>(xmliter, &effect_base);
+		effect = &effect_base->u.dSearch;
+
+		effect->type = EffectType::SEARCH;
+
+		XMLIterator iter;
+		iter = xmliter.getChildrenOfName("Location");
+		xmlParseEffectLocation(iter, &effect->location);
+
+		iter = xmliter.getChildrenOfName("Radius");
+		if (iter.isValid()) effect->radius = std::stof(iter.getValue());
+
+		iter = xmliter.getChildrenOfName("Effect");
+		linkData<DEffect>(iter, &effect->effect);
+
+		iter = xmliter.getChildrenOfName("Filter");
+		xmlParseUnitFilter(iter, &effect->filter);
+
+		iter = xmliter.getChildrenOfName("Validator");
+		linkData<DEffect>(iter, &effect->validatorHandle);
+	}
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("EffectSearch(" + xmliter.getID() + ")::" + e.msg);
+	}
+}
 void DataManager::xmlSecondPassEffectSet(XMLIterator xmliter) {}
 void DataManager::xmlSecondPassEffectSetBehavior(XMLIterator xmliter) {}
 void DataManager::xmlSecondPassEffectSpawnUnit(XMLIterator xmliter) {}
@@ -949,6 +1005,135 @@ void DataManager::xmlParseBehaviorList(XMLIterator iter, std::vector<DBehaviorHa
 				throw DataErrorException("Error parsing behavior list.");
 			}
 			subIter = subIter.next();
+		}
+	}
+}
+
+
+void DataManager::xmlParseEffectUnit(XMLIterator iter, EffectUnit* unit)
+{
+	if (iter.isValid())
+	{
+		XMLIterator subIter;
+
+		unit->effectHandle = -1;
+		subIter = iter.getChildrenOfName("Effect");
+		linkData<DEffect>(subIter, &unit->effectHandle);
+
+		subIter = iter.getChildrenOfName("Unit");
+		if (subIter.isValid())
+		{
+			std::string val = subIter.getValue();
+			if (!val.compare("CASTER"))
+			{
+				unit->unit = EffectUnitEnum::CASTER_UNIT;
+			}
+			else if (!val.compare("SOURCE"))
+			{
+				unit->unit = EffectUnitEnum::SOURCE_UNIT;
+			}
+			else if (!val.compare("TARGET"))
+			{
+				unit->unit = EffectUnitEnum::TARGET_UNIT;
+			}
+			else if (!val.compare("SPAWNED"))
+			{
+				unit->unit = EffectUnitEnum::SPAWNED_UNIT;
+			}
+			else if (!val.compare("NONE"))
+			{
+				unit->unit = EffectUnitEnum::NONE_UNIT;
+			}
+			else
+			{
+				throw DataErrorException("Unrecognized effect unit value: " + val);
+			}
+		}
+	}
+}
+void DataManager::xmlParseEffectLocation(XMLIterator iter, EffectLocation* location)
+{
+	if (iter.isValid())
+	{
+		XMLIterator subIter;
+
+		location->effectHandle = -1;
+		subIter = iter.getChildrenOfName("Effect");
+		linkData<DEffect>(subIter, &location->effectHandle);
+
+		subIter = iter.getChildrenOfName("Point");
+		if (subIter.isValid())
+		{
+			std::string val = subIter.getValue();
+			if (!val.compare("CASTER"))
+			{
+				location->location = EffectLocationEnum::CASTER_LOCATION;
+			}
+			else if (!val.compare("SOURCE"))
+			{
+				location->location = EffectLocationEnum::SOURCE_LOCATION;
+			}
+			else if (!val.compare("TARGET"))
+			{
+				location->location = EffectLocationEnum::TARGET_LOCATION;
+			}
+			else if (!val.compare("NONE"))
+			{
+				location->location = EffectLocationEnum::NONE_LOCATION;
+			}
+			else
+			{
+				throw DataErrorException("Unrecognized effect location value: " + val);
+			}
+		}
+	}
+}
+void DataManager::xmlParseEffectPlayer(XMLIterator iter, EffectPlayer* player)
+{
+	if (iter.isValid())
+	{
+		XMLIterator subIter;
+
+		player->effectHandle = -1;
+		subIter = iter.getChildrenOfName("Effect");
+		linkData<DEffect>(subIter, &player->effectHandle);
+
+		subIter = iter.getChildrenOfName("Player");
+		if (subIter.isValid())
+		{
+			std::string val = subIter.getValue();
+			if (!val.compare("CASTER"))
+			{
+				player->player = EffectPlayerEnum::CASTER_PLAYER;
+			}
+			else if (!val.compare("SOURCE"))
+			{
+				player->player = EffectPlayerEnum::SOURCE_PLAYER;
+			}
+			else if (!val.compare("TARGET"))
+			{
+				player->player = EffectPlayerEnum::TARGET_PLAYER;
+			}
+			else if (!val.compare("LOCAL"))
+			{
+				player->player = EffectPlayerEnum::LOCAL_PLAYER;
+			}
+			else if (!val.compare("NEUTRAL"))
+			{
+				player->player = EffectPlayerEnum::NEUTRAL_PLAYER;
+			}
+			else if (!val.compare("HOSTILE"))
+			{
+				player->player = EffectPlayerEnum::HOSTILE_PLAYER;
+			}
+			else if (!val.compare("NONE"))
+			{
+				player->player = EffectPlayerEnum::NONE_PLAYER;
+			}
+			else
+			{
+				throw DataErrorException("Unrecognized effect player value: " + val);
+			}
 		}
 	}
 }

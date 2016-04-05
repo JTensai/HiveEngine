@@ -81,6 +81,9 @@ namespace Hive
 		void xmlParseAttributes(XMLIterator iter, Attributes* attributes);
 		void xmlParseAbilityList(XMLIterator iter, std::vector<DAbilityHandle>* abilities);
 		void xmlParseBehaviorList(XMLIterator iter, std::vector<DBehaviorHandle>* behaviors);
+		void xmlParseEffectUnit(XMLIterator iter, EffectUnit* unit);
+		void xmlParseEffectLocation(XMLIterator iter, EffectLocation* location);
+		void xmlParseEffectPlayer(XMLIterator iter, EffectPlayer* player);
 
 		template <class T>
 		void linkData(XMLIterator iter, Handle* handle);

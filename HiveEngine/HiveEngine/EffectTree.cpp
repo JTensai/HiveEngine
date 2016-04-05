@@ -4,6 +4,7 @@ using namespace Hive;
 
 void EffectTree::clean(EffectTree* effectTree)
 {
+	//TODO: this is not working properly, fix it.
 	if (effectTree->activeReferences > 0)
 	{
 		for (int i = 0; i < effectTree->children.size(); i++)

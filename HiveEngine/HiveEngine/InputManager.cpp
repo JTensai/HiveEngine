@@ -1,9 +1,48 @@
 #include "InputManager.h"
 
 using namespace Hive;
+
+InputManager* InputManager::instance = nullptr;
+
 InputManager::InputManager(GLFWwindow* window)
 {
 	InputManager::window = window;
+
+	left_mouse_callbacks = std::vector<std::function<void()>>();
+	right_mouse_callbacks = std::vector<std::function<void()>>();
+
+	glfwSetMouseButtonCallback(window, &InputManager::mouseCallback);
+
+	instance = this;
+}
+
+void InputManager::mouseCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	instance->callback(window, button, action, mods);
+}
+void InputManager::callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (window != InputManager::window) return;
+	if (action != GLFW_RELEASE) return;
+
+	switch (button)
+	{
+	case GLFW_MOUSE_BUTTON_1:
+		for (int i = 0; i < left_mouse_callbacks.size(); i++)
+		{
+			left_mouse_callbacks[i]();
+		}
+		break;
+
+	case GLFW_MOUSE_BUTTON_2:
+		for (int i = 0; i < right_mouse_callbacks.size(); i++)
+		{
+			right_mouse_callbacks[i]();
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 InputManager::~InputManager()
@@ -72,11 +111,21 @@ bool InputManager::isMouseDown(int button)
 {
 	return false;
 }
-void InputManager::registerMouseCallback(int button, void(*callback)())
+void InputManager::registerMouseCallback(int button, std::function<void()> callback)
 {
-
+	switch (button)
+	{
+	case GLFW_MOUSE_BUTTON_1:
+		left_mouse_callbacks.push_back(callback);
+		break;
+	case GLFW_MOUSE_BUTTON_2:
+		right_mouse_callbacks.push_back(callback);
+		break;
+	default:
+		throw InputException("Unrecognized mouse button.");
+	}
 }
-void InputManager::registerKeyCallback(int key, void(*callback)())
+void InputManager::registerKeyCallback(int key, std::function<void()> callback)
 {
 
 }

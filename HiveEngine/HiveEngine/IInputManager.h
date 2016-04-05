@@ -7,6 +7,8 @@
  ***************************
  */
 
+#include <functional>
+
 #include <glm/glm.hpp>
 
 namespace Hive
@@ -21,8 +23,8 @@ namespace Hive
 		virtual glm::vec2 getMousePositionFraction() = 0;
 		virtual glm::vec2 getMousePositionWorld() = 0;
 		virtual bool isMouseDown(int button) = 0;
-		virtual void registerMouseCallback(int button, void(*callback)()) = 0;
-		virtual void registerKeyCallback(int key, void(*callback)()) = 0;
+		virtual void registerMouseCallback(int button, std::function<void()> callback) = 0;
+		virtual void registerKeyCallback(int key, std::function<void()> callback) = 0;
 
 		virtual ~IInputManager() {}
 	};

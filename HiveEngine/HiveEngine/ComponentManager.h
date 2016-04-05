@@ -2,7 +2,6 @@
 
 #include <glm/glm.hpp>
 
-#include "AbilityComponent.h"
 #include "Actor.h"
 #include "AIComponent.h"
 #include "BehaviorComponent.h"

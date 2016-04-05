@@ -2,6 +2,9 @@
 
 #include <string>
 #include <stdexcept>
+#include <vector>
+
+#include <glm\glm.hpp>
 
 #include "Data.h"
 #include "EffectTree.h"
@@ -9,12 +12,17 @@
 #include "Unit.h"
 #include "IComponentManager.h"
 #include "ServiceLocator.h"
+#include "ObjectPool.h"
 
 namespace Hive
 {
+	class EffectTree;
+
 	class Effects
 	{
 	private:
+		static std::vector<UnitHandle> get_units_in_area(glm::vec2 location, float radius);
+
 		static void eModifyUnit(EffectTree* effectTree, DEffectModifyUnit* effect);
 		static void eSearch(EffectTree* effectTree, DEffectSearch* effect);
 		static void eSet(EffectTree* effectTree, DEffectSet* set);

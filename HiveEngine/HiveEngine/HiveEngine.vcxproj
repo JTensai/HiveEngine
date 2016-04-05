@@ -158,7 +158,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AbilityComponent.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="AIComponent.cpp" />
     <ClCompile Include="BehaviorComponent.cpp" />
@@ -195,7 +194,6 @@
     <ClCompile Include="XMLInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbilityComponent.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AIComponent.h" />
     <ClInclude Include="Asset.h" />
@@ -226,6 +224,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="ObjectPool.h" />
+    <ClInclude Include="Order.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleEmitter.h" />
     <ClInclude Include="ParticleSystemComponent.h" />

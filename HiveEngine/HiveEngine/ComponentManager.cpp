@@ -6,7 +6,6 @@ namespace Hive
 
 	void ComponentManager::initialize()
 	{
-		AbilityComponent::initialize();
 		Actor::initialize();
 		AIComponent::initialize();
 		BehaviorComponent::initialize();
@@ -33,7 +32,6 @@ namespace Hive
 	{
 		//player input component does not derive from component, its in a bit of a hacked together state right now.
 		player_input_component.update(delta);
-		AbilityComponent::update_all(delta);
 		AIComponent::update_all(delta);
 		BehaviorComponent::update_all(delta);
 		Unit::update_all(delta);
@@ -43,15 +41,15 @@ namespace Hive
 	{
 		DUnit* dunit = DUnit::getItem(dunit_handle);
 
-		Handle actor_handle = Actor::create_component();
+		ActorHandle actor_handle = Actor::create_component();
 		Actor* actor = Actor::get_component(actor_handle);
 		actor->loadFromData(dunit->actorDataHandle);
 
-		Handle unit_handle = Unit::create_component();
+		UnitHandle unit_handle = Unit::create_component();
 		Unit* unit = Unit::get_component(unit_handle);
-		unit->init_unit(actor_handle, dunit_handle, player, position);
+		unit->init_unit(unit_handle, actor_handle, dunit_handle, player, position);
 
-		return (UnitHandle) unit_handle;
+		return unit_handle;
 	}
 
 	UnitHandle ComponentManager::spawn_ai_unit(glm::vec2 position, DUnitHandle dunit_handle, PlayerHandle player, UnitHandle player_unit_handle)

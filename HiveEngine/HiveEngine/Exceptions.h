@@ -39,12 +39,33 @@ namespace Hive
 		virtual const char* what() const { return "Effect tree exception."; }
 	};
 
+	class InputException : public Exception
+	{
+	public:
+		InputException(std::string err) { msg = err; }
+		virtual const char* what() const { return "Input exception."; }
+	};
+
+	class UnitException : public Exception
+	{
+	public:
+		UnitException(std::string err) { msg = err; }
+		virtual const char* what() const { return "Unit exception."; }
+	};
+
 	class UnimplementedException : public Exception
 	{
 	public:
-		UnimplementedException() { msg = "Unimplemented code hit."; }
+		UnimplementedException() {}
 		UnimplementedException(std::string err) { msg = err; }
 		virtual const char* what() const { return "Unimplemented exception."; }
+	};
+
+	class UnknownOrderTypeException : public Exception
+	{
+	public:
+		UnknownOrderTypeException() {}
+		virtual const char* what() const { return "Unknown order type exception."; }
 	};
 
 	class ValidatorException : public Exception

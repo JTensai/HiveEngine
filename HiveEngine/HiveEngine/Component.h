@@ -29,6 +29,8 @@ namespace Hive
 		static void update_all(float delta);
 		virtual void update_component(float delta) = 0;
 		static void postupdate() {}
+
+		static const ObjectPool<T>& view_pool() { return pool; }
 	};
 
 	template <class T>

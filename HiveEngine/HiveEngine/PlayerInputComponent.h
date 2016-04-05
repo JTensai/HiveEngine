@@ -23,11 +23,15 @@ namespace Hive
 	{
 	private:
 		UnitHandle player_unit_handle;
+		DAbilityHandle left_click;
+		DAbilityHandle right_click;
 
 	public:
 		PlayerInputComponent();
-		void setPlayerHandle(UnitHandle handle) { player_unit_handle = handle; }
+		void setPlayerHandle(UnitHandle handle);
 		void update(float delta);
+		void onleft();
+		void onright();
 		~PlayerInputComponent();
 	};
 

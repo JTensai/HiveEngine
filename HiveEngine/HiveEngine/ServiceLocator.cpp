@@ -3,9 +3,9 @@
 namespace Hive
 {
 
-	ServiceLocator* ServiceLocator::instance = NULL;
+	ServiceLocator* ServiceLocator::instance = nullptr;
 	ServiceLocator::ServiceLocator() {
-		input_manager = NULL;
+		input_manager = nullptr;
 	}
 
 	ServiceLocator* ServiceLocator::get_instance() {

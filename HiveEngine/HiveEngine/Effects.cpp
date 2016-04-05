@@ -41,6 +41,27 @@ void Effects::launchEffect(EffectTree* effectTree)
 	}
 }
 
+std::vector<UnitHandle> Effects::get_units_in_area(glm::vec2 location, float radius)
+{
+	//TODO: use a better search method than going over every one.
+	std::vector<UnitHandle> units = std::vector<UnitHandle>();
+	const ObjectPool<Unit>& pool = Unit::view_pool();
+	for (int i = 0, c = 0; c < pool.get_num_in_use(); i++)
+	{
+		if (!pool.is_used(i)) continue;
+
+		c++;
+
+		const Unit* unit = pool.c_get(i);
+		glm::vec2 u_pos = unit->get_position();
+		if (glm::distance(location, u_pos) < radius)
+		{
+			units.push_back(unit->get_handle());
+		}
+	}
+	return units;
+}
+
 void Effects::eModifyUnit(EffectTree* effectTree, DEffectModifyUnit* effect)
 {
 	try
@@ -61,7 +82,37 @@ void Effects::eModifyUnit(EffectTree* effectTree, DEffectModifyUnit* effect)
 
 void Effects::eSearch(EffectTree* effectTree, DEffectSearch* effect)
 {
-	throw UnimplementedException();
+	try
+	{
+		glm::vec2 location = effectTree->getLocation(effect->location);
+		std::vector<UnitHandle> units = get_units_in_area(location, effect->radius);
+		std::vector<EffectTree*> children = std::vector<EffectTree*>(units.size());
+		for (int i = 0; i < units.size(); i++)
+		{
+			Unit* unit = Unit::get_component(units[i]);
+			//TODO: validate unit against filter.
+			EffectTree* child = effectTree->addChild();
+
+			child->setEffect(effect->effect);
+
+			child->setTargetUnit(units[i]);
+			child->setTargetPlayer(unit->get_player());
+			child->setTargetLocation(unit->get_position());
+
+			children[i] = child;
+		}
+
+		for (int i = 0; i < children.size(); i++)
+		{
+			launchEffect(children[i]);
+		}
+
+		EffectTree::clean(effectTree);
+	}
+	catch (const Exception& e)
+	{
+		throw EffectException("Error in Search effect: " + e.msg);
+	}
 }
 
 void Effects::eSet(EffectTree* effectTree, DEffectSet* set)

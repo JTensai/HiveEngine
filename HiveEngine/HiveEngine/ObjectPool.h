@@ -60,18 +60,19 @@ namespace Hive
 		typedef cop_iterator const_iterator;
 
 		iterator begin();
-		const_iterator cbegin();
+		const_iterator cbegin() const;
 
 		iterator end();
-		const_iterator cend();
+		const_iterator cend() const;
 
 		T* get(Handle index);
-		int get_num_in_use();
-		bool is_used(Handle index);
+		const T* c_get(Handle index) const;
+		int get_num_in_use() const;
+		bool is_used(Handle index) const;
 		void remove(Handle index);
 		Handle create();
-		int count();
-		int capacity();
+		int count() const;
+		int capacity() const;
 
 		~ObjectPool();
 
@@ -97,7 +98,7 @@ namespace Hive
 		return op_iterator(pool.begin(), used.begin(), used.end());
 	}
 	template <class T>
-	typename ObjectPool<T>::const_iterator ObjectPool<T>::cbegin()
+	typename ObjectPool<T>::const_iterator ObjectPool<T>::cbegin() const
 	{
 		return cop_iterator(pool.cbegin(), used.cbegin(), used.cbegin());
 	}
@@ -108,7 +109,7 @@ namespace Hive
 		return op_iterator(pool.end(), used.end(), used.end());
 	}
 	template <class T>
-	typename ObjectPool<T>::const_iterator ObjectPool<T>::cend()
+	typename ObjectPool<T>::const_iterator ObjectPool<T>::cend() const
 	{
 		return cop_iterator(pool.cend(), used.cend(), used.cend());
 	}
@@ -120,13 +121,19 @@ namespace Hive
 	}
 
 	template <class T>
-	int ObjectPool<T>::get_num_in_use()
+	const T* ObjectPool<T>::c_get(Handle index) const
+	{
+		return &pool.at(index);
+	}
+
+	template <class T>
+	int ObjectPool<T>::get_num_in_use() const
 	{
 		return in_use;
 	}
 
 	template <class T>
-	bool ObjectPool<T>::is_used(Handle index)
+	bool ObjectPool<T>::is_used(Handle index) const
 	{
 		return used[index];
 	}
@@ -155,13 +162,13 @@ namespace Hive
 	}
 
 	template <class T>
-	int ObjectPool<T>::capacity()
+	int ObjectPool<T>::capacity() const
 	{
 		return pool.capacity();
 	}
 
 	template <class T>
-	int ObjectPool<T>::count()
+	int ObjectPool<T>::count() const
 	{
 		return in_use;
 	}

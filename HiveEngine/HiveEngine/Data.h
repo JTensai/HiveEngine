@@ -24,10 +24,10 @@ namespace Hive
 	typedef Handle DTextureHandle;
 	typedef Handle DValidatorHandle;
 
+	typedef Handle ActorHandle;
 	typedef Handle AIHandle;
 	typedef Handle MeshHandle;
 	typedef Handle UnitHandle;
-	typedef Handle ActorHandle;
 	typedef Handle PlayerHandle;
 
 	const PlayerHandle LOCAL_PLAYER = 0;
@@ -118,38 +118,83 @@ namespace Hive
 		POINT_TARGET,
 		UNIT_TARGET
 	};
+
+	enum class ActorEvent {
+		ACTOR_CREATED,
+		ACTOR_DESTROYED,
+		ABILITY_STAGE,
+		BEHAVIOR_STAGE,
+		UNIT_EVENT
+	};
+
+	enum class AbilityStages {
+		START_CAST,
+		FINISH_CAST,
+		START_CHANNEL,
+		FINISH_CHANNEL,
+		FINISHED,
+		ANY
+	};
+
+	enum class BehaviorStages {
+		INITIAL,
+		PERIOD,
+		EXPIRED,
+		REFRESHED,
+		FINAL,
+		ANY
+	};
+
+	enum class UnitEvent {
+		BIRTH,
+		DEATH,
+		REVIVE
+	};
+
+	enum class ActorAction {
+		CREATE_ACTOR,
+		DESTROY_ACTOR,
+		SET_SCALE
+	};
+
 #pragma endregion
 #pragma region Structs
-	struct Order {
-		DAbilityHandle abilityID;
+	struct Order
+	{
+		DAbilityHandle ability_handle;
 		AbilityType type;
 		UnitHandle targetUnit;
 		glm::vec2 targetPoint;
 	};
 
-	struct EffectList {
+	struct EffectList
+	{
 		DEffectHandle effectInitial;
 		DEffectHandle effectPeriodic;
 		DEffectHandle effectFinal;
 		DEffectHandle effectExpire;
 	};
 
-	struct EffectUnit {
+	struct EffectUnit
+	{
 		DEffectHandle effectHandle;
 		EffectUnitEnum unit;
 	};
 
-	struct EffectLocation {
+	struct EffectLocation
+	{
 		DEffectHandle effectHandle;
 		EffectLocationEnum location;
 	};
 
-	struct EffectPlayer {
+	struct EffectPlayer
+	{
 		DEffectHandle effectHandle;
 		EffectPlayerEnum player;
 	};
 
-	struct Vitals {
+	struct Vitals
+	{
 		float
 			hp,
 			mana;
@@ -158,11 +203,17 @@ namespace Hive
 		Vitals operator*(float f) const { return Vitals{ hp * f, mana * f }; }
 		Vitals operator+(const Vitals& o) const { return Vitals{ hp + o.hp, mana + o.mana }; }
 		Vitals operator-(const Vitals& o) const { return *this + -o; }
+		bool operator>(const Vitals& o) const { return hp > o.hp && mana > o.mana; }
+		bool operator>=(const Vitals& o) const { return hp >= o.hp && mana >= o.mana; }
+		bool operator<(const Vitals& o) const { return hp < o.hp && mana < o.mana; }
+		bool operator<=(const Vitals& o) const { return hp <= o.hp && mana <= o.mana; }
+		bool operator==(const Vitals& o) const { return hp == o.hp && mana == o.mana; }
 		void operator*=(float f) { hp *= f; mana *= f; }
 		void operator+=(const Vitals& o) { hp += o.hp; mana += o.mana; }
 	};
 
-	struct UnitFilter {
+	struct UnitFilter
+	{
 		Filter
 			dead,
 			invulnerable,
@@ -173,7 +224,8 @@ namespace Hive
 			neutral;
 	};
 
-	struct Charges {
+	struct Charges
+	{
 		int
 			max,
 			start,
@@ -182,25 +234,43 @@ namespace Hive
 		float cooldown;
 	};
 
-	struct Cost {
+	struct Cost
+	{
 		Vitals vitals;
 		Vitals vitalFraction;
 		Charges charges;
 		float cooldown;
 	};
 
-	struct Attributes {
+	struct Attributes
+	{
 		bool missile;
 	};
 
-	struct ValidatorConditionCase {
+	struct ValidatorConditionCase
+	{
 		DValidatorHandle ifValidator;
 		DValidatorHandle thenValidator;
 	};
 
-	struct EffectSwitchCase {
+	struct EffectSwitchCase
+	{
 		DValidatorHandle ifValidator;
 		DEffectHandle thenEffect;
+	};
+
+	struct AbilityInstance
+	{
+		DAbilityHandle ability;
+		float cooldown;
+		int charges;
+		float charge_cooldown;
+		Cost cost;
+	};
+
+	struct BehaviorInstance
+	{
+		//TODO
 	};
 #pragma endregion
 
@@ -234,6 +304,7 @@ namespace Hive
 		std::string tooltip;
 		DTextureHandle iconTextureHandle;
 		Cost cost;
+		Charges charges;
 		EffectList effects;
 		float range;
 		UnitFilter targetFilter;
@@ -386,6 +457,7 @@ namespace Hive
 	struct DEffectSearch : DEffectBase {
 		EffectLocation location;
 		float radius;
+		DEffectHandle effect;
 		UnitFilter filter;
 	};
 
@@ -445,6 +517,32 @@ namespace Hive
 				break;
 			}
 		}
+
+		DEffectUnion operator=(const DEffectUnion& o)
+		{
+			switch (o.dBase.type)
+			{
+			case EffectType::MODIFY_UNIT:
+				dModifyUnit = o.dModifyUnit;
+				break;
+			case EffectType::SEARCH:
+				dSearch = o.dSearch;
+				break;
+			case EffectType::SET:
+				dSet = o.dSet;
+				break;
+			case EffectType::SET_BEHAVIOR:
+				dSetBehavior = o.dSetBehavior;
+				break;
+			case EffectType::SPAWN_UNIT:
+				dSpawnUnit = o.dSpawnUnit;
+				break;
+			case EffectType::SWITCH:
+				dSwitch = o.dSwitch;
+				break;
+			}
+			return *this;
+		}
 		~DEffectUnion() {}
 	};
 
@@ -452,6 +550,17 @@ namespace Hive
 	{
 	public:
 		DEffectUnion u;
+		/*DEffect() {}
+		DEffect(const DEffect& o)
+		{
+			u = o.u;
+		}
+		~DEffect() {}
+		DEffect operator=(const DEffect& o)
+		{
+			u = o.u;
+			return *this;
+		}*/
 	};
 #pragma endregion
 
