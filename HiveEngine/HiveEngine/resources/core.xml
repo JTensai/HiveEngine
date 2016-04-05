@@ -323,7 +323,7 @@
 			</EmitterLocalOrigin>
 			<Lifetime>
 				<Min value="1.0"/>
-				<Max value="1.0"/>
+				<Max value="0.5"/>
 			</Lifetime>
 			<InitialSize>
 				<Min value="1.0"/>
@@ -338,7 +338,7 @@
 		<SpawnVariables>
 			<ConstantRate value="10"/>
 			<Burst value="0"/>
-			<Looping value="0"/>
+			<Looping value="1"/>
 			<EmitterDelay value="0.0"/>
 		</SpawnVariables>
 		<SubUVVariables>
