@@ -2,15 +2,16 @@
 
 #include <GL\glew.h>
 
-#include "Texture.h"
 #include "DataCollection.h"
+#include "Data.h"
+#include "Texture.h"
 
 namespace Hive
 {
 	class DMaterial : public DataCollection<DMaterial>
 	{
 	public:
-		int diffuse_tex;
+		DTextureHandle diffuse_tex;
 
 		DMaterial();
 		void bind() const;

@@ -6,7 +6,7 @@ Unit::Unit()
 {
 }
 
-void Unit::init_unit(int actor, int data, int player, glm::vec2 position)
+void Unit::init_unit(ActorHandle actor, DUnitHandle data, PlayerHandle player, glm::vec2 position)
 {
 	actorHandle = actor;
 	dataHandle = data;

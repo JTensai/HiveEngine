@@ -29,7 +29,7 @@ const std::vector<char> GameWorld::grid()
 	return map;
 }
 
-void GameWorld::load(GLuint shader, XMLIterator map_iter, int& player_handle)
+void GameWorld::load(GLuint shader, XMLIterator map_iter, UnitHandle& player_unit_handle)
 {
 	//TODO, load map from map_iter
 	XMLIterator iter, subiter, subsubiter, sssiter;
@@ -168,13 +168,26 @@ void GameWorld::load(GLuint shader, XMLIterator map_iter, int& player_handle)
 
 	IComponentManager* component_manager = ServiceLocator::get_component_manager();
 
-	player_handle = component_manager->spawn_unit(player_spawn_point, DUnit::getIndex(player_type), LOCAL_PLAYER);
-	component_manager->attach_player_input(player_handle);
+	player_unit_handle = component_manager->spawn_unit(player_spawn_point, DUnit::getIndex(player_type), LOCAL_PLAYER);
+	component_manager->attach_player_input(player_unit_handle);
 
 	nav_mesh = new Graph(map, map_width, map_depth);
 
-	glm::vec2 ai_spawn_point(7,10);
-	int ai_handle = component_manager->spawn_ai_unit(ai_spawn_point, DUnit::getIndex(player_type), LOCAL_PLAYER, player_handle);
+	//Spawn AI from data
+	glm::vec2 ai_spawn_point;
+
+	iter = map_iter.getChildrenOfName("AI");
+	if (!iter.isValid()) throw DataErrorException("Map missing AI node.");
+	subiter = iter.getChildrenOfName("Spawn");
+	if (!subiter.isValid()) throw DataErrorException("Map AI node missing Spawn node.");
+	subsubiter = subiter.getChildrenOfName("X");
+	if (!subsubiter.isValid()) throw DataErrorException("Map AI Spawn node missing X.");
+	ai_spawn_point.x = std::stof(subsubiter.getValue());
+	subsubiter = subiter.getChildrenOfName("Y");
+	if (!subsubiter.isValid()) throw DataErrorException("Map AI Spawn node missing Y.");
+	ai_spawn_point.y = std::stof(subsubiter.getValue());
+
+	UnitHandle ai_handle = component_manager->spawn_ai_unit(ai_spawn_point, DUnit::getIndex(player_type), LOCAL_PLAYER, player_unit_handle);
 	Unit* ai_unit = Unit::get_component(ai_handle);
 	ai_unit->set_speed(2.0f);
 

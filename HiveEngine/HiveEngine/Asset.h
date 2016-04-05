@@ -32,7 +32,7 @@ namespace Hive
 		{
 			return asset;
 		}
-		asset = new T(filepath, static_cast<D*>(this));
+		asset = new T(filepath);
 		if (asset == nullptr) throw AssetLoadException("Unable to load asset: " + filepath);
 		isLoaded = true;
 		return asset;

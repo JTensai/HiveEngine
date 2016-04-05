@@ -28,9 +28,9 @@ namespace Hive
 		void load();
 		void update_free(float delta);
 		void update_fixed(float delta);
-		int spawn_unit(glm::vec2 position, int dunit_handle, int player);
-		int spawn_ai_unit(glm::vec2 position, int dunit_handle, int player, int player_unit_handle);
-		void attach_player_input(int unit_handle);
+		UnitHandle spawn_unit(glm::vec2 position, DUnitHandle dunit_handle, PlayerHandle player);
+		UnitHandle spawn_ai_unit(glm::vec2 position, DUnitHandle dunit_handle, PlayerHandle player, UnitHandle player_unit_handle);
+		void attach_player_input(UnitHandle unit_handle);
 		void draw(const glm::mat4& VP);
 
 		~ComponentManager();

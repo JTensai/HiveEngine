@@ -9,6 +9,10 @@
 
 #include <glm\glm.hpp>
 
+#include "Unit.h"
+#include "AIComponent.h"
+#include "Data.h"
+
 namespace Hive
 {
 	class IComponentManager
@@ -18,9 +22,9 @@ namespace Hive
 		virtual void load() = 0;
 		virtual void update_free(float delta) = 0;
 		virtual void update_fixed(float delta) = 0;
-		virtual int spawn_unit(glm::vec2 position, int dunit_handle, int player) = 0;
-		virtual int spawn_ai_unit(glm::vec2 position, int dunit_handle, int player, int player_unit_handle) = 0;
-		virtual void attach_player_input(int unit_handle) = 0;
+		virtual UnitHandle spawn_unit(glm::vec2 position, DUnitHandle dunit_handle, PlayerHandle player) = 0;
+		virtual UnitHandle spawn_ai_unit(glm::vec2 position, DUnitHandle dunit_handle, PlayerHandle player, UnitHandle player_unit_handle) = 0;
+		virtual void attach_player_input(UnitHandle unit_handle) = 0;
 		virtual void draw(const glm::mat4& VP) = 0;
 
 		virtual ~IComponentManager() {}

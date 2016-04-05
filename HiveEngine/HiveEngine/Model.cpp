@@ -2,7 +2,7 @@
 
 using namespace Hive;
 
-Model::Model(std::string filepath, DModel* data)
+Model::Model(std::string filepath)
 {
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
@@ -33,7 +33,7 @@ int Model::get_num_meshes() const
 	return meshes.size();
 }
 
-int Model::get_mesh(int mesh) const
+MeshHandle Model::get_mesh(int mesh) const
 {
 	if (mesh < 0 || mesh > meshes.size()) throw std::out_of_range("Mesh out of range.");
 	return meshes[mesh];

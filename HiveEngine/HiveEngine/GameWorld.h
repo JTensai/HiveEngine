@@ -79,7 +79,7 @@ namespace Hive
 
 		Graph* get_nav_mesh() { return nav_mesh; }
 
-		void load(GLuint shader, XMLIterator map_iter, int& player_handle);
+		void load(GLuint shader, XMLIterator map_iter, UnitHandle& player_unit_handle);
 		void update(float delta);
 		void draw(const glm::mat4& VP);
 		void close();

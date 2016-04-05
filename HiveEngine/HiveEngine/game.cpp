@@ -133,7 +133,7 @@ void Game::load(GLFWwindow* window) {
 
 	world_cursor_actor_handle = -1;
 	world_cursor_actor_handle = Actor::create_component();
-	printf("cursor handle %i\n", world_cursor_actor_handle);
+	
 	Actor* cursor = Actor::get_component(world_cursor_actor_handle);
 	cursor->loadFromData(DActor::getIndex("QUAD_ACTOR"));
 	cursor->set_rotation(glm::vec3(-glm::half_pi<float>(), 0, 0));

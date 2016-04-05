@@ -53,9 +53,9 @@ namespace Hive
 		InputManager* input_manager;
 		float timestep_delta;
 		bool update_cache_swap_flag;
-		int player_unit_handle;
-		int player_actor_handle;
-		int world_cursor_actor_handle;
+		UnitHandle player_unit_handle;
+		ActorHandle player_actor_handle;
+		ActorHandle world_cursor_actor_handle;
 
 	public:
 		Game();

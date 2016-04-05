@@ -2,7 +2,7 @@
 
 using namespace Hive;
 
-Texture::Texture(std::string filepath, DTexture* data)
+Texture::Texture(std::string filepath)
 {
 	ILuint handle;
 	ilGenImages(1, &handle);

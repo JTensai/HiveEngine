@@ -143,7 +143,7 @@ int main(int argc, char** argv)
 				glfwPollEvents();
 			}
 		}
-		fprintf(stdout, "Exiting game loop.\n");
+		fprintf(stdout, "Exiting game loop...\n");
 
 		fprintf(stdout, "Closing game...\n");
 		game.close();

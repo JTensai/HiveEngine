@@ -68,12 +68,14 @@ void DataManager::xmlFirstPass(XMLInterface& xmlif)
 	root.forEachChildOfName("ParticleSystem", std::bind(&DataManager::xmlFirstPassParticleSystem, this, _1));
 	root.forEachChildOfName("ParticleEmitter", std::bind(&DataManager::xmlFirstPassParticleEmitter, this, _1));
 	// modules...
-	root.forEachChildOfName("ModuleSizeOverLife", std::bind(&DataManager::xmlFirstPassModuleSizeOverLife, this, _1));
-	root.forEachChildOfName("ModuleColorOverLife", std::bind(&DataManager::xmlFirstPassModuleColorOverLife, this, _1));
-	root.forEachChildOfName("ModuleInitialRotation", std::bind(&DataManager::xmlFirstPassModuleInitialRotation, this, _1));
-	root.forEachChildOfName("ModuleInitialRotationRate", std::bind(&DataManager::xmlFirstPassModuleInitialRotationRate, this, _1));
-	root.forEachChildOfName("ModuleSubImageIndexOverLife", std::bind(&DataManager::xmlFirstPassModuleSubImageIndexOverLife, this, _1));
-	root.forEachChildOfName("ModuleSubImageIndexRandom", std::bind(&DataManager::xmlFirstPassModuleSubImageIndexRandom, this, _1));
+	root.forEachChildOfName("ModuleSizeOverLife", std::bind(&DataManager::xmlFirstPassModules, this, _1));
+	root.forEachChildOfName("ModuleColorOverLife", std::bind(&DataManager::xmlFirstPassModules, this, _1));
+	root.forEachChildOfName("ModuleInitialRotation", std::bind(&DataManager::xmlFirstPassModules, this, _1));
+	root.forEachChildOfName("ModuleInitialRotationRate", std::bind(&DataManager::xmlFirstPassModules, this, _1));
+	root.forEachChildOfName("ModuleSubImageIndexOverLife", std::bind(&DataManager::xmlFirstPassModules, this, _1));
+	root.forEachChildOfName("ModuleSubImageIndexRandom", std::bind(&DataManager::xmlFirstPassModules, this, _1));
+
+	root.forEachChildOfName("UIElement", std::bind(&DataManager::xmlFirstPassModules, this, _1));
 }
 
 void DataManager::xmlFirstPassAbilities(XMLIterator xmliter)
@@ -147,41 +149,18 @@ void DataManager::xmlFirstPassParticleEmitter(XMLIterator xmliter)
 	DParticleEmitter::addItem(id, emitter);
 }
 //modules...
-void DataManager::xmlFirstPassModuleSizeOverLife(XMLIterator xmliter)
+void DataManager::xmlFirstPassModules(XMLIterator xmliter)
 {
-	DModuleSizeOverLife module;
+	DModule module;
 	std::string id = xmliter.getID();
-	DModuleSizeOverLife::addItem(id, module);
+	DModule::addItem(id, module);
 }
-void DataManager::xmlFirstPassModuleColorOverLife(XMLIterator xmliter)
+
+void DataManager::xmlFirstPassUIElements(XMLIterator xmliter)
 {
-	DModuleColorOverLife module;
+	DUIElement element;
 	std::string id = xmliter.getID();
-	DModuleColorOverLife::addItem(id, module);
-}
-void DataManager::xmlFirstPassModuleInitialRotation(XMLIterator xmliter)
-{
-	DModuleInitialRotation module;
-	std::string id = xmliter.getID();
-	DModuleInitialRotation::addItem(id, module);
-}
-void DataManager::xmlFirstPassModuleInitialRotationRate(XMLIterator xmliter)
-{
-	DModuleInitialRotationRate module;
-	std::string id = xmliter.getID();
-	DModuleInitialRotationRate::addItem(id, module);
-}
-void DataManager::xmlFirstPassModuleSubImageIndexOverLife(XMLIterator xmliter)
-{
-	DModuleSubImageIndexOverLife module;
-	std::string id = xmliter.getID();
-	DModuleSubImageIndexOverLife::addItem(id, module);
-}
-void DataManager::xmlFirstPassModuleSubImageIndexRandom(XMLIterator xmliter)
-{
-	DModuleSubImageIndexRandom module;
-	std::string id = xmliter.getID();
-	DModuleSubImageIndexRandom::addItem(id, module);
+	DUIElement::addItem(id, element);
 }
 
 void DataManager::xmlSecondPass(XMLInterface& xmlif)
@@ -224,6 +203,8 @@ void DataManager::xmlSecondPass(XMLInterface& xmlif)
 	root.forEachChildOfName("ModuleInitialRotationRate", std::bind(&DataManager::xmlSecondPassModuleInitialRotationRate, this, _1));
 	root.forEachChildOfName("ModuleSubImageIndexOverLife", std::bind(&DataManager::xmlSecondPassModuleSubImageIndexOverLife, this, _1));
 	root.forEachChildOfName("ModuleSubImageIndexRandom", std::bind(&DataManager::xmlSecondPassModuleSubImageIndexRandom, this, _1));
+
+	root.forEachChildOfName("UIElement", std::bind(&DataManager::xmlSecondPassUIElements, this, _1));
 }
 
 void DataManager::xmlSecondPassAbilities(XMLIterator xmliter)
@@ -422,7 +403,7 @@ void DataManager::xmlSecondPassParticleSystem(XMLIterator xmliter)
 			iter = iter.getChildrenOfName("ParticleEmitter");
 			while (iter.isValid())
 			{
-				int temp_handle;
+				Handle temp_handle;
 				linkData<DParticleEmitter>(iter, &temp_handle);
 				pSystem->emitters_handles.push_back(temp_handle);
 				iter = iter.next();
@@ -461,7 +442,7 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("Material");
 			if (subiter.isValid())
 			{
-				int temp_handle;
+				DMaterialHandle temp_handle;
 				linkData<DMaterial>(subiter, &temp_handle);
 				emitter->mat_handle = temp_handle;
 			}
@@ -536,48 +517,48 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 			subiter = iter.getChildrenOfName("ModuleSizeOverLife");
 			if (subiter.isValid())
 			{
-				int temp_handle;
-				linkData<DModuleSizeOverLife>(subiter, &temp_handle);
+				DModuleHandle temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle); 
 			}
 
 			subiter = iter.getChildrenOfName("ModuleColorOverLife");
 			if (subiter.isValid())
 			{
-				int temp_handle;
-				linkData<DModuleColorOverLife>(subiter, &temp_handle);
+				DModuleHandle temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
 
 			subiter = iter.getChildrenOfName("ModuleInitialRotation");
 			if (subiter.isValid())
 			{
-				int temp_handle;
-				linkData<DModuleInitialRotation>(subiter, &temp_handle);
+				DModuleHandle temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
 
 			subiter = iter.getChildrenOfName("ModuleInitialRotationRate");
 			if (subiter.isValid())
 			{
-				int temp_handle;
-				linkData<DModuleInitialRotationRate>(subiter, &temp_handle);
+				DModuleHandle temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
 
 			subiter = iter.getChildrenOfName("ModuleSubImageIndexOverLife");
 			if (subiter.isValid())
 			{
-				int temp_handle;
-				linkData<DModuleSubImageIndexOverLife>(subiter, &temp_handle);
+				DModuleHandle temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
 
 			subiter = iter.getChildrenOfName("ModuleSubImageIndexRandom");
 			if (subiter.isValid())
 			{
-				int temp_handle;
-				linkData<DModuleSubImageIndexRandom>(subiter, &temp_handle);
+				DModuleHandle temp_handle;
+				linkData<DModule>(subiter, &temp_handle);
 				emitter->modules_handles.push_back(temp_handle);
 			}
 		}
@@ -589,10 +570,12 @@ void DataManager::xmlSecondPassParticleEmitter(XMLIterator xmliter)
 }
 void DataManager::xmlSecondPassModuleSizeOverLife(XMLIterator xmliter)
 {
+	DModule* mod;
 	DModuleSizeOverLife* module;
 	try
 	{
-		copyParent<DModuleSizeOverLife>(xmliter, &module);
+		copyParent<DModule>(xmliter, &mod);
+		module = &mod->u.size_over_life;
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("ScaleMultiplier");
@@ -611,10 +594,12 @@ void DataManager::xmlSecondPassModuleSizeOverLife(XMLIterator xmliter)
 }
 void DataManager::xmlSecondPassModuleColorOverLife(XMLIterator xmliter)
 {
+	DModule* mod;
 	DModuleColorOverLife* module;
 	try
 	{
-		copyParent<DModuleColorOverLife>(xmliter, &module);
+		copyParent<DModule>(xmliter, &mod);
+		module = &mod->u.color_over_life;
 
 		XMLIterator iter;
 		XMLIterator subiter;
@@ -658,10 +643,12 @@ void DataManager::xmlSecondPassModuleColorOverLife(XMLIterator xmliter)
 }
 void DataManager::xmlSecondPassModuleInitialRotation(XMLIterator xmliter)
 {
+	DModule* mod;
 	DModuleInitialRotation* module;
 	try
 	{
-		copyParent<DModuleInitialRotation>(xmliter, &module);
+		copyParent<DModule>(xmliter, &mod);
+		module = &mod->u.initial_rotation;
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("Min");
@@ -677,10 +664,12 @@ void DataManager::xmlSecondPassModuleInitialRotation(XMLIterator xmliter)
 }
 void DataManager::xmlSecondPassModuleInitialRotationRate(XMLIterator xmliter)
 {
+	DModule* mod;
 	DModuleInitialRotationRate* module;
 	try
 	{
-		copyParent<DModuleInitialRotationRate>(xmliter, &module);
+		copyParent<DModule>(xmliter, &mod);
+		module = &mod->u.initial_rotation_rate;
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("Min");
@@ -696,10 +685,12 @@ void DataManager::xmlSecondPassModuleInitialRotationRate(XMLIterator xmliter)
 }
 void DataManager::xmlSecondPassModuleSubImageIndexOverLife(XMLIterator xmliter)
 {
+	DModule* mod;
 	DModuleSubImageIndexOverLife* module;
 	try
 	{
-		copyParent<DModuleSubImageIndexOverLife>(xmliter, &module);
+		copyParent<DModule>(xmliter, &mod);
+		module = &mod->u.sub_image_index_over_life;
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("Beginning");
@@ -715,10 +706,12 @@ void DataManager::xmlSecondPassModuleSubImageIndexOverLife(XMLIterator xmliter)
 }
 void DataManager::xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter)
 {
+	DModule* mod;
 	DModuleSubImageIndexRandom* module;
 	try
 	{
-		copyParent<DModuleSubImageIndexRandom>(xmliter, &module);
+		copyParent<DModule>(xmliter, &mod);
+		module = &mod->u.sub_image_index_random;
 
 		XMLIterator iter;
 		iter = xmliter.getChildrenOfName("Min");
@@ -731,6 +724,36 @@ void DataManager::xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter)
 	{
 		throw DataErrorException("ModuleSubImageIndexRandom(" + xmliter.getID() + ")::" + e.msg);
 	}
+}
+
+void DataManager::xmlSecondPassUIElements(XMLIterator xmliter) 
+{
+	DUIElement* element;
+	try
+	{
+		//copyParent<DUIElement>(xmliter, &element);
+		//XMLIterator iter;
+		/*iter = xmliter.getChildrenOfName("X");
+		element->position*/
+
+		//iter = xmliter.getChildrenOfName("Texture");
+		//linkData<DTexture>(iter, &element->texture);
+
+	}
+
+	/*DUnit* unit;
+	try
+	{
+		iter = xmliter.getChildrenOfName("Height");
+		if (iter.isValid()) { unit->height = std::stof(iter.getValue()); }
+
+	}
+	*/
+	catch (DataErrorException e)
+	{
+		throw DataErrorException("Unit(" + xmliter.getID() + ")::" + e.msg);
+	}
+
 }
 
 void DataManager::xmlParseVitals(XMLIterator iter, Vitals* vitals)
@@ -928,14 +951,14 @@ void DataManager::xmlParseAttributes(XMLIterator iter, Attributes* attributes)
 	}
 }
 
-void DataManager::xmlParseAbilityList(XMLIterator iter, std::vector<int>* abilities)
+void DataManager::xmlParseAbilityList(XMLIterator iter, std::vector<DAbilityHandle>* abilities)
 {
 	if (iter.isValid())
 	{
 		XMLIterator subIter = iter.getChildrenOfName("Ability");
 		while (subIter.isValid())
 		{
-			int tmp = -1;
+			DAbilityHandle tmp = -1;
 			linkData<DAbility>(subIter, &tmp);
 			if (tmp >= 0)
 			{
@@ -949,14 +972,14 @@ void DataManager::xmlParseAbilityList(XMLIterator iter, std::vector<int>* abilit
 		}
 	}
 }
-void DataManager::xmlParseBehaviorList(XMLIterator iter, std::vector<int>* behaviors)
+void DataManager::xmlParseBehaviorList(XMLIterator iter, std::vector<DBehaviorHandle>* behaviors)
 {
 	if (iter.isValid())
 	{
 		XMLIterator subIter = iter.getChildrenOfName("Behavior");
 		while (subIter.isValid())
 		{
-			int tmp = -1;
+			DBehaviorHandle tmp = -1;
 			linkData<DBehavior>(subIter, &tmp);
 			if (tmp >= 0)
 			{

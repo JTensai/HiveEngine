@@ -34,12 +34,9 @@ namespace Hive
 
 		void xmlFirstPassParticleSystem(XMLIterator xmliter);
 		void xmlFirstPassParticleEmitter(XMLIterator xmliter);
-		void xmlFirstPassModuleSizeOverLife(XMLIterator xmliter);
-		void xmlFirstPassModuleColorOverLife(XMLIterator xmliter);
-		void xmlFirstPassModuleInitialRotation(XMLIterator xmliter);
-		void xmlFirstPassModuleInitialRotationRate(XMLIterator xmliter);
-		void xmlFirstPassModuleSubImageIndexOverLife(XMLIterator xmliter);
-		void xmlFirstPassModuleSubImageIndexRandom(XMLIterator xmliter);
+		void xmlFirstPassModules(XMLIterator xmliter);
+
+		void xmlFirstPassUIElements(XMLIterator xmliter);
 
 		void xmlSecondPass(XMLInterface& xmlif);
 
@@ -77,6 +74,8 @@ namespace Hive
 		void xmlSecondPassModuleSubImageIndexOverLife(XMLIterator xmliter);
 		void xmlSecondPassModuleSubImageIndexRandom(XMLIterator xmliter);
 
+		void xmlSecondPassUIElements(XMLIterator xmliter);
+
 		void xmlParseVitals(XMLIterator iter, Vitals* vitals);
 		void xmlParseCharges(XMLIterator iter, Charges* charges);
 		void xmlParseCost(XMLIterator iter, Cost* cost);
@@ -84,11 +83,11 @@ namespace Hive
 		void xmlParseFilter(XMLIterator iter, Filter* filter);
 		void xmlParseUnitFilter(XMLIterator iter, UnitFilter* filter);
 		void xmlParseAttributes(XMLIterator iter, Attributes* attributes);
-		void xmlParseAbilityList(XMLIterator iter, std::vector<int>* abilities);
-		void xmlParseBehaviorList(XMLIterator iter, std::vector<int>* behaviors);
+		void xmlParseAbilityList(XMLIterator iter, std::vector<DAbilityHandle>* abilities);
+		void xmlParseBehaviorList(XMLIterator iter, std::vector<DBehaviorHandle>* behaviors);
 
 		template <class T>
-		void linkData(XMLIterator iter, int* handle);
+		void linkData(XMLIterator iter, Handle* handle);
 
 		template <class T>
 		void copyParent(XMLIterator iter, T** t);
@@ -98,6 +97,7 @@ namespace Hive
 	public:
 		DataManager();
 
+		
 		int loadCoreData();
 		int loadXMLData(char* filename);
 
@@ -105,7 +105,7 @@ namespace Hive
 	};
 
 	template <class T>
-	void DataManager::linkData(XMLIterator iter, int* handle)
+	void DataManager::linkData(XMLIterator iter, Handle* handle)
 	{
 		if (iter.isValid())
 		{
@@ -138,12 +138,12 @@ namespace Hive
 		{
 			if (T::hasKey(parentId))
 			{
-				int index = T::getIndex(parentId);
+				Handle index = T::getIndex(parentId);
 				**t = *(T::getItem(index));
 			}
 			else
 			{
-				throw DataErrorException("Model parent specified but not found: " + parentId);
+				throw DataErrorException("Parent specified but not found: " + parentId);
 			}
 		}
 	}

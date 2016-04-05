@@ -39,26 +39,26 @@ namespace Hive
 		Unit::update_all(delta);
 	}
 
-	int ComponentManager::spawn_unit(glm::vec2 position, int dunit_handle, int player)
+	UnitHandle ComponentManager::spawn_unit(glm::vec2 position, DUnitHandle dunit_handle, PlayerHandle player)
 	{
 		DUnit* dunit = DUnit::getItem(dunit_handle);
 
-		int actor_handle = Actor::create_component();
+		Handle actor_handle = Actor::create_component();
 		Actor* actor = Actor::get_component(actor_handle);
 		actor->loadFromData(dunit->actorDataHandle);
 
-		int unit_handle = Unit::create_component();
+		Handle unit_handle = Unit::create_component();
 		Unit* unit = Unit::get_component(unit_handle);
 		unit->init_unit(actor_handle, dunit_handle, player, position);
 
-		return unit_handle;
+		return (UnitHandle) unit_handle;
 	}
 
-	int ComponentManager::spawn_ai_unit(glm::vec2 position, int dunit_handle, int player, int player_unit_handle)
+	UnitHandle ComponentManager::spawn_ai_unit(glm::vec2 position, DUnitHandle dunit_handle, PlayerHandle player, UnitHandle player_unit_handle)
 	{
-		int unit_handle = spawn_unit(position, dunit_handle, player);
+		UnitHandle unit_handle = spawn_unit(position, dunit_handle, player);
 
-		int ai_component_handle = AIComponent::create_component();
+		AIHandle ai_component_handle = AIComponent::create_component();
 		AIComponent* ai_component = AIComponent::get_component(ai_component_handle);
 		ai_component->set_unit_handle(unit_handle);
 		ai_component->set_player_handle(player_unit_handle);
@@ -68,7 +68,7 @@ namespace Hive
 		return unit_handle;
 	}
 
-	void ComponentManager::attach_player_input(int unit_handle)
+	void ComponentManager::attach_player_input(UnitHandle unit_handle)
 	{
 		player_input_component = PlayerInputComponent();
 		player_input_component.setPlayerHandle(unit_handle);

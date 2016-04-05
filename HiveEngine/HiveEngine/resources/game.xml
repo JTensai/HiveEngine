@@ -1,4 +1,8 @@
 <?xml version="1.0"?>
 <Catalog>
 	<Unit id="PLAYER_UNIT" parent="BASE_UNIT"/>
+
+  <Texture id="HEART">
+    <File value="resources/heart.png"/>
+  </Texture>
 </Catalog>

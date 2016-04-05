@@ -7,6 +7,7 @@
 
 #include "XMLInterface.h"
 #include "Graph.h"
+#include "Data.h"
 
 namespace Hive
 {
@@ -32,7 +33,7 @@ namespace Hive
 
 		virtual Graph* get_nav_mesh() = 0;
 
-		virtual void load(GLuint shader, XMLIterator map_iter, int& player_handle) = 0;
+		virtual void load(GLuint shader, XMLIterator map_iter, UnitHandle& player_unit_handle) = 0;
 		virtual void update(float delta) = 0;
 		virtual void draw(const glm::mat4& VP) = 0;
 		virtual void close() = 0;

@@ -17,15 +17,15 @@ namespace Hive
 
 		struct NormalDrawCall
 		{
-			int mesh;
-			int material;
+			MeshHandle mesh;
+			DMaterialHandle material;
 			glm::mat4 transform;
 		};
 		struct AlphaDrawCall
 		{
 			float depth;
-			int mesh;
-			int material;
+			MeshHandle mesh;
+			DMaterialHandle material;
 			glm::mat4 transform;
 		};
 
@@ -42,7 +42,7 @@ namespace Hive
 		}
 
 		void update_view_projection_matrix(glm::mat4 view_projection_matrix);
-		void queue_draw(DrawShader shader, glm::mat4 transform, int mesh, int material);
+		void queue_draw(DrawShader shader, glm::mat4 transform, MeshHandle mesh, DMaterialHandle material);
 		void draw_all();
 
 		~Graphics();
