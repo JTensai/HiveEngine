@@ -34,6 +34,7 @@ namespace Hive
 		UIManager();
 		~UIManager();
 		void load(GLuint shader, UnitHandle player_unit_handle);
+		void add_ui_element(UIElement element);
 		void update(float delta);
 		void draw();
 		//const glm::mat4& getProjectionMatrix();
