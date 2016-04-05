@@ -33,14 +33,7 @@ void PlayerInputComponent::onleft()
 	order.ability_handle = left_click;
 	order.targetPoint = ServiceLocator::get_input_manager()->getMousePositionWorld();
 	order.type = AbilityType::POINT_TARGET;
-	try
-	{
-		unit->issue_order(order);
-	}
-	catch (const OrderException& e)
-	{
-		printf("Unable to cast: %s\n", e.what());
-	}
+	unit->issue_order(order);
 }
 
 void PlayerInputComponent::onright()

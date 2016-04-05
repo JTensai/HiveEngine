@@ -21,7 +21,11 @@ void AIComponent::update_component(float delta)
 	float dist_to_player = distance(player_position, ai_position);
 	float player_position_delta = distance(player_position, cached_player_position);
 
-	if (dist_to_player >= perception_exit_radius || dist_to_player < 0.5f)
+	IGameWorld* game_world = ServiceLocator::get_game_world();
+	int player_grid = 0;
+	int player_grid_index = game_world->get_map_index(player_position.x, player_position.y);
+
+	if (dist_to_player >= perception_exit_radius || dist_to_player < 0.5f || player_grid_index == -1 || game_world->grid()[player_grid_index] != 1)
 	{
 		glm::vec2 target(ai_unit->get_position());
 		ai_unit->set_target(target);
@@ -32,7 +36,6 @@ void AIComponent::update_component(float delta)
 	if ((nav_path.size() == 0 || player_position_delta > 2.0f) && dist_to_player > 0.5 && dist_to_player <= perception_enter_radius)
 	{
 		cached_player_position = player_position;
-		IGameWorld* game_world = ServiceLocator::get_game_world();
 		pathfind_a_star(game_world->get_nav_mesh(), start, goal, EuclideanHeuristic(&goal));
 		if (nav_path.size() > 0)
 		{

@@ -105,9 +105,9 @@ namespace Hive
 		for(UIElement ui_element : elements) {
 			if (ui_element.z_index > cur_z) {
 				cur_z = ui_element.z_index;
-				cout << "Z-Index Level: " << cur_z << endl;
+				//cout << "Z-Index Level: " << cur_z << endl;
 			}
-			cout << "Drawing element height: " << ui_element.height << endl;
+			//cout << "Drawing element height: " << ui_element.height << endl;
 		}
 		cout << "\n\n";*/
 	}

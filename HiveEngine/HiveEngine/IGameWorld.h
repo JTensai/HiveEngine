@@ -24,7 +24,8 @@ namespace Hive
 	public:
 		virtual int width() = 0;
 		virtual int depth() = 0;
-		virtual const std::vector<char> grid() = 0;
+		virtual int get_map_index(int x, int y) = 0;
+		virtual const std::vector<char>& grid() = 0;
 
 		virtual const glm::vec3& ambient() = 0;
 		virtual const glm::vec4& light() = 0;

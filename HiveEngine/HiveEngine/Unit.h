@@ -51,7 +51,7 @@ namespace Hive
 		void update_component(float delta);
 		void update_abilities(float delta);
 
-		void issue_order(Order& order);
+		OrderResponse issue_order(Order& order);
 
 		UnitHandle get_handle() const { return self; }
 		ActorHandle get_actor() const { return actor_handle; }
