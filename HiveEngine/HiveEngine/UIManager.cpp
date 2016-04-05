@@ -72,13 +72,10 @@ namespace Hive
 		player_unit = Unit::get_component(player_unit_handle);
 
 		temp_base_bar = UIElement(DUIElement::getIndex("BASE_BAR"));
-		elements.push_back(temp_base_bar);
+		add_ui_element(temp_base_bar);
 
 		temp_hp_bar = UIElement(DUIElement::getIndex("HEALTH_BAR"));
-		elements.push_back(temp_hp_bar);
-
-		//vector<UIElement>::iterator
-		//elements.insert
+		add_ui_element(temp_hp_bar);
 
 
 
@@ -94,6 +91,33 @@ namespace Hive
 		rotate_test.rotation = 90;
 		elements.push_back(rotate_test3);*/
 
+	}
+
+
+	void UIManager::add_ui_element(UIElement element) {
+		// check if it is the first to be added
+		if (elements.size() == 0) {
+			elements.push_back(element);
+		}
+		else {
+			// not the first one
+			vector<UIElement>::iterator it = elements.begin();
+			while (it->z_index <= element.z_index) {
+				//cout << "moved" << endl;
+				it++;
+			}
+			elements.insert(it, element);
+		}
+
+		cout << "Ordering of UI Elements" << endl;
+		int cur_z = -1000;
+		for(UIElement ui_element : elements) {
+			if (ui_element.z_index > cur_z) {
+				cur_z = ui_element.z_index;
+				cout << "Z-Index Level: " << cur_z << endl;
+			}
+			cout << "Drawing element height: " << ui_element.height << endl;
+		}
 	}
 
 	void UIManager::update(float delta) {
