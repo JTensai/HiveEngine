@@ -40,6 +40,7 @@ namespace Hive
 	public:
 		Unit();
 		void init_unit(ActorHandle actor, DUnitHandle data, PlayerHandle player, glm::vec2 position);
+		static void preupdate();
 		void update_component(float delta);
 
 		ActorHandle get_actor() { return actorHandle; }
