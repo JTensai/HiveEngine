@@ -23,12 +23,14 @@ namespace Hive
 	typedef Handle DUnitHandle;
 	typedef Handle DTextureHandle;
 	typedef Handle DValidatorHandle;
+	typedef Handle DUIElementHandle;
 
 	typedef Handle ActorHandle;
 	typedef Handle AIHandle;
 	typedef Handle MeshHandle;
 	typedef Handle UnitHandle;
 	typedef Handle PlayerHandle;
+	
 
 	const PlayerHandle LOCAL_PLAYER = 0;
 	const PlayerHandle NEUTRAL_PLAYER = 1;
@@ -562,6 +564,19 @@ namespace Hive
 			return *this;
 		}*/
 	};
+#pragma endregion
+
+
+
+#pragma region UI
+	class DUIElement : public DataCollection<DUIElement>
+	{
+	public:
+		glm::vec2 position;
+		glm::vec2 size;
+		DTextureHandle texture;
+	};
+
 #pragma endregion
 
 #pragma region Assets

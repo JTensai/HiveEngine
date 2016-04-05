@@ -158,6 +158,10 @@
 		<DiffuseTexture value="BASE_TEXTURE"/>
 	</Material>
 
+  <Material id="ALPHA_TEST_MATERIAL">
+    <DiffuseTexture value="ALPHA_TEST_TEXTURE"/>
+  </Material>
+
 	<Material id="MISSING_MATERIAL">
 		<DiffuseTexture value="MISSING_TEXTURE"/>
 	</Material>
@@ -316,7 +320,7 @@
 		<BaseVariables>
 			<EmitterName value="ParticleEmitter"/>
 			<BlendingMode value="Transparent"/>
-			<Material value="BASE_MATERIAL"/>
+			<Material value="ALPHA_TEST_MATERIAL"/>
 			<EmitterLocalOrigin>
 				<X value="0"/>
 				<Y value="0"/>
@@ -324,7 +328,7 @@
 			</EmitterLocalOrigin>
 			<Lifetime>
 				<Min value="1.0"/>
-				<Max value="1.0"/>
+				<Max value="0.5"/>
 			</Lifetime>
 			<InitialSize>
 				<Min value="1.0"/>
@@ -339,7 +343,7 @@
 		<SpawnVariables>
 			<ConstantRate value="10"/>
 			<Burst value="0"/>
-			<Looping value="0"/>
+			<Looping value="1"/>
 			<EmitterDelay value="0.0"/>
 		</SpawnVariables>
 		<SubUVVariables>
@@ -404,4 +408,16 @@
 	<Texture id="MISSING_TEXTURE">
 		<File value="resources/missing_image.jpg"/>
 	</Texture>
+
+  <Texture id="ALPHA_TEST_TEXTURE">
+    <File value="resources/heart.png"/>
+  </Texture>
+
+  <UIElement id="BASE_BAR">
+    <X value="0"/>
+    <Y value="0"/>
+    <Height value="0.2"/>
+    <Width value="0.2"/>
+    <Texture value="MISSING_TEXTURE"/>
+  </UIElement>
 </Catalog>

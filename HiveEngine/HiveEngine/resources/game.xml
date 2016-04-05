@@ -16,16 +16,27 @@
       <HP value="-10.0"/>
     </VitalsDelta>
   </EffectModifyUnit>
-  
+
   <EffectSearch id="SMASH_INITIAL_SEARCH" parent="BASE_EFFECT_SEARCH">
     <Radius value="2.0"/>
     <Effect value="SMASH_DAMAGE"/>
   </EffectSearch>
-  
+
   <Unit id="PLAYER_UNIT" parent="BASE_UNIT">
     <Abilities>
       <Ability value="A_SMASH"/>
     </Abilities>
   </Unit>
-  
+
+  <Texture id="HEART">
+    <File value="resources/heart.png"/>
+  </Texture>
+
+  <UIElement id="BASE_BAR">
+    <X value="0.25"/>
+    <Y value="0"/>
+    <Height value="0.2"/>
+    <Width value="0.5"/>
+    <Texture value="HEART"/>
+  </UIElement>
 </Catalog>

@@ -41,12 +41,13 @@ namespace Hive
 		float new_rotation;
 
 		PlayerHandle player_owner;
-		
+
 		std::vector<AbilityInstance> abilities;
 
 	public:
 		Unit();
 		void init_unit(UnitHandle self, ActorHandle actor, DUnitHandle data, PlayerHandle player, glm::vec2 position);
+		static void preupdate();
 		void update_component(float delta);
 		void update_abilities(float delta);
 

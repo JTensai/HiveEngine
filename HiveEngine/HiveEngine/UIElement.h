@@ -10,7 +10,8 @@ namespace Hive
 	{
 	public:
 		UIElement();
-		UIElement(glm::vec2 bottom_left, float width, float height, DMaterialHandle materialHandle);
+		UIElement(DUIElementHandle);
+		UIElement(glm::vec2 bottom_left, float width, float height, DTextureHandle texture_handle);
 		~UIElement();
 		void update(float delta);
 		void draw();
@@ -21,8 +22,7 @@ namespace Hive
 		float height;
 		float rotation;
 		int z_index;
-		DMaterialHandle material;
-		//DTexture* data = new DTexture();
+		DTextureHandle texture_handle;
 		// type of element
 		// each sub element will define its own extra methods that interact with the mouse
 	};

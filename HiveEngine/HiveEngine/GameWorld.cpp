@@ -173,11 +173,27 @@ void GameWorld::load(GLuint shader, XMLIterator map_iter, UnitHandle& player_uni
 
 	nav_mesh = new Graph(map, map_width, map_depth);
 
-	glm::vec2 ai_spawn_point(7,10);
-	UnitHandle ai_handle = component_manager->spawn_ai_unit(ai_spawn_point, DUnit::getIndex(player_type), LOCAL_PLAYER, player_unit_handle);
-	Unit* ai_unit = Unit::get_component(ai_handle);
-	ai_unit->set_speed(2.0f);
+	//Spawn AI from data
+	iter = map_iter.getChildrenOfName("AI");
+	if (!iter.isValid()) throw DataErrorException("Map missing AI node.");
+	subiter = iter.getChildrenOfName("Spawn");
 
+	while (subiter.isValid())
+	{
+		glm::vec2 ai_spawn_point;
+		subsubiter = subiter.getChildrenOfName("X");
+		if (!subsubiter.isValid()) throw DataErrorException("Map AI Spawn node missing X.");
+		ai_spawn_point.x = std::stof(subsubiter.getValue());
+		subsubiter = subiter.getChildrenOfName("Y");
+		if (!subsubiter.isValid()) throw DataErrorException("Map AI Spawn node missing Y.");
+		ai_spawn_point.y = std::stof(subsubiter.getValue()); 
+		
+		UnitHandle ai_handle = component_manager->spawn_ai_unit(ai_spawn_point, DUnit::getIndex(player_type), LOCAL_PLAYER, player_unit_handle);
+		Unit* ai_unit = Unit::get_component(ai_handle);
+		ai_unit->set_speed(2.0f);
+
+		subiter = subiter.next();
+	}
 
 	GameWorld::shader = shader;
 	generate_mesh();
