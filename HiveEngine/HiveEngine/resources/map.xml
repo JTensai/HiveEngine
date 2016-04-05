@@ -65,5 +65,11 @@
 			</Spawn>
 			<Unit value="PLAYER_UNIT"/>
 		</Player>
+		<AI>
+			<Spawn>
+				<X value="7"/>
+				<Y value="10"/>
+			</Spawn>
+		</AI>
 	</Map>
 </Catalog>
