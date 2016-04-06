@@ -89,6 +89,7 @@ int main(int argc, char** argv)
 		if (!glfwInit())
 		{
 			fprintf(stderr, "Failed to initialize GLFW\n");
+			std::system("PAUSE");
 			return 1;
 		}
 		fprintf(stdout, "Finished initializing GLFW.\n");
@@ -98,6 +99,7 @@ int main(int argc, char** argv)
 		if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
 		{
 			printf("DevIL version mismatch ...exiting!\n");
+			std::system("PAUSE");
 			return 2;
 		}
 		fprintf(stdout, "Finished initializing IL\\ILU.\n");
@@ -110,6 +112,7 @@ int main(int argc, char** argv)
 		if (window == NULL) {
 			fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible.\n");
 			glfwTerminate();
+			std::system("PAUSE");
 			return 3;
 		}
 
@@ -120,6 +123,7 @@ int main(int argc, char** argv)
 		glewExperimental = true; // Needed in core profile
 		if (glewInit() != GLEW_OK) {
 			fprintf(stderr, "Failed to initialize GLEW\n");
+			std::system("PAUSE");
 			return 4;
 		}
 
