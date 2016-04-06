@@ -65,16 +65,19 @@ int main(int argc, char** argv)
 	if (!file_valid(core_xml_filename))
 	{
 		fprintf(stderr, "Unable to open core xml file %s, can not continue.", core_xml_filename);
+		std::system("PAUSE");
 		return 12;
 	}
 	if (!file_valid(game_xml_filename))
 	{
 		fprintf(stderr, "Unable to open game xml file %s, can not continue.", game_xml_filename);
+		std::system("PAUSE");
 		return 13;
 	}
 	if (!file_valid(map_xml_filename))
 	{
 		fprintf(stderr, "Unable to open map xml file %s, can not continue.", map_xml_filename);
+		std::system("PAUSE");
 		return 14;
 	}
 
