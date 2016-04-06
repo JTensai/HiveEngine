@@ -406,13 +406,13 @@
 		<Max value="0"/>
 	</ModuleSubImageIndexRandom>
   
-  <ParticleSystem id="SIMPLE_FLAME_SYSTEM">
+  <ParticleSystem id="SIMPLE_FLAME_SYSTEM" parent="BaseParticleSystem">
     <Emitters>
       <ParticleEmitter value="SIMPLE_FLAME_EMITTER"/>
     </Emitters>
   </ParticleSystem>
   
-  <ParticleEmitter id="SIMPLE_FLAME_EMITTER">
+  <ParticleEmitter id="SIMPLE_FLAME_EMITTER" parent="BASE_EMITTER">
     <BaseVariables>
       <EmitterName value="SimpleFlame"/>
       <BlendingMode value="Transparent"/>
@@ -467,7 +467,7 @@
   </Texture>
 
   <Texture id="SIMPLE_FLAME_TEXTURE">
-    <File value="resources/simpleFlame.png"/>
+    <File value="resources/smokepoof.png"/>
   </Texture>
 
   <UIElement id="BASE_BAR">
