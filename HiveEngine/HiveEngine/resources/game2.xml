@@ -1,63 +1,89 @@
 <?xml version="1.0"?>
 <Catalog>
-  <Ability id="A_SMASH" parent="BASE_ABILITY">
-    <Type value="POINT_TARGET"/>
-    <Name value="Smash"/>
-    <Cost>
-      <Cooldown value="1.0"/>
-    </Cost>
-    <Effects>
-      <EffectInitial value="SMASH_INITIAL_SEARCH"/>
-    </Effects>
-  </Ability>
+	<Ability id="A_SMASH" parent="BASE_ABILITY">
+		<Type value="POINT_TARGET"/>
+		<Name value="Smash"/>
+		<Cost>
+			<Cooldown value="1.0"/>
+		</Cost>
+		<Effects>
+			<EffectInitial value="SMASH_INITIAL_SEARCH"/>
+		</Effects>
+	</Ability>
 
-  <EffectModifyUnit id="SMASH_DAMAGE" parent="BASE_EFFECT_MODIFY_UNIT">
-    <VitalsDelta>
-      <HP value="-10.0"/>
-    </VitalsDelta>
-  </EffectModifyUnit>
+	<EffectModifyUnit id="SMASH_DAMAGE" parent="BASE_EFFECT_MODIFY_UNIT">
+		<VitalsDelta>
+			<HP value="-10.0"/>
+		</VitalsDelta>
+	</EffectModifyUnit>
 
-  <EffectSearch id="SMASH_INITIAL_SEARCH" parent="BASE_EFFECT_SEARCH">
-    <Radius value="2.0"/>
-    <Effect value="SMASH_DAMAGE"/>
-  </EffectSearch>
+	<EffectSearch id="SMASH_INITIAL_SEARCH" parent="BASE_EFFECT_SEARCH">
+		<Radius value="1.5"/>
+		<Effect value="SMASH_DAMAGE"/>
+	</EffectSearch>
 
-  <Unit id="PLAYER_UNIT" parent="BASE_UNIT">
-    <Abilities>
-      <Ability value="A_SMASH"/>
-    </Abilities>
-  </Unit>
+	<Unit id="PLAYER_UNIT" parent="BASE_UNIT">
+		<Abilities>
+			<Ability value="A_SMASH"/>
+		</Abilities>
+	</Unit>
 
-  <Texture id="HEART">
-    <File value="resources/heart.png"/>
-  </Texture>
-  
-  <Texture id="BLACK_BORDER">
-    <File value="resources/BlackBorder.png"/>
-  </Texture>
-  <Texture id="RED_FILL">
-    <File value="resources/RedFill.png"/>
-  </Texture>
-  <Texture id="GRAY_BACKGROUND">
-    <File value="resources/GrayBackground.png"/>
-  </Texture>
+	<Unit id="ENEMY_UNIT" parent="PLAYER_UNIT">
+		<VitalMax>
+			<HP value="30.0"/>
+		</VitalMax>
+		<Speed value="2.0"/>
+		<Actor value="GOBLIN_ACTOR"/>
+	</Unit>
 
-  <UIElement id="BASE_BAR">
-    <X value="0.3"/>
-    <Y value="0.9"/>
-    <Height value="0.075f"/>
-    <Width value="0.4f"/>
-    <ZIndex value="5"/>
-    <Texture value="BLACK_BORDER"/>
-  </UIElement>
-  
-  <UIElement id="BASE_BAR_BACKGROUND" parent="BASE_BAR">
-    <ZIndex value="-10"/>
-    <Texture value="GRAY_BACKGROUND"/>
-  </UIElement>
+	<Actor id="GOBLIN_ACTOR" parent="BASE_ACTOR">
+		<Model value="GOBLIN_MODEL"/>
+		<Material value="GOBLIN_MATERIAL"/>
+	</Actor>
 
-  <UIElement id="HEALTH_BAR" parent="BASE_BAR">
-    <ZIndex value="0"/>
-    <Texture value="RED_FILL"/>
-  </UIElement>
+	<Model id="GOBLIN_MODEL" parent="BASE_MODEL">
+		<File value="resources/blockgoblin.obj"/>
+		<Material value="GOBLIN_MATERIAL"/>
+	</Model>
+
+	<Material id="GOBLIN_MATERIAL" parent="BASE_MATERIAL">
+		<DiffuseTexture value="GOBLIN_TEXTURE"/>
+	</Material>
+
+	<Texture id="GOBLIN_TEXTURE" parent="MISSING_TEXTURE">
+		<File value="resources/GreenGoblin.png"/>
+	</Texture>
+
+	<Texture id="HEART" parent="MISSING_TEXTURE">
+		<File value="resources/heart.png"/>
+	</Texture>
+
+	<Texture id="BLACK_BORDER" parent="MISSING_TEXTURE">
+		<File value="resources/BlackBorder.png"/>
+	</Texture>
+	<Texture id="RED_FILL" parent="MISSING_TEXTURE">
+		<File value="resources/RedFill.png"/>
+	</Texture>
+	<Texture id="GRAY_BACKGROUND" parent="MISSING_TEXTURE">
+		<File value="resources/GrayBackground.png"/>
+	</Texture>
+
+	<UIElement id="BASE_BAR">
+		<X value="0.3"/>
+		<Y value="0.9"/>
+		<Height value="0.075f"/>
+		<Width value="0.4f"/>
+		<ZIndex value="5"/>
+		<Texture value="BLACK_BORDER"/>
+	</UIElement>
+
+	<UIElement id="BASE_BAR_BACKGROUND" parent="BASE_BAR">
+		<ZIndex value="-10"/>
+		<Texture value="GRAY_BACKGROUND"/>
+	</UIElement>
+
+	<UIElement id="HEALTH_BAR" parent="BASE_BAR">
+		<ZIndex value="0"/>
+		<Texture value="RED_FILL"/>
+	</UIElement>
 </Catalog>
