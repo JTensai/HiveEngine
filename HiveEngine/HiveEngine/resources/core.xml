@@ -320,7 +320,7 @@
 		<BaseVariables>
 			<EmitterName value="ParticleEmitter"/>
 			<BlendingMode value="Transparent"/>
-			<Material value="SIMPLE_FLAME_MATERIAL"/>
+			<Material value="BASE_MATERIAL"/>
 			<EmitterLocalOrigin>
 				<X value="0"/>
 				<Y value="0"/>
