@@ -406,7 +406,7 @@
 		<Max value="0"/>
 	</ModuleSubImageIndexRandom>
   
-  <ParticleSystem id="SIMPLE_FLAME_SYSTEM" parent="BaseParticleSystem">
+  <ParticleSystem id="SIMPLE_FLAME_SYSTEM">
     <Emitters>
       <ParticleEmitter value="SIMPLE_FLAME_EMITTER"/>
     </Emitters>
@@ -432,13 +432,13 @@
       </InitialSize>
       <InitialVelocity>
         <X value="0.0"/>
-        <Y value="25.0"/>
+        <Y value="5.0"/>
         <Z value="0.0"/>
       </InitialVelocity>
     </BaseVariables>
     <SpawnVariables>
-      <ConstantRate value="10"/>
-      <Burst value="0"/>
+      <ConstantRate value="0.0"/>
+      <Burst value="1"/>
       <Looping value="0"/>
       <EmitterDuration value ="1.0"/>
       <EmitterDelay value="0.0"/>
