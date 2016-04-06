@@ -117,12 +117,6 @@
     <ClCompile Include="Validators.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pSysModule.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleInitialRotationRate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -273,12 +267,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IQuadTree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pSysModule.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleInitialRotationRate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
