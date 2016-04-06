@@ -162,10 +162,6 @@
     <DiffuseTexture value="ALPHA_TEST_TEXTURE"/>
   </Material>
 
-  <Material id="SIMPLE_FLAME_MATERIAL">
-    <DiffuseTexture value="SIMPLE_FLAME_TEXTURE"/>
-  </Material>
-
 	<Material id="MISSING_MATERIAL">
 		<DiffuseTexture value="MISSING_TEXTURE"/>
 	</Material>
@@ -406,53 +402,7 @@
 		<Max value="0"/>
 	</ModuleSubImageIndexRandom>
   
-  <ParticleSystem id="SIMPLE_FLAME_SYSTEM">
-    <Emitters>
-      <ParticleEmitter value="SIMPLE_FLAME_EMITTER"/>
-    </Emitters>
-  </ParticleSystem>
   
-  <ParticleEmitter id="SIMPLE_FLAME_EMITTER" parent="BASE_EMITTER">
-    <BaseVariables>
-      <EmitterName value="SimpleFlame"/>
-      <BlendingMode value="Transparent"/>
-      <Material value="SIMPLE_FLAME_MATERIAL"/>
-      <EmitterLocalOrigin>
-        <X value="0"/>
-        <Y value="0"/>
-        <Z value="0"/>
-      </EmitterLocalOrigin>
-      <Lifetime>
-        <Min value="0.2"/>
-        <Max value="0.2"/>
-      </Lifetime>
-      <InitialSize>
-        <Min value="3.0"/>
-        <Max value="3.0"/>
-      </InitialSize>
-      <InitialVelocity>
-        <X value="0.0"/>
-        <Y value="5.0"/>
-        <Z value="0.0"/>
-      </InitialVelocity>
-    </BaseVariables>
-    <SpawnVariables>
-      <ConstantRate value="0.0"/>
-      <Burst value="1"/>
-      <Looping value="0"/>
-      <EmitterDuration value ="1.0"/>
-      <EmitterDelay value="0.0"/>
-    </SpawnVariables>
-    <SubUVVariables>
-      <SubImagesHorizontal value="1"/>
-      <SubImagesVertical value="1"/>
-    </SubUVVariables>
-    <!-- EXAMPLE:
-	<Modules>
-		<ColorOverLife value="TurnRed"/>
-	</Modules>
--->
-  </ParticleEmitter>
 
   <Texture id="BASE_TEXTURE">
 		<File value="resources/texture.jpg"/>
@@ -464,10 +414,6 @@
 
   <Texture id="ALPHA_TEST_TEXTURE">
     <File value="resources/heart.png"/>
-  </Texture>
-
-  <Texture id="SIMPLE_FLAME_TEXTURE">
-    <File value="resources/smokepoof.png"/>
   </Texture>
 
   <UIElement id="BASE_BAR">
