@@ -14,8 +14,6 @@
 
 #include <glm\glm.hpp>
 #include <GL/glew.h>
-#include <SFML/OpenGL.hpp>
-#include <SFML/Graphics/VertexArray.hpp>
 #include <glm/vec3.hpp>
 #include <tiny_obj_loader.h>
 

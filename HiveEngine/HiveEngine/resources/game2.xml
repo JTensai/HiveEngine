@@ -42,7 +42,7 @@
 	</Actor>
 
 	<Model id="GOBLIN_MODEL" parent="BASE_MODEL">
-		<File value="resources/blockgoblin.obj"/>
+		<File value="resources/pawn.obj"/>
 		<Material value="GOBLIN_MATERIAL"/>
 	</Model>
 
@@ -51,7 +51,7 @@
 	</Material>
 
 	<Texture id="GOBLIN_TEXTURE" parent="MISSING_TEXTURE">
-		<File value="resources/GreenGoblin.png"/>
+		<File value="resources/pawn_albedo.png"/>
 	</Texture>
 
 	<Texture id="HEART" parent="MISSING_TEXTURE">
@@ -86,4 +86,61 @@
 		<ZIndex value="0"/>
 		<Texture value="RED_FILL"/>
 	</UIElement>
+  
+    <ParticleSystem id="SIMPLE_FLAME_SYSTEM">
+    <Emitters>
+      <ParticleEmitter value="SIMPLE_FLAME_EMITTER"/>
+    </Emitters>
+  </ParticleSystem>
+
+  <ParticleEmitter id="SIMPLE_FLAME_EMITTER" parent="BASE_EMITTER">
+    <BaseVariables>
+      <EmitterName value="SimpleFlame"/>
+      <BlendingMode value="Transparent"/>
+      <Material value="SIMPLE_FLAME_MATERIAL"/>
+      <EmitterLocalOrigin>
+        <X value="0"/>
+        <Y value="0"/>
+        <Z value="0"/>
+      </EmitterLocalOrigin>
+      <Lifetime>
+        <Min value="0.2"/>
+        <Max value="0.2"/>
+      </Lifetime>
+      <InitialSize>
+        <Min value="3.0"/>
+        <Max value="3.0"/>
+      </InitialSize>
+      <InitialVelocity>
+        <X value="0.0"/>
+        <Y value="5.0"/>
+        <Z value="0.0"/>
+      </InitialVelocity>
+    </BaseVariables>
+    <SpawnVariables>
+      <ConstantRate value="0.0"/>
+      <Burst value="1"/>
+      <Looping value="0"/>
+      <EmitterDuration value ="1.0"/>
+      <EmitterDelay value="0.0"/>
+    </SpawnVariables>
+    <SubUVVariables>
+      <SubImagesHorizontal value="1"/>
+      <SubImagesVertical value="1"/>
+    </SubUVVariables>
+    <!-- EXAMPLE:
+	  <Modules>
+		  <ColorOverLife value="TurnRed"/>
+	  </Modules>
+  -->
+  </ParticleEmitter>
+
+  <Texture id="SIMPLE_FLAME_TEXTURE">
+    <File value="resources/PurpleBurst.png"/>
+  </Texture>
+
+  <Material id="SIMPLE_FLAME_MATERIAL">
+    <DiffuseTexture value="SIMPLE_FLAME_TEXTURE"/>
+  </Material>
+  
 </Catalog>

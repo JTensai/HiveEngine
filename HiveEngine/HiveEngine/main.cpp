@@ -65,16 +65,19 @@ int main(int argc, char** argv)
 	if (!file_valid(core_xml_filename))
 	{
 		fprintf(stderr, "Unable to open core xml file %s, can not continue.", core_xml_filename);
+		std::system("PAUSE");
 		return 12;
 	}
 	if (!file_valid(game_xml_filename))
 	{
 		fprintf(stderr, "Unable to open game xml file %s, can not continue.", game_xml_filename);
+		std::system("PAUSE");
 		return 13;
 	}
 	if (!file_valid(map_xml_filename))
 	{
 		fprintf(stderr, "Unable to open map xml file %s, can not continue.", map_xml_filename);
+		std::system("PAUSE");
 		return 14;
 	}
 
@@ -89,6 +92,7 @@ int main(int argc, char** argv)
 		if (!glfwInit())
 		{
 			fprintf(stderr, "Failed to initialize GLFW\n");
+			std::system("PAUSE");
 			return 1;
 		}
 		fprintf(stdout, "Finished initializing GLFW.\n");
@@ -98,6 +102,7 @@ int main(int argc, char** argv)
 		if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
 		{
 			printf("DevIL version mismatch ...exiting!\n");
+			std::system("PAUSE");
 			return 2;
 		}
 		fprintf(stdout, "Finished initializing IL\\ILU.\n");
@@ -110,6 +115,7 @@ int main(int argc, char** argv)
 		if (window == NULL) {
 			fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible.\n");
 			glfwTerminate();
+			std::system("PAUSE");
 			return 3;
 		}
 
@@ -120,6 +126,7 @@ int main(int argc, char** argv)
 		glewExperimental = true; // Needed in core profile
 		if (glewInit() != GLEW_OK) {
 			fprintf(stderr, "Failed to initialize GLEW\n");
+			std::system("PAUSE");
 			return 4;
 		}
 

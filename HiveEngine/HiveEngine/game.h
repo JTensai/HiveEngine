@@ -14,7 +14,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <tinyxml2/tinyxml2.h>
 
-#include "tempmodel.h"
 #include "ServiceLocator.h"
 #include "InputManager.h"
 #include "DataManager.h"
