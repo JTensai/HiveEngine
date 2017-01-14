@@ -127,6 +127,11 @@ void AIComponent::pathfind_a_star(Graph* graph, Node& start, Node& end, BaseHeur
 	while (open.size() > 0)
 	{
 		NodeRecord curr = open.deleteMin();
+		if (curr.estimated_total_cost > perception_enter_radius * 2.f)
+		{
+			// Some sort of hard limit to prevent over-expensive searches being done every frame.
+			return;
+		}
 		closed.push_back(curr);
 
 		if (*curr.node == end)
